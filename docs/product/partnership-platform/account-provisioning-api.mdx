@@ -1,35 +1,35 @@
-Sentry platform---
-title: "Account Provisioning API"
-description: "Learn how to automatically provision Sentry organizations for your customers using our provisioning API."
+---
+title: "账户配置 API"
+description: "学习如何使用我们的配置 API 自动为您的客户配置 Sentry 组织。"
 sidebar_order: 1
 ---
 
-# Account Provisioning API
+# 账户配置 API
 
-The Sentry Provisioning API allows partner platforms to automatically create Sentry organizations for their customers. This enables seamless onboarding of your users to Sentry's error monitoring and performance insights.
+Sentry 配置 API 允许合作伙伴平台自动为其客户创建 Sentry 组织。这使您的用户能够无缝地开始使用 Sentry 的错误监控和性能洞察。
 
-## Overview
+## 概述
 
-When you call the Sentry provisioning API on behalf of your customer for the first time, the customer receives:
+当您首次代表客户调用 Sentry 配置 API 时，客户将收到：
 
-- **A Sentry Organization** with the same name as their organization on your platform
-- **A Default Team** for collaboration within the organization
-- **Organization Ownership** assigned to the provided email address
-- **Subscription Plan** based on your partnership agreement
-- **Pre-configured Projects** (optional) that you specify
-- **Integration Token** (optional) for managing the organization programmatically
+- **一个 Sentry 组织**，名称与其在您平台上的组织相同
+- **一个默认团队**，用于组织内的协作
+- **组织所有权**分配给提供的电子邮件地址
+- **订阅计划**基于您的合作伙伴协议
+- **预配置项目**（可选）您指定的项目
+- **集成令牌**（可选）用于以编程方式管理组织
 
-## API Endpoint
+## API 端点
 
 ```
 POST https://sentry.io/remote/channel-provision/account/
 ```
 
-## Authentication
+## 身份验证
 
-The API requires a custom `X-Request-Signature` header with a SHA256 HMAC signature. The signature is built using your `API_SECRET_KEY` and the request body.
+API 需要带有 SHA256 HMAC 签名的自定义 `X-Request-Signature` 标头。签名使用您的 `API_SECRET_KEY` 和请求正文构建。
 
-### Signature Generation
+### 签名生成
 
 ```python
 import hmac
@@ -48,22 +48,22 @@ def generate_signature(data, secret_key):
     return signature
 ```
 
-## Request Parameters
+## 请求参数
 
-| Parameter | Type | Required | Description |
+| 参数 | 类型 | 必需 | 描述 |
 |-----------|------|----------|-------------|
-| `channel` | string | Yes | Your partner name (case insensitive) |
-| `email` | string | Yes | Customer's email address (becomes org owner) |
-| `organizationName` | string | Yes | Customer's organization name (max 50 chars) |
-| `organizationID` | string | Yes | Unique ID for customer's organization on your platform |
-| `hasAgreedTerms` | boolean | Yes | Customer's agreement to Sentry terms |
-| `timestamp` | integer | Yes | Current timestamp for request expiration |
-| `url` | string | Yes | Must be `https://sentry.io/remote/channel-provision/account/` |
-| `projects` | array | No | List of projects to create |
-| `region` | string | No | Data residency (`us` or `de`, default: `us`) |
-| `isTest` | boolean | No | Set to `true` for testing (default: `false`) |
+| `channel` | 字符串 | 是 | 您的合作伙伴名称（不区分大小写） |
+| `email` | 字符串 | 是 | 客户的电子邮件地址（成为组织所有者） |
+| `organizationName` | 字符串 | 是 | 客户的组织名称（最多50个字符） |
+| `organizationID` | 字符串 | 是 | 您平台上客户组织的唯一ID |
+| `hasAgreedTerms` | 布尔值 | 是 | 客户对 Sentry 条款的同意 |
+| `timestamp` | 整数 | 是 | 当前时间戳用于请求过期 |
+| `url` | 字符串 | 是 | 必须是 `https://sentry.io/remote/channel-provision/account/` |
+| `projects` | 数组 | 否 | 要创建的项目列表 |
+| `region` | 字符串 | 否 | 数据驻留（`us` 或 `de`，默认值：`us`） |
+| `isTest` | 布尔值 | 否 | 设置为 `true` 进行测试（默认值：`false`） |
 
-### Project Object Structure
+### 项目对象结构
 
 ```json
 {
@@ -72,12 +72,12 @@ def generate_signature(data, secret_key):
 }
 ```
 
-### Supported Platforms
+### 支持的平台
 
-The `platform` field supports all [Sentry platform identifiers](/platforms/), including:
-- `javascript`, `python`, `java`, `csharp`, `php`, `ruby`, `go`, `rust`, `swift`, `kotlin`, `dart`, and more
+`platform` 字段支持所有 [Sentry 平台标识符](/platforms/)，包括：
+- `javascript`、`python`、`java`、`csharp`、`php`、`ruby`、`go`、`rust`、`swift`、`kotlin`、`dart` 等等
 
-## Example Request
+## 示例请求
 
 ```python
 import requests
@@ -85,12 +85,12 @@ import json
 import time
 
 URL = "https://sentry.io/remote/channel-provision/account/"
-API_SECRET_KEY = "your-partner-specific-secret-key"
+API_SECRET_KEY = "您的合作伙伴特定密钥"
 
 DATA = {
-    "channel": "Your Platform Name",
-    "organizationName": "Customer Corp",
-    "organizationID": "unique-customer-id",
+    "channel": "您的平台名称",
+    "organizationName": "客户公司",
+    "organizationID": "唯一客户ID",
     "email": "customer@example.com",
     "projects": [
         {"name": "web-app", "platform": "javascript"},
@@ -102,10 +102,10 @@ DATA = {
     "isTest": False
 }
 
-# Generate signature
+# 生成签名
 signature = generate_signature(DATA, API_SECRET_KEY)
 
-# Make request
+# 发出请求
 response = requests.post(
     URL, 
     data=json.dumps(DATA), 
@@ -115,9 +115,9 @@ response = requests.post(
 print(response.json())
 ```
 
-## Response
+## 响应
 
-### Success (200)
+### 成功 (200)
 
 ```json
 {
@@ -125,7 +125,7 @@ print(response.json())
   "organization": {
     "id": "123",
     "slug": "customer-corp",
-    "name": "Customer Corp"
+    "name": "客户公司"
   },
   "projects": [
     {
@@ -138,78 +138,78 @@ print(response.json())
       }
     }
   ],
-  "integration_api_token": "your-integration-token"
+  "integration_api_token": "您的集成令牌"
 }
 ```
 
-### Error Responses
+### 错误响应
 
-- **400 Bad Request**: Invalid parameters (check response body for details)
-- **401 Unauthorized**: Invalid signature (check your API_SECRET_KEY)
-- **500 Server Error**: Internal server error (check response body for details)
+- **400 错误请求**：无效参数（检查响应正文以获取详细信息）
+- **401 未授权**：无效签名（检查您的 API_SECRET_KEY）
+- **500 服务器错误**：内部服务器错误（检查响应正文以获取详细信息）
 
-## Additional Operations
+## 额外操作
 
-### Adding Projects
+### 添加项目
 
-Call the API again with new projects to add them to an existing organization:
+再次调用 API 并添加新项目到现有组织：
 
 ```python
 DATA = {
-    # ... existing parameters ...
+    # ... 现有参数 ...
     "projects": [
         {"name": "new-service", "platform": "go"}
     ]
 }
 ```
 
-### Adding Managers
+### 添加管理员
 
-Add additional users as managers to the organization:
+将其他用户添加为组织的管理员：
 
 ```python
 DATA = {
-    # ... existing parameters ...
-    "email": "manager@example.com"  # New manager email
+    # ... 现有参数 ...
+    "email": "manager@example.com"  # 新管理员电子邮件
 }
 ```
 
-## Customer Experience
+## 客户体验
 
-### Welcome Email
+### 欢迎邮件
 
-When you provision an organization, the customer receives:
-- A welcome email with organization details
-- Instructions for managing their Sentry organization
-- Information about your partnership integration
-- Support contact information
+当您配置组织时，客户将收到：
+- 包含组织详细信息的欢迎邮件
+- 管理其 Sentry 组织的说明
+- 关于您的合作伙伴集成的信息
+- 支持联系信息
 
-### Partner-Specific Features
+### 合作伙伴特定功能
 
-Based on your partnership agreement, you can enable:
+根据您的合作伙伴协议，您可以启用：
 
-- **Partner Presence**: Show your platform as an organization member
-- **Persistent Plan**: Allow customers to upgrade plans independently
-- **Quota Visibility**: Control visibility of usage quotas
+- **合作伙伴存在**：将您的平台显示为组织成员
+- **持久计划**：允许客户独立升级计划
+- **配额可见性**：控制使用配额的可见性
 
-## Integration Token
+## 集成令牌
 
-The response includes an `integration_api_token` that allows you to:
-- Create and manage projects
-- Manage organization members
-- Access Sentry APIs on behalf of the customer
+响应包括一个 `integration_api_token`，允许您：
+- 创建和管理项目
+- 管理组织成员
+- 代表客户访问 Sentry API
 
-Token permissions are defined in your partnership agreement.
+令牌权限在您的合作伙伴协议中定义。
 
-## Best Practices
+## 最佳实践
 
-1. **Store organization mappings**: Keep track of the relationship between your customer IDs and Sentry organization IDs
-2. **Handle errors gracefully**: Implement proper error handling for failed provisioning
-3. **Use test mode**: Set `isTest: true` during development and testing
-4. **Respect rate limits**: Implement appropriate delays between requests
-5. **Secure your secret key**: Store your API_SECRET_KEY securely and never expose it in client-side code
+1. **存储组织映射**：跟踪您的客户 ID 和 Sentry 组织 ID 之间的关系
+2. **优雅地处理错误**：为失败的配置实施适当的错误处理
+3. **使用测试模式**：在开发和测试期间设置 `isTest: true`
+4. **尊重速率限制**：在请求之间实施适当的延迟
+5. **保护您的密钥**：安全地存储您的 API_SECRET_KEY，切勿在客户端代码中暴露它
 
-## Support
+## 支持
 
-For questions about the provisioning API or partnership integration, contact:
-**Email:** partnership-platform@sentry.io 
+有关配置 API 或合作伙伴集成的任何问题，请联系：
+**电子邮件：** partnership-platform@sentry.io

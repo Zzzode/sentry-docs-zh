@@ -1,31 +1,31 @@
 ---
-title: Size Limits
+title: 大小限制
 sidebar_order: 7
-description: "Learn about the size limits for events and attachments, and how to avoid exceeding them."
+description: "了解事件和附件的大小限制以及如何避免超出它们。"
 ---
 
-Sentry imposes size limits on events, attachments, requests, and various event fields.
+Sentry 对事件、附件、请求和各种事件字段施加大小限制。
 
-## Behavior
+## 行为
 
-The following describes how Sentry treats size limits:
+以下描述了 Sentry 如何处理大小限制：
 
-- Events, attachments, and requests exceeding payload size limits are immediately dropped with a `413 Payload Too Large` error.
-- Sentry allows compressed content encoding, and applies separate limits before and after decompression.
-- Events that exceed 200KB compressed or 1MB decompressed will be rejected.
-- Minidump uploads that exceeed 20MB compressed or 100MB decompressed (for all files combined) will also be rejected.
-- Event fields exceeding the individual size limits are trimmed and truncated afterwards.
-- The number of events rejected due to size limits is counted towards the _Dropped_ category in [usage stats](/product/stats/#usage-stats).
+- 超出有效负载大小限制的事件、附件和请求将立即被丢弃，并显示 `413 有效负载过大` 错误。
+- Sentry 允许压缩内容编码，并在解压缩前后应用单独的限制。
+- 压缩后超过 200KB 或解压缩后超过 1MB 的事件将被拒绝。
+- 压缩后超过 20MB 或解压缩后超过 100MB（所有文件合计）的 minidump 上传也将被拒绝。
+- 超出单个大小限制的事件字段将被修剪和截断。
+- 由于大小限制而被拒绝的事件数量计入[使用统计](/product/stats/#usage-stats)中的_已丢弃_类别。
 
-## Recommendations
+## 建议
 
-To avoid using up your attachments quota — which is based on size and not number of instances of attachments data sent — or having the event dropped entirely, consider limiting the size of values passed into Sentry's APIs. For example, if your application attaches application state or request bodies to Sentry events, truncate them first.
+为了避免使用您的附件配额（基于大小而不是发送的附件数据实例数量）或完全丢弃事件，请考虑限制传递给 Sentry API 的值的大小。例如，如果您的应用程序将应用程序状态或请求正文附加到 Sentry 事件，请先截断它们。
 
-## Size Limit References
+## 大小限制参考
 
-Sentry's exact size limits may change over time. For more information, please refer to the following resources:
+Sentry 的确切大小限制可能会随时间变化。有关更多信息，请参阅以下资源：
 
-- [Envelope Size Limits](https://develop.sentry.dev/sdk/data-model/envelopes/#size-limits)
-- [Store Endpoint Size Limits](https://develop.sentry.dev/sdk/miscellaneous/store/#size-limits)
-- [Minidump Size Limits](/platforms/native/guides/minidumps/#size-limits)
-- [Variable Size Limits](https://develop.sentry.dev/sdk/expected-features/data-handling/#variable-size)
+- [信封大小限制](https://develop.sentry.dev/sdk/data-model/envelopes/#size-limits)
+- [存储端点大小限制](https://develop.sentry.dev/sdk/miscellaneous/store/#size-limits)
+- [Minidump 大小限制](/platforms/native/guides/minidumps/#size-limits)
+- [变量大小限制](https://develop.sentry.dev/sdk/expected-features/data-handling/#variable-size)

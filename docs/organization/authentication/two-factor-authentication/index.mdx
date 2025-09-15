@@ -1,70 +1,70 @@
 ---
-title: "Two-Factor Authentication (2FA)"
+title: "双重身份验证 (2FA)"
 sidebar_order: 30
-description: "Learn about adding two-factor authentication (2FA) across your organization."
+description: "了解如何在您的组织中添加双重身份验证 (2FA)。"
 ---
 
-For an added layer of security, you can require your organization members to sign in to Sentry with two-factor authentication (2FA).
+为了增强安全性，您可以要求您的组织成员使用双重身份验证 (2FA) 登录 Sentry。
 
-## Preface
+## 前言
 
-Sentry owner permissions are required to enforce two-factor authentication across your organization.
+需要 Sentry 所有者权限才能在您的组织中强制执行双重身份验证。
 
-1. Before you can require organization members to use 2FA, you must [enable two-factor authentication](https://sentry.io/settings/account/security/) for your own user account.
-2. We recommend notifying your organization members, and asking them to setup 2FA for their accounts before requiring two-factor authentication. You can see which members are enrolled on your organization's members page.
+1. 在您可以要求组织成员使用 2FA 之前，您必须 [为您的用户账户启用双重身份验证](https://sentry.io/settings/account/security/)。
+2. 我们建议通知您的组织成员，并要求他们在要求双重身份验证之前为其账户设置 2FA。您可以在组织的成员页面上查看哪些成员已注册。
 
    ![](./img/require-2fa-members.png)
 
-## Setup Require 2FA
+## 设置要求 2FA
 
-When you require two-factor authentication, members who are not enrolled in 2FA will be removed from your organization. They will lose access to your organization's projects and notifications, and will be sent an email to setup 2FA. They can reinstate their access and settings within three months of their removal from your organization.
+当您要求双重身份验证时，未注册 2FA 的成员将从您的组织中删除。他们将失去对您的组织项目和通知的访问权限，并将收到一封设置 2FA 的电子邮件。他们可以在从您的组织中删除后的三个月内恢复其访问权限和设置。
 
-1. Go to **Organization Settings** >> General Settings.
-2. Under Security & Privacy, toggle the **Require Two-Factor Authentication** switch.
+1. 转到 **组织设置** >> 常规设置。
+2. 在安全和隐私下，切换 **要求双重身份验证** 开关。
 
    ![](./img/require-2fa-switch.png)
 
-3. Click **Confirm**.
+3. 点击 **确认**。
 
-## View Removed Members
+## 查看已删除的成员
 
-To view members who were removed from your organization for 2FA non-compliance, you can look at your organization's audit log.
+要查看因 2FA 不合规而从您的组织中删除的成员，您可以查看组织的审计日志。
 
-1. Go to **Organization Settings** >> Audit Log.
+1. 转到 **组织设置** >> 审计日志。
 
    ![](./img/require-2fa-audit-log.png)
 
-2. You can filter for action **member.pending** to see removed organization members, and action **org.edit** to see when the require_2fa organization setting was changed.
+2. 您可以过滤操作 **member.pending** 以查看已删除的组织成员，并过滤操作 **org.edit** 以查看 require_2fa 组织设置何时更改。
 
-## Require 2FA and SSO
+## 要求 2FA 和 SSO
 
-Require 2FA is currently not available with single sign-on (SSO), so you would need to require two-factor authentication with your identity provider.
+目前，要求 2FA 不适用于单点登录 (SSO)，因此您需要使用身份提供商要求双重身份验证。
 
-## Steps to Rejoin an Organization
+## 重新加入组织的步骤
 
 <Alert>
-  To reinstate your access and previous settings, you need to setup 2FA within
-  three months of being removed from your organization.
+  要恢复您的访问权限和以前设置，您需要在
+  从组织中删除后的三个月内设置 2FA。
 </Alert>
 
-If you were removed from an organization due to 2FA non-compliance, follow these steps to rejoin the organization and reinstate your access and settings:
+如果您因 2FA 不合规而从组织中删除，请按照以下步骤重新加入组织并恢复您的访问权限和设置：
 
-1. Look in your inbox for an email from Sentry titled **Mandatory: Enable Two-Factor Authentication**.
+1. 在您的收件箱中查找来自 Sentry 的标题为 **强制性：启用双重身份验证** 的电子邮件。
 
    ![](./img/require-2fa-email.png)
 
-2. Click the **Enable Two-Factor Authentication** button.
-3. If you can't find the email, ask an organization Owner or Manager to go to the **Organization Settings** >> Members page and resend your invite.
+2. 点击 **启用双重身份验证** 按钮。
+3. 如果您找不到电子邮件，请要求组织所有者或经理转到 **组织设置** >> 成员页面并重新发送您的邀请。
 
    ![](./img/require-2fa-resend-invite.png)
 
-4. After clicking through the email, you will be prompted to **Setup Two-Factor Authentication** before rejoining the organization.
+4. 点击电子邮件后，系统将提示您在重新加入组织之前 **设置双重身份验证**。
 
    ![](./img/require-2fa-rejoin.png)
 
-5. This will take you to your **Account Settings** >> [Security](https://sentry.io/settings/account/security/) page where you need to setup at least one form of two-factor authentication.
+5. 这将带您到您的 **账户设置** >> [安全](https://sentry.io/settings/account/security/) 页面，您需要设置至少一种双重身份验证形式。
 
    ![](./img/require-2fa-add-auth.png)
 
-6. Once you've enrolled in 2FA, remember to save your recovery codes in a safe place and consider adding a backup phone number.
-7. Then use the left sidebar to navigate to your organization.
+6. 注册 2FA 后，请记住将恢复代码保存在安全的地方，并考虑添加备用电话号码。
+7. 然后使用左侧边栏导航到您的组织。

@@ -1,50 +1,50 @@
 ---
-title: Data Enrichment
-description: "Instrument the data you send to Sentry for easier grouping and filtering."
+title: 数据丰富
+description: "检测您发送到 Sentry 的数据以便更容易分组和过滤。"
 sidebar_order: 5000
 ---
 
 
-By now, you should have events flowing into your project(s). If you don't, start [here](/product/onboarding/).This guide will cover essential topics such as data enrichment, filtering unwanted events, and issue grouping. If you get stuck anywhere, please [Ask Sentry AI](https://sentry.zendesk.com/hc/en-us?askAI=true) or join our [Discord](https://discord.gg/sentry) community.
+到目前为止，您应该已经有事件流入您的项目。如果没有，请从[这里](/product/onboarding/)开始。本指南将涵盖数据丰富、过滤不需要的事件和问题分组等基本主题。如果您在任何地方遇到困难，请[询问 Sentry AI](https://sentry.zendesk.com/hc/en-us?askAI=true)或加入我们的 [Discord](https://discord.gg/sentry) 社区。
 
-## Step 1: Enriching Your Event Data
+## 第1步：丰富您的事件数据
 
-### Adding Custom Context
+### 添加自定义上下文
 
-There are several ways you can [enrich your data](/platform-redirect?next=/enriching-events/) in Sentry. Adding tags, custom contexts, and breadcrumbs will help organize, filter, and analyze errors more effectively. See this quick walkthrough on adding a tag:
+您可以通过几种方式在 Sentry 中[丰富您的数据](/platform-redirect?next=/enriching-events/)。添加标签、自定义上下文和面包屑将有助于更有效地组织、过滤和分析错误。查看这个添加标签的快速演示：
 
 <Arcade src="https://demo.arcade.software/M87cMrcak4N6SLyUiI1D?embed" />
 
-## Step 2: Ensure Your Traces Are Instrumented Properly
+## 第2步：确保您的追踪已正确检测
 
-### Verify That Sentry's Tracing Auto-Instrumentation is Set Up Optimally
+### 验证 Sentry 的追踪自动检测是否已最佳设置
 
-Once Tracing is turned on, Sentry will auto-instrument your spans. If any additional instrumentation is needed, look into your platform's [instrumentation documentation](/platform-redirect?next=/tracing/instrumentation/automatic-instrumentation/) for additional options. 
+一旦开启追踪，Sentry 将自动检测您的跨度。如果需要任何额外的检测，请查看您平台的[检测文档](/platform-redirect?next=/tracing/instrumentation/automatic-instrumentation/)以获取更多选项。
 
 <Alert>
-Learn how [Sentry helps create actionable insights](/product/sentry-basics/performance-monitoring/#ways-to-monitor-performance-in-sentry) from your performance data.
+了解 [Sentry 如何帮助从您的性能数据创建可操作的洞察](/product/sentry-basics/performance-monitoring/#ways-to-monitor-performance-in-sentry)。
 </Alert>
 
-### Custom Instrumentation For Any Additional Performance Metrics
+### 任何额外性能指标的自定义检测
 
-For any gaps in Sentry's auto-instrumentation, you can use [custom instrumentation](/platform-redirect/?next=/tracing/instrumentation/custom-instrumentation/) to collect additional spans and span metrics. This enables you to focus your instrumentation on critical areas of your application to optimize you configuration. For example, if you have an e-commerce app, you may want to track pageloads and checkout errors to pinpoint issues by provider, region, or app version.
+对于 Sentry 自动检测中的任何空白，您可以使用[自定义检测](/platform-redirect/?next=/tracing/instrumentation/custom-instrumentation/)来收集额外的跨度和跨度指标。这使您能够将检测重点放在应用程序的关键区域以优化您的配置。例如，如果您有一个电子商务应用程序，您可能想要跟踪页面加载和结账错误，以便按提供商、地区或应用程序版本查明问题。
 
-The video below is an example of what's possible with custom instrumentation: 
+下面的视频是自定义检测可能实现的功能示例：
 
 <VimeoEmbed id="1080317929?h=4465307162" />
 
-## Step 3: Filtering Unwanted events
+## 第3步：过滤不需要的事件
 
-Filtering out events that are not actionable or expected during normal operations is essential for maintaining a clean and relevant issue tracking system. Issue and trace filtering are project-specific and can be accomplished [within the SDK](/platform-redirect?next=/configuration/filtering/#using-before-send) or the server via [inbound filters](/concepts/data-management/filtering/):
+过滤掉在正常操作期间不可操作或预期的事件对于维护干净和相关的问题跟踪系统至关重要。问题和追踪过滤是特定于项目的，可以通过[SDK内](/platform-redirect?next=/configuration/filtering/#using-before-send)或服务器通过[入站过滤器](/concepts/data-management/filtering/)完成：
 
-<Arcade src="https://demo.arcade.software/4utB0eYW8Uz81WTT84FL?embed"  />
+<Arcade src="https://demo.arcade.software/4utB0eYW8Uz81WTT84FL?embed" />
 <div style={{marginBottom:'40px'}}></div>
 
 <Alert>
-Transactions/spans must be filtered out using `beforeSendSpan` and/or `beforeSendTransaction` [within the SDK](/platform-redirect?next=/configuration/filtering/#using-before-send).
+事务/跨度必须使用 `beforeSendSpan` 和/或 `beforeSendTransaction` [在SDK内](/platform-redirect?next=/configuration/filtering/#using-before-send)过滤掉。
 </Alert>
 
-## Step 4: Grouping Your issues
+## 第4步：对问题进行分组
 
-If you are noticing individual errors that should be grouped together, you can customize your issue grouping algorithm. Additional grouping customization can be accomplished via [issue merging](/concepts/data-management/event-grouping/merging-issues/) or Sentry's [custom grouping](/concepts/data-management/event-grouping/).
+如果您注意到应该组合在一起的个别错误，您可以自定义您的问题分组算法。可以通过[问题合并](/concepts/data-management/event-grouping/merging-issues/)或 Sentry 的[自定义分组](/concepts/data-management/event-grouping/)完成额外的分组自定义。
 

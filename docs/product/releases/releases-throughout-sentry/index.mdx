@@ -1,33 +1,33 @@
 ---
-title: Using Releases Across Sentry
+title: 在Sentry中使用发布
 sidebar_order: 60
-description: "Learn how to use releases throughout Sentry's product."
+description: "了解如何在Sentry产品中跨功能使用发布。"
 ---
 
-## Charts
+## 图表
 
-In most charts, releases are grouped up and displayed as colored boxes underneath the chart. Hovering over the boxes shows a tooltip with the number of releases in that group. Clicking on a box opens a flyout drawer to let you explore the releases within that group.
+在大多数图表中，发布被分组并显示为图表下方的彩色框。将鼠标悬停在框上会显示一个工具提示，其中包含该组中的发布数量。点击框会打开一个弹出抽屉，让您探索该组中的发布。
 
-![A chart showing with the releases boxes underneath the chart](./img/charts_with_releases.png)
+![显示图表下方发布框的图表](./img/charts_with_releases.png)
 
-## Releases List Drawer
+## 发布列表抽屉
 
-Clicking on a release box underneath a chart opens a flyout drawer showing a zoomed-in view of the chart that was clicked on. This zoomed-in chart has the same time interval as the clicked releases box. There is also a table with a list of the releases inside that time interval. Selecting a single release from the chart or the table will open its details inside of the drawer.
+点击图表下方的发布框会打开一个弹出抽屉，显示被点击图表的放大视图。这个放大的图表具有与被点击发布框相同的时间间隔。还有一个表格，其中列出了该时间间隔内的发布。从图表或表格中选择单个发布将在抽屉中打开其详细信息。
 
-![The Releases List flyout drawer with chart and table](./img/releases_list_flyout_drawer.png)
+![带有图表和表格的发布列表弹出抽屉](./img/releases_list_flyout_drawer.png)
 
-## Release Details Drawer
+## 发布详情抽屉
 
-The Release Details drawer gives a quick view of a release without leaving the current page. It shows new issues, commits, and files in the release. If you want to explore the Release further, you can click the "View Full Details" button in the top right corner of the flyout.
+发布详情抽屉提供发布的快速视图，而无需离开当前页面。它显示新问题、提交和发布中的文件。如果您想进一步探索发布，您可以点击弹出窗口右上角的"查看完整详情"按钮。
 
-![The Release Details flyout drawer showing new issues in releases](./img/release_details_flyout_drawer.png)
+![显示发布中新问题的发布详情弹出抽屉](./img/release_details_flyout_drawer.png)
 
-## Release Version Link
+## 发布版本链接
 
-Outside of the **Releases List** page, hovering over any release version link will open a tooltip, showing a tiny preview of the release.
+在**发布列表**页面之外，将鼠标悬停在任何发布版本链接上都会打开一个工具提示，显示发布的微小预览。
 
 <div style={{width: "309px", height: "220px"}}>
-![The Release details tooltip](./img/release_details_tooltip.png)
+![发布详情工具提示](./img/release_details_tooltip.png)
 </div>
 
-Clicking the link will open the [Release Details drawer](#release-details-drawer) with more details of the release, without leaving the current page.
+点击链接将打开[发布详情抽屉](#release-details-drawer)，其中包含发布的更多详细信息，而无需离开当前页面。

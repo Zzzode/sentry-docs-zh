@@ -1,184 +1,184 @@
 ---
-title: "Okta SCIM Provisioning"
+title: "Okta SCIM 配置"
 sidebar_order: 3
-description: "Set up Okta's SCIM Integration for Member and Team Provisioning"
+description: "为成员和团队配置设置 Okta 的 SCIM 集成"
 ---
 
 <Alert>
 
-This feature is only available if your organization is on a Business or Enterprise plan.
+此功能仅在您的组织在业务或企业计划上时才可用。
 
 </Alert>
 
 <Alert level="warning">
 
-If you change your organization slug, you'll also need to update it in the "Auth" section of your "Organization Settings" in Sentry.
+如果您更改组织 slug，您还需要在 Sentry 的"组织设置"的"身份验证"部分中更新它。
 
 </Alert>
 
-### Supported Features
+### 支持的功能
 
-- Create users
-- Deactivate users
-- Push groups
-- Import groups
-- Configure organization-level roles
-- Update user attributes (organization-level roles only)
+- 创建用户
+- 停用用户
+- 推送组
+- 导入组
+- 配置组织级角色
+- 更新用户属性（仅限组织级角色）
 
-### Requirements
+### 要求
 
-Okta SCIM provisioning requires:
+Okta SCIM 配置需要：
 
-- A subscription to Sentry Business Plan or higher.
-- Configuration of SAML SSO for Okta [as documented here](/organization/authentication/sso/okta-sso/), or use the Okta sign-on tab in your Sentry Okta application to configure SAML.
-- **Selection of Email for the Application username format** in the Sign On application tab in Okta.
-  ![Okta username configuration](./img/scim-username-config.png)
+- 订阅 Sentry 商业计划或更高版本。
+- 为 Okta 配置 SAML SSO [如此处所述](/organization/authentication/sso/okta-sso/)，或使用 Sentry Okta 应用程序的 Okta 登录选项卡配置 SAML。
+- **在 Okta 的登录应用程序选项卡中选择电子邮件作为应用程序用户名格式**。
+  ![Okta 用户名配置](./img/scim-username-config.png)
 
-### Sentry Configuration
+### Sentry 配置
 
-1. Sign in to [sentry.io](https://sentry.io). Select **Settings > Auth**
-   ![Sentry Okta SCIM Auth Page](./img/scim-settings-auth.png)
-1. Under General Settings select "Enable SCIM", then "Save Settings"
-   ![Sentry Enable SCIM Instruction](./img/scim-enable-sentry.png)
-   Sentry will display "SCIM Information" that contains your Auth Token and SCIM Base URL.
-   ![SCIM Credentials Fields](./img/scim-sentry-fields.png)
+1. 登录 [sentry.io](https://sentry.io)。选择 **设置 > 身份验证**
+   ![Sentry Okta SCIM 身份验证页面](./img/scim-settings-auth.png)
+1. 在常规设置下选择"启用 SCIM"，然后"保存设置"
+   ![Sentry 启用 SCIM 说明](./img/scim-enable-sentry.png)
+   Sentry 将显示"SCIM 信息"，其中包含您的身份验证令牌和 SCIM 基本 URL。
+   ![SCIM 凭据字段](./img/scim-sentry-fields.png)
 
-### Okta Configuration
+### Okta 配置
 
-1. Sign in to your Okta organization with your administrator account. From the admin console's sidebar, select Applications > Applications, then select the existing Sentry application.
+1. 使用您的管理员账户登录到您的 Okta 组织。从管理员控制台侧边栏，选择应用程序 > 应用程序，然后选择现有的 Sentry 应用程序。
 
-2. Select the "Provisioning" tab, then "Configure API integration".
-   ![Okta configure SCIM API](./img/scim-okta-configure.png)
+2. 选择"配置"选项卡，然后"配置 API 集成"。
+   ![Okta 配置 SCIM API](./img/scim-okta-configure.png)
 
-3. Select "Enable API Integration", then enter the SCIM URL from the auth settings page as the Base URL field.
+3. 选择"启用 API 集成"，然后输入来自身份验证设置页面的 SCIM URL 作为基本 URL 字段。
 
-4. For the API Token, copy the Auth Token value from the auth settings page.
+4. 对于 API 令牌，请从身份验证设置页面复制身份验证令牌值。
 
-5. Select "Test API Credentials". You should see a "the app was verified successfully" message appear.
+5. 选择"测试 API 凭据"。您应该会看到"应用程序验证成功"消息出现。
 
-6. Select "Save" to be directed to SCIM App settings.
+6. 选择"保存"以被引导到 SCIM 应用程序设置。
 
-7. On the Provisioning page, select "To App", then "edit":
-   ![Okta Save SCIM Settings](./img/scim-okta-edit.png)
+7. 在配置页面上，选择"到应用程序"，然后"编辑"：
+   ![Okta 保存 SCIM 设置](./img/scim-okta-edit.png)
 
-8. Enable both "Create Users" and "Deactivate Users", then click the "Save" button.
-   ![Okta Create and Deactivate Users](./img/okta-user-sync.png)
+8. 启用"创建用户"和"停用用户"，然后点击"保存"按钮。
+   ![Okta 创建和停用用户](./img/okta-user-sync.png)
 
-Once these changes have been made, newly assigned users will be sent an invitation email. If a user gets un-assigned, they'll be removed from their organization in Sentry.
+一旦进行了这些更改，新分配的用户将收到邀请电子邮件。如果用户被取消分配，他们将从 Sentry 中的组织中删除。
 
-You can use "Push Groups" to sync and assign groups in Okta; they'll be mirrored in Sentry teams.
+您可以使用"推送组"来同步和分配 Okta 中的组；它们将反映在 Sentry 团队中。
 
 <Alert>
 
-If you use Okta to assign organization membership, you’ll be unable to make membership changes through Sentry and will need to continue using Okta. To remove these users, deprovision them in Okta.
+如果您使用 Okta 来分配组织成员资格，您将无法通过 Sentry 进行成员资格更改，并且需要继续使用 Okta。要删除这些用户，请在 Okta 中取消配置它们。
 
 </Alert>
 
-![Okta Provisioned User Unable to Leave](./img/okta-provisioned-unable-to-leave.png)
+![Okta 配置用户无法离开](./img/okta-provisioned-unable-to-leave.png)
 
-### Configuring Organization-level Roles
+### 配置组织级角色
 
-Here's how to assign an organization-level role to an Okta group:
+以下是如何为 Okta 组分配组织级角色的方法：
 
-1.  Add a new custom attribute to your Okta application profile
+1.  向您的 Okta 应用程序配置文件添加新的自定义属性
 
-    1. Navigate to your application settings in Okta
+    1. 导航到 Okta 中的应用程序设置
 
-    2. Under the "Provisioning" tab, select "Go to Profile Editor"
-       ![Okta Provisioning Page](./img/okta-go-to-profile.png)
+    2. 在"配置"选项卡下，选择"转到配置文件编辑器"
+       ![Okta 配置页面](./img/okta-go-to-profile.png)
 
-    3. Select "+ Add Attribute"
-       ![Okta Add Attribute](./img/okta-add-attribute.png)
+    3. 选择"+ 添加属性"
+       ![Okta 添加属性](./img/okta-add-attribute.png)
 
-    4. Fill out the form with the following settings (You can set whatever value you want for any setting not listed below.):
+    4. 使用以下设置填写表单（对于下面未列出的任何设置，您可以设置您想要的任何值。）：
 
-       - Data Type: `string`
-       - Display Name: `Org Role`
-       - Variable Name: `sentryOrgRole`
-       - External name: `sentryOrgRole`
-       - External namespace: `urn:ietf:params:scim:schemas:core:2.0:User`
-       - Attribute type: `Group`
+       - 数据类型：`string`
+       - 显示名称：`组织角色`
+       - 变量名称：`sentryOrgRole`
+       - 外部名称：`sentryOrgRole`
+       - 外部命名空间：`urn:ietf:params:scim:schemas:core:2.0:User`
+       - 属性类型：`组`
 
-       ![Okta Custom Attribute](./img/okta-custom-attribute-values.png)
+       ![Okta 自定义属性](./img/okta-custom-attribute-values.png)
 
-2.  Assign a group to your okta application
-    ![Okta Assign Group](./img/okta-assign-group.png)
+2.  将组分配给您的 okta 应用程序
+    ![Okta 分配组](./img/okta-assign-group.png)
 
-3.  In the form, enter the string for the org-level role
-    ![Okta Set Role](./img/okta-set-group-attribute.png)
+3.  在表单中，输入组织级角色的字符串
+    ![Okta 设置角色](./img/okta-set-group-attribute.png)
 
-- If the `sentryOrgField` field is left blank, group members will be provisioned with the default organization-level role. This default role can be configured in Sentry, under Settings -> Organization -> Auth. Otherwise, the role must be one of the following:
-  - Admin
-  - Manager
-  - Billing
-  - Member
-- Invalid role names will prevent group members from being provisioned. To try again, you'll need to remove the group first.
-- For security reasons, the "Owner" role cannot be provisioned through SCIM. However, you <i>can</i> deprovision users who have the "Owner" role in Sentry, but aren't provisioned through SCIM.
-  - For self-hosted users with custom roles, this extends to any role with the `org:admin` permission
+- 如果 `sentryOrgField` 字段留空，组成员将被配置为默认组织级角色。可以在 Sentry 中配置此默认角色，在设置 -> 组织 -> 身份验证下。否则，角色必须是以下之一：
+  - 管理员
+  - 经理
+  - 计费
+  - 成员
+- 无效的角色名称将阻止组成员被配置。要重试，您需要先删除该组。
+- 出于安全原因，无法通过 SCIM 配置"所有者"角色。但是，您 <i>可以</i> 取消配置在 Sentry 中具有"所有者"角色但未通过 SCIM 配置的用户。
+  - 对于具有自定义角色的自托管用户，这扩展到任何具有 `org:admin` 权限的角色
 
 <Alert>
 
-If a user is a member of multiple Okta groups, only the attributes set by the first group will be used.
+如果用户是多个 Okta 组的成员，则仅使用第一个组设置的属性。
 
 </Alert>
 
 <Alert>
 
-If you use Okta to assign organization-level roles, you’ll be unable to make membership changes through Sentry and will need to continue using Okta. To change a user's organization-level role, you will need to deprovision and then reprovision them with the new role.
+如果您使用 Okta 来分配组织级角色，您将无法通过 Sentry 进行成员资格更改，并且需要继续使用 Okta。要更改用户的组织级角色，您需要取消配置，然后使用新角色重新配置它们。
 
 </Alert>
 
-Users who've had their roles assigned via Okta will only be able to make membership changes via Okta.
+使用 Okta 分配角色的用户将只能通过 Okta 进行成员资格更改。
 
-![Okta Role Restricted Role Select](./img/okta-role-restricted-sentry-role-select.png)
+![Okta 角色受限角色选择](./img/okta-role-restricted-sentry-role-select.png)
 
-### Updating User Attributes
+### 更新用户属性
 
-Currently, Sentry only supports the ability to update user attributes for organization-level roles. You'll be able to edit the attribute for users assigned to your application once you've added the `sentryOrgRole` attribute to your Okta application profile.
+目前，Sentry 仅支持更新组织级角色的用户属性的能力。一旦您向 Okta 应用程序配置文件添加了 `sentryOrgRole` 属性，您就可以编辑分配给应用程序的用户的属性。
 
-![Okta Edit Attribute](./img/okta-edit-sentryOrgRole-attribute.png)
+![Okta 编辑属性](./img/okta-edit-sentryOrgRole-attribute.png)
 
-The user's role in Sentry will reflect their organization role in your Auth settings. This means that if you change a user's attribute to blank, their organization-level role will be removed from Sentry.
+用户在 Sentry 中的角色将反映其身份验证设置中的组织角色。这意味着如果您将用户的属性更改为空白，其组织级角色将从 Sentry 中删除。
 
-## Troubleshooting
+## 故障排除
 
-### I get a "Matching user not found" error in Okta when provisioning a user.
+### 我在 Okta 中配置用户时收到"找不到匹配用户"错误。
 
-Make sure that `Create User` and `Deactivate User` are enabled in the "Provisioning" tab of your Sentry application in Okta [(see Okta Configuration step 7)](#okta-configuration).
+确保在 Okta 的 Sentry 应用程序的"配置"选项卡中启用了 `创建用户` 和 `停用用户` [（请参阅 Okta 配置第 7 步）](#okta-配置)。
 
-### I assigned Sentry to a group but no team was created.
+### 我将 Sentry 分配给一个组，但没有创建团队。
 
-Assigning Sentry to a group in Okta is the same as assigning Sentry to every member of that group. Functionally, this
-provisions every group member within Sentry, but doesn't create a team. To create a team, push the group to Sentry from the `Push Groups` tab of your Sentry application in Okta.
+在 Okta 中将 Sentry 分配给组与将 Sentry 分配给该组的每个成员相同。从功能上讲，这
+在 Sentry 中配置每个组成员，但不创建团队。要创建团队，请从 Okta 中 Sentry 应用程序的 `推送组` 选项卡将组推送到 Sentry。
 
-### I pushed a group to Sentry but the team is empty.
+### 我将一个组推送到 Sentry，但团队为空。
 
-Pushing a group via Okta tells Sentry to create a new team with the same name as the Okta group. Only those users who've already been provisioned as members of that group will be added to the Sentry team. Make sure that your group in Okta contains the appropriate users and that they've already been provisioned.
+通过 Okta 推送组告诉 Sentry 创建一个与 Okta 组同名的新团队。只有那些已被配置为该组成员的用户才会被添加到 Sentry 团队中。确保 Okta 中的组包含适当的用户，并且它们已被配置。
 
-### I pushed a group to Sentry but am receiving a "User not found" error.
+### 我将一个组推送到 Sentry，但收到"找不到用户"错误。
 
-If possible, isolate the user(s) that are causing the error. Then remove the user(s) from Sentry and provision them again with Okta.
+如果可能，隔离导致错误的用户。然后从 Sentry 中删除用户，并使用 Okta 重新配置它们。
 
-### I’m unable to use the Sentry application to remove a member whose membership is managed by an identity provider.
+### 我无法使用 Sentry 应用程序删除其成员资格由身份提供商管理的成员。
 
-When team membership is managed by an identity provider (such as Okta), it can only be updated or revoked via that identity provider.
+当团队成员资格由身份提供商（如 Okta）管理时，只能通过该身份提供商更新或撤销。
 
-### I’m unable to use the Sentry application to add or remove members from my team.
+### 我无法使用 Sentry 应用程序添加或删除团队成员。
 
-If you use Okta to assign members to a team, you’ll be unable to make membership changes through Sentry and will need to continue using Okta.
+如果您使用 Okta 将成员分配给团队，您将无法通过 Sentry 进行成员资格更改，并且需要继续使用 Okta。
 
-### I used Okta to remove a user from Sentry, but they’re still showing up in my Sentry organization.
+### 我使用 Okta 从 Sentry 中删除了用户，但他们仍然显示在我的 Sentry 组织中。
 
-Make sure that `Deactivate User` is enabled in the "Provisioning" tab of your Sentry application in Okta. Re-provision the user, then remove them again.
+确保在 Okta 的 Sentry 应用程序的"配置"选项卡中启用了 `停用用户`。重新配置用户，然后再次删除它们。
 
-### How do I remove the organization-level role for a user that I set via Okta?
+### 如何删除我通过 Okta 设置的用户的组织级角色？
 
-Change the user's role attribute to blank.
+将用户的角色属性更改为空白。
 
-## Known Issues
+## 已知问题
 
-- The Import Users feature isn't currently supported because Sentry's SCIM API doesn't support the user `name` attribute fields: `firstName` and `lastName` at this time. For compatibility purposes, they're returned as `N/A` values.
-- If the `active` field is set to `false` for any given user, their organization member record gets deleted.
-- The only filter operation supported for resources is `eq`.
-- When provisioning a new team, Sentry will both normalize and convert the team `displayName` uppercase to lowercase, and convert spaces to dashes.
-- The GET /Groups endpoint cannot return more than 10000 members in a group, see [SCIM API documentation](/api/scim/) for more information.
+- 目前不支持导入用户功能，因为 Sentry 的 SCIM API 目前不支持用户 `name` 属性字段：`firstName` 和 `lastName`。为了兼容性，它们作为 `N/A` 值返回。
+- 如果为任何给定用户将 `active` 字段设置为 `false`，其组织成员记录将被删除。
+- 资源唯一支持的过滤操作是 `eq`。
+- 配置新团队时，Sentry 将规范化团队 `displayName` 并将大写转换为小写，并将空格转换为破折号。
+- GET /Groups 端点无法在组中返回超过 10000 个成员，请参阅 [SCIM API 文档](/api/scim/) 了解更多信息。

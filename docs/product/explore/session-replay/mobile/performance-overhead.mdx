@@ -1,56 +1,56 @@
 ---
-title: "Replay Performance Overhead"
+title: "重放性能开销"
 sidebar_order: 30
-description: "Learn about how enabling Session Replay impacts the performance of your mobile application."
+description: "了解启用会话重放如何影响您的移动应用程序性能。"
 ---
 
-Session Replay for mobile captures snapshots of the view hierarchy as well as a screenshot within the same frame once per second. These are compressed into a video file representing parts of the user’s session, then streamed to Sentry with trace identifiers, breadcrumbs, and other debugging information to reconstruct the full session.
+移动端会话重放每秒捕获一次视图层次结构快照以及同一帧内的屏幕截图。这些被压缩成代表用户会话部分的视频文件，然后与追踪标识符、面包屑和其他调试信息一起流式传输到 Sentry，以重建完整会话。
 
-To avoid impacting the host's app performance, Sentry minimizes CPU and memory usage by recording screenshots and view hierarchy non-intrusively and only when necessary, sending only essential bytes, and using low-latency ingestion endpoints geographically close to your end-users.
+为了避免影响主机应用程序性能，Sentry 通过仅在必要时非侵入式地录制屏幕截图和视图层次结构，仅发送必要的字节，并使用地理上接近最终用户的低延迟接收端点，来最小化 CPU 和内存使用。
 
-**For most mobile applications, the performance overhead of our Session Replay SDK will be imperceptible to end-users.**
+**对于大多数移动应用程序，我们的会话重放 SDK 的性能开销对最终用户来说是不可察觉的。**
 
-## How Is Session Replay Optimized?
+## 会话重放如何优化？
 
-Sentry's Session Replay SDK takes several measures to avoid negatively impacting the performance of the screen on which it's running.
+Sentry 的会话重放 SDK 采取了几项措施来避免对运行它的屏幕性能产生负面影响。
 
-- The Session Replay SDK works by capturing screenshots, encoding them into small video segments and transmitting the content to Sentry’s servers. To reduce the amount of data transferred, multiple optimization strategies are employed:
-  - The SDK captures at most one screenshot per second at a 1:1 pixel density (commonly referred to as `@1x` on iOS and `mdpi` on Android). This significantly speeds up the screenshot capture process while maintaining acceptable quality.
-  - Screenshots are compressed into lossy `jpeg` files to reduce disk space usage and enable recovering of the last frames of a replay in the event of a crash or an ANR.
-  - When sending a replay segment, the screenshots are further compressed into an `mp4` video file using `h.264` compression with a 75 kbps bitrate (the default behavior). This ensures a small payload size while preserving video quality. We observed nearly 5x reduction in size when compressing five screenshots into a video segment.
-  - The video segment, along with other debugging information (such as breadcrumbs), is gzip-compressed on the client before transmission over HTTP. This compression is performed on a background thread, ensuring the application's main thread remains unaffected.
-  - To minimize disk space usage, screenshots and video segment files are deleted from the disk upon successful upload.
-- Sentry’s event ingestion infrastructure uses [distributed Points-of-Presence (PoPs)](https://blog.sentry.io/2022/03/31/sentry-points-of-presence-how-we-built-a-distributed-ingestion/) which place ingestion servers around the world and close to your users. When a Session Replay event is transmitted, the user’s device connects and transmits the event payload to the closest PoP available for their region. This greatly reduces end-to-end latency and minimizes the amount of networking overhead placed on the device.
-- The SDK is built to gracefully downgrade when needed. In the event of sending too many replay events and hitting Sentry's rate limit, the SDK will disable recording to make sure the rate limit is respected. Once the rate limit is lifted, the SDK will continue recording.
+- 会话重放 SDK 通过捕获屏幕截图，将它们编码成小的视频段并将内容传输到 Sentry 的服务器来工作。为了减少传输的数据量，采用了多种优化策略：
+  - SDK 最多每秒捕获一次屏幕截图，像素密度为 1:1（在 iOS 上通常称为 `@1x`，在 Android 上称为 `mdpi`）。这显著加快了屏幕截图捕获过程，同时保持了可接受的质量。
+  - 屏幕截图被压缩成有损 `jpeg` 文件以减少磁盘空间使用，并在崩溃或 ANR 事件发生时能够恢复重放的最后几帧。
+  - 当发送重放段时，屏幕截图被进一步压缩成使用 `h.264` 压缩的 `mp4` 视频文件，比特率为 75 kbps（默认行为）。这确保了小的有效负载大小，同时保持视频质量。我们观察到将五个屏幕截图压缩成视频段时大小减少了近 5 倍。
+  - 视频段以及其他调试信息（如面包屑）在通过 HTTP 传输之前在客户端上进行 gzip 压缩。此压缩在后台线程上执行，确保应用程序的主线程不受影响。
+  - 为了最小化磁盘空间使用，屏幕截图和视频段文件在上传成功后从磁盘中删除。
+- Sentry 的事件接收基础设施使用[分布式存在点（PoPs）](https://blog.sentry.io/2022/03/31/sentry-points-of-presence-how-we-built-a-distributed-ingestion/)，将接收服务器放置在世界各地并靠近您的用户。当会话重放事件被传输时，用户的设备连接到并传输事件有效负载到其区域可用的最近 PoP。这大大减少了端到端延迟，并最小化了放置在设备上的网络开销。
+- SDK 被设计为在需要时优雅地降级。如果发送太多重放事件并达到 Sentry 的速率限制，SDK 将禁用录制以确保遵守速率限制。一旦速率限制解除，SDK 将继续录制。
 
-## Factors in Performance Overhead
+## 性能开销的因素
 
-While the performance overhead of our Session Replay SDK will be imperceptible to end-users most of the time, it can vary based on the complexity of your application. If an application has screens with a deeply-nested view tree, there will be higher overhead compared to simpler screens (for example, Settings).
+虽然我们的会话重放 SDK 的性能开销在大多数时候对最终用户来说是不可察觉的，但它可能基于应用程序的复杂性而变化。如果应用程序具有深度嵌套视图树的屏幕，与更简单的屏幕（例如，设置）相比，将有更高的开销。
 
-If the default masking behavior is enabled, network overhead will be further reduced because the screenshots have fewer pixels, resulting in smaller file sizes.
+如果启用了默认掩码行为，网络开销将进一步减少，因为屏幕截图具有更少的像素，从而产生更小的文件大小。
 
-There are different stages in the lifecycle of a mobile application. Each has different performance characteristics. Below is a list of lifecycle stages and the most important performance metrics you should be aware of.
+移动应用程序有生命周期的不同阶段。每个阶段都有不同的性能特征。以下是生命周期阶段的列表以及您应该注意的最重要的性能指标。
 
-### App Start
+### 应用程序启动
 
-There is virtually no overhead from the SDK during application start up. It performs only a few lightweight tasks, such as registering the necessary listeners for system events and scheduling a background thread for capturing.
+在应用程序启动期间，SDK 几乎没有开销。它仅执行几个轻量级任务，如注册系统事件的必要监听器和调度后台线程进行捕获。
 
-### Main Thread
+### 主线程
 
-The SDK performs only the bare minimum on the main thread to capture a new frame for the replay (a screenshot and a view hierarchy snapshot) before immediately switching to a background thread for post-processing tasks. These tasks include masking screenshots, storing them in the disk cache, or encoding a video segment. This process occurs at most once per second, and it can be even less frequent depending on the frame rate setting.
+SDK 仅在主线程上执行最低限度的工作来为重放捕获新帧（屏幕截图和视图层次结构快照），然后立即切换到后台线程进行后处理任务。这些任务包括掩码屏幕截图、将它们存储在磁盘缓存中或编码视频段。此过程最多每秒发生一次，根据帧率设置，它甚至可以更不频繁。
 
-The SDK also monitors view tree changes. If no changes have occurred since the last frame capture, it reuses the previously captured data, completely avoiding any work on the main thread.
+SDK 还监视视图树变化。如果自上次帧捕获以来没有发生任何变化，它会重用之前捕获的数据，完全避免主线程上的任何工作。
 
-### Capturing Touch Events
+### 捕获触摸事件
 
-- Click/touch, swipe, and scroll events are incredibly small and fast to log, making the overhead negligible.
-- We optimize touch event recording by debouncing (limiting the frequency of events) and smoothing move events. This ensures a clear, detailed debugging experience without capturing excessive or redundant data.
+- 点击/触摸、滑动和滚动事件的记录非常小且快速，使开销可以忽略不计。
+  - 我们通过去抖动（限制事件频率）和平滑移动事件来优化触摸事件记录。这确保了清晰、详细的调试体验，而不会捕获过多或冗余的数据。
 
-## Measuring Performance Overhead
+## 测量性能开销
 
-The only way to get accurate metrics is to measure performance overhead yourself. You can apply realistic access patterns against your own application, and correlate that to your own topline business metrics.
+获得准确指标的唯一方法是自行测量性能开销。您可以对您的应用程序应用现实的访问模式，并将其与您自己的顶级业务指标相关联。
 
-We measured the overhead of the Replay SDK on various open-source apps that have millions of users in production. For example, real-world apps that have a large set of different components and features such as [Bluesky](https://github.com/bluesky-social/social-app) and [Pocket Casts](https://github.com/Automattic/pocket-casts-android). You can check the results by going to the SDK docs below:
+我们在生产环境中拥有数百万用户的各种开源应用程序上测量了重放 SDK 的开销。例如，具有大量不同组件和功能的现实世界应用程序，如 [Bluesky](https://github.com/bluesky-social/social-app) 和 [Pocket Casts](https://github.com/Automattic/pocket-casts-android)。您可以通过访问下面的 SDK 文档来检查结果：
 
 - [iOS](/platforms/apple/guides/ios/session-replay/performance-overhead/)
 - [Android](/platforms/android/session-replay/performance-overhead/)

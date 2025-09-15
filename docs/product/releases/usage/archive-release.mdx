@@ -1,24 +1,24 @@
 ---
-title: Archive a Release
+title: 归档发布
 sidebar_order: 30
-description: "Learn how to permanently hide or archive a release."
+description: "了解如何永久隐藏或归档发布。"
 ---
 
-Since an event received from a deleted release automatically recreates it, Sentry has an option to hide, or archive, releases. Archiving can also be useful if you're no longer interested in viewing a release or if you've accidentally created a release you no longer want to track.
+由于从已删除发布接收到的事件会自动重新创建它，Sentry提供了一个隐藏或归档发布的选项。如果您不再希望查看发布，或者您意外创建了不再希望跟踪的发布，归档也很有用。
 
-## Using Sentry.io
+## 使用Sentry.io
 
-Archiving in [sentry.io](https://sentry.io) removes the release from the list of releases you can select to view:
+在[sentry.io](https://sentry.io)中归档会从您可以选择查看的发布列表中删除发布：
 
-![archive release ui](./img/release-archive.png)
+![归档发布界面](./img/release-archive.png)
 
-Archived releases won't show up in **Releases** unless you change the filter to display them:
+归档的发布不会显示在**发布**中，除非您更改过滤器以显示它们：
 
-![archived releases ui](./img/releases-filter-archived.png)
+![归档发布界面](./img/releases-filter-archived.png)
 
-## Using the CLI
+## 使用CLI
 
-In the CLI, run this command to archive a release:
+在CLI中，运行此命令以归档发布：
 
 ```bash
 sentry-cli releases archive VERSION

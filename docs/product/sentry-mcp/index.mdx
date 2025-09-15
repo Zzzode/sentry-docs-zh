@@ -1,38 +1,38 @@
 ---
-title: Sentry MCP Server
+title: Sentry MCP 服务器
 sidebar_order: 120
-description: "Enable secure connectivity between Sentry issues and debugging data, and LLM clients, using a Model Context Protocol (MCP) server."
+description: "使用模型上下文协议 (MCP) 服务器在 Sentry 问题和调试数据与 LLM 客户端之间启用安全连接。"
 ---
 
 <Alert>
-  The Sentry MCP Server has been released for production, however MCP is a developing technology and changes should be expected. There will be bugs. Please reach out on
-  [GitHub](https://github.com/getsentry/sentry-mcp/issues) if you have any feedback or concerns.
+  Sentry MCP 服务器已发布用于生产环境，然而 MCP 是一项发展中的技术，预计会有变化。会有错误。如果您有任何反馈或疑虑，请在
+  [GitHub](https://github.com/getsentry/sentry-mcp/issues) 上联系我们。
 </Alert>
 
-## Overview
+## 概述
 
-The [Sentry MCP Server](https://mcp.sentry.dev) provides a secure way of bringing Sentry's full issue context into systems that are able to leverage the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction). Sentry hosts and manages a remote MCP server, which you can connect to and leverage centrally. With the MCP, you can:
+[Sentry MCP 服务器](https://mcp.sentry.dev) 提供了一种安全的方式，将 Sentry 的完整问题上下文带入能够利用[模型上下文协议 (MCP)](https://modelcontextprotocol.io/introduction) 的系统中。Sentry 托管和管理一个远程 MCP 服务器，您可以连接并集中利用。使用 MCP，您可以：
 
-- Access Sentry issues and errors
-- Search for errors in specific files
-- Query projects and organizations
-- List and create Sentry DSN's for projects
-- Invoke Seer to automatically fix issues and retrieve the status and details of an issue fix
+- 访问 Sentry 问题和错误
+- 在特定文件中搜索错误
+- 查询项目和组织
+- 列出并为项目创建 Sentry DSN
+- 调用 Seer 自动修复问题并检索问题修复的状态和详细信息
 
-The Sentry MCP Server includes support for modern MCP features:
+Sentry MCP 服务器包括对现代 MCP 功能的支持：
 
-- **Remote hosted (preferred) or local STDIO mode** - The hosted version provides lower friction and always includes the latest functionality and stability
-- **OAuth support** - Authenticate using your existing Sentry organization for seamless access to your projects
-- **Streamable HTTP with graceful SSE fallback** - Automatic fallback ensures compatibility across different clients
-- **16+ tool calls and prompts** - Comprehensive toolset for bringing Sentry context into LLM interactions
+- **远程托管（首选）或本地 STDIO 模式** - 托管版本提供更低摩擦，始终包含最新功能和稳定性
+- **OAuth 支持** - 使用您现有的 Sentry 组织进行身份验证，无缝访问您的项目
+- **支持流式 HTTP 和优雅的 SSE 回退** - 自动回退确保与不同客户端的兼容性
+- **16+ 个工具调用和提示** - 将 Sentry 上下文带入 LLM 交互的综合工具集
 
 <VimeoEmbed id="1080588938?h=1e437d4874" />
 
-## Getting Started
+## 开始使用
 
-### OAuth Configuration (Recommended)
+### OAuth 配置（推荐）
 
-For clients that support OAuth, you can use the streamlined configuration that provides automatic authentication:
+对于支持 OAuth 的客户端，您可以使用提供自动身份验证的简化配置：
 
 ```json
 {
@@ -44,28 +44,28 @@ For clients that support OAuth, you can use the streamlined configuration that p
 }
 ```
 
-This configuration:
-- Enables OAuth authentication with your Sentry organization
-- Uses Streamable HTTP transport with automatic SSE fallback
-- Provides access to all 16+ available tools
-- Automatically handles authentication and session management
+此配置：
+- 启用与您的 Sentry 组织的 OAuth 身份验证
+- 使用支持自动 SSE 回退的流式 HTTP 传输
+- 提供对所有 16+ 个可用工具的访问
+- 自动处理身份验证和会话管理
 
-With OAuth configuration, you'll be prompted to:
-1. Accept the OAuth authorization
-2. Login via your existing Sentry organization
-3. Grant access to the necessary permissions
+使用 OAuth 配置时，系统将提示您：
+1. 接受 OAuth 授权
+2. 通过您现有的 Sentry 组织登录
+3. 授予必要的权限
 
 <Alert>
-  If you've joined a new Sentry organization, log out of your LLM's MCP integration and log back in to refresh access.
+  如果您加入了新的 Sentry 组织，请退出 LLM 的 MCP 集成并重新登录以刷新访问权限。
 </Alert>
 
-Once authenticated, you'll see the tools become available in your MCP client.
+身份验证完成后，您将在 MCP 客户端中看到工具变得可用。
 
-![Available Sentry MCP Tools](./img/mcp-tools.png)
+![可用的 Sentry MCP 工具](./img/mcp-tools.png)
 
-### Remote MCP Configuration (Legacy)
+### 远程 MCP 配置（传统）
 
-For clients that don't support OAuth, you can continue using the existing Remote MCP endpoint configuration:
+对于不支持 OAuth 的客户端，您可以继续使用现有的远程 MCP 端点配置：
 
 ```json
 {
@@ -82,11 +82,11 @@ For clients that don't support OAuth, you can continue using the existing Remote
 }
 ```
 
-### Local STDIO Mode
+### 本地 STDIO 模式
 
-Alternatively, if you don't want the Remote-MCP server, you can run the MCP Server locally in STDIO mode by following the instructions in the [README](https://github.com/getsentry/sentry-mcp). This is particularly useful for self-hosted Sentry installations.
+或者，如果您不想要 Remote-MCP 服务器，您可以通过遵循 [README](https://github.com/getsentry/sentry-mcp) 中的说明在 STDIO 模式下本地运行 MCP 服务器。这对于自托管的 Sentry 安装特别有用。
 
-To use STDIO mode, you'll need a Sentry User Auth Token with the following scopes:
+要使用 STDIO 模式，您需要一个具有以下范围的 Sentry 用户身份验证令牌：
 - `org:read`
 - `project:read`
 - `project:write`
@@ -94,126 +94,125 @@ To use STDIO mode, you'll need a Sentry User Auth Token with the following scope
 - `team:write`
 - `event:write`
 
-Launch the STDIO transport:
+启动 STDIO 传输：
 
 ```bash
 npx @sentry/mcp-server@latest --access-token=sentry-user-token --host=sentry.example.com
 ```
 
-You can also use environment variables:
+您也可以使用环境变量：
 ```bash
 SENTRY_ACCESS_TOKEN=your-token
 SENTRY_HOST=your-sentry-host
 ```
 
-### mcp.sentry.dev (live demo)
+### mcp.sentry.dev（实时演示）
 
-The [Sentry MCP page](https://mcp.sentry.dev) provides a simple way to configure and test the MCP server. From this web client you can authenticate with your Sentry organization and access a hosted MCP server for testing. 
+[Sentry MCP 页面](https://mcp.sentry.dev) 提供了一种简单的方法来配置和测试 MCP 服务器。从这个 Web 客户端，您可以使用您的 Sentry 组织进行身份验证，并访问用于测试的托管 MCP 服务器。
 
-![Sentry MCP live demo](./img/mcpdev.png)
+![Sentry MCP 实时演示](./img/mcpdev.png)
 
-## Available Tools
+## 可用工具
 
-The Sentry MCP Server provides comprehensive tools for interacting with Sentry data:
+Sentry MCP 服务器提供用于与 Sentry 数据交互的综合工具：
 
-### Core Tools
-- **Organizations**: List and query organization information
-- **Projects**: Find, list, and create projects
-- **Teams**: Manage and query team information
-- **Issues**: Access issue details, search, and analyze problems
-- **DSNs**: List and create Data Source Names for projects
+### 核心工具
+- **组织**：列出和查询组织信息
+- **项目**：查找、列出和创建项目
+- **团队**：管理和查询团队信息
+- **问题**：访问问题详细信息、搜索和分析问题
+- **DSN**：列出并为项目创建数据源名称
 
-### Analysis Tools
-- **Error Searching**: Find errors in specific files or across projects
-- **Issue Analysis**: Detailed issue investigation with context
-- **Seer Integration**: Invoke Sentry's AI agent for root cause analysis and automated fixes
+### 分析工具
+- **错误搜索**：在特定文件或跨项目中查找错误
+- **问题分析**：带有上下文的详细问题调查
+- **Seer 集成**：调用 Sentry 的 AI 代理进行根本原因分析和自动修复
 
-### Advanced Features
-- **Release Management**: Query and analyze release information
-- **Performance Monitoring**: Access transaction and performance data
-- **Custom Queries**: Execute complex searches across Sentry data
+### 高级功能
+- **发布管理**：查询和分析发布信息
+- **性能监控**：访问事务和性能数据
+- **自定义查询**：跨 Sentry 数据执行复杂搜索
 
-## Example Usage
+## 使用示例
 
-Here are some example prompts you can use with the Sentry MCP:
+以下是您可以与 Sentry MCP 一起使用的一些示例提示：
 
-- Tell me about the issues in my `project-name`
-- Check Sentry for errors in `components/UserProfile.tsx` and propose solutions
-- Diagnose issue `PROJECT-123` and propose solutions
-- Create a new project in Sentry for `new-service-name` and setup local instrumentation
-- Use Sentry's Seer to analyze and propose a solution for issue `PROJECT-456`
-- Show me the most recent releases for my organization
-- Find all unresolved crashes in my React Native app
+- 告诉我关于我的 `project-name` 中的问题
+- 检查 Sentry 中 `components/UserProfile.tsx` 的错误并提出解决方案
+- 诊断问题 `PROJECT-123` 并提出解决方案
+- 在 Sentry 中为 `new-service-name` 创建一个新项目并设置本地检测
+- 使用 Sentry 的 Seer 分析并为问题 `PROJECT-456` 提出解决方案
+- 向我显示我的组织的最新发布
+- 在我的 React Native 应用中找到所有未解决的崩溃
 
-![Sentry MCP using Autofix](./img/mcp-autofix1.png)
+![Sentry MCP 使用 Autofix](./img/mcp-autofix1.png)
 
-## Verified Clients 
+## 已验证的客户端
 
-The Sentry MCP Server has been verified to work in: 
+Sentry MCP 服务器已验证可在以下环境中工作：
 
-### Claude for Desktop 
+### Claude 桌面版
 
-Access developer tools via `CMD + ,` → `Developer` → `Edit Config` → edit the `claude_desktop_config.json` file
+通过 `CMD + ,` → `开发者` → `编辑配置` → 编辑 `claude_desktop_config.json` 文件访问开发者工具
 
-### Claude.ai 
+### Claude.ai
 
-Navigate to `Settings` → `Profile` → Scroll to `Integrations`, select `Add More`, and add the Sentry MCP server URL `https://mcp.sentry.dev/mcp`
+导航到 `设置` → `个人资料` → 滚动到 `集成`，选择 `添加更多`，并添加 Sentry MCP 服务器 URL `https://mcp.sentry.dev/mcp`
 
-### Claude Code 
+### Claude Code
 
-Since recently reaching 1.0, Claude Code has native support for remote hosted MCP servers. From your cli enter `claude mcp add --transport http sentry https://mcp.sentry.dev/mcp` and then access Claude Code with `claude`. 
+自从最近达到 1.0 以来，Claude Code 原生支持远程托管的 MCP 服务器。从您的 CLI 输入 `claude mcp add --transport http sentry https://mcp.sentry.dev/mcp`，然后使用 `claude` 访问 Claude Code。
 
-Once in, you'll be prompted to authenticate with OAuth to Sentry. 
+进入后，系统将提示您使用 OAuth 对 Sentry 进行身份验证。
 
 ### Cursor
 
-Available via `Cursor` → `Settings` → `Cursor Settings` → `MCP` following the promps to configure Sentry MCP. Cursor 1.0+ includes enhanced MCP support with OAuth and Streamable HTTP.
+通过 `Cursor` → `设置` → `Cursor 设置` → `MCP` 按照提示配置 Sentry MCP。Cursor 1.0+ 包括增强的 MCP 支持，具有 OAuth 和流式 HTTP。
 
-You can still edit the `mcp.json` file manually if you prefer. 
+如果您愿意，您仍然可以手动编辑 `mcp.json` 文件。
 
-### VS Code and GitHub Copilot
+### VS Code 和 GitHub Copilot
 
-Add the server using `CMD+Shift+P` and selecting `MCP: Add Server`
+使用 `CMD+Shift+P` 并选择 `MCP: 添加服务器` 来添加服务器
 
 ### Windsurf
 
-Configure via the `Configure MCP` option in Cascade (CMD + L)
+通过 Cascade 中的 `配置 MCP` 选项进行配置（CMD + L）
 
-### Other Clients
+### 其他客户端
 
-The Sentry MCP Server follows standard MCP protocols and should work with any client that supports:
-- OAuth authentication (recommended)
-- Remote MCP servers
-- SSE or Streamable HTTP transport
+Sentry MCP 服务器遵循标准 MCP 协议，应该适用于支持以下功能的任何客户端：
+- OAuth 身份验证（推荐）
+- 远程 MCP 服务器
+- SSE 或流式 HTTP 传输
 
-## Integration with Seer
+## 与 Seer 集成
 
-The Sentry MCP Server provides seamless integration with [Seer](/product/ai-in-sentry/seer/), Sentry's AI agent. You can:
+Sentry MCP 服务器提供与 [Seer](/product/ai-in-sentry/seer/)（Sentry 的 AI 代理）的无缝集成。您可以：
 
-- **Trigger Seer Analysis**: Initiate automated root cause analysis for issues
-- **Get Fix Recommendations**: Receive AI-generated solutions for bugs and performance issues
-- **Monitor Fix Status**: Track the progress of Seer's analysis and implementation
+- **触发 Seer 分析**：启动问题的自动根本原因分析
+- **获取修复建议**：接收针对错误和性能问题的 AI 生成解决方案
+- **监控修复状态**：跟踪 Seer 分析和实施的进度
 
-**Note**: MCP and Seer are complementary tools. MCP brings Sentry context into your LLM, while Seer is purpose-built for deep issue analysis and automated debugging. You can use MCP to invoke Seer for complex debugging workflows.
+**注意**：MCP 和 Seer 是互补工具。MCP 将 Sentry 上下文带入您的 LLM，而 Seer 专为深度问题分析和自动调试而构建。您可以使用 MCP 调用 Seer 进行复杂的调试工作流。
 
-## Troubleshooting
+## 故障排除
 
-### Common Issues
+### 常见问题
 
-**OAuth Authentication Problems**
-- Ensure your client supports OAuth authentication
-- Try the legacy Remote MCP configuration if OAuth isn't working
-- Check that you have the necessary permissions in your Sentry organization
+**OAuth 身份验证问题**
+- 确保您的客户端支持 OAuth 身份验证
+- 如果 OAuth 不起作用，请尝试传统远程 MCP 配置
+- 检查您在 Sentry 组织中是否具有必要的权限
 
-**Connection Issues**
-- Verify the MCP server URL is correct: `https://mcp.sentry.dev/mcp`
-- For legacy setups, use: `https://mcp.sentry.dev/sse`
-- Check your client's MCP configuration syntax
+**连接问题**
+- 验证 MCP 服务器 URL 是否正确：`https://mcp.sentry.dev/mcp`
+- 对于传统设置，请使用：`https://mcp.sentry.dev/sse`
+- 检查您客户端的 MCP 配置语法
 
-**Missing Tools**
-- Ensure authentication completed successfully
-- Verify your Sentry organization access
-- Check for any error messages in your client's console
+**缺少工具**
+- 确保身份验证成功完成
+- 验证您的 Sentry 组织访问权限
+- 检查客户端控制台中是否有任何错误消息
 
-For additional support, visit the [GitHub repository](https://github.com/getsentry/sentry-mcp) or contact Sentry support.
-
+如需其他支持，请访问 [GitHub 仓库](https://github.com/getsentry/sentry-mcp) 或联系 Sentry 支持。

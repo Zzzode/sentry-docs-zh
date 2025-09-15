@@ -1,53 +1,53 @@
 ---
 title: Expo
 sidebar_order: 2
-description: "Learn how to integrate Sentry with Expo Application Services (EAS) to view crash reports and session replays for your Expo app deployments."
+description: "了解如何将 Sentry 与 Expo 应用服务 (EAS) 集成，以查看 Expo 应用部署的崩溃报告和会话重放。"
 ---
 
-## Sentry Integration With Expo dashboard
+## 与 Expo 仪表板的 Sentry 集成
 
 <Alert level="warning">
 
-If you make changes to your organization slug, you'll need to update your configuration for this integration. Learn more in our [troubleshooting guide](/organization/integrations/troubleshooting).
+如果您更改了组织标识符，您需要更新此集成的配置。在我们的[故障排除指南](/organization/integrations/troubleshooting)中了解更多信息。
 
 </Alert>
 
-The Sentry integration with Expo allows you to view crash reports and [Session Replays](/platforms/react-native/session-replay/) for your Expo app deployments directly within your Expo Application Services (EAS) dashboard. This integration provides a direct link to Sentry stack traces with full context, sessions replays, and debugging capabilities.
+与 Expo 的 Sentry 集成允许您直接在 Expo 应用服务 (EAS) 仪表板中查看 Expo 应用部署的崩溃报告和[会话重放](/platforms/react-native/session-replay/)。此集成提供了指向 Sentry 堆栈跟踪的完整上下文、会话重放和调试功能的直接链接。
 
-### Install
+### 安装
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或管理员权限才能安装此集成。
 
 </Alert>
 
-1. Log in to your Expo dashboard and open **Account Settings > Overview** (`https://expo.dev/accounts/[your-account]/settings`).
-2. Locate the **Connections** section and click **Connect** next to Sentry.
-3. Login to Sentry and accept the integration into your organization. You will be redirected back to Account Settings > Overview.
+1. 登录到您的 Expo 仪表板并打开**账户设置 > 概览** (`https://expo.dev/accounts/[您的账户]/settings`)。
+2. 找到**连接**部分，然后点击 Sentry 旁边的**连接**。
+3. 登录到 Sentry 并接受集成到您的组织中。您将被重定向回账户设置 > 概览。
 
-### Configure
+### 配置
 
-#### Link Your Projects
+#### 链接您的项目
 
-After connecting your accounts, you need to link your Expo dashboard Project to your Sentry Project:
+连接您的账户后，您需要将您的 Expo 仪表板项目链接到您的 Sentry 项目：
 
-1. Open **Projects > [Your Project] > Configuration > Project settings** in Expo dashboard.
-2. Click **Link** and select your Sentry Project from the dropdown.
+1. 在 Expo 仪表板中打开**项目 > [您的项目] > 配置 > 项目设置**。
+2. 点击**链接**并从下拉菜单中选择您的 Sentry 项目。
 
-### Usage
+### 使用
 
-To see your Sentry Issues and Replays in Expo dashboard, you'll first need to ensure you've created a [Expo dashboard channel](https://docs.expo.dev/eas-update/how-it-works/) and assigned builds to it to create an [EAS deployment](https://docs.expo.dev/eas-update/deployment/). Once this is done, you can view your Sentry data by: 
+要在 Expo 仪表板中查看您的 Sentry 问题和重放，您首先需要确保已创建[Expo 仪表板频道](https://docs.expo.dev/eas-update/how-it-works/)并将构建分配给它以创建[EAS 部署](https://docs.expo.dev/eas-update/deployment/)。完成后，您可以通过以下方式查看您的 Sentry 数据：
 
-1. Open **Projects > [Your Project] > Updates > Deployments > [Deployment]** to view Sentry data from a Release.
+1. 打开**项目 > [您的项目] > 更新 > 部署 > [部署]**以从发布中查看 Sentry 数据。
 
 
 <Alert level="info">
-  To take advantage of this integration, you need to add the Sentry React Native SDK to your Expo application. You can easily set up the SDK by running the Sentry wizard:
+  要利用此集成，您需要将 Sentry React Native SDK 添加到您的 Expo 应用程序中。您可以通过运行 Sentry 向导轻松设置 SDK：
 
   ```bash
   npx @sentry/wizard@latest -i reactNative
   ```
 
-  For more details on using Sentry with Expo, refer to the [Sentry documentation](/platforms/react-native/) for React Native applications.
+  有关在 Expo 中使用 Sentry 的更多详细信息，请参阅 React Native 应用程序的 [Sentry 文档](/platforms/react-native/)。
 </Alert>

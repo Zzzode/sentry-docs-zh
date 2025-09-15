@@ -1,18 +1,17 @@
 ---
 title: Heroku
-sidebar_order: 1
-description: "Learn more about Sentry's Heroku integration, which allows you to create releases in Sentry when your Heroku app is deployed."
+description: "了解 Sentry 的 Heroku 集成的更多信息，该集成允许您在 Heroku 应用部署时在 Sentry 中创建发布。"
 ---
 
-This integration needs to be set up in each project for which you wish to use it. It is maintained and supported by the [Sentry community](https://open.sentry.io/).
+此集成需要为您希望使用它的每个项目进行设置。它由 [Sentry 社区](https://open.sentry.io/)维护和支持。
 
-### Register the Add-on
+### 注册附加组件
 
-Sentry provides a native add-on for Heroku. While this add-on is not required, it will allow you to maintain consolidated billing inside of Heroku, as well as enable easy configuration of your Sentry credentials.
+Sentry 为 Heroku 提供了原生附加组件。虽然此附加组件不是必需的，但它将允许您在 Heroku 内维护合并计费，以及轻松配置您的 Sentry 凭据。
 
-To add Sentry to an existing Heroku app, head over to the [Sentry Heroku add-on](https://elements.heroku.com/addons/sentry) page.
+要将 Sentry 添加到现有 Heroku 应用，请前往 [Sentry Heroku 附加组件](https://elements.heroku.com/addons/sentry) 页面。
 
-Once done, you’ll be able to confirm that Sentry’s credentials are available via your config:
+完成后，您将能够通过您的配置确认 Sentry 的凭据是否可用：
 
 ```bash
 heroku config:get SENTRY_DSN
@@ -20,48 +19,48 @@ heroku config:get SENTRY_DSN
 
 <Alert>
 
-If you’re not using the add-on, you can still bind the `SENTRY_DSN` environment variable which the SDK will automatically pick up.
+如果您不使用附加组件，您仍然可以绑定 `SENTRY_DSN` 环境变量，SDK 将自动获取它。
 
 </Alert>
 
-### Install the SDK
+### 安装 SDK
 
-Whether you’re using the add-on or not, you’ll still need to [install the SDK](/platforms) per our standard platform-specific instructions.
+无论您是否使用附加组件，您仍然需要按照我们的标准平台特定说明[安装 SDK](/platforms)。
 
-### Configure Releases
+### 配置发布
 
-Whether you use the add-on or configure Sentry yourself, you’ll also likely want to grant access to your dyno metadata, which will allow Sentry to automatically pick up the git SHA of the release your dyno is running.
+无论您使用附加组件还是自己配置 Sentry，您还可能希望授予对您的 dyno 元数据的访问权限，这将允许 Sentry 自动获取您的 dyno 正在运行的发布的 git SHA。
 
-To do this, enable the `runtime-dyno-metadata` feature:
+为此，启用 `runtime-dyno-metadata` 功能：
 
 ```bash
-heroku labs:enable runtime-dyno-metadata -a <app name>
+heroku labs:enable runtime-dyno-metadata -a <应用名称>
 ```
 
-This exposes the `HEROKU_SLUG_COMMIT` environment variable, which most Sentry SDKs will automatically detect and use for configuration.
+这将公开 `HEROKU_SLUG_COMMIT` 环境变量，大多数 Sentry SDK 将自动检测并使用它进行配置。
 
-Next, you’ll want to add your repository and set up an app webhook:
+接下来，您需要添加您的存储库并设置应用 webhook：
 
-1.  Start by connecting your repository to your Sentry organization so we automatically retrieve your commit data. Find your repository integration (GitHub, GitLab, Bitbucket, for example) in **Settings > Integrations**. From the Configurations tab, click "Configure".
+1.  首先将您的存储库连接到您的 Sentry 组织，以便我们自动检索您的提交数据。在**设置 > 集成**中找到您的存储库集成（例如 GitHub、GitLab、Bitbucket）。从配置选项卡中，点击"配置"。
 
-    ![Configure Heroku integration](./img/heroku-configure-repo-integration.png)
+    ![配置 Heroku 集成](./img/heroku-configure-repo-integration.png)
 
-    On the Configure page, click "Add Repository" then select the repository you want to use.
+    在配置页面上，点击"添加存储库"，然后选择您要使用的存储库。
 
-    ![Add repositories](./img/heroku-repo-add.png)
+    ![添加存储库](./img/heroku-repo-add.png)
 
-2.  Find the Heroku integration in **Settings > Integrations**, click "Add to Project", then select the project you want to use with Heroku.
+2.  在**设置 > 集成**中找到 Heroku 集成，点击"添加到项目"，然后选择您要与 Heroku 一起使用的项目。
 
-    ![Heroku integration details page](./img/heroku-integration-detail.png)
+    ![Heroku 集成详情页面](./img/heroku-integration-detail.png)
 
-3.  In the Heroku integration configuration, specify which repository and deploy environment to be associated with your Sentry project.
+3.  在 Heroku 集成配置中，指定要与您的 Sentry 项目关联的存储库和部署环境。
 
-    ![Heroku project configuration](./img/heroku-project-config.png)
+    ![Heroku 项目配置](./img/heroku-project-config.png)
 
-4.  Navigate to your project’s Release settings and copy the app webhook Heroku cli command to your Heroku configuration.
+4.  导航到您项目的发布设置，并将应用 webhook Heroku cli 命令复制到您的 Heroku 配置中。
 
-    ![Heroku release configuration](./img/heroku-config.png)
+    ![Heroku 发布配置](./img/heroku-config.png)
 
-5.  After running the Heroku cli command you'll see a Webhooks Signing Secret. Copy and paste this into the "Webhook Secret" field in Sentry.
+5.  运行 Heroku cli 命令后，您将看到一个 Webhooks 签名密钥。复制并粘贴此密钥到 Sentry 中的"Webhook 密钥"字段。
 
-You’ll start getting rich commit information and deploy emails with each new release, as well as tracking of which release issues were seen within.
+您将开始获得丰富的提交信息和每次新发布的部署电子邮件，以及跟踪问题在哪个发布中被看到。

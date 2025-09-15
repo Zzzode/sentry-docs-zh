@@ -1,33 +1,33 @@
 ---
-title: Span Metrics
-description: "Learn how attaching attributes to spans provides enhanced application performance monitoring and improved debugging."
+title: 跨度指标
+description: "了解如何为跨度附加属性以增强应用程序性能监控和改进调试。"
 sidebar_order: 10
 ---
 
-Span metrics enable you to attach user defined attributes to spans, which might include application metrics or important debugging context within your application's traces. This approach provides context-rich performance monitoring by connecting attributes directly to the operations that generate them.
+跨度指标使您能够将用户定义的属性附加到跨度，这可能包括应用程序指标或应用程序追踪中的重要调试上下文。这种方法通过将属性直接连接到生成它们的操作来提供上下文丰富的性能监控。
 
-These attributes allow you to enrich trace spans with attributes that represent various types of measurement data:
+这些属性允许您使用代表各种类型测量数据的属性来丰富追踪跨度：
 
-- Performance attributes (memory usage, processing time, latency)
-- Business metrics (transaction value, user engagement rates)
-- Technical indicators (queue depth, cache hit ratios)
-- Debugging context (input parameters, process states)
+- 性能属性（内存使用、处理时间、延迟）
+- 业务指标（交易价值、用户参与率）
+- 技术指标（队列深度、缓存命中率）
+- 调试上下文（输入参数、进程状态）
 
-By attaching attributes directly to spans, you create a unified view of both the execution path and its associated performance data.
+通过将属性直接附加到跨度，您可以创建执行路径及其相关性能数据的统一视图。
 
 ```javascript
-// Adding performance metrics to a database span
-// Simple database query with dynamic attributes
+// 为数据库跨度添加性能指标
+// 带有动态属性的简单数据库查询
 Sentry.startSpan(
   {
-    name: "Database Query",
+    name: "数据库查询",
     op: "db.query",
   },
   (span) => {
-    // Execute query and add results to span
+    // 执行查询并将结果添加到跨度
     const result = executeQuery("SELECT * FROM users WHERE active = true");
 
-    // Set attributes with the results data
+    // 使用结果数据设置属性
     span.setAttribute("db.rows_returned", result.length);
     span.setAttribute("db.execution_time_ms", result.executionTime);
 
@@ -36,21 +36,21 @@ Sentry.startSpan(
 );
 ```
 
-## Benefits of Configuring Span Attributes
+## 配置跨度属性的好处
 
-### Contextual Observability
+### 上下文可观察性
 
-Span attributes provide contextual data that connects execution flow with specific metrics that developers care about, or performance measurements. When investigating an issue, you can view both what occurred (the trace) and the performance characteristics in a single view.
+跨度属性提供将执行流程与开发人员关心的特定指标或性能测量连接起来的上下文数据。在调查问题时，您可以在单个视图中查看发生了什么（追踪）和性能特征。
 
-### Unified Telemetry
+### 统一遥测
 
-By integrating these attributes into tracing, you can maintain a single telemetry pipeline rather than managing separate systems for traces and metrics, resulting in simplified instrumentation and more efficient monitoring.
+通过将这些属性集成到追踪中，您可以维护单个遥测管道，而不是为追踪和指标管理单独的系统，从而实现简化的检测和更高效的监控。
 
 ```javascript
-// Adding business context to a payment processing span
+// 为支付处理跨度添加业务上下文
 Sentry.startSpan(
   {
-    name: "Process Payment",
+    name: "处理支付",
     op: "payment.process",
     attributes: {
       "payment.amount": 99.99,
@@ -60,35 +60,35 @@ Sentry.startSpan(
     },
   },
   async () => {
-    // Payment processing implementation
+    // 支付处理实现
   }
 );
 ```
 
-### Accelerated Troubleshooting
+### 加速故障排除
 
-When performance issues arise, these attributes provide the necessary context to quickly identify bottlenecks. For example, when investigating slow checkout processes, you can immediately see which specific component (payment gateway, database query, third-party API) is causing the delay.
+当出现性能问题时，这些属性提供必要的上下文来快速识别瓶颈。例如，在调查缓慢的结账流程时，您可以立即看到哪个特定组件（支付网关、数据库查询、第三方API）导致了延迟。
 
-### Technical-Business Correlation
+### 技术-业务关联
 
-Span attributes enable correlation between technical performance data and business outcomes by connecting metrics like response time or error rates directly to business metrics such as conversion rates or revenue.
+跨度属性通过将响应时间或错误率等技术性能数据直接连接到转化率或收入等业务指标来实现技术性能数据与业务结果之间的关联。
 
-## Implementation Approaches
+## 实现方法
 
-There are two primary methods for implementing attributes on spans:
+有两种主要方法可以在跨度上实现属性：
 
-### 1. Enhancing Existing Spans
+### 1. 增强现有跨度
 
-Augment automatically-created or manually-defined spans with additional attributes:
+使用附加属性增强自动创建或手动定义的跨度：
 
 ```javascript
-// Adding metrics to an existing file upload span
+// 为现有的文件上传跨度添加指标
 const span = Sentry.getActiveSpan();
 if (span) {
-  // User context
+  // 用户上下文
   span.setAttribute("user.subscription_tier", "premium");
 
-  // Multiple metrics in a single operation
+  // 单个操作中的多个指标
   span.setAttributes({
     "memory.heap_used": 1024000,
     "processing.total_steps": 5,
@@ -96,44 +96,44 @@ if (span) {
 }
 ```
 
-### 2. Creating Dedicated Metric Spans
+### 2. 创建专用指标跨度
 
-Create spans specifically for grouping related attributes or metrics, particularly useful for complex operations:
+专门为分组相关属性或指标创建跨度，特别适用于复杂操作：
 
 ```javascript
-// Creating a span for monitoring external API usage
+// 创建用于监控外部API使用的跨度
 Sentry.startSpan(
   {
-    name: "Third-Party API Usage",
+    name: "第三方API使用",
     op: "external.api",
     attributes: {
-      // Performance metrics
+      // 性能指标
       "api.response_time_ms": 245,
 
-      // Context data
+      // 上下文数据
       "feature.using_api": "image_recognition",
       "user.plan": "enterprise",
     },
   },
   async () => {
-    // API call implementation
+    // API调用实现
   }
 );
 ```
 
-## Implementation Use Cases
+## 实现用例
 
-The following examples demonstrate how attributes can be applied to common application scenarios:
+以下示例演示了如何将属性应用于常见应用程序场景：
 
-### User Interface Performance
+### 用户界面性能
 
-Monitor client-side performance metrics related to user experience:
+监控与用户体验相关的客户端性能指标：
 
 ```javascript
-// UI performance monitoring
+// UI性能监控
 Sentry.startSpan(
   {
-    name: "Page Interaction",
+    name: "页面交互",
     op: "ui.interaction",
     attributes: {
       "ui.first_input_delay_ms": 24,
@@ -144,20 +144,20 @@ Sentry.startSpan(
     },
   },
   async () => {
-    // UI interaction handling
+    // UI交互处理
   }
 );
 ```
 
-### Database Operation Monitoring
+### 数据库操作监控
 
-Track database performance characteristics and their impact on application behavior:
+跟踪数据库性能特征及其对应用程序行为的影响：
 
 ```javascript
-// Database query monitoring
+// 数据库查询监控
 Sentry.startSpan(
   {
-    name: "Product Search Query",
+    name: "产品搜索查询",
     op: "db.query",
     attributes: {
       "db.query_type": "SELECT",
@@ -170,122 +170,122 @@ Sentry.startSpan(
     },
   },
   async () => {
-    // Database query execution
+    // 数据库查询执行
   }
 );
 ```
 
-### File Processing Operations
+### 文件处理操作
 
-Monitor file handling operations across your application stack:
+监控应用程序堆栈中的文件处理操作：
 
 ```javascript
-// File processing monitoring
+// 文件处理监控
 Sentry.startSpan(
   {
-    name: "Process Uploaded Image",
+    name: "处理上传的图像",
     op: "file.process",
     attributes: {
-      // Technical metrics
+      // 技术指标
       "file.size_bytes": 2500000,
       "file.type": "image/jpeg",
 
-      // Processing metrics
+      // 处理指标
       "processing.steps_completed": ["virus_scan", "resize", "compress"],
       "processing.total_time_ms": 850,
 
-      // Context data
+      // 上下文数据
       "feature.using_upload": "user_avatar",
       "subscription.allows_hd": true,
     },
   },
   async () => {
-    // Image processing implementation
+    // 图像处理实现
   }
 );
 ```
 
-### External Service Integration
+### 外部服务集成
 
-Monitor performance and reliability of third-party service interactions:
+监控第三方服务交互的性能和可靠性：
 
 ```javascript
-// Payment gateway monitoring
+// 支付网关监控
 Sentry.startSpan(
   {
-    name: "Payment Gateway",
+    name: "支付网关",
     op: "payment.gateway",
     attributes: {
-      // Performance metrics
+      // 性能指标
       "gateway.response_time_ms": 980,
       "gateway.retry_count": 0,
 
-      // Transaction data
+      // 交易数据
       "order.total_amount": 159.99,
       "order.items_count": 3,
 
-      // Service metrics
+      // 服务指标
       "gateway.fee_amount": 4.5,
       "gateway.fee_percent": 0.029,
     },
   },
   async () => {
-    // Payment gateway integration
+    // 支付网关集成
   }
 );
 ```
 
-## Implementation Guidelines
+## 实施指南
 
-### Best Practices
+### 最佳实践
 
-#### Metric Selection and Design
+#### 指标选择和设计
 
-Select metrics that provide actionable insights for debugging or performance monitoring. Consider which data points would help diagnose issues or make informed decisions about your application.
+选择提供可操作洞察的指标进行调试或性能监控。考虑哪些数据点将有助于诊断问题或对您的应用程序做出明智决策。
 
-#### Naming Conventions
+#### 命名约定
 
-Maintain consistent naming patterns following the format `category.metric_name` to ensure metrics are discoverable and understandable across your organization.
+遵循`category.metric_name`格式维护一致的命名模式，以确保指标在您的组织中是可发现和可理解的。
 
-#### Data Type Selection
+#### 数据类型选择
 
-Choose appropriate data types for your metrics:
+为您的指标选择适当的数据类型：
 
-- Numeric values for measurements (`response_time_ms`: 250)
-- Boolean values for state indicators (`cache.hit`: true)
-- String values for categorical data (`user.subscription`: 'premium')
-- Arrays for multi-value data (`processing.steps_completed`: ['download', 'process', 'upload'])
+- 测量值的数值（`response_time_ms`: 250）
+- 状态指标的布尔值（`cache.hit`: true）
+- 分类数据的字符串值（`user.subscription`: 'premium'）
+- 多值数据的数组（`processing.steps_completed`: ['download', 'process', 'upload']）
 
-#### Performance Considerations
+#### 性能考虑
 
-Be mindful of the performance impact of collecting metrics, especially for high-volume operations:
+注意收集指标的性能影响，特别是对于高容量操作：
 
-- Consider implementing sampling for high-frequency operations
-- Prioritize metrics with the highest analytical value
-- Avoid redundant or closely correlated metrics
+- 考虑为高频率操作实施采样
+- 优先考虑具有最高分析价值的指标
+- 避免冗余或密切相关的指标
 
-## Migrating from Standalone Metrics
+## 从独立指标迁移
 
-If you're currently using Sentry's standalone Metrics product, migrating to span attributes offers several advantages:
+如果您当前正在使用Sentry的独立指标产品，迁移到跨度属性具有几个优势：
 
-- **Enhanced context**: Attributes are connected directly to the operations that generate them
-- **Implementation efficiency**: A single consistent API for both traces and metrics
-- **Improved correlation**: Direct association between attributes, traces, and errors
+- **增强的上下文**：属性直接连接到生成它们的操作
+- **实现效率**：追踪和指标的单一一致API
+- **改进的关联**：属性、追踪和错误之间的直接关联
 
-Migration process:
+迁移过程：
 
-1. Identify your current metric instrumentation points
-2. Locate corresponding spans in your application
-3. Transfer your metrics to span attributes
-4. Update any dashboards or alerts to reference the new metric sources
+1. 识别您当前的指标检测点
+2. 在您的应用程序中找到相应的跨度
+3. 将您的指标转移到跨度属性
+4. 更新任何仪表板或警报以引用新的指标源
 
-## Additional Resources
+## 其他资源
 
-For more detailed implementation examples, refer to these guides:
+有关更详细的实现示例，请参阅这些指南：
 
-- [E-Commerce use case](/platforms/javascript/tracing/span-metrics/examples/#e-commerce-transaction-flow)
-- [LLM integration monitoring](/platforms/javascript/tracing/span-metrics/examples/#llm-integration-monitoring)
-- [File upload and processing](/platforms/javascript/tracing/span-metrics/examples/#file-upload-and-processing-pipeline)
-- [Job scheduling and processing](/platforms/javascript/tracing/span-metrics/examples/#job-scheduling-and-processing-pipeline)
+- [电子商务用例](/platforms/javascript/tracing/span-metrics/examples/#e-commerce-transaction-flow)
+- [LLM集成监控](/platforms/javascript/tracing/span-metrics/examples/#llm-integration-monitoring)
+- [文件上传和处理](/platforms/javascript/tracing/span-metrics/examples/#file-upload-and-processing-pipeline)
+- [作业调度和处理](/platforms/javascript/tracing/span-metrics/examples/#job-scheduling-and-processing-pipeline)
 
-These examples demonstrate how to implement comprehensive attribute tracking across distributed systems, providing end-to-end visibility into application performance and behavior.
+这些示例演示了如何在分布式系统中实施全面的属性跟踪，提供对应用程序性能和行为的端到端可见性。

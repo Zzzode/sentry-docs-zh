@@ -1,21 +1,19 @@
 ---
-title: Permissions & Scopes
+title: 权限和作用域
 sidebar_order: 2
 ---
 
-If you're building on top of Sentry's API (i.e using [Auth Tokens](/api/auth/)), you'll need certain scopes to access
-different API endpoints.
+如果您正在基于 Sentry 的 API 构建（即使用[认证令牌](/api/auth/)），您将需要某些作用域来访问不同的 API 端点。
 
-To set the scopes for an [integration token](/organization/integrations/integration-platform/#permissions), select the scopes from the dropdown. These can be edited later.
+要为[集成令牌](/organization/integrations/integration-platform/#permissions)设置作用域，请从下拉菜单中选择作用域。这些可以在以后编辑。
 
-To set the scopes for an personal token, select the scopes from the dropdown when [creating a personal token](https://sentry.io/api/). These cannot be edited later.
+要为个人令牌设置作用域，请在[创建个人令牌](https://sentry.io/api/)时从下拉菜单中选择作用域。这些以后无法编辑。
 
 ![](./img/user-auth-token-create.png)
 
-If you're looking for information on membership roles please visit the
-[membership](/organization/membership/) documentation.
+如果您正在寻找有关成员角色的信息，请访问[成员资格](/organization/membership/)文档。
 
-### Organizations
+### 组织
 
 |              |             |
 | :----------: | :---------: |
@@ -23,7 +21,7 @@ If you're looking for information on membership roles please visit the
 | **PUT/POST** | `org:write` |
 |  **DELETE**  | `org:admin` |
 
-### Projects
+### 项目
 
 |              |                 |
 | :----------: | :-------------: |
@@ -31,15 +29,13 @@ If you're looking for information on membership roles please visit the
 | **PUT/POST** | `project:write` |
 |  **DELETE**  | `project:admin` |
 
-<Alert level="warning" title="Note">
+<Alert level="warning" title="注意">
 
-The `project:releases` scope will give you access to both **project**
-and **organization** release endpoints. The available endpoints are listed in the
-[Releases](/api/releases/) section of the API Documentation.
+`project:releases` 作用域将使您可以访问**项目**和**组织**发布端点。可用端点在 API 文档的[发布](/api/releases/)部分中列出。
 
 </Alert>
 
-### Teams
+### 团队
 
 |              |              |
 | :----------: | :----------: |
@@ -47,7 +43,7 @@ and **organization** release endpoints. The available endpoints are listed in th
 | **PUT/POST** | `team:write` |
 |  **DELETE**  | `team:admin` |
 
-### Members
+### 成员
 
 |              |                |
 | :----------: | :------------: |
@@ -55,7 +51,7 @@ and **organization** release endpoints. The available endpoints are listed in th
 | **PUT/POST** | `member:write` |
 |  **DELETE**  | `member:admin` |
 
-### Issues & Events
+### 问题和事件
 
 |            |               |
 | :--------: | :-----------: |
@@ -63,21 +59,21 @@ and **organization** release endpoints. The available endpoints are listed in th
 |  **PUT**   | `event:write` |
 | **DELETE** | `event:admin` |
 
-<Alert level="warning" title="Note">
+<Alert level="warning" title="注意">
 
-**PUT/DELETE** methods only apply to updating/deleting issues.
-Events in Sentry are immutable and can only be deleted by deleting the whole issue.
+**PUT/DELETE** 方法仅适用于更新/删除问题。
+Sentry 中的事件是不可变的，只能通过删除整个问题来删除。
 
 </Alert>
 
-### Releases
+### 发布
 
 |                         |                    |
 | :---------------------: | :----------------: |
 | **GET/PUT/POST/DELETE** | `project:releases` |
 
-<Alert level="warning" title="Note">
+<Alert level="warning" title="注意">
 
-Be aware that if you're using `sentry-cli` to [manage your releases](/cli/releases/), you'll need a token which also has `org:read` scope.
+请注意，如果您使用 `sentry-cli` 来[管理您的发布](/cli/releases/)，您还需要一个具有 `org:read` 作用域的令牌。
 
 </Alert>

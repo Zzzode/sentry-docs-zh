@@ -1,40 +1,40 @@
 ---
-title: Redirects
+title: 重定向
 noindex: true
 sidebar_order: 60
 ---
 
-Redirects allow you to automatically redirect an incoming request path to a new destination path. When you move or rename a file, you should make sure to set up a redirect from the old path to the new path, so that the old URL still takes users to the right place.
+重定向允许您自动将传入的请求路径重定向到新的目标路径。当您移动或重命名文件时，您应该确保设置从旧路径到新路径的重定向，以便旧URL仍能将用户带到正确的地方。
 
-## Add a New Redirect
+## 添加新重定向
 
-There are two ways to add redirects in the Sentry docs:
+在Sentry文档中有两种添加重定向的方法：
 
-- [Add a New Redirect in `middleware.ts` (Recommended)](#add-a-new-redirect-in-middlewarets-recommended)
-- [Add a New Redirect in `redirects.js`](#example-redirect-in-redirectsjs)
+- [在 `middleware.ts` 中添加新重定向（推荐）](#在-middlewarets-中添加新重定向推荐)
+- [在 `redirects.js` 中添加新重定向](#在-redirectsjs-中的重定向示例)
 
 <Alert>
-  Both files make the distinction between SDK docs (ie. end user docs) and developer docs.
+  这两个文件都区分了SDK文档（即最终用户文档）和开发者文档。
 </Alert>
 
-Because Sentry has a limited number of `next.config.js` redirects, you should configure your redirects in `middleware.ts` whenever possible. You should only use `redirects.js` ie (`next.config.js`) if you need to use regular expressions and wildcard path segments in your redirects.
+由于Sentry的 `next.config.js` 重定向数量有限，您应该尽可能在 `middleware.ts` 中配置重定向。只有在重定向需要使用正则表达式和通配符路径段时，才应使用 `redirects.js`（即 `next.config.js`）。
 
 <Alert level="warning">
-  It's no longer recommended to use `vercel.json` for redirects due to its limitations (doesn't work on localhost, requires a static file ...)
+  由于限制（在localhost上不工作，需要静态文件...），不再推荐使用 `vercel.json` 进行重定向。
 </Alert>
 
-### Add a New Redirect in `middleware.ts` (Recommended)
+### 在 `middleware.ts` 中添加新重定向（推荐）
 
-Set up all simple one-to-one redirects in `src/middleware.ts`.
+在 `src/middleware.ts` 中设置所有简单的一对一重定向。
 
-To add a new redirect in [`src/middleware.ts`](https://github.com/getsentry/sentry-docs/blob/master/src/middleware.ts), add a new object to `REDIRECTS` with the following properties:
+要在 [`src/middleware.ts`](https://github.com/getsentry/sentry-docs/blob/master/src/middleware.ts) 中添加新重定向，请向 `REDIRECTS` 添加一个新对象，该对象具有以下属性：
 
-- `from`: The incoming request path.
-- `to`: The new destination path you want to route to.
+- `from`: 传入的请求路径。
+- `to`: 您想要路由到的新目标路径。
 
-#### Example Redirect in `middleware.ts`
+#### 在 `middleware.ts` 中的重定向示例
 
-The example below redirects `https://docs.sentry.io/performance/` to `https://docs.sentry.io/product/performance/`:
+下面的示例将 `https://docs.sentry.io/performance/` 重定向到 `https://docs.sentry.io/product/performance/`：
 
 ```typescript {filename:middleware.ts} {2-5}
 const REDIRECTS: {from: PathWithTrailingSlash; to: string}[] = [
@@ -45,20 +45,20 @@ const REDIRECTS: {from: PathWithTrailingSlash; to: string}[] = [
 ];
 ```
 
-### Add a New Redirect in `redirects.js`
+### 在 `redirects.js` 中添加新重定向
 
-Sentry has a limited number of Vercel redirects, so you should only configure redirects in `vercel.json` if your redirects need to use regular expressions. Otherwise, use [`middleware.ts`](#add-a-new-redirect-in-middlewarets-recommended).
+Sentry的Vercel重定向数量有限，因此只有在重定向需要使用正则表达式时，才应在 `vercel.json` 中配置重定向。否则，请使用 [`middleware.ts`](#在-middlewarets-中添加新重定向推荐)。
 
-To add a new redirect in `redirects.js` (which is consumed by `next.config.js`'s [`redirects`](https://nextjs.org/docs/app/api-reference/next-config-js/redirects)), add a new object to the corresponding redirects with the following properties:
+要在 `redirects.js`（由 `next.config.js` 的 [`redirects`](https://nextjs.org/docs/app/api-reference/next-config-js/redirects) 使用）中添加新重定向，请向相应的重定向添加一个新对象，该对象具有以下属性：
 
-- `source`: The incoming request path pattern.
-- `destination`: The new destination path you want to route to.
+- `source`: 传入的请求路径模式。
+- `destination`: 您想要路由到的新目标路径。
 
-#### Example Redirect in `redirects.js`
+#### 在 `redirects.js` 中的重定向示例
 
-The example below redirects URLs like `https://docs.sentry.io/cli/:path*` to `https://docs.sentry.io/product/cli/:path*` with a [path pattern](https://nextjs.org/docs/app/api-reference/next-config-js/redirects#path-matching) or a [Regex](https://nextjs.org/docs/app/api-reference/next-config-js/redirects#regex-path-matching).
+下面的示例使用 [路径模式](https://nextjs.org/docs/app/api-reference/next-config-js/redirects#path-matching) 或 [正则表达式](https://nextjs.org/docs/app/api-reference/next-config-js/redirects#regex-path-matching) 将类似 `https://docs.sentry.io/cli/:path*` 的URL重定向到 `https://docs.sentry.io/product/cli/:path*`。
 
-For example, `https://docs.sentry.io/cli/installation/` would be redirected to `https://docs.sentry.io/product/cli/installation/`.
+例如，`https://docs.sentry.io/cli/installation/` 将被重定向到 `https://docs.sentry.io/product/cli/installation/`。
 
 ```json {filename:redirects.js}
  "redirects": [

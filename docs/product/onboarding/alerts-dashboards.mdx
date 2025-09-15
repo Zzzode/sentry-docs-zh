@@ -1,60 +1,60 @@
 ---
-title: Sentry Alerts and Dashboards
-sidebar_title: Alerts and Dashboards
-description: "Get started with Sentry alerts and dashboards to monitor key metrics, track issue trends, and gain real-time insights into your application's performance."
+title: Sentry 警报和仪表板
+sidebar_title: 警报和仪表板
+description: "开始使用 Sentry 警报和仪表板来监控关键指标、跟踪问题趋势，并实时了解应用程序性能。"
 sidebar_order: 6000
 ---
 
-By the end of this guide you'll be able to create and customize Sentry alerts and dashboards to monitor key metrics, track issue trends, and gain real-time insights in to your application performance. If you get stuck anywhere, try [asking Sentry AI](/?askAI=true) or join our [Discord](https://discord.gg/sentry) community.
+在本指南结束时，您将能够创建和自定义 Sentry 警报和仪表板，以监控关键指标、跟踪问题趋势，并实时了解应用程序性能。如果您在任何地方遇到困难，请尝试[询问 Sentry AI](/?askAI=true)或加入我们的 [Discord](https://discord.gg/sentry) 社区。
 
-## 1. Alerting Strategy
+## 1. 警报策略
 
-After [integrating with Slack](https://sentry-docs-git-ob-alerts.sentry.dev/organization/integrations/notification-incidents/slack/) and adding your members and teams, it's time to create [Sentry alerts](/product/alerts/best-practices/) to ensure real-time issue detection, enabling faster debugging and reducing downtime. Configuring alerts using specific thresholds or conditions helps prioritize problems, improving system reliability and incident response time.
+在与 [Slack 集成](https://sentry-docs-git-ob-alerts.sentry.dev/organization/integrations/notification-incidents/slack/)并添加您的成员和团队后，是时候创建 [Sentry 警报](/product/alerts/best-practices/)以确保实时问题检测，从而实现更快的调试并减少停机时间。使用特定阈值或条件配置警报有助于确定问题的优先级，提高系统可靠性和事件响应时间。
 
-### Alert Recommendations
+### 警报建议
 
-- **Error Alert (High-Frequency)** - Triggers when a new or existing production issue suddenly spikes in frequency.
+- **错误警报（高频）** - 当新的或现有的生产问题突然激增时触发。
 
 <Arcade src="https://demo.arcade.software/YaLyaOnchFhnNgnnegdx?embed" />
 
-- **Performance Alert** - Detects and alerts for specific performance metrics when they exceed a specified threshold.
+- **性能警报** - 检测并警报特定性能指标何时超过指定阈值。
 
 <Arcade src="https://demo.arcade.software/OKhoLV2GUeP1xHQIDAbM?embed" />
 
-- **Crash Rate Alert** - Monitors application stability by tracking the percentage of users experiencing crashes within a given time frame. 
+- **崩溃率警报** - 通过跟踪在给定时间范围内遇到崩溃的用户百分比来监控应用程序稳定性。
 
 <Arcade src="https://demo.arcade.software/r2YOeIh3sj9Lzmc3vBmj?embed" />
 
-- **Anomaly Detection** - Sentry can simplify your alerting needs by automatically detecting anomalies and proactively alerting you.
+- **异常检测** - Sentry 可以通过自动检测异常并主动提醒您来简化您的警报需求。
 
 <Arcade src="https://demo.arcade.software/lkvlGb3Cxh4ZwvEbfM0X?embed" />
 
-You can also create metric alerts for all you custom-instrumented transactions/spans based on key performance indicators such as [throughput](/product/alerts/alert-types/#performance).
+您还可以根据关键性能指标（如[吞吐量](/product/alerts/alert-types/#performance)）为您的所有自定义检测事务/跨度创建指标警报。
 
 <Arcade src="https://demo.arcade.software/Ij5ofpPdcu6i71HPdKX2?embed" />
 
-## 2. Sentry Dashboards and Discover
+## 2. Sentry 仪表板和发现
 
-Setting up Sentry dashboards is crucial for speeding up triage and offering a real-time view of critical issues, trends, and performance in your app. If an irregularity is observed, Sentry dashboards allow users to jump directly into troubleshooting with a few clicks.
+设置 Sentry 仪表板对于加快分类并提供应用程序中关键问题、趋势和性能的实时视图至关重要。如果观察到异常，Sentry 仪表板允许用户通过几次点击直接跳入故障排除。
 
-### Recommended Dashboards
+### 推荐仪表板
 
-1. **Error Overview Dashboard** - Provides a high-level view of application health, showing you error trends, most frequent issues, and spikes in error occurrences.
+1. **错误概览仪表板** - 提供应用程序健康状况的高级视图，向您显示错误趋势、最频繁的问题和错误发生次数的激增。
 
-2. **Performance Monitoring Dashboard** - Tracks transaction durations, slow API calls, and database query performance to identify bottlenecks.
+2. **性能监控仪表板** - 跟踪事务持续时间、慢速 API 调用和数据库查询性能以识别瓶颈。
 
-3. **Mobile Crash Rate and Release Health Dashboard** - Monitors application stability and release impact by tracking crash rates across different versions.
+3. **移动崩溃率和发布健康仪表板** - 通过跟踪不同版本之间的崩溃率来监控应用程序稳定性和发布影响。
 
-4. **Critical Experience Dashboard** - Tracks errors or performance bottlenecks in your application's critical experiences. [See an example](https://sandbox.sentry.io/dashboard/126679/).
+4. **关键体验仪表板** - 跟踪应用程序关键体验中的错误或性能瓶颈。[查看示例](https://sandbox.sentry.io/dashboard/126679/)。
 
-### Congratulations on completing the Sentry onboarding guide! 
+### 恭喜完成 Sentry 入门指南！
 
-You now have the foundation to make the most out of Sentry. Here are some highlights on what you've implemented:
+您现在拥有了充分利用 Sentry 的基础。以下是您已实施内容的亮点：
 
-- **Track errors** and performance by connecting projects and integrating your tools.
+- **通过连接项目和集成工具来跟踪错误**和性能。
 
-- **Add custom context** and performance instrumentation.
+- **添加自定义上下文**和性能检测。
 
-- **Stay on top of critical issues** with alerts.
+- **通过警报掌握关键问题**。
 
-- **Create dashboards** for insights, and filter or group issues for easy tracking.
+- **创建仪表板**以获取洞察，并过滤或分组问题以便于跟踪。

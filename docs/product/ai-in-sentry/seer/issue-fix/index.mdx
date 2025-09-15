@@ -1,92 +1,91 @@
 ---
-title: Issue Fix
-description: "Use Seer's issue fix to automatically find the root cause of issues and generate code fixes."
+title: 问题修复
+description: "使用 Seer 的问题修复功能自动查找问题的根本原因并生成代码修复方案。"
 sidebar_order: 20
 ---
 
-**Issue fix** is Seer's collaborative workflow to find the root cause of and solution to issues. It uses Sentry's context (issue details, tracing data, logs, and profiles), your codebases (integrated through GitHub), and its interactions with you to identify and reason through problems in your code.
+**问题修复**是 Seer 的协作工作流，用于查找问题的根本原因和解决方案。它使用 Sentry 的上下文（问题详情、跟踪数据、日志和性能分析）、您的代码库（通过 GitHub 集成）以及它与您的交互来识别和推理代码中的问题。
 
-Issue fix can be automated, allowing it to populate root cause analysis, solutions, and even pull requests as issues occur.
-
-<Alert>
-Issue fix builds upon the capabilities previously known as Autofix.
-</Alert>
-
-## How Issue Fix Works
-
-Seer's issue fix flow follows a three step process:
-
-1. [Root Cause Analysis](#root-cause-analysis): Analyze the issue using Sentry's context and your codebases and determine the root cause
-2. [Solution Identification](#solution-identification): Identify a solution based on the analysis
-3. [Code Generation](#code-generation): Generate a code fix and open a PR
-
-When you begin debugging an issue with Seer, you will see a screen like this, which includes the high-level issue summary and a button to start the issue fix flow:
-
-![Issue Fix Start Screen](../img/issue-fix-start-screen.png)
-
-### Root Cause Analysis
-
-Seer will then analyze the issue and relevant code to help identify the root cause and propose a solution. You'll see a live stream of Seer's thought process in real time as it works through the problem. Seer will share key insights as they come up and you'll have the option to expand each. You'll see the event data and code that support Seer's conclusions, building a clear chain of reasoning back to the root cause.
-
-While Seer is reasoning through your problem, you can step in to add context or feedback; collaboration tends to lead to the best results. If Seer encounters gaps in its understanding, it will ask for your input.
-
-The final root cause analysis will show you the sequence of events that led to the issue, and a detailed analysis of the most likely culprit. This analysis includes helpful annotations, such as links back to the exact lines of code or Sentry telemetry that are relevant to the analysis.
-
-![Screenshot of the root cause analysis completed by Seer](../img/rca.png)
-
-### Solution Identification
-
-Once Seer has completed its root cause analysis, it will begin searching for a solution. The process will be familiar: you will see a chain of reasoning appear as it begins working through the problem, and you are free to collaborate with Seer at any point.
-
-When it's finished, you will see the recommended solution. From here, you can:
-
-1. Remove any steps or actions that you disagree with
-2. Add any additional steps or instructions, for example request additional unit tests to prevent regressions of the original error
-
-Once you are ready to proceed, you can select "Code It Up" to generate code resolving the bug. 
-
-### Code Generation
-
-During the coding step, Seer will identify the code patch(or patches) needed to implement the solution. When it's done, you'll see a preview showing the suggested diffs across your codebase. If the fix involves service dependencies, you may see edits spanning across multiple repositories. 
-
-From here, you can choose to draft a PR, or checkout the code changes locally for further iteration. If you choose to checkout the code locally, Seer will make a new branch for you.
-
-![Screenshot of Seer showing code it generated](../img/coding-step.png)
-
-## What Issue Fix Uses
-
-Seer is a powerful debugging agent, with access to a wide variety of data sources and tools. While debugging issues, it may examine:
-
-- **Issue details**: Error messages, stack traces, and event metadata from your [Issues](/product/issues/)
-- **Tracing data**: Distributed [traces](/concepts/key-terms/tracing/#whats-a-trace) and span information
-- **Logs**: Structured [Logs](/product/explore/logs/) from your application (beta)
-- **Your codebases**: Relevant code from linked GitHub repositories, with support for multiple repos for distributed services
-- **Performance data**: Profiles and performance metrics
-- **Interactive feedback**: Your input and guidance during the process
-
-This context is crucial to Seer's capabilities, and it allows it to do things like investigate a backend service that may be the true root cause for a frontend bug you are trying to troubleshoot. 
-
-## Settings
-
-Issue fix's default behavior can be customized in several ways:
-
-1. You can manually customize the repositories it has access to
-2. You can define the default branch it should use in each repository
-3. You can add any additional custom context that that may be useful within the scope of each individual repository
+问题修复可以自动化，允许它在问题发生时填充根本原因分析、解决方案，甚至拉取请求。
 
 <Alert>
-Seer already automatically parses rules files from [Cursor](https://docs.cursor.com/context/rules), [Windsurf](https://windsurf.com/editor/directory), [Cline](https://docs.cline.bot/features/cline-rules), and [Claude Code](https://docs.anthropic.com/en/docs/claude-code/tutorials#create-an-effective-claude-md-file)
+问题修复建立在先前称为 Autofix 的功能之上。
 </Alert>
 
-![Screenshot of the repository settings page](../img/repo-settings.png)
+## 问题修复如何工作
 
-## Best Practices
+Seer 的问题修复流程遵循三个步骤：
 
-- Setup the GitHub integration, allowing Seer access to your codebase and enabling it to generate code fixes. Enabling the GitHub integration will help Seer to provide better results. See the [Sentry GitHub integration](/organization/integrations/source-code-mgmt/github/) to learn how
-- The more Sentry context you have, the better equipped Seer will be to help: consider instrumenting your application to collect traces, profiles and logs, and send them to Sentry.
-- For JavaScript / TypeScript projects that are minified in production, upload [source maps](/platforms/javascript/sourcemaps/) to Sentry for the best results
+1. [根本原因分析](#root-cause-analysis)：使用 Sentry 的上下文和您的代码库分析问题并确定根本原因
+2. [解决方案识别](#solution-identification)：基于分析结果识别解决方案
+3. [代码生成](#code-generation)：生成代码修复方案并创建 PR
+
+当您开始使用 Seer 调试问题时，您将看到如下屏幕，其中包含高级问题摘要和开始问题修复流程的按钮：
+
+![问题修复开始屏幕](../img/issue-fix-start-screen.png)
+
+### 根本原因分析
+
+然后，Seer 将分析问题和相关代码，帮助识别根本原因并提出解决方案。您将实时看到 Seer 思维过程的实时流。Seer 会在出现关键洞察时分享它们，您可以选择展开每个洞察。您将看到支持 Seer 结论的事件数据和代码，构建一条清晰的推理链回到根本原因。
+
+当 Seer 推理您的问题时，您可以介入添加上下文或反馈；协作往往会产生最佳结果。如果 Seer 在其理解中遇到空白，它会请求您的输入。
+
+最终的根本原因分析将向您展示导致问题的事件序列，以及对最可能原因的详细分析。此分析包含有用的注释，例如返回相关代码行或 Sentry 遥测的链接。
+
+![Seer 完成的根本原因分析截图](../img/rca.png)
+
+### 解决方案识别
+
+一旦 Seer 完成其根本原因分析，它将开始寻找解决方案。这个过程将很熟悉：您将看到一条推理链出现，因为它开始解决问题，您可以随时与 Seer 协作。
+
+完成后，您将看到推荐的解决方案。从这里，您可以：
+
+1. 删除您不同意的任何步骤或操作
+2. 添加任何额外的步骤或指令，例如请求额外的单元测试以防止原始错误的回归
+
+准备就绪后，您可以选择"编写代码"来生成解决错误的代码。
+
+### 代码生成
+
+在编码步骤中，Seer 将识别实现解决方案所需的代码补丁（或多个补丁）。完成后，您将看到一个预览，显示整个代码库中建议的差异。如果修复涉及服务依赖关系，您可能会看到跨多个仓库的编辑。
+
+从这里，您可以选择起草 PR，或者在本地检出代码以进行进一步迭代。如果您选择在本地检出代码，Seer 将为您创建一个新分支。
+
+![Seer 显示生成代码的截图](../img/coding-step.png)
+
+## 问题修复使用的数据
+
+Seer 是一个强大的调试代理，可以访问各种数据源和工具。在调试问题时，它可能会检查：
+
+- **问题详情**：来自您[问题](/product/issues/)的错误消息、堆栈跟踪和事件元数据
+- **跟踪数据**：分布式[跟踪](/concepts/key-terms/tracing/#whats-a-trace)和跨度信息
+- **日志**：来自您应用程序的结构化[日志](/product/explore/logs/)（测试版）
+- **您的代码库**：来自链接 GitHub 仓库的相关代码，支持分布式服务的多个仓库
+- **性能数据**：性能分析和性能指标
+- **交互反馈**：您在过程中的输入和指导
+
+这些上下文对 Seer 的功能至关重要，它允许它执行诸如调查可能是您尝试排查的前端错误真正根本原因的后端服务等操作。
+
+## 设置
+
+问题修复的默认行为可以通过几种方式自定义：
+
+1. 您可以手动自定义它有权访问的仓库
+2. 您可以定义它应在每个仓库中使用的默认分支
+3. 您可以添加可能在每个单独仓库范围内有用的任何额外自定义上下文
 
 <Alert>
-Currently, GitHub is the only SCM supported by Seer. We are currently working to add support for other services including GitLab and Bitbucket. 
+Seer 已经自动解析来自 [Cursor](https://docs.cursor.com/context/rules)、[Windsurf](https://windsurf.com/editor/directory)、[Cline](https://docs.cline.bot/features/cline-rules) 和 [Claude Code](https://docs.anthropic.com/en/docs/claude-code/tutorials#create-an-effective-claude-md-file) 的规则文件
 </Alert>
 
+![仓库设置页面截图](../img/repo-settings.png)
+
+## 最佳实践
+
+- 设置 GitHub 集成，允许 Seer 访问您的代码库并使其能够生成代码修复。启用 GitHub 集成将帮助 Seer 提供更好的结果。请参阅 [Sentry GitHub 集成](/organization/integrations/source-code-mgmt/github/)了解如何操作
+- 您拥有的 Sentry 上下文越多，Seer 就越有能力提供帮助：考虑检测您的应用程序以收集跟踪、性能分析和日志，并将它们发送到 Sentry。
+- 对于在生产环境中被压缩的 JavaScript / TypeScript 项目，将[源映射](/platforms/javascript/sourcemaps/)上传到 Sentry 以获得最佳结果
+
+<Alert>
+目前，GitHub 是 Seer 唯一支持的 SCM。我们目前正在努力添加对其他服务的支持，包括 GitLab 和 Bitbucket。
+</Alert>

@@ -1,120 +1,120 @@
 ---
-title: Data Storage Location (US or EU)
+title: 数据存储位置（美国或欧盟）
 sidebar_order: 30
-description: "Choose where to store your data in the US or the EU."
+description: "选择在美国或欧盟存储您的数据。"
 ---
 
-Sentry supports data storage in both the US and the EU.
+Sentry 支持在美国和欧盟存储数据。
 
-You can choose where to store your data when you’re setting up your Sentry account by selecting from the dropdown menu under "Data Storage Location" in the "Create a New Organization" section.
+在设置 Sentry 账户时，您可以通过在"创建新组织"部分的下拉菜单中选择"数据存储位置"来选择存储数据的位置。
 
-**Please note that once selected, your data storage location can’t be changed. The only way to switch it is by creating a new organization.**
+**请注意，一旦选择，您的数据存储位置将无法更改。切换它的唯一方法是创建一个新组织。**
 
-Your selection determines your data storage location only. Sentry will continue to access and process your data in accordance with your agreement with Sentry for the Sentry service and our [Privacy Policy](https://sentry.io/privacy/).
+您的选择仅决定您的数据存储位置。Sentry 将继续根据您与 Sentry 的 Sentry 服务协议和我们的 [隐私政策](https://sentry.io/privacy/) 访问和处理您的数据。
 
-The table below shows the location where your data will be stored at rest, based on your selection.
+下表显示了根据您的选择，您的数据将存储在何处的物理位置。
 
-| **Data Storage Location**     | **Physical Location** |
-| ----------------------------- | --------------------- |
-| United States of America (US) | Iowa, USA             |
-| European Union (EU)           | Frankfurt, Germany    |
+| **数据存储位置**     | **物理位置** |
+| ----------------- | ---------- |
+| 美利坚合众国 (US) | 美国爱荷华州 |
+| 欧洲联盟 (EU)     | 德国法兰克福 |
 
-## What Types of Data Are Stored Where
+## 哪些类型的数据存储在哪里
 
-Here’s a list of the types of data that will be stored in whichever data storage location (US or EU) you select.
+以下是将在您选择的任何数据存储位置（美国或欧盟）中存储的数据类型列表。
 
-### Data Stored In Selected Location (US or EU)
+### 存储在选定位置（美国或欧盟）的数据
 
-- Error events, activity, and issue links
-- Transactions
-- Profiles
-- Release health
-- Releases, debug symbols, and source maps
-- Debug symbol metadata and source map metadata
-- Session replays
-- Backups for these resources
+- 错误事件、活动和问题链接
+- 事务
+- 配置文件
+- 发布健康
+- 发布、调试符号和源映射
+- 调试符号元数据和源映射元数据
+- 会话重播
+- 这些资源的备份
 
-### Data Stored in US
+### 存储在美国的数据
 
-Here’s a list of the types of data that may be stored in the US.
+以下是可能存储在美国的数据类型列表。
 
-- User accounts, notification settings, and 2FA authenticators
-  (User accounts are shared by many organizations.)
-- Organization integration metadata
-  (Integrations can be shared across organizations and many of our integrations only support sending their webhooks to a singular destination.)
-- Access tokens for users and organizations
-- Organization settings, configurations, and teams
-- Organization audit logs
-- Cron check-ins
-- Project metadata
-- DSN keys
-- Detailed usage data
-- Sentry applications
-- SSO, SAML, and SCIM metadata
+- 用户账户、通知设置和 2FA 身份验证器
+  （用户账户由许多组织共享。）
+- 组织集成元数据
+  （集成可以跨组织共享，我们的许多集成仅支持将其 webhook 发送到单个目的地。）
+- 用户和组织的访问令牌
+- 组织设置、配置和团队
+- 组织审计日志
+- Cron 检查
+- 项目元数据
+- DSN 密钥
+- 详细使用数据
+- Sentry 应用程序
+- SSO、SAML 和 SCIM 元数据
 
-Metadata that lets Sentry identify an organization will be replicated out of the organization's data storage location to facilitate login, and backwards-compatible APIs. You can always confirm the location of your organization by viewing your organization's settings page.
+允许 Sentry 识别组织的元数据将从组织的数据存储位置复制出来，以促进登录和向后兼容的 API。您始终可以通过查看组织的设置页面来确认组织的位置。
 
-### Data Stored in All Locations (US and EU)
+### 存储在所有位置（美国和欧盟）的数据
 
-Here’s a list of the types of data that will be stored in both data storage locations (US and EU).
+以下是将存储在两个数据存储位置（美国和欧盟）的数据类型列表。
 
-- Uptime checks
+- 正常运行时间检查
 
-<Alert title="Uptime Monitoring" level="warning">
+<Alert title="正常运行时间监控" level="warning">
 
-For uptime monitoring to work effectively, we perform uptime checks from multiple geolocations. As a result, uptime check data may be stored outside your selected data region, beyond the storage commitments outlined on this page.
+为了有效地进行正常运行时间监控，我们从多个地理位置执行正常运行时间检查。因此，正常运行时间检查数据可能存储在您选择的数据区域之外，超出了本页面上概述的存储承诺。
 
 </Alert>
 
-## Using Data Storage Location APIs
+## 使用数据存储位置 API
 
-To ensure that your API requests are only processed within your selected data storage location, use the region-specific domain:
+为确保您的 API 请求仅在您选择的数据存储位置内处理，请使用特定于区域的域：
 
-| **Data Storage Location**     | **API domain** |
-| ----------------------------- | -------------- |
-| United States of America (US) | us.sentry.io   |
-| European Union (EU)           | de.sentry.io   |
+| **数据存储位置**     | **API 域**    |
+| ----------------- | ----------- |
+| 美利坚合众国 (US) | us.sentry.io |
+| 欧洲联盟 (EU)     | de.sentry.io |
 
-For [data stored in the US](#data-stored-in-us), your API domain should be `sentry.io`.
+对于 [存储在美国的数据](#存储在美国的数据)，您的 API 域应为 `sentry.io`。
 
-## Switching Data Storage Locations for Existing Organizations
+## 为现有组织切换数据存储位置
 
 ### SaaS
 
-At this time, your data storage location can’t be changed if you have an existing SaaS organization. The only way to switch it is by creating a new organization.
+目前，如果您有现有的 SaaS 组织，则无法更改您的数据存储位置。切换它的唯一方法是创建一个新组织。
 
-### Self-hosted
+### 自托管
 
-If you have a self-hosted Sentry account, you can [follow these instructions](/concepts/migration/) to migrate your data.
+如果您有自托管的 Sentry 账户，您可以 [按照这些说明](/concepts/migration/) 迁移您的数据。
 
-**Supported for relocation:**
+**支持迁移：**
 
-- User accounts and settings
-- Organization settings and configuration
-- Projects and project settings
-- Teams and members
-- Dashboards
-- Alert rules, notifications and incidents
-- Saved searches
+- 用户账户和设置
+- 组织设置和配置
+- 项目和项目设置
+- 团队和成员
+- 仪表板
+- 警报规则、通知和事件
+- 保存的搜索
 
-**Unsupported for relocation:**
+**不支持迁移：**
 
-- Error events, activity, and issue links
-- Transactions
-- Profiles
-- Session Replays
-- Cron check-ins
-- Uptime checks
-- DSN keys
-- Release health
-- Releases, Debug Symbols, and source maps
-- Sentry Applications
-- Access Tokens for users and organizations
-- User notification settings, and 2FA authenticators
-- Project codeowners
-- Integrations
-- Organization Audit Logs
+- 错误事件、活动和问题链接
+- 事务
+- 配置文件
+- 会话重播
+- Cron 检查
+- 正常运行时间检查
+- DSN 密钥
+- 发布健康
+- 发布、调试符号和源映射
+- Sentry 应用程序
+- 用户和组织的访问令牌
+- 用户通知设置和 2FA 身份验证器
+- 项目代码所有者
+- 集成
+- 组织审计日志
 
-## For Users With Multiple Organizations
+## 对于拥有多个组织的用户
 
-If you have multiple organizations, they will be treated separately regardless of where data is stored. This means that subscriptions, usage, users, projects, and so on, will be managed separately for each organization.
+如果您有多个组织，无论数据存储在哪里，它们都将被单独处理。这意味着订阅、使用、用户、项目等都将为每个组织单独管理。

@@ -1,63 +1,60 @@
 ---
-title: Operating Guidelines
-description: "Learn about our guidelines for operation when self-hosting external Relays."
+title: 操作指南
+description: "了解在自行托管外部 Relay 时的操作指南。"
 sidebar_order: 5
 ---
 
-This page reviews our guidelines for operation when self-hosting external Relays, that is, Relays that run on your hardware and forward events to `sentry.io`.
+本页面回顾了在自行托管外部 Relay 时的操作指南，即运行在您的硬件上并将事件转发到 `sentry.io` 的 Relay。
 
-## General Considerations
+## 一般注意事项
 
-- We recommend [running Relay](/product/relay/getting-started/) using the officially provided Docker image (`getsentry/relay`) found on [DockerHub](https://hub.docker.com/r/getsentry/relay/) and tagged with its Git revision identifier, rather than building from source.
+- 我们建议使用官方提供的 Docker 镜像 (`getsentry/relay`) 来[运行 Relay](/product/relay/getting-started/)，该镜像可在 [DockerHub](https://hub.docker.com/r/getsentry/relay/) 上找到，并使用其 Git 修订标识符进行标记，而不是从源代码构建。
 
-- We recommend running at least two Relay instances (containers) with a reverse proxy (such as [HAProxy](https://www.haproxy.org/) or [Nginx](https://nginx.org)) in front of them for improved availability, simplified Relay updates, and SSL/TLS support.
+- 我们建议至少运行两个 Relay 实例（容器），并在它们前面放置一个反向代理（如 [HAProxy](https://www.haproxy.org/) 或 [Nginx](https://nginx.org)），以提高可用性、简化 Relay 更新并提供 SSL/TLS 支持。
 
-- To monitor your Relay setup, configure [Logging](/product/relay/monitoring/#logging), [Metrics](/product/relay/monitoring/#metrics), and [Health Checks](/product/relay/monitoring/#health-checks).
+- 要监控您的 Relay 设置，请配置[日志记录](/product/relay/monitoring/#logging)、[指标](/product/relay/monitoring/#metrics)和[健康检查](/product/relay/monitoring/#health-checks)。
 
-## System Requirements and Recommendations
+## 系统要求和建议
 
-The following recommendations assume that Relay is run in Docker.
+以下建议假设 Relay 在 Docker 中运行。
 
-| Resource | Recommendations                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CPU      | - **Required**: x86-64 (amd64) or AArch64 (arm64) CPU architecture<br/> - Multi-core CPU [[1]](#multi-core-cpu)                                                                                                                                                                                                                                                                                                                                                          |
-| Memory   | - At least 2GB of RAM per Relay container is recommended.                                                                                                                                                                                                                                                                                                                                                                                             |
-| Network  | - Bandwidth: Make sure you have enough capacity to receive and forward the planned data volume. Relay compresses all upstream requests to `sentry.io` by default, but the compression rate might vary depending on the types and shapes of the submitted events.<br/> - Latency: Relay can tolerate network delays up to a certain point. It is however recommended to make sure that the round-trip time to the upstream stays lower than 5 seconds. |
-| Storage  | - Disk storage is only required if [Spooling](/product/relay/options/#spooling) is configured. See the `spool.envelopes.max_memory_size` configuration option. Otherwise, Relay does not require disk storage.                                                                                                                                                                                                                                        |
+| 资源 | 建议 |
+| --- | --- |
+| CPU | - **必需**：x86-64 (amd64) 或 AArch64 (arm64) CPU 架构<br/> - 多核 CPU [[1]](#multi-core-cpu) |
+| 内存 | - 建议每个 Relay 容器至少 2GB RAM。 |
+| 网络 | - 带宽：确保您有足够的容量来接收和转发计划的数据量。Relay 默认会压缩所有到 `sentry.io` 的上游请求，但压缩率可能会根据提交的事件类型和形状而有所不同。<br/> - 延迟：Relay 可以在一定程度上容忍网络延迟。但是，建议确保到上游的往返时间保持在 5 秒以下。 |
+| 存储 | - 只有在配置了[溢出](/product/relay/options/#spooling)时才需要磁盘存储。请参阅 `spool.envelopes.max_memory_size` 配置选项。否则，Relay 不需要磁盘存储。 |
 
 <p id="multi-core-cpu">
 
-[[1]](#multi-core-footnote) Relay is a multi-threaded application that tries to leverage all available CPU cores. As a result, Sentry highly recommends running Relay on multi-core CPUs. If your setup is expected to handle more than 100 requests per second, we recommend running Relay on at least four (4) CPU cores. By default, every Relay instance will use the total number of available cores to adjust the sizes of its thread pools. Adjust this behavior by configuring the `limits.max_thread_count`.
+[[1]](#multi-core-footnote) Relay 是一个多线程应用程序，会尝试利用所有可用的 CPU 核心。因此，Sentry 强烈建议在多核 CPU 上运行 Relay。如果您的设置预计每秒处理超过 100 个请求，我们建议在至少四个 (4) CPU 核心上运行 Relay。默认情况下，每个 Relay 实例将使用可用的总核心数来调整其线程池的大小。通过配置 `limits.max_thread_count` 来调整此行为。
 
 </p>
 
-## Relay Binary
+## Relay 二进制文件
 
-Every release of Relay also provides a set of binaries that are built for the Operating Systems listed below.
+每个 Relay 版本还提供一组为以下操作系统构建的二进制文件。
 
-| Operating System | Version                   |
-|------------------|---------------------------|
-| Ubuntu x64       | 20.04                     |
-| Ubuntu ARM       | 22.04                     |
-| macOS            | macOS Sonoma (version 14) |
-| Windows          | Windows Server 2022       |
+| 操作系统 | 版本 |
+|---|---|
+| Ubuntu x64 | 20.04 |
+| Ubuntu ARM | 22.04 |
+| macOS | macOS Sonoma (版本 14) |
+| Windows | Windows Server 2022 |
 
-We will support Ubuntu binaries 2 years after the official LTS support has ended to allow customers with extended
-support to continue using Relay.
+我们将支持 Ubuntu 二进制文件，直到官方 LTS 支持结束后 2 年，以允许具有扩展支持的客户继续使用 Relay。
 
-Windows and macOS binaries are built using GitHub Runners. We will support the versions for those Operating Systems
-as long as GitHub supports them.
+Windows 和 macOS 二进制文件是使用 GitHub Runners 构建的。只要 GitHub 支持这些操作系统版本，我们就会支持它们。
 
+## 示例配置
 
-## Example Configuration
-
-This example configuration sets up basic logging and metrics settings, as well as changes the default concurrency level.
+此示例配置设置了基本的日志记录和指标设置，并更改了默认的并发级别。
 
 ```yaml
 ---
 relay:
-  # The upstream hostname is taken from any of your DSNs.
-  # Go to your Project Settings, and then to "Client Keys (DSN)" to see them.
+  # 上游主机名取自您的任何 DSN。
+  # 转到您的项目设置，然后转到 "客户端密钥 (DSN)" 查看它们。
   upstream: https://___ORG_INGEST_DOMAIN___.
   host: 0.0.0.0
   port: 3000
@@ -68,44 +65,42 @@ metrics:
   statsd: 127.0.0.1:8126
   prefix: relay
 limits:
-  # Base size of various internal thread pools. Defaults to the number of logical CPU cores
+  # 各种内部线程池的基本大小。默认为逻辑 CPU 核心数
   max_thread_count: 8
 ```
 
-See the [Configuration Options](/product/relay/options/) page for detailed descriptions of all available options.
+有关所有可用选项的详细描述，请参阅[配置选项](/product/relay/options/)页面。
 
-## Performance Tuning
+## 性能调优
 
-Relay provides a variety of [Configuration Options](/product/relay/options/). Changing some of the options has more impact on Relay's behavior than others.
-The following list identifies a few options you should check first when you want to tune Relay to your organization's environment and workload:
+Relay 提供了各种[配置选项](/product/relay/options/)。更改某些选项对 Relay 行为的影响比其他选项更大。
+以下列表确定了在想要根据组织的环境和工作负载调整 Relay 时应首先检查的几个选项：
 
-- `limits.max_concurrent_requests` (default: 100)
+- `limits.max_concurrent_requests`（默认值：100）
 
-  Number of concurrent requests your Relay instance can send to
-  the upstream (Sentry). If your event volume or connection latency to Sentry are high, you can increase this value to gain additional throughput, though that increase will be at the expense of additional network connections.
+  您的 Relay 实例可以发送到上游 (Sentry) 的并发请求数。如果您的事件量或到 Sentry 的连接延迟很高，您可以增加此值以获得额外的吞吐量，尽管增加将以额外的网络连接为代价。
 
-- `cache.event_buffer_size` (default: 1000)
+- `cache.event_buffer_size`（默认值：1000）
 
-  How many events Relay can buffer in its local queue before it starts rejecting new events.
-  Increasing this value will also increase Relay's potential memory consumption when, for
-  example, network issues prevent Relay from forwarding the received messages to Sentry.
+  Relay 在本地队列中可以缓冲多少个事件，然后才开始拒绝新事件。
+  增加此值也会增加 Relay 的潜在内存消耗，例如，当网络问题阻止 Relay 将接收到的消息转发到 Sentry 时。
 
-- `cache.event_expiry` (in seconds, default: 600)
+- `cache.event_expiry`（以秒为单位，默认值：600）
 
-  How long Relay can keep buffered events in memory before dropping them. You can increase this value if you anticipate when your Relay may need to keep events in memory for longer than the default value.
+  Relay 可以在内存中保留缓冲事件多长时间，然后才丢弃它们。如果您预计 Relay 可能需要将事件在内存中保留比默认值更长的时间，您可以增加此值。
 
-- `cache.project_expiry` (in seconds, default: 300)
+- `cache.project_expiry`（以秒为单位，默认值：300）
 
-  To stay operational, Relay regularly fetches project configurations from the Sentry upstream. This setting controls how often Relay fetches that configuration. You can decrease this value to make the configuration propagation more frequent. For example, if you later change data scrubbing options in your project settings in Sentry, your Relay instance will become aware of those changes faster.
+  为了保持运行，Relay 会定期从 Sentry 上游获取项目配置。此设置控制 Relay 获取该配置的频率。您可以降低此值以使配置传播更频繁。例如，如果您稍后更改 Sentry 中的项目设置中的数据清理选项，您的 Relay 实例将更快地意识到这些更改。
 
-- `cache.project_grace_period` (in seconds, default: 0)
+- `cache.project_grace_period`（以秒为单位，默认值：0）
 
-  How long a project configuration can still be used after having expired.
-  Increasing this value may help when the upstream is unreachable; for example, due to network issues.
+  项目配置过期后仍可使用的时长。
+  增加此值可能在上游不可用时有所帮助；例如，由于网络问题。
 
-## Request Routing
+## 请求路由
 
-SDKs communicate with Sentry on a set of endpoints. Relay provides the same API to become a seamless drop-in replacement. This requires a set of endpoints to be accessible:
+SDK 与 Sentry 在一组端点上通信。Relay 提供相同的 API 以成为无缝的即插即用替代品。这需要可访问一组端点：
 
 - `/api/<project-id>/envelope/`
 - `/api/<project-id>/minidump/`
@@ -117,21 +112,21 @@ SDKs communicate with Sentry on a set of endpoints. Relay provides the same API 
 - `/api/<project-id>/cron/<monitor-slug>/`
 - `/api/<project-id>/cron/<monitor-slug>/<sentry-key>/`
 
-Depending on the SDK or client, requests to these endpoints are performed with compressed content-encoding or chunked transfer-encoding. Depending on the infrastructure in front of Relay, please check the following HTTP headers are set correctly:
+根据 SDK 或客户端的不同，对这些端点的请求使用压缩的内容编码或分块传输编码执行。根据 Relay 前面的基础设施，请检查以下 HTTP 头是否正确设置：
 
-- `Host`: to the public host name of this Relay
-- `X-Forwarded-For`: to the client IP address
-- `X-Sentry-Auth`: to the value provided by the client
+- `Host`：到此 Relay 的公共主机名
+- `X-Forwarded-For`：到客户端 IP 地址
+- `X-Sentry-Auth`：到客户端提供的值
 
 <Alert>
 
-Proxies often set a default maximum body size for requests. Especially native crash reports and attachments can exceed these limits. We recommend to configure a maximum client body size of _100MB_.
+代理通常为请求设置默认的最大正文大小。特别是原生崩溃报告和附件可能会超出这些限制。我们建议将最大客户端正文大小配置为 _100MB_。
 
 </Alert>
 
-Internally, Relay makes requests to the configured upstream to forward data and retrieve project configuration. We **highly recommend against** constraining these requests. At present, Relay makes requests to the following endpoints for basic operation:
+在内部，Relay 会向配置的上游发出请求以转发数据并检索项目配置。我们**强烈建议不要**限制这些请求。目前，Relay 为了基本操作会向以下端点发出请求：
 
-- All of the above endpoints
+- 上述所有端点
 - `/api/0/relays/projectconfigs/`
 - `/api/0/relays/publickeys/`
 - `/api/0/relays/register/challenge/`

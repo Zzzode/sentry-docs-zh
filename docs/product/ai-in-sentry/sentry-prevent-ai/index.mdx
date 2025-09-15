@@ -1,59 +1,59 @@
 ---
 title: Sentry Prevent AI
 sidebar_order: 30
-description: "Get error predictions, code reviews and new tests for better code and coverage using Sentry Prevent AI."
+description: "获取错误预测、代码审查和新测试，以获得更好的代码和覆盖率，使用 Sentry Prevent AI。"
 ---
 
-Sentry Prevent AI is a generative AI assistant developed by Sentry. It helps you generate new tests for uncovered code and reviews your code changes, predicting errors and offering suggestions for improvement before merging pull requests.
+Sentry Prevent AI 是由 Sentry 开发的生成式 AI 助手。它帮助您为未覆盖的代码生成新测试并审查您的代码更改，在合并拉取请求之前预测错误并提供改进建议。
 
 <Alert>
-  Sentry Prevent AI is currently in <strong>beta</strong>. Beta features are
-  still a work in progress and may have bugs. Please join the [Discord
-  conversation](https://discord.com/channels/621778831602221064/1385700674557444190)
-  to share your feedback.
+  Sentry Prevent AI 目前处于<strong>测试版</strong>。测试版功能
+  仍在开发中，可能存在错误。请加入 [Discord
+  讨论](https://discord.com/channels/621778831602221064/1385700674557444190)
+  分享您的反馈。
 </Alert>
 
-## Getting Started
+## 开始使用
 
-To enable Sentry Prevent AI in your GitHub organization or on specific repositories, you need to install the [Seer by Sentry app](https://github.com/apps/seer-by-sentry). This allows the assistant to analyze pull requests, provide insights, and write tests. **You must also have the [Sentry Github integration](/organization/integrations/source-code-mgmt/github/) enabled.**
+要在您的 GitHub 组织或特定仓库中启用 Sentry Prevent AI，您需要安装 [Seer by Sentry 应用](https://github.com/apps/seer-by-sentry)。这允许助手分析拉取请求、提供见解并编写测试。**您还必须启用 [Sentry Github 集成](/organization/integrations/source-code-mgmt/github/)。**
 
-1. Install the [Seer by Sentry app](https://github.com/apps/seer-by-sentry) in your GitHub organization or specific repositories.
-2. Enable these required settings in your Sentry [organization settings](https://sentry.io/orgredirect/settings/:orgslug/):
-   - `Show Generative AI Features`
-   - `Enable PR Review and Test Generation`
+1. 在您的 GitHub 组织或特定仓库中安装 [Seer by Sentry 应用](https://github.com/apps/seer-by-sentry)。
+2. 在您的 Sentry [组织设置](https://sentry.io/orgredirect/settings/:orgslug/)中启用这些必需设置：
+   - `显示生成式 AI 功能`
+   - `启用 PR 审查和测试生成`
 
-If you're not an admin, share the Seer by Sentry GitHub App Integration link with your organization's admin or owner to install it.
+如果您不是管理员，请与您的组织管理员或所有者分享 Seer by Sentry GitHub 应用集成链接以进行安装。
 
-## Sentry Prevent AI Commands
+## Sentry Prevent AI 命令
 
-After installing the app, Sentry Prevent AI can help you in three ways:
+安装应用后，Sentry Prevent AI 可以通过三种方式帮助您：
 
-1. **Error Prediction** - When you create a pull request and set it to `Ready for Review`, Sentry Prevent AI will check for errors in your code. If no error is found, you will see a 🎉 emoji as a reaction to your PR description. Otherwise, Sentry Prevent AI will add comments to your PR. 
+1. **错误预测** - 当您创建拉取请求并将其设置为`准备审查`时，Sentry Prevent AI 将检查您代码中的错误。如果未发现错误，您将在 PR 描述中看到 🎉 表情符号作为反应。否则，Sentry Prevent AI 将向您的 PR 添加评论。
 
-2. **`@sentry review`** - Use this command in a PR comment, and the assistant will review the PR and predict errors, as well as make suggestions.
+2. **`@sentry review`** - 在 PR 评论中使用此命令，助手将审查 PR 并预测错误，以及提出建议。
 
-3. **`@sentry generate-test`** - Use this command in a PR comment, and the assistant will generate tests for your PR.
+3. **`@sentry generate-test`** - 在 PR 评论中使用此命令，助手将为您的 PR 生成测试。
 
-Once you have added a comment, the assistant will reply, acknowledging the request. For code reviews, you will then see comments added to your PR. For test generation, you will see a comment with a link to the generated tests.
+添加评论后，助手将回复，确认请求。对于代码审查，您将看到添加到您的 PR 的评论。对于测试生成，您将看到带有指向生成测试链接的评论。
 
-![Sentry Prevent AI Overview](./img/prevent-ai-response.png)
+![Sentry Prevent AI 概览](./img/prevent-ai-response.png)
 
-## Frequently Asked Questions
+## 常见问题
 
-- **What data does Sentry Prevent AI need access to for the AI system to function, and what information is sent to third-party AI providers?**
+- **Sentry Prevent AI 需要访问哪些数据才能使 AI 系统运行，以及哪些信息会发送给第三方 AI 提供商？**
 
-  Sentry Prevent AI requires access to your pull requests, including PR metadata, repository information, file names, directory structures, and code diffs. Only file names, code diffs, and PR descriptions are sent to the AI provider for analysis.
+  Sentry Prevent AI 需要访问您的拉取请求，包括 PR 元数据、仓库信息、文件名、目录结构和代码差异。只有文件名、代码差异和 PR 描述会发送给 AI 提供商进行分析。
 
-- **Does Sentry Prevent AI run anywhere outside of GitHub, and does it run in the background?**
+- **Sentry Prevent AI 是否在 GitHub 之外运行，它是否在后台运行？**
 
-Sentry Prevent AI only runs on GitHub. It will run once when a PR is marked `ready for review`, and otherwise only runs when triggered by a comment.
+Sentry Prevent AI 仅在 GitHub 上运行。它将在 PR 标记为`准备审查`时运行一次，否则仅在通过评论触发时运行。
 
-  You can learn more about AI privacy and security [here](/product/ai-in-sentry/ai-privacy-and-security/).
+  您可以在此处了解有关 AI 隐私和安全的更多信息[此处](/product/ai-in-sentry/ai-privacy-and-security/)。
 
-- **Why aren't `@sentry` commands working?**
+- **为什么 `@sentry` 命令不起作用？**
 
-  Sentry Prevent AI will respond with a message to enable the `Show Generative AI Features` and `Enable PR Review and Test Generation` settings in your [organization settings](https://sentry.io/orgredirect/settings/:orgslug/), if you have not already enabled them. Once enabled, try `@sentry review` or `@sentry generate-test` again to run Sentry Prevent AI.
+  如果您尚未启用，Sentry Prevent AI 将回复一条消息，以在您的[组织设置](https://sentry.io/orgredirect/settings/:orgslug/)中启用`显示生成式 AI 功能`和`启用 PR 审查和测试生成`设置。启用后，请再次尝试 `@sentry review` 或 `@sentry generate-test` 以运行 Sentry Prevent AI。
 
-- **Are Prevent AI features available in the EU region?**
+- **Prevent AI 功能是否在欧盟区域可用？**
 
-  Not currently, although we're working on it.
+  目前不可用，但我们正在努力。同时，您可以创建一个新的 Sentry 组织，然后按照上述设置说明进行操作。

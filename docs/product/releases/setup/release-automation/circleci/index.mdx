@@ -1,50 +1,50 @@
 ---
 title: CircleCI
-description: "Learn how Sentry and CircleCI  automate release management and help identify suspect commits."
+description: "了解Sentry和CircleCI如何自动化发布管理并帮助识别可疑提交。"
 ---
 
-This guide walks you through the process of automating Sentry release management and deploy notifications in CircleCI. After deploying in CircleCI, you’ll be able to associate commits with releases. You'll also be able to apply source maps to see the original code in Sentry.
+本指南将引导您完成在CircleCI中自动化Sentry发布管理和部署通知的过程。在CircleCI中部署后，您将能够将提交与发布关联。您还能够应用源映射以在Sentry中查看原始代码。
 
-Before starting, confirm that your Sentry project is properly set up to track commit metadata by [installing a repository integration](/product/releases/setup/release-automation/). Once that's installed, and you've added your repository, come back to this guide. If you've already installed a repository integration, you're ready to go.
+在开始之前，请确认您的Sentry项目已正确设置以跟踪提交元数据，方法是[安装仓库集成](/product/releases/setup/release-automation/)。安装完成后，并且您已添加了仓库，请返回本指南。如果您已安装了仓库集成，您就可以开始了。
 
-## Create a Sentry Internal Integration
+## 创建Sentry内部集成
 
-For CircleCI to communicate securely with Sentry, you'll need to create a new internal integration. In Sentry, navigate to **Settings > Developer Settings > New Internal Integration**.
+为了使CircleCI与Sentry安全通信，您需要创建一个新的内部集成。在Sentry中，导航到**设置 > 开发者设置 > 新建内部集成**。
 
-Give your new integration a name (for example, “CircleCI Deploy Integration”) and specify the necessary permissions. In this case, you need Admin access for “Release” and Read access for “Organization”.
+为您的新集成命名（例如，"CircleCI部署集成"）并指定必要的权限。在这种情况下，您需要"发布"的管理员访问权限和"组织"的读取访问权限。
 
-For more details about scopes and API endpoints, see the full documentation on [API Permissions](/api/permissions/).
+有关作用域和API端点的更多详细信息，请参见[API权限](/api/permissions/)的完整文档。
 
-![View of internal integration permissions.](./img/internal-integration-permissions.png)
+![内部集成权限视图。](./img/internal-integration-permissions.png)
 
-Click "Save", then record your token, which you'll need in the next section.
+点击"保存"，然后记录您的令牌，您将在下一节中需要它。
 
-## Setting Environment Variables in CircleCI
+## 在CircleCI中设置环境变量
 
-Next, you'll need a few environment variables to configure the Sentry CLI:
+接下来，您需要几个环境变量来配置Sentry CLI：
 
-- `SENTRY_AUTH_TOKEN` - Your internal integration token
-- `SENTRY_ORG` - Your Sentry organization slug
-- `SENTRY_PROJECT` - Your Sentry project slug
+- `SENTRY_AUTH_TOKEN` - 您的内部集成令牌
+- `SENTRY_ORG` - 您的Sentry组织slug
+- `SENTRY_PROJECT` - 您的Sentry项目slug
 
-To access your internal integration token securely, store it as an [environment variable on your project](https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-project):
+为了安全地访问您的内部集成令牌，请将其存储为[项目上的环境变量](https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-project)：
 
-1. In the CircleCI application, go to your project’s settings by clicking the gear icon on the Pipelines page, or the three dots on other pages in the application.
-2. Click on Environment Variables.
-3. Add a new variable by clicking the "Add Variable" button and enter `SENTRY_AUTH_TOKEN` as the name and your internal integration token as the value.
+1. 在CircleCI应用程序中，通过点击管道页面上的齿轮图标，或应用程序中其他页面上的三个点，转到您项目的设置。
+2. 点击环境变量。
+3. 通过点击"添加变量"按钮添加新变量，并输入`SENTRY_AUTH_TOKEN`作为名称，您的内部集成令牌作为值。
 
-![View of CircleCI environment variables.](./img/project-settings-env-var.png)
+![CircleCI环境变量视图。](./img/project-settings-env-var.png)
 
-The other variables do not contain sensitive information, so you'll use the environment key to define them as environment variables in your config.yml file.
+其他变量不包含敏感信息，因此您将使用环境键在config.yml文件中将它们定义为环境变量。
 
-## Create Release and Notify Sentry of Deployment
+## 创建发布并通知Sentry部署
 
-To automate your Sentry release management process, you'll need to add the `Create release and notify Sentry of deploy` step below after your deploy step, either in a new job or at the end of your existing deploy job:
+为了自动化您的Sentry发布管理流程，您需要在部署步骤之后添加下面的`创建发布并通知Sentry部署`步骤，要么在新作业中，要么在现有部署作业的末尾：
 
 ```yaml
 notify-sentry-deploy:
   executor:
-  # Specify executor for running deploy job
+  # 指定运行部署作业的执行器
   environment:
     SENTRY_ORG: sample-organization-slug
     SENTRY_PROJECT: sample-project-slug
@@ -53,7 +53,7 @@ notify-sentry-deploy:
     - checkout
     # ...
     - run:
-        name: Create release and notify Sentry of deploy
+        name: 创建发布并通知Sentry部署
         command: |
           curl -sL https://sentry.io/get-cli/ | bash
           export SENTRY_RELEASE=$(sentry-cli releases propose-version)
@@ -64,10 +64,10 @@ notify-sentry-deploy:
           sentry-cli deploys new -e $SENTRY_ENVIRONMENT
 ```
 
-For more details about the release management concepts in the snippet above, see the full documentation on [release management](/cli/releases/).
+有关上面代码段中发布管理概念的更多详细信息，请参见[发布管理](/cli/releases/)的完整文档。
 
-**Notes**:
+**注意**：
 
-- If you’re not deploying a project that requires source maps or you've sent source maps to Sentry using another method, omit the `sourcemaps upload` line.
-- If you can’t install a repository integration, send commit metadata using the [create release endpoint](/product/releases/associate-commits/#using-the-api) or omit the `set-commits` line.
-- `sentry-cli releases propose-version` defaults to the commit SHA of the commit being deployed. To set this to a different version, modify `SENTRY_RELEASE` to the preferred version.
+- 如果您部署的项目不需要源映射，或者您已使用其他方法将源映射发送到Sentry，请省略`sourcemaps upload`行。
+- 如果您无法安装仓库集成，请使用[创建发布端点](/product/releases/associate-commits/#using-the-api)发送提交元数据，或省略`set-commits`行。
+- `sentry-cli releases propose-version`默认为被部署的提交的提交SHA。要将其设置为不同的版本，请将`SENTRY_RELEASE`修改为首选版本。

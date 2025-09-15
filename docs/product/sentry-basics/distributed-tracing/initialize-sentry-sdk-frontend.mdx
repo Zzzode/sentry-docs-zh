@@ -1,37 +1,37 @@
 ---
-title: Add the Sentry SDK to Your Frontend Project
+title: 将 Sentry SDK 添加到您的前端项目
 sidebar_order: 3
-description: "Learn how to add the Sentry SDK to your frontend codebase."
+description: "学习如何将 Sentry SDK 添加到您的前端代码库中。"
 ---
 
-This section walks you through how to import the sample application into your local development environment, add the Sentry SDK, and initialize it.
+本节将指导您如何将示例应用程序导入到本地开发环境中，添加 Sentry SDK 并进行初始化。
 
-If you're using your own source code, you can skip this section. Instead:
+如果您使用的是自己的源代码，可以跳过本节。相反：
 
-- Select your [platform](/platforms/) and follow its **Getting Started** guide to add the Sentry SDK to your code.
-- Then, skip to the [next step](/product/sentry-basics/distributed-tracing/initialize-sentry-sdk-backend/).
+- 选择您的[平台](/platforms/)并按照其**入门指南**将 Sentry SDK 添加到您的代码中。
+- 然后，跳转到[下一步](/product/sentry-basics/distributed-tracing/initialize-sentry-sdk-backend/)。
 
-## 1. Clone the Sample Application
+## 1. 克隆示例应用程序
 
-The sample application is a basic frontend-only application using React and webpack.
+示例应用程序是一个使用 React 和 webpack 的基本前端应用程序。
 
-1. Fork the [sample application's repository](https://github.com/getsentry/tracing-tutorial-frontend) on GitHub.
+1. 在 GitHub 上 fork [示例应用程序仓库](https://github.com/getsentry/tracing-tutorial-frontend)。
 
-1. Clone the forked repository to your local environment:
+1. 将 fork 的仓库克隆到本地环境：
 
    ```bash
    git clone git@github.com:<your_username>/tracing-tutorial-frontend.git
    ```
 
-1. Open the `tracing-tutorial-frontend` project in your preferred code editor.
+1. 在您首选的代码编辑器中打开 `tracing-tutorial-frontend` 项目。
 
-## 2. Add the Sentry React SDK
+## 2. 添加 Sentry React SDK
 
-Sentry captures data by using a platform-specific SDK that you add to your application's runtime. To use the SDK, import and configure it in your source code. This demo project uses [Sentry's React SDK](https://github.com/getsentry/sentry-javascript/tree/develop/packages/react).
+Sentry 通过使用特定于平台的 SDK 来捕获数据，您需要将其添加到应用程序的运行时中。要使用 SDK，请在源代码中导入并配置它。此演示项目使用 [Sentry 的 React SDK](https://github.com/getsentry/sentry-javascript/tree/develop/packages/react)。
 
-1. Install the Sentry React SDK using NPM.
+1. 使用 NPM 安装 Sentry React SDK。
 
-   Make sure you're in the `tracing-tutorial-frontend` project folder.
+   确保您在 `tracing-tutorial-frontend` 项目文件夹中。
 
    ```bash {tabTitle:npm}
    npm install @sentry/react --save
@@ -45,9 +45,9 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    pnpm add @sentry/react
    ```
 
-1. Import and initialize the SDK.
+1. 导入并初始化 SDK。
 
-   Open `src/index.js` and add the following lines of code below the last import statement:
+   打开 `src/index.js` 并在最后一个 import 语句下方添加以下代码行：
 
    ```javascript {filename:src/index.js} {12}
    import * as Sentry from "@sentry/react";
@@ -58,21 +58,21 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
        Sentry.browserTracingIntegration(),
        Sentry.replayIntegration(),
      ],
-     // Tracing
-     tracesSampleRate: 1.0, //  Capture 100% of the transactions
-     // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+     // 追踪
+     tracesSampleRate: 1.0, //  捕获 100% 的事务
+     // 设置 'tracePropagationTargets' 以控制应为哪些 URL 启用分布式追踪
      tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
-     // Session Replay
-     replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
-     replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+     // 会话重放
+     replaysSessionSampleRate: 0.1, // 这将采样率设置为 10%。您可能希望在开发期间将其更改为 100%，然后在生产中以较低的速率采样。
+     replaysOnErrorSampleRate: 1.0, // 如果您尚未对整个会话进行采样，则在采样发生错误的会话时将采样率更改为 100%。
    });
    ```
 
-   It's important to import and initialize the SDK as early as possible in your application's lifecycle so Sentry can capture errors throughout the lifecycle.
+   重要的是要尽可能早地在应用程序生命周期中导入和初始化 SDK，这样 Sentry 就可以在整个生命周期中捕获错误。
 
-1. Add your DSN key to the Sentry SDK configuration.
+1. 将您的 DSN 密钥添加到 Sentry SDK 配置中。
 
-   Paste in the DSN key value you copied from the project created in the [previous section](/product/sentry-basics/distributed-tracing/create-new-project/).
+   粘贴您在[上一节](/product/sentry-basics/distributed-tracing/create-new-project/)中创建的项目中复制的 DSN 密钥值。
 
    ```javascript {filename:src/index.js}
    Sentry.init({
@@ -81,30 +81,29 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    });
    ```
 
-1. Save the file.
+1. 保存文件。
 
-The options set in `Sentry.init()` are called the SDK's configuration. The only required configuration option is the DSN. However, the SDK supports many other configuration options. Learn more in our [Configuration](/platforms/javascript/guides/react/configuration/) docs.
+在 `Sentry.init()` 中设置的选项称为 SDK 的配置。唯一必需的配置选项是 DSN。但是，SDK 支持许多其他配置选项。在我们的[配置](/platforms/javascript/guides/react/configuration/)文档中了解更多信息。
 
-The configuration above enables Sentry's error monitoring feature, as well as [**Tracing**](/product/tracing/) and [**Session Replay**](/platforms/javascript/guides/react/session-replay) features. Take note of the `tracePropagationTargets` option, this is required to enable tracing on any urls your projects are running on. Since both of this tutorial's projects are running on `localhost`, we are all set.
+上述配置启用了 Sentry 的错误监控功能，以及[**追踪**](/product/tracing/)和[**会话重放**](/platforms/javascript/guides/react/session-replay)功能。请注意 `tracePropagationTargets` 选项，这是启用项目运行的任何 URL 上的追踪所必需的。由于本教程的两个项目都在 `localhost` 上运行，所以我们已经设置好了。
 
+## 3. 构建并运行示例应用程序
 
-## 3. Build and Run the Sample Application
+在 `tracing-tutorial-frontend` 项目文件夹中：
 
-In the `tracing-tutorial-frontend` project folder:
-
-1. Install project dependencies.
+1. 安装项目依赖项。
 
    ```bash
    npm install
    ```
 
-1. Start the application in develop mode.
+1. 在开发模式下启动应用程序。
 
    ```bash
    npm start
    ```
 
-   Once the application starts, you'll see a confirmation message similar to this one in your terminal:
+   应用程序启动后，您将在终端中看到类似于此的确认消息：
 
    ```bash
    Compiled successfully!
@@ -115,14 +114,14 @@ In the `tracing-tutorial-frontend` project folder:
       On Your Network:  http://10.0.0.39:3000
    ```
 
-   > **Troubleshooting tip**: If the application fails to start due to syntax errors or errors for missing dependencies/modules, make sure you're using Node 18+ and install dependencies again. If you're using [nvm](https://github.com/nvm-sh/nvm), ensure you are on the right node version with `nvm use 18` and then `npm install`.
+   > **故障排除提示**：如果应用程序由于语法错误或缺少依赖项/模块错误而无法启动，请确保您使用的是 Node 18+ 并重新安装依赖项。如果您使用的是 [nvm](https://github.com/nvm-sh/nvm)，请确保使用正确的节点版本 `nvm use 18`，然后 `npm install`。
 
-1. Open the sample application in your browser.
+1. 在浏览器中打开示例应用程序。
 
-   The sample app should be running at [http://localhost:3000/](http://localhost:3000/) or the URL output in your terminal in the last step. You should see a sample e-commerce page; the buttons on this page won't work correctly and will trigger an uncaught runtime error until you get your backend up and running.
+   示例应用程序应该在[http://localhost:3000/](http://localhost:3000/)或上一步中终端输出的 URL 上运行。您应该看到一个示例电子商务页面；此页面上的按钮将无法正常工作，并将触发未捕获的运行时错误，直到您让后端运行起来。
 
    ![img/frontend-screenshot.png](img/frontend-screenshot.png)
 
-## Next
+## 下一步
 
-Nicely done! You now have a sample React app running with the Sentry SDK initialized. Next, [Add the Sentry SDK to Your Backend Project](/product/sentry-basics/distributed-tracing/initialize-sentry-sdk-backend/) to get Sentry running across the entire stack of your platform.
+做得很好！您现在有一个示例 React 应用程序正在运行，并已初始化 Sentry SDK。接下来，[将 Sentry SDK 添加到您的后端项目](/product/sentry-basics/distributed-tracing/initialize-sentry-sdk-backend/)以在整个平台堆栈中运行 Sentry。

@@ -1,206 +1,174 @@
 ---
-title: "Trace Explorer With Span Metrics"
+title: "使用跨度指标的追踪浏览器"
 sidebar_order: 31
-description: "Learn how to use Sentry's Trace Explorer to search span data, find distributed traces, and debug performance issues across your entire application stack."
+description: "了解如何使用 Sentry 的追踪浏览器搜索跨度数据、查找分布式追踪，并在整个应用程序堆栈中调试性能问题。"
 ---
 
-The [**Trace Explorer**](https://sentry.io/orgredirect/organizations/:orgslug/traces/) in Sentry is designed to make performance investigation easier and more intuitive. You can now explore span samples, visualize span attributes, and aggregate your data with flexible queries and filters. This guide will walk you through the key concepts and features of the Trace Explorer.
+Sentry 中的 [**追踪浏览器**](https://sentry.io/orgredirect/organizations/:orgslug/traces/) 旨在使性能调查更容易和更直观。您现在可以探索跨度样本、可视化跨度属性，并使用灵活的查询和过滤器聚合数据。本指南将引导您了解追踪浏览器的关键概念和功能。
 
-![Trace Explorer Screenshot](./img/Trace_Explorer_home.png)
+![追踪浏览器截图](./img/Trace_Explorer_home.png)
 
-## Key Concepts
+## 关键概念
 
-### Traces
+### 追踪
 
-- A trace represents a series of transactions or requests through a single system. This includes things like user browser sessions, HTTP requests, DB queries, middleware, caches and more.
-- It captures a series of operations (_spans_) that show how different parts of your application interacted during each transaction.
-- Each trace is identified by a **Trace ID**, which you can use to follow a request across services or projects.
-- A [distributed trace](/platforms/javascript/tracing/trace-propagation/#what-is-distributed-tracing) is made of transactions and spans that traverse multiple servers, clients, edge workers, and other parts of your system. It is assembled by passing the Trace ID through browser headers.
+- 追踪表示通过单个系统的一系列事务或请求。这包括用户浏览器会话、HTTP 请求、数据库查询、中间件、缓存等内容。
+- 它捕获一系列操作（_跨度_），显示应用程序的不同部分在每个事务期间如何交互。
+- 每个追踪都由一个 **追踪 ID** 标识，您可以使用它来跨服务或项目跟踪请求。
+- [分布式追踪](/platforms/javascript/tracing/trace-propagation/#what-is-distributed-tracing) 由遍历多个服务器、客户端、边缘工作器和系统其他部分的事务和跨度组成。它通过浏览器标头传递追踪 ID 来组装。
 
-### Spans
+### 跨度
 
-- A _span_ represents an individual operation within a trace. This could be a database query, HTTP request, or UI rendering task.
-- Each span has:
-  - **Attributes**: Key-value pairs like `http.method`, `db.query`, `span.description`, or custom attributes like `cart.value`, provide additional context that can be useful for debugging and investigating patterns. These are either numbers or strings. Note: numeric span attributes can be used to calculate **span metrics**, shown below.
-  - **Duration (`span.duration`)**: The time the operation took, used to measure performance.
+- _跨度_ 表示追踪中的单个操作。这可能是数据库查询、HTTP 请求或 UI 渲染任务。
+- 每个跨度都有：
+  - **属性**：键值对，如 `http.method`、`db.query`、`span.description` 或自定义属性，如 `cart.value`，提供可能对调试和调查模式有用的额外上下文。这些是数字或字符串。注意：数字跨度属性可用于计算 **跨度指标**，如下所示。
+  - **持续时间 (`span.duration`)**：操作所花费的时间，用于衡量性能。
 
-### Span Metrics
+### 跨度指标
 
-- [Span metrics](/concepts/key-terms/tracing/span-metrics/) are derived from applying a function to your span attributes (default or custom), like `p50(cart.value)` or `sum(ai.token_use)`, over a granular time frame. This calculation extrapolates metrics that then populate dashboards and alerts. based on that rolling time window.
-- These 'metrics' aren't stored separately from your span data. Rather, they're queried on the fly. This reduces your need to manage, ingest, and store custom metrics.
+- [跨度指标](/concepts/key-terms/tracing/span-metrics/) 是通过对您的跨度属性（默认或自定义）应用函数得出的，如 `p50(cart.value)` 或 `sum(ai.token_use)`，在细粒度时间范围内。此计算推断出指标，然后填充仪表板和警报，基于该滚动时间窗口。
+- 这些"指标"不是与您的跨度数据分开存储的。相反，它们是即时查询的。这减少了您管理、接收和存储自定义指标的需求。
 
-## Practical Examples
+## 实际示例
 
-- **See your changes in action**: Search for `span.domain is localhost:XXXX` and sort by Timestamp to see traces from your dev environment.
-- **Diagnosing slow pages**: Search for `span.op:navigation` and visualize `p90(span.duration)` to pinpoint slow page loads.
-- **Finding problematic API calls**: Aggregate by `http.url` and filter where `avg.(span.duration) > 2s` to identify slow external API calls.
-- **Database query analysis**: Aggregate by `db.query` and sort by `avg(span.duration)` to find inefficient queries.
+- **查看您的更改**：搜索 `span.domain is localhost:XXXX` 并按时间戳排序以查看来自您的开发环境的追踪。
+- **诊断慢页面**：搜索 `span.op:navigation` 并可视化 `p90(span.duration)` 以查明慢页面加载。
+- **查找有问题的 API 调用**：按 `http.url` 聚合并过滤 `avg.(span.duration) > 2s` 以识别慢外部 API 调用。
+- **数据库查询分析**：按 `db.query` 聚合并按 `avg(span.duration)` 排序以查找低效查询。
 
-With these tools, the new Trace Explorer gives you powerful ways to understand your application's performance, identify bottlenecks, and make informed optimizations.
+使用这些工具，新的追踪浏览器为您提供了强大的方式来了解应用程序的性能、识别瓶颈并进行明智的优化。
 
 <Alert>
-  You plan type determines your query window: Developer: 7 days | Team: 14 days | Business: 30 days.
+  您的计划类型决定了您的查询窗口：开发者：7 天 | 团队：14 天 | 商业：30 天。
 </Alert>
 
-## Browsing Span and Trace Samples
+## 浏览跨度和追踪样本
 
-Trace Explorer allows you to browse span and trace samples and inspect them. Here's how:
+追踪浏览器允许您浏览跨度和追踪样本并检查它们。方法如下：
 
-1. **Search for Samples**:
-   - Use the search bar to filter results based on default or custom attributes, tags, and strings like `http.request_method is "GET`
-   - **Edit and add** columns in the span samples table to view any attribute
-   - **Sort** by clicking the column header to toggle between ascending and descending
-   - Switch between **Span Samples** and **Trace Samples** tabs depending on your focus.
-1. **Inspect Samples**:
+1. **搜索样本**：
+   - 使用搜索栏根据默认或自定义属性、标签和字符串（如 `http.request_method is "GET"`）过滤结果
+   - **编辑和添加**跨度样本表中的列以查看任何属性
+   - **排序**通过点击列标题在升序和降序之间切换
+   - 根据您的焦点在 **跨度样本** 和 **追踪样本** 选项卡之间切换。
+1. **检查样本**：
 
-   - Clicking on a **Span ID** or **Trace ID** opens the **Trace Waterfall View**, showing the sequence of operations and their durations.
-   - You can explore individual spans in detail or see the trace's overall structure.
+   - 点击 **跨度 ID** 或 **追踪 ID** 打开 **追踪瀑布视图**，显示操作序列及其持续时间。
+   - 您可以详细探索单个跨度或查看追踪的整体结构。
 
 <Arcade src="https://demo.arcade.software/5W4Ra0nvz6eufKmnybix?embed" />
 
-## Visualizing Span Attributes
+## 可视化跨度属性
 
-Trace Explorer makes it easy to visualize metrics aggregated from any span attribute.
+追踪浏览器使可视化从任何跨度属性聚合的指标变得容易。
 
-1. **Set Up Visualization**:
-   - Use the **Visualize** section to add metrics like `avg(span.duration)` or `p90(span.duration)` to the same chart by clicking **Add Series** or a different chart by clicking the **+** icon.
-   - You can also create custom visualizations like:
-     - **P90 of span durations**: Useful for identifying outliers.
-     - **Average cache size**: Analyze attributes specific to backend spans.
-2. **Filter Your Data**:
-   - Refine your visualization by applying filters in the search bar, such as `span.op:db` to focus on database spans or `http.status_code:500` for errors.
+1. **设置可视化**：
+   - 使用 **可视化** 部分通过点击 **添加系列** 或 **+** 图标将 `avg(span.duration)` 或 `p90(span.duration)` 等指标添加到同一图表或不同图表。
+   - 您还可以创建自定义可视化，如：
+     - **跨度持续时间的 P90**：用于识别异常值。
+     - **平均缓存大小**：分析特定于后端跨度的属性。
+2. **过滤您的数据**：
+   - 通过在搜索栏中应用过滤器（如 `span.op:db` 专注于数据库跨度或 `http.status_code:500` 用于错误）来细化您的可视化。
 
-The line chart updates dynamically as you apply filters, helping you track trends and identify anomalies.
+折线图在您应用过滤器时动态更新，帮助您跟踪趋势并识别异常。
 
 <Arcade src="https://demo.arcade.software/6goWASyLCX3jx0kjKRMB?embed" />
 
-## Aggregating Span Data
+## 聚合跨度数据
 
-Dive deeper into your data with aggregation capabilities in Trace Explorer.
+使用追踪浏览器中的聚合功能深入了解您的数据。
 
-1. Click into the **Aggregates** tab.
+1. 点击进入 **聚合** 选项卡。
 
-2. **Group By Attributes** to investigate patterns.
+2. **按属性分组**以调查模式。
 
-   - Try `http.method` to compare GET vs POST performance, `db.table` to find slow database operations, `span.op` to investigate patterns in your traces, or custom tags like cart value, CPU or memory usage, or anything else you can think of.
+   - 尝试 `http.method` 比较 GET 与 POST 性能，`db.table` 查找慢数据库操作，`span.op` 调查追踪中的模式，或自定义标签，如购物车价值、CPU 或内存使用，或您能想到的任何其他内容。
 
-3. **Filter and sort your aggregates** just like you would for transactions by querying in the search bar. Sort the table of aggregates by clicking the column headers (default: `timestamp`.)
+3. **过滤和排序您的聚合**就像您对事务所做的那样，通过在搜索栏中查询。通过点击列标题（默认：`timestamp`）对聚合表进行排序。
 
-4. **View sample traces** that fit your aggregates by clicking the stack icon to the left side of the table rows. Use this to find outliers, debug issues, and find complex performance optimizations.
+4. **查看样本追踪**通过点击表格行左侧的堆栈图标来适合您的聚合。使用此功能查找异常值、调试问题并找到复杂的性能优化。
 
 <Arcade src="https://demo.arcade.software/rgVB85wJiopGNPO3KFJS?embed" />
 
-## Create Alerts and Dashboard Widgets From Queries or Compare Queries
+## 从查询创建警报和仪表板小组件或比较查询
 
-You can create Alerts and Dashboard widgets from your queries by clicking the "Save As" button:
+您可以通过点击"另存为"按钮从查询创建警报和仪表板小组件：
 
-![Trace Explorer Screenshot](./img/trace_explorer_save.png)
+![追踪浏览器截图](./img/trace_explorer_save.png)
 
-You can also run side-by-side comparisons of different queries to analyze changes or differences in span data.
+您还可以并排运行不同查询的比较以分析跨度数据中的更改或差异。
 
-## Practical Examples
+## 实际示例
 
-- **Diagnosing slow pages**:
-  - Search for `span.op:navigation` and visualize `p90(span.duration)` to pinpoint slow page loads.
-- **Finding problematic API calls**:
-  - Group by `http.url` and filter where `avg(span.duration) > 2s` to identify slow external API calls.
-- **Database query analysis**: Group by `db.query` and sort by `avg(span.duration)` to find inefficient queries.
+- **诊断慢页面**：
+  - 搜索 `span.op:navigation` 并可视化 `p90(span.duration)` 以查明慢页面加载。
+- **查找有问题的 API 调用**：
+  - 按 `http.url` 分组并过滤 `avg(span.duration) > 2s` 以识别慢外部 API 调用。
+- **数据库查询分析**：按 `db.query` 分组并按 `avg(span.duration)` 排序以查找低效查询。
 
-## How Sampling Affects Queries in Trace Explorer
+## 采样如何影响追踪浏览器中的查询
 
-You can use Sentry's SDKs to sample spans and control the volume of data sent to Sentry. Not every span gets captured when sampling is enabled, but Sentry will still give you accurate aggregate results by extrapolating the sampled data.
+您可以使用 Sentry 的 SDK 对跨度进行采样并控制发送到 Sentry 的数据量。启用采样时，并非每个跨度都会被捕获，但 Sentry 仍将通过推断采样数据为您提供准确的聚合结果。
 
-### How It Works
+### 工作原理
 
-Every span sent to Sentry includes its **sampling rate**. We also derive the **sampling weight**, which is the inverse of the rate and indicates the number of original spans that this sample represents.
+发送到 Sentry 的每个跨度都包括其 **采样率**。我们还推导出 **采样权重**，这是速率的倒数，表示此样本代表的原始跨度数量。
 
-For example:
+例如：
 
-- At a rate of _10%_, the weight is _10_.
-- At a rate of _50%_, the weight is _2_.
-- At a rate of _100%_, the weight is _1_.
+- 在速率为 10% 时，权重为 10。
+- 在速率为 50% 时，权重为 2。
+- 在速率为 100% 时，权重为 1。
 
-All spans you send us after sampling get stored.
+采样后发送给我们的所有跨度都会被存储。
 
-When you run queries in Trace Explorer, Sentry uses the sampling weight to compute counts, averages, and percentiles.
+当您在追踪浏览器中运行查询时，Sentry 使用采样权重来计算计数、平均值和百分位数。
 
-### Example
+### 示例
 
-Let's say you query for spans where `span.op:db` and get **2 spans** in the results:
+假设您查询 `span.op:db` 的跨度并在结果中获得 **2 个跨度**：
 
-{" "}
+| span_id | span.op | span.duration | sampling_factor | sampling_weight |
+| --- | --- | --- | --- | --- |
+| a1b2c3 | db | 100ms | 0.1 | 10 |
+| d4e5f6 | db | 200ms | 0.5 | 2 |
 
-<table>
-  <colgroup>
-    <col />
-    <col />
-    <col />
-    <col />
-    <col />
-  </colgroup>
-  <thead>
-    <tr>
-      <th>span_id</th>
-      <th>span.op</th>
-      <th>span.duration</th>
-      <th>sampling_factor</th>
-      <th>sampling_weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>a1b2c3</td>
-      <td>db</td>
-      <td>100ms</td>
-      <td>0.1</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <td>d4e5f6</td>
-      <td>db</td>
-      <td>200ms</td>
-      <td>0.5</td>
-      <td>2</td>
-    </tr>
-  </tbody>
-</table>
+### 计数
 
-### Counts
+由于每个跨度都以不同的权重采样，Sentry 推断出 **计数**：
 
-Since each span was sampled with different weights, Sentry extrapolates the **count**:
-
-```plaintext
-10 + 2 = 12 estimated spans
+```
+10 + 2 = 12 估计跨度
 ```
 
-Trace Explorer will display **Count: 12**.
+追踪浏览器将显示 **计数：12**。
 
-### Sums
+### 总和
 
-Similarly, Sentry incorporates the weight into **sum**:
+类似地，Sentry 将权重纳入 **总和**：
 
-```plaintext
+```
 10 * 100ms + 2 * 200ms = 1.4s
 ```
 
-Trace Explorer will display **Sum: 1.4ms**.
+追踪浏览器将显示 **总和：1.4ms**。
 
-### Averages and percentiles
+### 平均值和百分位数
 
-Averages and percentiles are **weighted**. You don't just average the 2 spans -- Sentry accounts for the fact that they represent a larger dataset. For example, the weighted average works like this:
+平均值和百分位数是 **加权的**。您不只是平均 2 个跨度——Sentry 考虑了它们代表更大数据集的事实。例如，加权平均值的工作方式如下：
 
-```Plaintext
-(100ms * 10 + 200ms * 2) / (10 + 2) = 117ms (This is the average duration shown)
+```
+(100ms * 10 + 200ms * 2) / (10 + 2) = 117ms（这是显示的平均持续时间）
 ```
 
-Sentry treats this as a representation of the average across all 12 estimated spans. You can trust that metrics like `avg()` and `p90()` reflect your services' true health, adjusted for sampling.
+Sentry 将其视为所有 12 个估计跨度的平均值表示。您可以相信 `avg()` 和 `p90()` 等指标反映了您服务的真实健康状况，已针对采样进行了调整。
 
-### Sampling Warnings
+### 采样警告
 
-If your sampling rate is **too low** for an accurate extrapolation (for example, keeping less than 5% of an already low number of spans), Sentry may show a **low sampling rate warning**. This lets you know that extrapolation might be less reliable, especially for more restrictive queries.
+如果您的采样率 **太低** 而无法进行准确推断（例如，保留已经很少跨度的不到 5%），Sentry 可能会显示 **低采样率警告**。这让您知道推断可能不太可靠，特别是对于更具限制性的查询。
 
-![Trace Explorer Screenshot](./img/Trace_explorer_low_samples.png)
+![追踪浏览器截图](./img/Trace_explorer_low_samples.png)
 
-Even if you sample your spans, **Trace Explorer's extrapolation gives you reasonably accurate answers** for counts, averages, and percentiles -- without you needing to do anything extra.
+即使您对跨度进行采样，**追踪浏览器的推断也会为您提供相当准确的答案** 用于计数、平均值和百分位数——无需您做任何额外的事情。
 
-With these tools, the new Trace Explorer gives you powerful ways to understand your application’s performance, identify bottlenecks, and make informed optimizations.
+使用这些工具，新的追踪浏览器为您提供了强大的方式来了解应用程序的性能、识别瓶颈并进行明智的优化。

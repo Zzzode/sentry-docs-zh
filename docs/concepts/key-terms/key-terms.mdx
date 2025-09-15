@@ -1,67 +1,67 @@
 ---
-title: Key Terms & Features
+title: 关键术语与功能
 sidebar_order: 05
-description: "A few key terms and features to help you get a better understanding of Sentry."
+description: "一些关键术语和功能，帮助您更好地了解 Sentry。"
 ---
 
-Some of the below terms have corresponding features with the same name (in upper case) in the [Key Features](#key-features) section.
+以下部分术语在[关键功能](#关键功能)部分中具有相同名称（大写）的相应功能。
 
-## Key Terms
+## 关键术语
 
-- **alerts** - Alerts let you know about problems with your code in real-time by sending you notifications when certain alert rule conditions are met. There are several types of alerts available with customizable thresholds and integrations.
+- **警报** - 警报通过在满足某些警报规则条件时向您发送通知，让您实时了解代码中的问题。有多种类型的警报可用，具有可自定义的阈值和集成。
 
-- **attachments** - Stored additional files, such as config or log files that are related to an error event.
+- **附件** - 存储与错误事件相关的附加文件，例如配置或日志文件。
 
-- **data** - Anything you send to Sentry. This includes, events (errors or transactions), attachments, and event metadata.
+- **数据** - 您发送到 Sentry 的任何内容。这包括事件（错误或事务）、附件和事件元数据。
 
-- **distributed trace** - When a trace includes work in multiple services, it's called a [distributed trace](/concepts/key-terms/tracing/distributed-tracing/), because the trace is distributed across those services.
+- **分布式跟踪** - 当跟踪包括多个服务中的工作时，它被称为[分布式跟踪](/concepts/key-terms/tracing/distributed-tracing/)，因为跟踪分布在这些服务中。
 
-- **DSN** - Data Source Name. A DSN tells the Sentry SDK where to send events so the events are associated with the correct project. Sentry automatically assigns you a DSN when you create a project. Learn more in our full [DSN documentation](/product/sentry-basics/dsn-explainer/).
+- **DSN** - 数据源名称。DSN 告诉 Sentry SDK 将事件发送到哪里，以便事件与正确的项目关联。创建项目时，Sentry 会自动为您分配一个 DSN。在我们的完整 [DSN 文档](/product/sentry-basics/dsn-explainer/)中了解更多信息。
 
-- **environment** - `environment` is a Sentry-supported tag that you can add to your SDK that's intended to refer to your code deployments' naming convention, such as _development_, _testing_, _staging_, or _production_. Environments help you better filter issues and transactions among other uses. Learn more in our full [Environments documentation](/product/sentry-basics/environments/).
+- **环境** - `environment` 是您可以添加到 SDK 的 Sentry 支持的标签，旨在指代代码部署的命名约定，例如 _开发_、_测试_、_暂存_ 或 _生产_。环境可帮助您更好地过滤问题、事务等。在我们的完整[环境文档](/product/sentry-basics/environments/)中了解更多信息。
 
-- **error** - What counts as an error varies by platform, but in general, if there's something that looks like an exception, it can be captured as an error in Sentry. Sentry automatically captures errors, uncaught exceptions, and unhandled rejections, as well as other types of errors, depending on platform.
+- **错误** - 什么算作错误因平台而异，但总的来说，如果有看起来像异常的东西，它可以作为 Sentry 中的错误捕获。Sentry 自动捕获错误、未捕获的异常和未处理的拒绝，以及取决于平台的其他类型的错误。
 
-- **event** - An error or a transaction.
+- **事件** - 错误或事务。
 
-- **issues** - An issue is a grouping of similar errors or performance problems. Every event has a set of characteristics called its fingerprint, which is what Sentry uses to group them. For example, Sentry groups error events together when they are triggered by the same part of your code. This grouping of events into issues allows you to see how frequently a problem is happening and how many users it's affecting.
+- **问题** - 问题是相似错误或性能问题的分组。每个事件都有一组称为其指纹的特征，Sentry 使用这些特征对它们进行分组。例如，当错误事件由代码的相同部分触发时，Sentry 将它们分组在一起。将事件分组到问题中可以让您了解问题发生的频率以及它影响了多少用户。
 
-- **performance monitoring** - Performance monitoring is the act of tracking application performance and measuring metrics such as how many transactions are being sent and the average response time for all occurrences of a given transaction. To do this, Sentry captures [distributed traces](/product/sentry-basics/tracing/distributed-tracing/) consisting of transactions and [spans](/product/sentry-basics/tracing/distributed-tracing/#traces-transactions-and-spans) to measure individual services, as well as operations within those services.
+- **性能监控** - 性能监控是跟踪应用程序性能并测量指标的行为，例如发送了多少事务以及给定事务的所有实例的平均响应时间。为此，Sentry 捕获由事务和[跨度](/product/sentry-basics/tracing/distributed-tracing/#traces-transactions-and-spans)组成的[分布式跟踪](/product/sentry-basics/tracing/distributed-tracing/)，以测量单个服务以及这些服务内的操作。
 
-- **project** - A project represents your service or application in Sentry. You can create a project for a particular language or framework used in your application. For example, you might have separate projects for your API server and frontend client. For more information, check out our [best practices for creating projects](/organization/getting-started/#4-create-projects). Projects allow you to associate events with a distinct application in your organization and assign responsibility and ownership to specific users and teams within your organization.
+- **项目** - 项目代表您在 Sentry 中的服务或应用程序。您可以为应用程序中使用的特定语言或框架创建项目。例如，您可能为 API 服务器和前端客户端设置了单独的项目。有关更多信息，请查看我们[创建项目的最佳实践](/organization/getting-started/#4-create-projects)。项目允许您将事件与组织中的不同应用程序相关联，并将责任和所有权分配给组织内的特定用户和团队。
 
-- **release** - A release is a version of your code deployed to an environment. When you notify Sentry about a release, you can identify new issues and regressions associated with it, confirm whether an issue is resolved in the next release, and apply source maps. Learn more in the full [Releases documentation](/product/releases/).
+- **发布** - 发布是部署到环境的代码版本。当您通知 Sentry 发布时，您可以识别与之相关的新问题和回归，确认问题是否在下一个发布中得到解决，并应用源映射。在完整的[发布文档](/product/releases/)中了解更多信息。
 
-- **release health** - Release health data provides insight into the impact of crashes and bugs as it relates to your user's experience and reveals trends with each new issue. Learn more in the full [release health documentation](/product/releases/health/).
+- **发布健康** - 发布健康数据提供了关于崩溃和错误对用户影响的洞察，因为它与用户的体验相关，并揭示了每个新问题的趋势。在完整的[发布健康文档](/product/releases/health/)中了解更多信息。
 
-- **sentry.io** - Sentry's user interface for SaaS customers, where event data captured by our SDK is visualized. (For self-hosted users, the user interface is on an internal domain for your company.)
+- **sentry.io** - Sentry 的 SaaS 客户用户界面，其中由我们的 SDK 捕获的事件数据被可视化。（对于自托管用户，用户界面位于您公司的内部域上。）
 
-- **Sentry SDKs** - Sentry's programming language/framework-specific libraries for application monitoring. When you add one of our SDKs to your application, event data from your application is captured and sent to Sentry, so we can provide you with error and performance reports.
+- **Sentry SDK** - Sentry 的特定于编程语言/框架的应用程序监控库。当您将我们的 SDK 之一添加到您的应用程序时，来自您的应用程序的事件数据被捕获并发送到 Sentry，以便我们可以为您提供错误和性能报告。
 
-- **span** - A [span](/concepts/key-terms/tracing/distributed-tracing/#traces-transactions-and-spans) is the basic unit that traces are composed of. Multiple groups of parent-child spans make up a trace in Sentry and share a trace_id, which can help you get to the root cause of a problem faster.
+- **跨度** - [跨度](/concepts/key-terms/tracing/distributed-tracing/#traces-transactions-and-spans)是跟踪组成的基本单元。多个父-子跨度组在 Sentry 中构成一个跟踪并共享一个 trace_id，这可以帮助您更快地找到问题的根本原因。
 
-- **team** - Teams are associated with your Sentry projects, and their members receive issue notifications as a group. Learn more about [setting up teams](/organization/getting-started/#2-set-up-teams).
+- **团队** - 团队与您的 Sentry 项目相关联，其成员作为组接收问题通知。了解有关[设置团队](/organization/getting-started/#2-set-up-teams)的更多信息。
 
-- **trace** - A [trace](/concepts/key-terms/tracing/) is the record of the entire operation you want to measure or track - like page load, an instance of a user completing some action in your application, or a cron job in your backend.
+- **跟踪** - [跟踪](/concepts/key-terms/tracing/)是您想要测量或跟踪的整个操作的记录 - 如页面加载、用户在您的应用程序中完成某些操作的实例或后端中的 cron 作业。
 
-- **transaction** - A transaction represents a single instance of a service being called to support an operation you want to measure or track, like a page load, page navigation, or asynchronous task. Transaction events are grouped by the transaction name.
+- **事务** - 事务表示服务被调用的单个实例，以支持您想要测量或跟踪的操作，如页面加载、页面导航或异步任务。事务事件按事务名称分组。
 
-## Key Features
+## 关键功能
 
-Each of these key features have their own page (or set of pages) in the [sentry.io](https://sentry.io) application.
+这些关键功能中的每一个在 [sentry.io](https://sentry.io) 应用程序中都有自己的页面（或一组页面）。
 
-- **Issues** - Displays information about grouped problems in your application. From here, you can go to the **Issue Details** page for a more granular view of any issue. Learn more in the full [Issues documentation](/product/issues/).
+- **问题** - 显示有关应用程序中分组问题的信息。从这里，您可以转到**问题详细信息**页面，以更详细地查看任何问题。在完整的[问题文档](/product/issues/)中了解更多信息。
 
-- **Projects** - Lists the projects of which you're a member, by team, and provides you with a high-level overview of your projects. From here, you can go to the **Project Details** page of each project for a more granular view. Learn more in the full [Projects documentation](/product/projects/).
+- **项目** - 按团队列出您是成员的项目，并为您提供项目的高级概述。从这里，您可以转到每个项目的**项目详细信息**页面，以更详细地查看。在完整的[项目文档](/product/projects/)中了解更多信息。
 
-- **Explore** - Sentry offers multiple ways to search and investigate your application's data — including your app's traces, metrics, profiles, replays, and events — to get the information you need to debug issues more quickly and easily. Use the Discover page to query events across environments, visualize the results, and unlock insights into the health of your entire system. Learn more in the full [Explore documentation](/product/explore/).
+- **探索** - Sentry 提供了多种搜索和调查应用程序数据的方法 - 包括应用程序的跟踪、指标、配置文件、重放和事件 - 以获取您需要的信息，以便更快、更轻松地调试问题。使用 Discover 页面跨环境查询事件，可视化结果，并解锁对整个系统健康状况的洞察。在完整的[探索文档](/product/explore/)中了解更多信息。
 
-- **Insights** - Sentry surfaces insights that can help you identify opportunities at the service-level to improve various parts of your app's performance, including requests, assets, caches, queues, and more. Modules living under the Insights heading provide an overview of how your project is performing in that category, as well as the ability to review sample events and their traces to help you diagnose potential problems.
+- **洞察** - Sentry 提供洞察，帮助您识别服务级别的机会，以改善应用程序性能的各个方面，包括请求、资产、缓存、队列等。位于"洞察"标题下的模块提供了该项目在该类别中表现如何的概述，以及查看示例事件及其跟踪以帮助您诊断潜在问题的能力。
 
-- **Insights Overview** - The main view in [sentry.io](http://sentry.io) where you can search or browse for transaction data. The page displays graphs that visualize transactions or trends, as well as a table where you can view relevant transactions and drill down to more information about them. Learn more in the full [performance monitoring documentation](/product/insights/overview/).
+- **洞察概览** - [sentry.io](http://sentry.io) 中的主要视图，您可以在其中搜索或浏览事务数据。该页面显示可视化事务或趋势的图表，以及一个表格，您可以在其中查看相关事务并深入了解有关它们的更多信息。在完整的[性能监控文档](/product/insights/overview/)中了解更多信息。
 
-- **Alerts** - Where you can create new alert rules and manage existing ones. Learn more in the full [Alerts documentation](/product/alerts/).
+- **警报** - 您可以在其中创建新的警报规则并管理现有警报规则的地方。在完整的[警报文档](/product/alerts/)中了解更多信息。
 
-- **Dashboards** - Provide you with a broad overview of your application’s health by allowing you to navigate through error and performance data across multiple projects. Dashboards are made up of one or more widgets, and each widget visualizes one or more **Discover** or **Issues** queries. Learn more in the full [Dashboards documentation](/product/dashboards/).
+- **仪表板** - 通过允许您浏览多个项目的错误和性能数据，为您提供应用程序健康状况的广泛概述。仪表板由一个或多个小部件组成，每个小部件可视化一个或多个**探索**或**问题**查询。在完整的[仪表板文档](/product/dashboards/)中了解更多信息。
 
-- **Releases** - Provides a high-level view of each release version, the associated project, the adoption stage of each release, the authors of each commit, as well as release health data including the percentage of crash-free users, and the percentage of crash-free sessions. You can navigate directly to the **Releases** page or from the **Issue Details** page, by selecting release ID listed under "Last Seen". Learn more in the full [Releases documentation](/product/releases/).
+- **发布** - 提供每个发布版本的高级视图、关联的项目、每个发布的采用阶段、每个提交的作者以及发布健康数据，包括无崩溃用户的百分比和无崩溃会话的百分比。您可以直接导航到**发布**页面，或从**问题详细信息**页面通过选择"最后看到"下列出的发布 ID 导航。在完整的[发布文档](/product/releases/)中了解更多信息。

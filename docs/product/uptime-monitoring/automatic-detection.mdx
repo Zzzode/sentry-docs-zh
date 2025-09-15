@@ -1,26 +1,25 @@
 ---
-title: Automatic Detection
+title: 自动检测
 sidebar_order: 51
-description: "Learn how automatic detection of uptime monitoring works."
+description: "了解正常运行时间监控的自动检测如何工作。"
 ---
 
-In order to be able to automatically detect uptime alerts, we analyze all the URLs detected in your project's captured error data to find the hostname that appears most frequently. This helps ensure that your most critical hostname is continuously monitored, enhancing the reliability and availability of your web services. We then create an uptime alert if it passes our [uptime check criteria](/product/uptime-monitoring/#uptime-check-criteria). Automatic uptime checks are configured to run once a minute as GET requests.
+为了能够自动检测正常运行时间警报，我们分析项目捕获的错误数据中检测到的所有 URL，以找到出现最频繁的主机名。这有助于确保您最关键的主机名被持续监控，提高您的 Web 服务的可靠性和可用性。如果它通过我们的[正常运行时间检查标准](/product/uptime-monitoring/#uptime-check-criteria)，我们就会创建正常运行时间警报。自动正常运行时间检查配置为每分钟运行一次 GET 请求。
 
-The automatic creation of Uptime Monitors only happens if there are no other existing uptime monitors configured.
+只有在没有其他现有正常运行时间监控器配置的情况下，才会发生正常运行时间监控器的自动创建。
 
-To avoid creating flaky alerts, the hostname undergoes an "onboarding period" of three days. During this period, we send HTTP requests to the hostname every hour. If the request fails three times or more, the hostname will be dropped and re-evaluated after seven days.
+为了避免创建不稳定的警报，主机名会经历三天的"入职期"。在此期间，我们每小时向主机名发送 HTTP 请求。如果请求失败三次或更多次，主机名将被丢弃，并在七天后重新评估。
 
 <Alert>
-  Sentry will execute uptime checks against the hostname root path of the most
-  frequently-seen URLs. For example, if the most frequently-seen URL in your
-  events is `GET https://www.example.com/docs/introduction`, the check will be
-  `GET https://www.example.com/`.
+  Sentry 将对最频繁出现的 URL 的主机名根路径执行正常运行时间检查。例如，如果您
+  事件中最频繁出现的 URL 是 `GET https://www.example.com/docs/introduction`，检查将是
+  `GET https://www.example.com/`。
 </Alert>
 
-Once an automatically detected uptime alert has been created, you'll be able to [customize its configuration](/product/alerts/create-alerts/uptime-alert-config/), including the HTTP request method, headers, and request body.
+一旦创建了自动检测的正常运行时间警报，您将能够[自定义其配置](/product/alerts/create-alerts/uptime-alert-config/)，包括 HTTP 请求方法、标头和请求正文。
 
-## Disabling Automatic Detection
+## 禁用自动检测
 
-If you prefer not to use automatically detected uptime alerts, you can delete them directly from your [Alerts page](https://sentry.io/orgredirect/organizations/:orgslug/alerts/rules).
+如果您不想使用自动检测的正常运行时间警报，您可以直接从[警报页面](https://sentry.io/orgredirect/organizations/:orgslug/alerts/rules)删除它们。
 
-**Once deleted, these automatically detected uptime alerts will not be re-created in the future.**
+**一旦删除，这些自动检测的正常运行时间警报将不会在未来重新创建。**

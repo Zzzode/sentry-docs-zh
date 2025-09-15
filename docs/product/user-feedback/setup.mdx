@@ -1,28 +1,28 @@
 ---
-title: "Set Up"
+title: "设置"
 sidebar_order: 12
-description: "Get started with Sentry's User Feedback, which allows you to collect feedback from your users."
+description: "开始使用 Sentry 的用户反馈，它允许您从用户那里收集反馈。"
 ---
 
-With User Feedback, you can collect feedback from your users via three methods:
-1. A Feedback Widget that can be displayed anywhere in your application (various SDKs and loader script)
-2. A Crash-Report Modal that pops up automatically when your users experience a crash (HTML script)
-3. An API that you can attach to your own interface (various SDKs and web API)
+通过用户反馈，您可以通过三种方法从用户那里收集反馈：
+1. 可以在应用程序中任何位置显示的反馈小组件（各种 SDK 和加载器脚本）
+2. 当用户遇到崩溃时自动弹出的崩溃报告模态框（HTML 脚本）
+3. 您可以附加到自己界面的 API（各种 SDK 和 Web API）
 
-To get instructions for how to set it up and start collecting feedback, click a link for one of the supported SDKs below.
+要获取如何设置和开始收集反馈的说明，请点击下面支持的 SDK 之一的链接。
 
-## Supported SDKs for User Feedback Widget
+## 用户反馈小组件的支持 SDK
 
-The User Feedback widget can be used on all browser-based applications. This includes static websites, single-page-applications, and also server-side-rendered, including frameworks such as:
-[Django](/platforms/python/integrations/django/),
-[Spring](/platforms/java/guides/spring-boot/),
-[ASP.NET](/platforms/dotnet/guides/aspnetcore/),
-[Laravel](/platforms/php/guides/laravel/),
-[Express](/platforms/javascript/guides/express/) and
-[Rails](/platforms/ruby/guides/rails/).
-If you don't use `npm` or `yarn`, you can use [our Loader `script` tag](/platforms/javascript/install/loader/) on your main HTML template.
+用户反馈小组件可用于所有基于浏览器的应用程序。这包括静态网站、单页应用程序，以及服务器端渲染，包括以下框架：
+[Django](/platforms/python/integrations/django/)、
+[Spring](/platforms/java/guides/spring-boot/)、
+[ASP.NET](/platforms/dotnet/guides/aspnetcore/)、
+[Laravel](/platforms/php/guides/laravel/)、
+[Express](/platforms/javascript/guides/express/) 和
+[Rails](/platforms/ruby/guides/rails/)。
+如果您不使用 `npm` 或 `yarn`，您可以在主 HTML 模板中使用[我们的加载器 `script` 标签](/platforms/javascript/install/loader/)。
 
-The Sentry SDK that injects the Feedback widget runs on the client's browser, and it’s built-in to `@sentry/browser` and our browser framework SDKs:
+注入反馈小组件的 Sentry SDK 在客户端浏览器上运行，它内置于 `@sentry/browser` 和我们的浏览器框架 SDK 中：
 
 - [Vanilla JavaScript](/platforms/javascript/user-feedback/)
 - [Angular](/platforms/javascript/guides/angular/user-feedback/)
@@ -38,18 +38,18 @@ The Sentry SDK that injects the Feedback widget runs on the client's browser, an
 - [SvelteKit](/platforms/javascript/guides/sveltekit/user-feedback/)
 - [Vue](/platforms/javascript/guides/vue/user-feedback/)
 
-## Crash Report Modal
+## 崩溃报告模态框
 
-The Crash Report Modal allows users to submit feedback after they experience an error, via an automatic modal that pops up after an error occurs. This is done by adding a script tag to your HTML template.
+崩溃报告模态框允许用户在遇到错误后提交反馈，通过错误发生后自动弹出的模态框。这是通过向您的 HTML 模板添加脚本标签来完成的。
 
 - [JavaScript](/platforms/javascript/user-feedback/#crash-report-modal)
 - [PHP](/platforms/php/user-feedback/#crash-report-modal)
 
-## Supported SDKs for User Feedback API
+## 用户反馈 API 的支持 SDK
 
-We also provide an API to send user feedback programmatically. This allows you to connect your own user interface to Sentry. If your SDK is not supported, you may post data to the [Web API](/api/projects/submit-user-feedback/).
+我们还提供了一个 API 来以编程方式发送用户反馈。这允许您将自己的用户界面连接到 Sentry。如果您的 SDK 不受支持，您可以将数据发布到 [Web API](/api/projects/submit-user-feedback/)。
 
-The following SDKs are supported:
+支持以下 SDK：
 - [Android](/platforms/android/user-feedback/#user-feedback-api)
 - [Apple](/platforms/apple/user-feedback/#user-feedback-api)
 - [Dart](/platforms/dart/user-feedback/#user-feedback-api)

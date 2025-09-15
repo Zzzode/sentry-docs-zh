@@ -1,61 +1,61 @@
 ---
-title: Flame Graphs and Aggregated Flame Graphs
+title: 火焰图和聚合火焰图
 sidebar_order: 100
-description: "Learn more about how to interpret flame graphs and aggregated flame graphs."
+description: "了解更多关于如何解释火焰图和聚合火焰图的信息。"
 ---
 
-Profiling data can be used to gain insight into what methods and lines of your code are slow. But getting this type of insight requires an understanding of how profiling data is represented and visualized. Sentry uses both flame graphs and aggregated flame graphs to visualize profile data. We'll explain how to read them below.
+性能分析数据可用于深入了解哪些方法和代码行很慢。但获得这种类型的洞察需要了解性能分析数据如何表示和可视化。Sentry 使用火焰图和聚合火焰图来可视化性能分析数据。我们将在下面解释如何阅读它们。
 
-## What are Flame Graphs?
+## 什么是火焰图？
 
-Flame graphs show stack samples in chronological order over the duration of a single profile. Each rectangle in the visualization represents a stack frame. The X-axis on a flame graph represents time, while the Y-axis shows the execution stack at that time. This makes it possible to see what your program was executing at any given point while the profile was being collected.
+火焰图按时间顺序显示单个性能分析持续时间内堆栈样本。可视化中的每个矩形代表一个堆栈框架。火焰图上的 X 轴表示时间，而 Y 轴显示该时间的执行堆栈。这使得可以看到在收集性能分析时程序在任何给定点的执行情况。
 
-![Profiling details page with a flame graph](./img/profile-flame-chart.png)
+![带有火焰图的性能分析详情页面](./img/profile-flame-chart.png)
 
-The most important things to look at when interpreting flame graphs are the **color** and **width** of the rectangle representing each frame on the stack.
+解释火焰图时，最重要的要看的是代表堆栈上每个框架的矩形的**颜色**和**宽度**。
 
-### Color
+### 颜色
 
-Color schemes vary, but by default in Sentry, system functions are colored red, and application functions are blue.
+配色方案各不相同，但默认情况下，在 Sentry 中，系统函数为红色，应用程序函数为蓝色。
 
-If your code is slow because of red system frames, there's usually not much you can do to speed it up. However, you can influence the execution of any blue application frames in your code.
+如果您的代码因为红色系统框架而变慢，通常没有太多可以加速的方法。但是，您可以影响代码中任何蓝色应用程序框架的执行。
 
-As an example, consider a function called `readFile` that reads a file from the disk. While you can't modify the underlying kernel `open()` system call that's called, you can change your application code to only call that function once, and reuse the file contents afterward. This would reduce disk I/O (a common performance bottleneck).
+例如，考虑一个从磁盘读取文件的名为 `readFile` 的函数。虽然您无法修改被调用的底层内核 `open()` 系统调用，但您可以更改应用程序代码以仅调用该函数一次，然后重用文件内容。这将减少磁盘 I/O（一个常见的性能瓶颈）。
 
-### Width
+### 宽度
 
-The width of each stack frame's rectangle represents the time spent in that function. By looking at a flame graph, we can see two key pieces of information: **function total time** and **function self-time**.
+每个堆栈框架的矩形的宽度表示在该函数中花费的时间。通过查看火焰图，我们可以看到两个关键信息：**函数总时间**和**函数自身时间**。
 
-Function total time refers to how long it takes for a function _and all of its children to execute_. Function self-time refers to how much time the function itself takes to execute, excluding the time spent in child functions.
+函数总时间指的是函数*及其所有子函数执行*需要多长时间。函数自身时间指的是函数本身执行需要多长时间，不包括在子函数中花费的时间。
 
-Let's look at an example to understand the difference.
+让我们看一个例子来理解区别。
 
-![A flame graph from Sentry](./img/flame-chart.png)
+![来自 Sentry 的火焰图](./img/flame-chart.png)
 
-This image shows a section of a flame graph, starting with the function `OffsetPaginator.get_result`, which takes 2.14s to execute. 2.14s is the function's **total time**. Looking further down the stack, you can see that nearly the full 2.14s is taken up by the child function, `CursorWrapper.execute`, which executes a slow database query.
+此图像显示了火焰图的一部分，从函数 `OffsetPaginator.get_result` 开始，该函数需要 2.14 秒才能执行。2.14 秒是函数的**总时间**。进一步查看堆栈，您可以看到几乎完整的 2.14 秒被子函数 `CursorWrapper.execute` 占用，该函数执行缓慢的数据库查询。
 
-In this example, the **self-time** of the parent function, `OffsetPaginator.get_result`, is close to 0ms while both the **self-time** _and_ the **total time** of `CursorWrapper.execute` are nearly 2.14.
+在此示例中，父函数 `OffsetPaginator.get_result` 的**自身时间**接近 0 毫秒，而 `CursorWrapper.execute` 的**自身时间**和**总时间**都接近 2.14。
 
-## What are Aggregated Flame Graphs?
+## 什么是聚合火焰图？
 
-While flame graphs are used to represent stack samples of a single profile in chronological order, aggregated flame graphs represent stack _populations_ of your profiled program. They optimize for merging stacks to display aggregate function durations.
+虽然火焰图用于按时间顺序表示单个性能分析的堆栈样本，但聚合火焰图表示性能分析程序的堆栈*总体*。它们优化合并堆栈以显示聚合函数持续时间。
 
-As with flame graphs, each rectangle represents a stack frame, but in aggregated flame graphs, the X-axis doesn't represent time, instead, it shows all the stack profiles, sorted alphabetically. The wider a frame is, the more _often_ it was present in a stack.
+与火焰图一样，每个矩形代表一个堆栈框架，但在聚合火焰图中，X 轴不表示时间，而是显示所有堆栈配置文件，按字母顺序排序。框架越宽，它在堆栈中*出现*的频率就越高。
 
-Aggregating stacks this way helps you find performance optimizations by visualizing the code that most frequently occupies your program's call stack.
+以这种方式聚合堆栈有助于通过可视化最频繁占用程序调用堆栈的代码来找到性能优化。
 
-![A flame graph showing a program that generates the fibonacci sequence](./img/fib-flame-chart.png)
+![显示生成斐波那契数列的程序的火焰图](./img/fib-flame-chart.png)
 
-![An aggregated flame graph showing a program that generates the fibonacci sequence](./img/fib-flame-graph.png)
+![显示生成斐波那契数列的程序的聚合火焰图](./img/fib-flame-graph.png)
 
-_The same profile data, visualized in a aggregated flame graph on top and a flame graph on the bottom._
+*相同性能分析数据，顶部可视化为聚合火焰图，底部可视化为火焰图。*
 
 <Alert>
 
-The first aggregated flame graph above is shown "flames down", and the second aggregated flame graph is shown "flames up". Whether you choose to look at a aggregated flame graph in a flames up or a flames down view is a matter of personal preference. The information is identical.
+上面的第一个聚合火焰图显示为"火焰向下"，第二个聚合火焰图显示为"火焰向上"。您选择以火焰向上还是火焰向下视图查看聚合火焰图是个人偏好的问题。信息是相同的。
 
 </Alert>
 
-In sentry.io, aggregated flame graphs are displayed on your profile summary page. The aggregated flame graphs on this page are created using data from many different profiles so that you can see the most common performance bottlenecks in your program.
+在 sentry.io 中，聚合火焰图显示在您的性能分析摘要页面上。此页面上的聚合火焰图是使用来自许多不同性能分析的数据创建的，以便您可以看到程序中最常见的性能瓶颈。
 
-![The aggregated flame graph view](./img/aggregated-flame-graph-view.png)
+![聚合火焰图视图](./img/aggregated-flame-graph-view.png)

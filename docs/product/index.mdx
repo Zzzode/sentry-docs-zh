@@ -1,77 +1,77 @@
 ---
-title: Product Walkthroughs
+title: 产品导览
 sidebar_order: 30
-description: "Sentry can be used to not just observe, but debug errors as well as identify performance issues. Check out our product walkthroughs to see it in action."
+description: "Sentry 不仅可以用于观察，还可以调试错误以及识别性能问题。查看我们的产品导览，了解它的实际应用。"
 ---
 
-## What's Sentry?
+## 什么是 Sentry？
 
-Sentry is a software monitoring tool that helps developers identify and debug performance issues and errors. From end-to-end distributed tracing to performance monitoring, Sentry provides code-level observability that makes it easy to diagnose issues and learn continuously about your application code health across systems and services.
+Sentry 是一个软件监控工具，帮助开发者识别和调试性能问题和错误。从端到端分布式跟踪到性能监控，Sentry 提供代码级可观察性，使诊断问题和持续了解应用程序代码在系统和服务间的健康状况变得容易。
 
-## What Can Sentry Help With?
+## Sentry 能帮助解决什么？
 
-As a full-stack application monitoring solution, Sentry provides the following features to help you keep your app running smoothly and your users happy:
+作为全栈应用程序监控解决方案，Sentry 提供以下功能来帮助您保持应用程序平稳运行和用户满意：
 
-### Error Monitoring
+### 错误监控
 
-Sentry's error monitoring capabilities make it possible to quickly get to the root of a problem so you can understand and fix what's broken.
+Sentry 的错误监控功能使您能够快速找到问题的根本原因，以便了解并修复损坏的内容。
 
-Sentry automatically captures unhandled exceptions (errors). It then groups similar errors into [issues](/product/issues/), making it possible to triage and manage them more efficiently.
+Sentry 自动捕获未处理的异常（错误）。然后它将类似的错误分组为 [问题](/product/issues/)，使分类和管理它们更加高效。
 
-- If you're monitoring a web project, you can [**replay**](/product/explore/session-replay/) what the user experienced on your app and connect that error to the problematic line of code with [**source maps**](/product/sentry-basics/integrate-frontend/upload-source-maps/).
-- If you set up Sentry for both your frontend and backend, you'll be able to use [**distributed tracing**](/product/sentry-basics/concepts/tracing/distributed-tracing/) to see the sequence of events (both frontend and backend) that led up to the event of interest.
-- Additionally, you can set up [**integrations**](/organization/integrations/source-code-mgmt/) to link your source code so that Sentry can surface [**suspect commits**](/product/issues/suspect-commits/) and [**stack traces**](/organization/integrations/source-code-mgmt/github/#stack-trace-linking) to show the problematic line of code, as well as [**suggest assignees**](/organization/integrations/source-code-mgmt/github/#suspect-commits-and-suggested-assignees) for issues based on commit authors.
+- 如果您正在监控 Web 项目，您可以 [**重播**](/product/explore/session-replay/) 用户在您的应用上的体验，并通过 [**源映射**](/product/sentry-basics/integrate-frontend/upload-source-maps/) 将该错误连接到有问题的代码行。
+- 如果您同时为前端和后端设置 Sentry，您将能够使用 [**分布式跟踪**](/product/sentry-basics/concepts/tracing/distributed-tracing/) 查看导致感兴趣事件的（前端和后端）事件序列。
+- 此外，您可以设置 [**集成**](/organization/integrations/source-code-mgmt/) 来链接您的源代码，以便 Sentry 可以显示 [**可疑提交**](/product/issues/suspect-commits/) 和 [**堆栈跟踪**](/organization/integrations/source-code-mgmt/github/#stack-trace-linking) 以显示有问题的代码行，以及基于提交作者 [**建议受让人**](/organization/integrations/source-code-mgmt/github/#suspect-commits-and-suggested-assignees) 的问题。
 
-### Tracing
+### 跟踪
 
-Tracing gives you a full view of what's happening in your application from the frontend to the backend and between systems, by looking at interactions between various components of your stack. This is especially useful if you rely on microservices or are trying to find the root cause of a difficult user complaint. With [distributed tracing](/concepts/key-terms/tracing/distributed-tracing/), you can quickly identify performance bottlenecks.
+跟踪通过查看堆栈各个组件之间的交互，为您提供应用程序中发生的情况从前端到后端以及系统之间的完整视图。如果您依赖微服务或试图找到困难用户投诉的根本原因，这尤其有用。通过 [分布式跟踪](/concepts/key-terms/tracing/distributed-tracing/)，您可以快速识别性能瓶颈。
 
-You can also get full context about what was happening when an error or performance issue occurred by looking at the [Trace View](/concepts/key-terms/tracing/trace-view/) page. This will allow you to among other things, trace slow-loading pages all the way back to poor-performing API calls. Lastly, you can use the [Trace Explorer](/product/explore/traces/) page to search span data, including conditions relating to the structure of the trace itself.
+您还可以通过查看 [跟踪视图](/concepts/key-terms/tracing/trace-view/) 页面获取有关错误或性能问题发生时发生的情况的完整上下文。这将使您能够除其他事项外，将加载缓慢的页面一直追溯到性能不佳的 API 调用。最后，您可以使用 [跟踪浏览器](/product/explore/traces/) 页面搜索跨度数据，包括与跟踪本身结构相关的条件。
 
-### Profiling
+### 性能分析
 
-Sentry [**Profiling**](/product/profiling/) provides code-level insights into your application performance in production so you can find and fix problematic lines of code faster. You can profile code in any environment your application is running on so you can quickly see which functions are causing a slow span.
+Sentry [**性能分析**](/product/profiling/) 提供对生产环境中应用程序性能的代码级洞察，以便您可以更快地找到并修复有问题的代码行。您可以在应用程序运行的任何环境中分析代码，以便快速查看哪些函数导致了缓慢的跨度。
 
-### Performance Monitoring
+### 性能监控
 
-Our performance monitoring feature helps you track application performance, measure metrics like throughput and latency, and see the impact of errors across multiple services.
+我们的性能监控功能帮助您跟踪应用程序性能，测量吞吐量和延迟等指标，并查看跨多个服务的错误影响。
 
-- Sentry provides insights to help you monitor your app's performance. This includes web vitals, mobile vitals, queries, HTTP requests, and more. You can drill into event samples to investigate variations in performance.
+- Sentry 提供洞察来帮助您监控应用程序的性能。这包括 Web 指标、移动指标、查询、HTTP 请求等。您可以深入研究事件样本以调查性能变化。
 
-### Release Health Monitoring
+### 发布健康监控
 
-Giving Sentry visibility into your [**releases**](/product/releases/) makes it possible to see the moment a release starts to degrade so you can quickly take action. You get real-time visibility across your releases, allowing you to see core metrics like crash-free sessions, version adoption, and failure rate.
+让 Sentry 了解您的 [**发布**](/product/releases/) 使您能够看到发布开始退化的那一刻，以便您可以快速采取行动。您可以实时了解所有发布的情况，让您查看核心指标，如无崩溃会话、版本采用率和失败率。
 
-Releases are integrated with the rest of Sentry so you can directly see how an error or performance issue was affected by a release, in addition to being able to resolve release-specific issues.
+发布与 Sentry 的其余部分集成，因此您可以直接查看错误或性能问题如何受到发布的影响，以及能够解决发布特定的问题。
 
-### AI Agents Monitoring
+### AI 代理监控
 
-Our [**AI Agents Monitoring**](/product/insights/ai/agents/) feature gives you insights into your AI agent workflows within the broader context of your app. When you `pip install sentry` into a project using AI agents, Sentry will automatically pick up useful metrics like agent invocations, tool executions, handoffs between agents, and token usage, sending them to our AI Agents Insights dashboard.
+我们的 [**AI 代理监控**](/product/insights/ai/agents/) 功能让您在应用程序的更广泛背景下了解您的 AI 代理工作流程。当您在使用 AI 代理的项目中 `pip install sentry` 时，Sentry 将自动获取有用的指标，如代理调用、工具执行、代理之间的交接和令牌使用情况，将它们发送到我们的 AI 代理洞察仪表板。
 
-### Uptime Monitoring
+### 正常运行时间监控
 
-Sentry's [**Uptime Monitoring**](/product/uptime-monitoring/) helps you maintain uptime for your web services by monitoring relevant URLs. It continuously tracks configured URLs, delivering alerts and insights to quickly identify downtime and troubleshoot issues. By leveraging [distributed tracing](/product/uptime-monitoring/uptime-tracing/), Sentry enables you to pinpoint any errors that occur during an uptime check, simplifying triage and accelerating root cause analysis. Uptime monitoring includes [uptime request spans](/product/uptime-monitoring/#uptime-request-spans) by default. These act as the root of any uptime issue's trace, giving you better context for faster debugging. 
+Sentry 的 [**正常运行时间监控**](/product/uptime-monitoring/) 通过监控相关 URL 帮助您保持 Web 服务的正常运行时间。它持续跟踪配置的 URL，提供警报和洞察，以快速识别停机时间并解决问题。通过利用 [分布式跟踪](/product/uptime-monitoring/uptime-tracing/)，Sentry 使您能够精确定位正常运行时间检查期间发生的任何错误，简化分类并加速根本原因分析。
 
-### Recurring Job Monitoring
+### 周期性作业监控
 
-[**Cron Monitors**](/product/crons/) allows you to monitor the uptime and performance of any scheduled, recurring job in Sentry. Once implemented, it'll allow you to get alerts and metrics to help you solve errors, detect timeouts, and prevent disruptions to your service.
+[**Cron 监控器**](/product/crons/) 允许您在 Sentry 中监控任何计划、周期性作业的正常运行时间和性能。一旦实施，它将允许您获得警报和指标，帮助您解决错误、检测超时并防止服务中断。
 
-### Visibility Into Your Data Across Environments
+### 跨环境的数据可见性
 
-[**Discover**](/product/explore/discover-queries/) provides visibility into your data across environments by building upon and enriching your error data. You can [**query**](/product/explore/discover-queries/query-builder/) and unlock insights into the health of your entire system and get answers to critical business questions — all in one place. You can also build your own [**dashboards**](/product/dashboards/) to help you monitor what's most important for your app.
+[**发现**](/product/explore/discover-queries/) 通过构建和丰富您的错误数据，提供跨环境的数据可见性。您可以 [**查询**](/product/explore/discover-queries/query-builder/) 并解锁对整个系统健康状况的洞察，并在一个地方获得关键业务问题的答案。您还可以构建自己的 [**仪表板**](/product/dashboards/) 来帮助您监控对您的应用最重要的内容。
 
-### Code Coverage
+### 代码覆盖率
 
-[Codecov](/product/codecov/) provides **test code coverage** for developers. It helps improve testing, coverage, and code reliability, allowing you to get test coverage insights directly in Sentry while monitoring your errors.
+[Codecov](/product/codecov/) 为开发者提供 **测试代码覆盖率**。它帮助改进测试、覆盖率和代码可靠性，让您在监控错误时直接在 Sentry 中获得测试覆盖率洞察。
 
-### Seamless Developer Workflow
+### 无缝开发者工作流程
 
-Sentry provides many [**integrations**](/organization/integrations/) to support a seamless developer workflow, including:
+Sentry 提供许多 [**集成**](/organization/integrations/) 来支持无缝开发者工作流程，包括：
 
-- [Source code management](/organization/integrations/source-code-mgmt/), code mapping, code owners, and suspect commits with GitHub, GitLab, Azure DevOps, and Bitbucket.
-- [Issue tracking](/organization/integrations/issue-tracking/) with Jira, GitHub, and many other tools.
-- [Alerts and notifications](/organization/integrations/notification-incidents/) with Slack, Discord, PagerDuty, and more.
+- [源代码管理](/organization/integrations/source-code-mgmt/)、代码映射、代码所有者和与 GitHub、GitLab、Azure DevOps 和 Bitbucket 的可疑提交。
+- [问题跟踪](/organization/integrations/issue-tracking/) 与 Jira、GitHub 和许多其他工具。
+- [警报和通知](/organization/integrations/notification-incidents/) 与 Slack、Discord、PagerDuty 等。
 
-### SDK Support for Over 100 Platforms
+### 支持 100 多个平台的 SDK
 
-Sentry supports over [100 platforms and frameworks](/platforms/), including 30+ coding languages, so you can track errors and performance issues no matter what your application is built on. Our SDKs have you covered so you can get started with Sentry in just a few lines of code.
+Sentry 支持 [100 多个平台和框架](/platforms/)，包括 30 多种编程语言，因此无论您的应用程序构建在什么之上，您都可以跟踪错误和性能问题。我们的 SDK 为您提供保障，因此您只需几行代码即可开始使用 Sentry。

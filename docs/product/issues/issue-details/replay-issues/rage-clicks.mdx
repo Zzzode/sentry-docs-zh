@@ -1,47 +1,47 @@
 ---
-title: Rage Click Issues
+title: 愤怒点击问题
 sidebar_order: 40
-description: "Learn about Session Replay rage click issues."
+description: "了解会话重放愤怒点击问题。"
 ---
 
-If you've enabled [Session Replay](/product/explore/session-replay/), you'll be able to see rage click issues on the [**Issues**](https://sentry.io/orgredirect/organizations/:orgslug/issues/) page in Sentry. Rage clicks are a series of consecutive clicks on the same unresponsive page element. They are a strong signal of user frustration and most likely deserve your attention.
+如果您启用了[会话重放](/product/explore/session-replay/)，您将能够在Sentry的[**问题**](https://sentry.io/orgredirect/organizations/:orgslug/issues/)页面上看到愤怒点击问题。愤怒点击是在同一无响应页面元素上的一系列连续点击。它们是用户沮丧的强烈信号，很可能值得您关注。
 
-![Rage click issue](./img/rage-click-issue-details.png)
+![愤怒点击问题](./img/rage-click-issue-details.png)
 
-## Prerequisites for Seeing Rage Clicks
+## 查看愤怒点击的前提条件
 
-In order to see rage clicks in your issue stream on the **Issues** page, your organization needs to:
+为了能够在**问题**页面的问题流中看到愤怒点击，您的组织需要：
 
-- Be sending [Session Replay events](/product/explore/session-replay/getting-started/)
-- Enable the JavaScript SDK (or framework-specific bundle), version 7.60.1 or higher
+- 正在发送[会话重放事件](/product/explore/session-replay/getting-started/)
+- 启用JavaScript SDK（或框架特定包），版本7.60.1或更高
 
 <Alert>
-While you can enable **Session Replay** with JavaScript SDK version 7.27.0, or higher, you'll need to have version 7.60.1 or higher in order to be able to see **rage click issues**.
+虽然您可以使用JavaScript SDK版本7.27.0或更高版本启用**会话重放**，但您需要版本7.60.1或更高版本才能看到**愤怒点击问题**。
 </Alert>
 
-## Detection Criteria
+## 检测标准
 
-"Dead clicks" (also called "slow clicks") are only detected on `<button>`, `<input>`, and `<a>` elements that don't lead to updates to the DOM or a page scroll within 7 seconds. When the user clicks on one of these elements 3 or more times within that 7-second timeframe, it indicates frustration, and the SDK registers a "rage click".
+"死点击"（也称为"慢点击"）仅在`<button>`、`<input>`和`<a>`元素上检测到，这些元素在7秒内不会导致DOM更新或页面滚动。当用户在7秒时间范围内点击这些元素3次或更多次时，表示沮丧，SDK会注册一个"愤怒点击"。
 
-You can configure Replay to ignore specific selectors if you are seeing [too many rage clicks](/platforms/javascript/session-replay/troubleshooting/#why-am-i-seeing-too-many-or-too-few-rage-clicks) reported. For example, you might want to ignore clicks on "Print" or "Download" buttons.
+如果您看到[太多愤怒点击](/platforms/javascript/session-replay/troubleshooting/#why-am-i-seeing-too-many-or-too-few-rage-clicks)被报告，您可以配置重放忽略特定选择器。例如，您可能想要忽略"打印"或"下载"按钮上的点击。
 
-## Get Rage Click Alerts
+## 获取愤怒点击警报
 
-To set up alerts and get notified when a rage click occurs, follow these steps:
+要设置警报并在愤怒点击发生时收到通知，请按照以下步骤操作：
 
-1. Create a new [Alert Rule](https://sentry.io/orgredirect/organizations/:orgslug/alerts/new/issue/) in Sentry.
-2. In the "Set conditions" section, set the "IF" filter to "The issue's category is equal to", then choose "Replay" from the dropdown.
-3. Add an optional filter if you like.
-5. Choose the action to be performed in the "THEN" dropdown.
-6. Decide how often you'd like Sentry to look for rage click issues.
-7. Lastly, name your alert and add an owner.
+1. 在Sentry中创建新的[警报规则](https://sentry.io/orgredirect/organizations/:orgslug/alerts/new/issue/)。
+2. 在"设置条件"部分，将"IF"过滤器设置为"问题的类别等于"，然后从下拉菜单中选择"重放"。
+3. 根据需要添加可选过滤器。
+5. 在"THEN"下拉菜单中选择要执行的操作。
+6. 决定您希望Sentry多久查找一次愤怒点击问题。
+7. 最后，命名您的警报并添加所有者。
 
-## Turn Off Rage Click Issues
+## 关闭愤怒点击问题
 
-If you don't want to see rage click issues, you can disable them, follow these steps:
-1. Go to the [Settings > Projects](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/) page in Sentry.
-2. Select a project from the list.
-3. Go to the "Replays" sub-page for this project under the "Processing" heading.
-4. Toggle off "Create Rage Click Issues".
+如果您不想看到愤怒点击问题，可以禁用它们，请按照以下步骤操作：
+1. 转到Sentry中的[设置 > 项目](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/)页面。
+2. 从列表中选择一个项目。
+3. 转到该项目在"处理"标题下的"重放"子页面。
+4. 关闭"创建愤怒点击问题"。
 
-![Turning off rage click issues](./img/Turning-off-rage-clicks-toggle.png)
+![关闭愤怒点击问题](./img/Turning-off-rage-clicks-toggle.png)

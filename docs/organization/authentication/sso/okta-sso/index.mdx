@@ -1,65 +1,65 @@
 ---
 title: "Okta SSO"
 sidebar_order: 2
-description: "Set up Okta single sign-on (SSO) on Sentry."
+description: "在 Sentry 上设置 Okta 单点登录 (SSO)。"
 ---
 
-## Installation
+## 安装
 
 <Alert level="warning">
 
-If you change your organization slug, you'll need to make the same update in the steps where you enter the SAML configuration values.
+如果您更改组织 slug，您需要在输入 SAML 配置值的步骤中进行相同的更新。
 
 </Alert>
 
-1. Sign in to your Okta organization with your administrator account.
+1. 使用您的管理员账户登录到您的 Okta 组织。
 
-1. From the admin console's sidebar, click **Applications > Applications**, then click on "Browse App Catalog" (or "Add Application" for the old interface).
+1. 从管理员控制台侧边栏，点击 **应用程序 > 应用程序**，然后点击"浏览应用目录"（或旧界面的"添加应用程序"）。
 
-1. Search for `Sentry`, then click "Add Integration" to be brought to the setup wizard.
+1. 搜索 `Sentry`，然后点击"添加集成"以进入设置向导。
 
-   ![Sentry in Okta Gallery of Integrations](./img/okta-gallery.png)
+   ![Okta 集成库中的 Sentry](./img/okta-gallery.png)
 
-1. Provide the settings. Note that for "1. General Settings", you will not need to provide any special settings. For "2. Sign On Options", provide the following:
+1. 提供设置。请注意，对于"1. 常规设置"，您不需要提供任何特殊设置。对于"2. 登录选项"，请提供以下内容：
 
-   - Base URL: `https://sentry.io` <Alert level="warning">Ensure that the Base URL does not have a trailing slash or whitespace at the end as they will break the redirect from Okta to Sentry.</Alert>
+   - 基本 URL：`https://sentry.io` <Alert level="warning">确保基本 URL 末尾没有斜杠或空格，因为它们会破坏从 Okta 到 Sentry 的重定向。</Alert>
 
-   - Organization Slug: _YOUR_ORG_SLUG_
+   - 组织 Slug：_YOUR_ORG_SLUG_
 
-     - You can find your organization slug in the URL: `https://sentry.io/organizations/YOUR_ORG_SLUG/`
+     - 您可以在 URL 中找到您的组织 slug：`https://sentry.io/organizations/YOUR_ORG_SLUG/`
 
-   - Email: `Email`
+   - 电子邮件：`电子邮件`
 
-   ![Configuring Sentry in Okta](./img/okta-settings-for-sentry.png)
+   ![在 Okta 中配置 Sentry](./img/okta-settings-for-sentry.png)
 
-1. Click "Save" to create the Sentry app.
+1. 点击"保存"以创建 Sentry 应用。
 
-1. When you're redirected to the app settings page, click "Sign On".
+1. 当您被重定向到应用设置页面时，点击"登录"。
 
-1. Copy the "Metadata URL" in the set up instructions.
+1. 在设置说明中复制"元数据 URL"。
 
-   ![Okta metadata URL in setup instructions](./img/okta-setup-instructions-page.png)
+   ![设置说明页面中的 Okta 元数据 URL](./img/okta-setup-instructions-page.png)
 
-1. Sign in to Sentry. Select **Settings > Auth > Configure Okta**.
+1. 登录到 Sentry。选择 **设置 > 身份验证 > 配置 Okta**。
 
-   ![Sentry single sign-on configuration page](./img/okta-sentry-sso-settings-page.png)
+   ![Sentry 单点登录配置页面](./img/okta-sentry-sso-settings-page.png)
 
-1. Paste the Metadata URL from Step 8, then click "Continue".
+1. 粘贴来自第 8 步的元数据 URL，然后点击"继续"。
 
-   ![Sentry single sign-on configuration for Okta](./img/okta-sentry-settings-metadata-url.png)
+   ![Sentry 的 Okta 单点登录配置](./img/okta-sentry-settings-metadata-url.png)
 
-Sentry will attempt to authenticate and link your account with Okta. After successful authentication, you'll be redirected to Sentry's SSO configuration page, where you can:
+Sentry 将尝试验证您的身份并将您的账户与 Okta 链接。成功验证后，您将被重定向到 Sentry 的 SSO 配置页面，您可以在其中：
 
-- Share the "Login URL" value, which will be used for SP-initiated SSO, with the users in your organization.
+- 与组织中的用户共享将用于 SP 发起的 SSO 的"登录 URL"值。
 
-- Scroll down to the bottom and ensure that "Require SSO" is checked if you want to enforce logging in with Okta.
+- 向下滚动到底部，如果您想强制使用 Okta 登录，请确保选中"需要 SSO"。
 
-- Set a "Default Role" for new SSO users. Selecting "Member" should cover most use cases.
+- 为新 SSO 用户设置"默认角色"。选择"成员"应该涵盖大多数用例。
 
-If you make any changes, click "Save Settings" to complete your set up.
+如果您进行任何更改，请点击"保存设置"以完成设置。
 
-![Sentry single sign-on settings for Okta](./img/okta-sentry-settings-for-okta.png)
+![Okta 的 Sentry 单点登录设置](./img/okta-sentry-settings-for-okta.png)
 
-## SCIM Integration
+## SCIM 集成
 
-- See [Okta SCIM Provisioning](okta-scim).
+- 请参阅 [Okta SCIM 配置](okta-scim)。

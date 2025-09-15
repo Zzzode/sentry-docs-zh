@@ -1,71 +1,67 @@
 ---
-title: Issue Views
+title: 问题视图
 sidebar_order: 9
-description: "Learn how to create, customize, and share your Issues experience in Sentry."
+description: "了解如何在Sentry中创建、自定义和共享您的问题体验。"
 ---
 
-Issue views let you customize and share your issue stream, so you and your teammates can quickly see the issues that are most relevant to you.
+问题视图让您自定义和共享您的问题流，以便您和您的队友可以快速看到与您最相关的问题。
 
-## Creating Your First View
+## 创建您的第一个视图
 
-To create your first custom issue view, navigate to the [**All Views**](https://sentry.io/orgredirect/organizations/:orgslug/issues/views/) page and click the **`+ Create View`** button on the top right.
+要创建您的第一个自定义问题视图，请导航到[**所有视图**](https://sentry.io/orgredirect/organizations/:orgslug/issues/views/)页面并点击右上角的**`+ 创建视图`**按钮。
 
-![All Views Page](./img/issue_views_all_views_create_view.png)
+![所有视图页面](./img/issue_views_all_views_create_view.png)
 
-This will create a new starred view, which you can than update with the filters of your choosing. Some common use cases for views include:
+这将创建一个新的星标视图，然后您可以用您选择的过滤器进行更新。视图的一些常见用例包括：
 
-**Prioritized:** A view containing only issues with high or medium priority
+**优先：** 仅包含高或中优先级问题的视图
 
-**Assigned to Me:** A view for issues assigned to yourself and your teams
+**分配给我：** 分配给您自己和您的团队的问题的视图
 
-**For Review:** A view for issues that have been assigned to you or your teams to review
+**待审核：** 已分配给您或您的团队审核的问题的视图
 
-**Request Errors:** A view for issues with requests that returned a 500 status code
+**请求错误：** 请求返回500状态代码的问题的视图
 
-**High Volume Errors:**  A view for issues that have occurred a large number of times
+**高容量错误：** 发生大量次数的问题的视图
 
-**Recent Errors:** A view containing issues that have appeared in the last day
+**最近错误：** 包含最近一天出现的问题的视图
 
-**Function regressions:** A view containing performance issues for functions that have regressed in latency
+**函数回归：** 包含延迟回归的函数的性能问题的视图
 
+## 自定义您的视图
 
-## Customizing Your Views
+### 更新视图
 
+视图由其搜索查询、排序和项目/环境/时间范围过滤器定义。但是，更改这些参数中的任何一个都不会自动将更改保存到您的视图。如果您的当前过滤器与视图的原始过滤器不同，导航中您的视图旁边将出现一个紫色点，将鼠标悬停在其上将显示哪些过滤器已更改：
 
-### Updating Views
+![未保存更改指示器](./img/issue_views_unsaved_changes.png)
 
-Views are defined by their search query, sort, and project/environment/time range filters. Changing any of these parameters won't automatically persist those changes to your view, however. If your current filters have diverged from the view's original filters, a purple dot will appear next to your view in the navigation, and hovering over it will show which filters have been changed:
+要将这些更改保存到您的视图，只需点击问题页面中搜索和排序输入右侧的紫色`保存`按钮。您也可以通过点击`另存为新视图`来创建具有这些更改的新视图，或者您可以通过点击`重置`将视图重置回其原始过滤器。
 
-![Unsaved Changes Indicator](./img/issue_views_unsaved_changes.png)
+![保存按钮](./img/issue_views_save_button.png)
 
-To persist these changes to your view, simply click on the purple `Save` button to the right of the search and sort inputs in the Issues page. You may also create a new view with these changes  by clicking `Save as new view`, or you can reset the view back to its original filters by clicking `Reset`.
+### 重新排序视图
 
-![Save Button](./img/issue_views_save_button.png)
+您可以通过将鼠标悬停在它们上面并点击和拖动句柄到所需位置来重新排序导航中的星标视图。
 
+### 重命名视图
 
-### Reordering Views
+要重命名视图，请导航到该视图的页面并将鼠标悬停在页面标题上，这将显示一个铅笔图标。点击铅笔图标以编辑视图的名称。
 
-You can reorder the starred views in the navigation by hovering over them and clicking and dragging the handle to the desirable position.
+![重命名](./img/issue_views_renaming.png)
 
+您也可以通过导航到`所有视图`页面并点击视图的省略号菜单并选择`重命名`来执行此操作。
 
-### Renaming Views
+## 共享视图
 
-To rename a view, navigate to that view's page and hover over the page header, which will reveal a pencil icon. Click the pencil icon to edit the view's name.
+### 浏览和星标您组织的视图
 
-![Renaming](./img/issue_views_renaming.png)
+所有问题视图对您组织的所有成员可见，您可以通过导航到[**所有视图**](https://sentry.io/orgredirect/organizations/:orgslug/issues/views/)页面来浏览您组织的视图。请记住，某些视图可能会过滤您可能没有访问权限的项目。如果未启用开放成员资格，您将无法看到这些视图中的问题。
 
-You can also do this by navigating to the `All Views` page and clicking on the view's ellipsis menu and selecting `Rename`.
+![所有视图](./img/issue_views_all_views.png)
 
-## Sharing Views
+在这里，您可以搜索特定视图并星标您想要在侧边栏中看到的任何视图。
 
-### Browsing and Starring Your Organization's Views
+### 共享视图
 
-All Issue Views are visible to all members of your organization, and you can browse your organization's views by navigating to the [**All Views**](https://sentry.io/orgredirect/organizations/:orgslug/issues/views/) page. Keep in mind that some views may filter on projects that you may not have access to. You will not be able to see the issues in these views if open membership is not enabled.
-
-![All Views](./img/issue_views_all_views.png)
-
-Here, you can search for specific views and star any that you want to see in the sidebar.
-
-### Sharing a View
-
-You can share a view to anyone simply by sending them a link to the view. Any organization members will be able to see the view and save a duplicate of it as their own, but only the creator, and organization admins/managers have the permissions to delete or edit it.
+您只需通过向他们发送视图的链接即可与任何人共享视图。任何组织成员都能够看到该视图并将其保存为自己的副本，但只有创建者和组织管理员/经理才有权限删除或编辑它。

@@ -1,41 +1,41 @@
 ---
-title: Installation
+title: 安装
 sidebar_order: 0
-description: "Learn about the different methods available to install `sentry-cli`."
+description: "了解可用于安装 `sentry-cli` 的不同方法。"
 ---
 
-Depending on your platform, there are different methods available to install `sentry-cli`.
+根据您的平台，有不同的方法可用于安装 `sentry-cli`。
 
-## Manual Download
+## 手动下载
 
-You can find the list of releases on [the GitHub release page](https://github.com/getsentry/sentry-cli/releases/). We provide executables for Linux, OS X and Windows. It’s a single file download and upon receiving the file you can rename it to just `sentry-cli` or `sentry-cli.exe` to use it.
+您可以在 [GitHub 发布页面](https://github.com/getsentry/sentry-cli/releases/) 上找到发布列表。我们为 Linux、OS X 和 Windows 提供可执行文件。这是一个单个文件下载，收到文件后，您可以将其重命名为 `sentry-cli` 或 `sentry-cli.exe` 来使用它。
 
-## Automatic Installation
+## 自动安装
 
-If you are on macOS or Linux, you can use the automated downloader which will fetch the latest release version for you and install it:
+如果您使用的是 macOS 或 Linux，您可以使用自动下载器，它将为您获取最新的发布版本并安装它：
 
 ```bash
 curl -sL https://sentry.io/get-cli/ | sh
 ```
 
-We do however, encourage you to pin the specific version of the CLI, so your builds are always reproducible.
-To do that, you can use the exact same method, with an additional version specifier:
+但是，我们鼓励您固定 CLI 的特定版本，以便您的构建始终可重现。
+为此，您可以使用完全相同的方法，并附加版本说明符：
 
 ```bash
 curl -sL https://sentry.io/get-cli/ | SENTRY_CLI_VERSION="{{@inject apps.version('sentry-cli') }}" sh
 ```
 
-This will automatically download the correct version of `sentry-cli` for your operating system and install it. If necessary, it will prompt for your admin password for `sudo`. For a different installation location or for systems without `sudo` (like Windows), you can `export INSTALL_DIR=/custom/installation/path` before running this command.
+这将自动为您的操作系统下载正确版本的 `sentry-cli` 并安装它。如有必要，它将提示您输入管理员密码以使用 `sudo`。对于不同的安装位置或没有 `sudo` 的系统（如 Windows），您可以在运行此命令之前 `export INSTALL_DIR=/custom/installation/path`。
 
-To verify it's installed correctly you can bring up the help:
+要验证其是否正确安装，您可以调出帮助：
 
 ```bash
 sentry-cli --help
 ```
 
-## Installation via NPM
+## 通过 NPM 安装
 
-There is also the option to install `sentry-cli` via npm for specialized use cases. This, for instance, is useful for build servers. The package is called `@sentry/cli` and in the post installation it will download the appropriate release binary:
+在某些特殊情况下，还可以通过 npm 安装 `sentry-cli`。例如，这对于构建服务器很有用。该包称为 `@sentry/cli`，在安装后它将下载适当的发布二进制文件：
 
 ```bash {tabTitle:npm}
 npm install @sentry/cli
@@ -49,13 +49,13 @@ yarn add @sentry/cli
 pnpm add @sentry/cli
 ```
 
-You can then find it in the `.bin` folder:
+然后您可以在 `.bin` 文件夹中找到它：
 
 ```bash
 ./node_modules/.bin/sentry-cli --help
 ```
 
-In case you want to install this with npm system wide with sudo you will need to pass `--unsafe-perm` to it:
+如果您想使用 sudo 全局安装此 npm，您需要传递 `--unsafe-perm`：
 
 ```bash
 sudo npm install -g @sentry/cli --unsafe-perm
@@ -63,94 +63,94 @@ sudo npm install -g @sentry/cli --unsafe-perm
 
 <Alert>
 
-This installation is not recommended however.
+但是，不建议这种安装方式。
 
 </Alert>
 
-### Downloading From a Custom Source
+### 从自定义源下载
 
-By default, this package will download sentry-cli from the CDN managed by [Fastly](https://www.fastly.com/). To use a custom CDN, set the npm config property `sentrycli_cdnurl`. The downloader will append `"/<version>/sentry-cli-<dist>"`.
+默认情况下，此包将从 [Fastly](https://www.fastly.com/) 管理的 CDN 下载 sentry-cli。要使用自定义 CDN，请设置 npm 配置属性 `sentrycli_cdnurl`。下载器将附加 `"/<version>/sentry-cli-<dist>"`。
 
 ```bash
 npm install @sentry/cli --sentrycli_cdnurl=https://mymirror.local/path
 ```
 
-Or add property into your `.npmrc` file ([https://docs.npmjs.com/files/npmrc](https://docs.npmjs.com/files/npmrc))
+或将属性添加到您的 `.npmrc` 文件 ([https://docs.npmjs.com/files/npmrc](https://docs.npmjs.com/files/npmrc))
 
 ```bash
 sentrycli_cdnurl=https://mymirror.local/path
 ```
 
-Another option is to use the environment variable `SENTRYCLI_CDNURL`.
+另一个选项是使用环境变量 `SENTRYCLI_CDNURL`。
 
 ```bash
 SENTRYCLI_CDNURL=https://mymirror.local/path npm install @sentry/cli
 ```
 
-### Available Installation Options
+### 可用的安装选项
 
-Options listed below control how `sentry-cli` install script behaves, when installed through `npm`.
+下面列出的选项控制通过 `npm` 安装 `sentry-cli` 时安装脚本的行为。
 
 `SENTRYCLI_CDNURL`:
 
-If set, the script will use given URL for fetching the binary. Defaults to `https://downloads.sentry-cdn.com/sentry-cli`.
+如果设置，脚本将使用给定的 URL 获取二进制文件。默认为 `https://downloads.sentry-cdn.com/sentry-cli`。
 
 `SENTRYCLI_USE_LOCAL`:
 
-If set to `1`, `sentry-cli` binary will be discovered from your `$PATH` and copied locally instead of being downloaded from external servers. It will still verify the version number, which has to match.
+如果设置为 `1`，则 `sentry-cli` 二进制文件将从您的 `$PATH` 中发现并本地复制，而不是从外部服务器下载。它仍将验证版本号，该版本号必须匹配。
 
 `SENTRYCLI_SKIP_DOWNLOAD`:
 
-If set to `1`, the script will skip downloading the binary completely.
+如果设置为 `1`，则脚本将完全跳过下载二进制文件。
 
 `SENTRYCLI_SKIP_CHECKSUM_VALIDATION`:
 
-If set to `1`, the script will skip the checksum validation phase. You can manually verify the checksums by visiting [Build Checksums](/cli/installation/#build-checksums) page.
+如果设置为 `1`，则脚本将跳过校验和验证阶段。您可以通过访问[构建校验和](/cli/installation/#build-checksums)页面手动验证校验和。
 
 `SENTRYCLI_NO_PROGRESS_BAR`:
 
-If set to `1`, the script will not display download progress bars. This is a default behavior for CI environments.
+如果设置为 `1`，则脚本将不显示下载进度条。这是 CI 环境的默认行为。
 
 `SENTRYCLI_LOG_STREAM`:
 
-If set, the script will change where it writes its output. Possible values are `stdout` and `stderr`. Defaults to `stdout`.
+如果设置，脚本将更改其输出写入的位置。可能的值为 `stdout` 和 `stderr`。默认为 `stdout`。
 
-## Installation via Homebrew
+## 通过 Homebrew 安装
 
-If you are on OS X, you can install `sentry-cli` via homebrew:
+如果您使用的是 OS X，您可以通过 homebrew 安装 `sentry-cli`：
 
 ```bash
 brew install getsentry/tools/sentry-cli
 ```
 
-## Installation via Scoop
+## 通过 Scoop 安装
 
-If you are on Windows, you can install `sentry-cli` via [Scoop](https://scoop.sh):
+如果您使用的是 Windows，您可以通过 [Scoop](https://scoop.sh) 安装 `sentry-cli`：
 
 ```powershell
 > scoop install sentry-cli
 ```
 
-## Docker Image
+## Docker 镜像
 
-For unsupported distributions and CI systems, we offer a Docker image that comes with `sentry-cli` preinstalled. It is recommended to use the `latest` tag, but you can also pin to a specific version. By default, the command runs inside the `/work` directory. Mount relevant project folders and build outputs there to allow `sentry-cli` to scan for resources:
+对于不受支持的发行版和 CI 系统，我们提供了一个预装了 `sentry-cli` 的 Docker 镜像。建议使用 `latest` 标签，但您也可以固定到特定版本。默认情况下，该命令在 `/work` 目录内运行。挂载相关的项目文件夹和构建输出，以允许 `sentry-cli` 扫描资源：
 
 ```bash
 docker pull getsentry/sentry-cli
 docker run --rm -v $(pwd):/work getsentry/sentry-cli --help
 ```
 
-## Updating and Uninstalling
+## 更新和卸载
 
-You can use `sentry-cli update` and `sentry-cli uninstall` to update or uninstall the `sentry-cli` binary. These commands may be unavailable in certain situations, generally when `sentry-cli` has been installed by a tool like homebrew or yarn, either directly or as a dependency of another package. In those cases, the same tool will need to be used for updating and removal. If you find that `sentry-cli update` and `sentry-cli uninstall` aren't working and you don't know how the package was installed, running `which sentry-cli` will often provide a clue as to which tool to use.
+您可以使用 `sentry-cli update` 和 `sentry-cli uninstall` 来更新或卸载 `sentry-cli` 二进制文件。在某些情况下，这些命令可能不可用，通常是当 `sentry-cli` 已由 homebrew 或 yarn 等工具安装时，无论是直接安装还是作为另一个包的依赖项。在这些情况下，需要使用相同的工具进行更新和删除。如果您发现 `sentry-cli update` 和 `sentry-cli uninstall` 不起作用，并且您不知道包是如何安装的，运行 `which sentry-cli` 通常会提供有关使用哪个工具的线索。
 
-## Build Checksums
+## 构建校验和
 
-When downloading an executable from a remote server, it's often a good practice to verify, that what has been downloaded, is in fact what we expect it to be. To make sure that this is the case, we can use checksum validation. A checksum is the value calculated from the contents of a file, in a form of hash, in our case SHA256, and it acts as the data integrity check, as it's always producing the same output, for a given input.
+从远程服务器下载可执行文件时，通常的做法是验证下载的内容是否确实是我们期望的内容。为确保这一点，我们可以使用校验和验证。校验和是根据文件内容计算的值，以哈希的形式，在我们的情况下是 SHA256，它充当数据完整性检查，因为它始终为给定输入产生相同的输出。
 
-Below is the table of SHA256 checksums for all available build targets that our CLI supports. To calculate the hash of a downloaded file, you can use `sha256sum` utility, which is preinstalled in OSX and most Linux distributions.
+下面是我们 CLI 支持的所有可用构建目标的 SHA256 校验和表。要计算下载文件的哈希，您可以使用 `sha256sum` 实用程序，它预装在 OSX 和大多数 Linux 发行版中。
 
 <CliChecksumTable />
 
-If you would like to verify checksums for historic versions of the `sentry-cli`, please refer to our release registry directly, which can be found at [https://release-registry.services.sentry.io/apps/sentry-cli/\{version\}](https://release-registry.services.sentry.io/apps/sentry-cli/latest).
-For example, [https://release-registry.services.sentry.io/apps/sentry-cli/1.74.4](https://release-registry.services.sentry.io/apps/sentry-cli/1.74.4).
+如果您想验证 `sentry-cli` 历史版本的校验和，请直接参考我们的发布注册表，可以在 [https://release-registry.services.sentry.io/apps/sentry-cli/{version}](https://release-registry.services.sentry.io/apps/sentry-cli/latest) 找到。
+例如，[https://release-registry.services.sentry.io/apps/sentry-cli/1.74.4](https://release-registry.services.sentry.io/apps/sentry-cli/1.74.4)。

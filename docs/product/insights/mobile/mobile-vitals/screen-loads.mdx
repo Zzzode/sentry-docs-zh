@@ -1,59 +1,60 @@
 ---
-title: "Screen Loads"
+title: "屏幕加载"
 sidebar_order: 30
-description: "Learn how to monitor your mobile application's performance by using Screen Loads to get better visibility on your application's TTID and TTFD performance."
+description: "了解如何通过使用屏幕加载来监控移动应用程序的性能，以更好地了解应用程序的TTID和TTFD性能。"
 ---
 
-![Example of Screen Loads](./img/screen-loads.png)
+<Include name="feature-limited-on-team-retention.mdx" />
 
-The **Screen Loads** page shows an overview of the amount of time it takes for your application to load its screens. It helps you identify slow or regressed screens and gives additional information so you can better understand the factors contributing to the slowness of both time to initial display (TTID) and time to full display (TTFD).
+![屏幕加载示例](./img/screen-loads.png)
 
-Sentry tracks TTID automatically, but [TTFD](/product/insights/mobile/mobile-vitals/#time-to-initial-display-and-time-to-full-display) requires that the `reportFullyDisplayed()` API be manually called to report that the screen has loaded all of its content and is fully displayed.
+**屏幕加载**页面显示了应用程序加载其屏幕所需时间的概览。它帮助您识别缓慢或回归的屏幕，并提供额外信息，以便您更好地理解影响初始显示时间（TTID）和完全显示时间（TTFD）缓慢的因素。
 
-### Minimum SDK Requirements:
+Sentry自动跟踪TTID，但[TTFD](/product/insights/mobile/mobile-vitals/#初始显示时间和完全显示时间)需要手动调用`reportFullyDisplayed()` API来报告屏幕已加载所有内容并完全显示。
 
-**For Android:**
+### 最低SDK要求：
 
-- `>=5.0` for automatic activity transactions
-- `>=6.10.0` for [TTID](/platforms/android/tracing/instrumentation/automatic-instrumentation/#time-to-initial-display)
-- `>=6.17.0` for [TTFD](/platforms/android/tracing/instrumentation/automatic-instrumentation/#time-to-full-display)
+**对于Android：**
 
-**For iOS:**
+- `>=5.0`用于自动活动事务
+- `>=6.10.0`用于[TTID](/platforms/android/tracing/instrumentation/automatic-instrumentation/#time-to-initial-display)
+- `>=6.17.0`用于[TTFD](/platforms/android/tracing/instrumentation/automatic-instrumentation/#time-to-full-display)
 
-- `>=7.12.0` for UIViewController transactions
-- `>=8.4.0` for [TTID](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#time-to-initial-display)+[TTFD](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#time-to-full-display)
+**对于iOS：**
 
-**For Flutter:**
+- `>=7.12.0`用于UIViewController事务
+- `>=8.4.0`用于[TTID](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#time-to-initial-display)+[TTFD](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#time-to-full-display)
 
-- `>=7.18.0` [TTID+TTFD for Routing Instrumentation](/platforms/dart/guides/flutter/integrations/routing-instrumentation/#time-to-initial-display)
+**对于Flutter：**
 
-**For React Native:**
+- `>=7.18.0`[路由检测的TTID+TTFD](/platforms/dart/guides/flutter/integrations/routing-instrumentation/#time-to-initial-display)
 
-- `>=5.20.0` [TTID+TTFD for React Navigation](/platforms/react-native/performance/instrumentation/time-to-display/)
+**对于React Native：**
 
-By default, the **Screen Loads** page displays metrics for the two releases with the highest screen counts for the time range you’ve selected. To choose a different set of releases to compare, use the “release selector” at the top of the page.
+- `>=5.20.0`[React导航的TTID+TTFD](/platforms/react-native/performance/instrumentation/time-to-display/)
 
-The charts section shows a comparison of TTID and TTFD metrics for your two selected releases over time.
+默认情况下，**屏幕加载**页面显示您所选时间范围内屏幕计数最高的两个版本的指标。要选择不同的版本集进行比较，请使用页面顶部的"版本选择器"。
 
-**Reasons Why You Might Not Be Seeing Any Data:**
+图表部分显示所选版本随时间的TTID和TTFD指标比较。
 
-- You don’t have any transactions with op `ui.load`
-- Your SDKs don’t meet the minimum SDK requirements
+**您可能看不到任何数据的原因：**
 
+- 您没有任何带有op `ui.load`的事务
+- 您的SDK不满足最低SDK要求
 
-Here, you’ll see a breakdown of TTID and TTFD values by [device class](/concepts/search/searchable-properties/#device-classification) (high, medium, low, or unknown), across your selected releases. This will help you understand how users with different device performance levels are being affected.
+在这里，您将看到按[设备类别](/concepts/search/searchable-properties/#device-classification)（高、中、低或未知）分组的TTID和TTFD值的细分，跨越您选择的版本。这将帮助您了解具有不同设备性能级别的用户如何受到影响。
 
-To see slow TTID and TTFD events and profiles for each release broken out by specific device class, use the “Device Class” filter below the charts.
+要查看按特定设备类别细分的每个版本的慢TTID和TTFD事件和配置文件，请使用图表下方的"设备类别"筛选器。
 
-At the bottom of the page, you’ll see a table of spans that occurred during screen load, sorted by the most time your screen spent in that span. Here, you’ll be able to:
+在页面底部，您将看到一个在屏幕加载期间发生的span表格，按屏幕在该span中花费的时间最多排序。在这里，您将能够：
 
-- Spot span regressions by comparing the average duration of each span across your two releases of choice.
+- 通过比较您选择的两个版本中每个span的平均持续时间来发现span回归。
 
-- Find the slowest spans in the release you’re interested in by looking at average span duration.
+- 通过查看平均span持续时间，找到您感兴趣的版本中最慢的span。
 
-- See which spans occur most frequently by looking at “Total Count”. (This might help you identify excessive io calls or repeated work that might be occurring during screen load.)
+- 通过查看"总计数"，查看哪些span发生最频繁。（这可能帮助您识别屏幕加载期间可能发生的过度io调用或重复工作。）
 
-**Eligible span operations:**
+**符合条件的span操作：**
 
 - file.read
 - file.write
@@ -63,22 +64,22 @@ At the bottom of the page, you’ll see a table of spans that occurred during sc
 - db.sql.query
 - db.sql.transaction
 
-### TTID and TTFD affecting spans:
+### 影响TTID和TTFD的span：
 
-If spans end before TTID or TTFD, there's a chance they could be affecting their respective metrics. They're tagged in Sentry and can be viewed on the **Screen Summary** page. But just because a span has been identified as TTID or TTFD-affecting, it doesn't necessarily mean it's the culprit. This information is an approximation and should be used to find potentially problematic spans on an aggregate level so you can narrow down the scope of spans you need to investigate.
+如果span在TTID或TTFD之前结束，它们可能会影响各自的指标。它们在Sentry中被标记，可以在**屏幕摘要**页面上查看。但仅仅因为span被识别为影响TTID或TTFD，并不一定意味着它是罪魁祸首。此信息是近似值，应用于在聚合级别上查找可能有问题的span，以便您可以缩小需要调查的span范围。
 
-![TTID and TTFD Affecting Spans](./img/ttid-ttfd-affecting-spans.png)
+![影响TTID和TTFD的span](./img/ttid-ttfd-affecting-spans.png)
 
-## Span Detail View
+## Span详细视图
 
-![Example of Span Detail View](./img/screen-loads-span-detail.png)
+![Span详细视图示例](./img/screen-loads-span-detail.png)
 
-Clicking on a span description opens up a side panel that lets you see span details, including the average duration and count for that span, in each of the releases you’ve selected.
+点击span描述会打开一个侧面板，让您查看span详细信息，包括您选择的每个版本中该span的平均持续时间和计数。
 
-In the table below, you’ll see a list of sampled events and profiles (if they exist). By comparing the two, you’ll be able to see how much the duration of the span you’re looking at deviates from average spans in each of the two releases you’ve selected.
+在下面的表格中，您将看到采样事件和配置文件（如果存在）的列表。通过比较两者，您将能够看到您正在查看的span的持续时间与所选两个版本中平均span的偏差程度。
 
-Sentry automatically identifies sample events to help you investigate performance problems. (They’re shown as triangles in the “Average Duration” graph.) To give you an accurate picture, a range of faster than average, slower than average, and average span durations are sampled across the whole time period you’ve selected.
+Sentry会自动识别样本事件以帮助您调查性能问题。（它们显示为"平均持续时间"图表中的三角形。）为了给您提供准确的画面，在整个所选时间段内采样了比平均值快、比平均值慢和平均span持续时间的一系列样本。
 
-You can use the sample list to drill down to and compare fast, average, and slow events of interest within a given screen.
+您可以使用样本列表深入查看并比较给定屏幕内感兴趣的快速、平均和缓慢事件。
 
-Clicking on a sample event will take you into either the query's span details within the span waterfall of the [Trace View page](/concepts/key-terms/tracing/trace-view/) or the profile icon to see the [flamegraph](/product/explore/profiling/flame-charts-graphs/) for the event. To get different event samples, click the "Try Different Samples" button.
+点击样本事件将带您进入[跟踪视图页面](/concepts/key-terms/tracing/trace-view/)的span瀑布中的查询span详细信息，或配置文件图标以查看事件的[火焰图](/product/explore/profiling/flame-charts-graphs/)。要获取不同的事件样本，请点击"尝试不同样本"按钮。

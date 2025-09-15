@@ -1,15 +1,15 @@
 ---
-title: Profiling Performance Overhead
+title: 性能分析性能开销
 sidebar_order: 4
-description: "Learn more about how enabling Profiling impacts the performance of your application."
+description: "了解更多关于启用性能分析如何影响应用程序性能的信息。"
 ---
 
-Profiling works by taking snapshots (samples) of the call stack of each thread in your application at a regular interval, then transmitting that data to event ingestion servers via the Internet. This method of profiling is known as sampling profiling. Sentry's profilers collect samples approximately 100 times per second (or once every 10ms). Sampling profiling provides a reasonable tradeoff between data fidelity and runtime overhead, as opposed to deterministic profiling, which introduces significantly higher overhead by tracking every function call.
+性能分析通过以固定间隔对应用程序中每个线程的调用堆栈进行快照（采样）来工作，然后通过 Internet 将该数据传输到事件接收服务器。这种性能分析方法称为采样性能分析。Sentry 的性能分析器大约每秒收集 100 个样本（或每 10 毫秒一次）。采样性能分析在数据保真度和运行时开销之间提供了合理的权衡，与确定性性能分析相比，后者通过跟踪每个函数调用引入显著更高的开销。
 
 <Alert>
 
-For most applications, the performance overhead of enabling profiling in production is imperceptible to end users.
+对于大多数应用程序，在生产环境中启用性能分析的性能开销对最终用户来说是不可察觉的。
 
 </Alert>
 
-The quantitative overhead of profiling (measured as a percentage increase in CPU time) is dependent on environmental factors such as the SDK, the platform, the hardware, and whether the workload is CPU or I/O bound. As a rule of thumb, we target approximately **1-5% CPU time overhead** on a typical configuration with mid-end hardware on each platform.
+性能分析的定量开销（以 CPU 时间百分比增加来衡量）取决于环境因素，如 SDK、平台、硬件以及工作负载是 CPU 还是 I/O 绑定。作为经验法则，我们在每个平台上针对中端硬件的典型配置，目标约为 **1-5% CPU 时间开销**。

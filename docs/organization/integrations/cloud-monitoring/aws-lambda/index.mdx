@@ -1,118 +1,118 @@
 ---
 title: AWS Lambda
 sidebar_order: 1
-description: "Learn more about Sentry's AWS Lambda integration and how you can automatically instrument your Node or Python Lambda functions with Sentry without changing your code."
+description: "了解 Sentry 的 AWS Lambda 集成以及如何在不更改代码的情况下自动为 Node 或 Python Lambda 函数添加 Sentry 监控。"
 ---
 
-Connect Sentry to your AWS account to automatically add Sentry error and performance monitoring to your Node/Python Lambda functions.
+将 Sentry 连接到您的 AWS 账户，以自动为 Node/Python Lambda 函数添加 Sentry 错误和性能监控。
 
-## Install
+## 安装
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或拥有者权限才能安装此集成。
 
 </Alert>
 
-1. Navigate to **Settings > Integrations > AWS Lambda**.
+1. 导航到 **设置 > 集成 > AWS Lambda**。
 
    ![](./img/directory.png)
 
-1. Press **Add Installation** to open the installation modal.
+1. 点击 **添加安装** 打开安装模态框。
 
    ![](./img/integration_detail.png)
 
-1. Select the project for your Lambda integration. **Note:** This project cannot be changed after installation is complete. If you only have a single project, you'll skip this step.
+1. 为您的 Lambda 集成选择项目。**注意：** 安装完成后此项目无法更改。如果您只有一个项目，将跳过此步骤。
 
    ![](./img/project.png)
 
-1. Click **Go To AWS**.
+1. 点击 **前往 AWS**。
 
    ![](./img/aws_account_1.png)
 
-1. Scroll to the bottom of the Create Stack page, check the box, then press **Create Stack** to create a CloudFormation stack in your current region. This stack allows Sentry to automatically instrument your Lambda functions.
+1. 滚动到创建堆栈页面底部，勾选复选框，然后点击 **创建堆栈** 在您当前区域创建 CloudFormation 堆栈。此堆栈允许 Sentry 自动为您的 Lambda 函数进行埋点。
 
    ![](./img/cloudformation-create-stack.png)
 
-1. Wait for the stack to be created. Once it's confirmed and the status changes to **Create Complete**, click **I've created the stack** in the Sentry popup.
+1. 等待堆栈创建完成。一旦确认状态变为 **创建完成**，在 Sentry 弹出窗口中点击 **我已创建堆栈**。
 
    ![](./img/cloudformation-stack-create-complete.png)
 
-1. Now copy your AWS Account ID, select the region you want to use, and press **Next**.
+1. 现在复制您的 AWS 账户 ID，选择要使用的区域，然后点击 **下一步**。
 
    ![](./img/aws_account_2.png)
 
 <Alert>
 
-You need to create the CloudFormation stack only once per account, even when installing the integration in multiple regions. If you are setting up the integration in a second region, copy the externalId from the existing CloudFormation stack on the "Parameters" tab into the form shown above.
+您只需为每个账户创建一次 CloudFormation 堆栈，即使在多个区域安装集成也是如此。如果您在第二个区域设置集成，请从现有 CloudFormation 堆栈的"参数"选项卡中复制 externalId 到上述表单中。
 
 </Alert>
 
-8. Select the Lambda functions to automatically add the Sentry layer and necessary environment variables when you **Finish Setup**. **Note:** You can enable or disable Sentry on Lambda functions after installation.
+8. 选择 Lambda 函数，当您点击 **完成设置** 时自动添加 Sentry 层和必要的环境变量。**注意：** 安装完成后您可以启用或禁用 Lambda 函数上的 Sentry。
 
    ![](./img/select_lambdas.png)
 
-Wait a few minutes as the Lambda functions are enabled. If any functions failed to instrument, follow the suggestions in Troubleshooting.
+等待几分钟，Lambda 函数将被启用。如果有任何函数未能成功埋点，请按照故障排除中的建议操作。
 
-### Troubleshooting
+### 故障排除
 
-If you need help solving issues with your Sentry AWS Lamba integration, you can read the edge cases documented here. If you need additional help, you can [ask on GitHub](https://github.com/getsentry/sentry-javascript/issues/new/choose). Customers on a paid plan may also contact support.
+如果您需要解决 Sentry AWS Lambda 集成问题，可以阅读此处记录的边界案例。如果您需要额外帮助，可以[在 GitHub 上提问](https://github.com/getsentry/sentry-javascript/issues/new/choose)。付费计划客户也可以联系支持。
 
-- #### Error `SentryRole already exists`
+- #### 错误 `SentryRole 已存在`
 
-  The stack already exists in your account; you can proceed to the next step and add your AWS account information.
+  堆栈已存在于您的账户中；您可以继续下一步并添加您的 AWS 账户信息。
 
-- #### Error `Invalid existing layer`
+- #### 错误 `无效的现有层`
 
-  Your Lambda function has a layer that no longer exists. Please remove the problematic layer, then enable Sentry on the Lambda in the configuration view for the integration.
+  您的 Lambda 函数有一个不再存在的层。请移除有问题的层，然后在集成的配置视图中启用 Lambda 上的 Sentry。
 
-- #### Error `Please validate the CloudFormation stack was created successfully`
+- #### 错误 `请验证 CloudFormation 堆栈是否已成功创建`
 
-  Sentry is unable to access your AWS account through your CloudFormation stack. This means either the stack has not been created or the external ID used doesn't match the one in your installation. You can go to the Parameters tab of the CloudFormation stack to copy the value of the external ID and paste it into the form field.
+  Sentry 无法通过您的 CloudFormation 堆栈访问您的 AWS 账户。这意味着堆栈尚未创建或使用的 external ID 不匹配。您可以转到 CloudFormation 堆栈的参数选项卡复制 external ID 的值并粘贴到表单字段中。
 
-- #### Error `Invalid role associated with the lambda function`
+- #### 错误 `与 lambda 函数关联的角色无效`
 
-  The role associated with your Lambda function no longer exists. Please add a new role to your Lambda function, then enable Sentry on the Lambda in the configuration view for the integration.
+  与您的 Lambda 函数关联的角色不再存在。请为您的 Lambda 函数添加新角色，然后在集成的配置视图中启用 Lambda 上的 Sentry。
 
-## Configure
+## 配置
 
-The integration configuration view in Sentry allows you to do the following with your Lambda functions:
+Sentry 中的集成配置视图允许您对 Lambda 函数执行以下操作：
 
-- Enable Sentry
-- Disable Sentry
-- Update the Sentry Lambda Layer to the latest version
+- 启用 Sentry
+- 禁用 Sentry
+- 将 Sentry Lambda 层更新到最新版本
 
-In the table view, you will also see the version of the Lambda layer below the name.
+在表格视图中，您还将在名称下方看到 Lambda 层的版本。
 
 ![](./img/sentry-manage-functions.png)
 
-## Verify
+## 验证
 
-Run your AWS Lambda function. Performance data will be sent to Sentry and will show up on the **Performance** page in Sentry. If your function raises an error it will show up on the **Issues** page in Sentry.
+运行您的 AWS Lambda 函数。性能数据将被发送到 Sentry 并显示在 Sentry 的 **性能** 页面上。如果您的函数引发错误，它将显示在 Sentry 的 **问题** 页面上。
 
-## Remove Installation
+## 移除安装
 
-Note that when the integration is uninstalled, your Lambda functions will still be instrumented with Sentry and you will continue to receive errors. If you want to disable Sentry for all your Lambda functions, you should disable Sentry for each function before uninstalling. Note, you can also uninstall and then reinstall if you would like to change the Sentry project for your Lambdas.
+请注意，当集成被卸载时，您的 Lambda 函数仍将使用 Sentry 进行埋点，您将继续接收错误。如果您想为所有 Lambda 函数禁用 Sentry，应在卸载前为每个函数禁用 Sentry。请注意，您也可以卸载然后重新安装，如果您想更改 Lambdas 的 Sentry 项目。
 
-Learn more about [how this integration works](/organization/integrations/cloud-monitoring/aws-lambda/how-it-works/).
+了解更多关于[此集成如何工作](/organization/integrations/cloud-monitoring/aws-lambda/how-it-works/)的信息。
 
-## Notes on Specific Frameworks
+## 特定框架说明
 
 ### Serverless Framework
 
-If you're using [Serverless framework](https://www.serverless.com/), note that this integration will configure your existing Lambda functions correctly to use the SDK layer and set the appropriate environment variables. Learn more about it [here](/organization/integrations/cloud-monitoring/aws-lambda/how-it-works/).
+如果您使用 [Serverless framework](https://www.serverless.com/)，请注意此集成将正确配置您现有的 Lambda 函数以使用 SDK 层并设置适当的环境变量。了解更多[此处](/organization/integrations/cloud-monitoring/aws-lambda/how-it-works/)。
 
-You can confirm that the output works by inputting `aws lambda get-function-configuration --function-name <yourFunctionName>`. However, when you perform a subsequent `sls deploy` the environment variables aren't maintained even though it looks like the reference to the layer is retained.
+您可以通过输入 `aws lambda get-function-configuration --function-name <yourFunctionName>` 来确认输出是否有效。但是，当您执行后续的 `sls deploy` 时，即使看起来保留了层的引用，环境变量也不会被维护。
 
-You can set the layer definition and environment variables in `serverless.yml` as a workaround, but you'll have to do two things manually: maintain the latest layer version and add the reference to the SDK layer for every function you want to add Sentry to.
+您可以在 `serverless.yml` 中设置层定义和环境变量作为解决方法，但您必须手动执行两件事：维护最新的层版本，并为您要添加 Sentry 的每个函数添加对 SDK 层的引用。
 
-**Serverless Framework Using Node:**
+**使用 Node 的 Serverless Framework：**
 
 ```yaml {filename:serverless.yml}
-# other configuration
+# 其他配置
 
 provider:
-  # more configuration
+  # 更多配置
   region: <AWS_REGION>
   environment:
     SENTRY_TRACES_SAMPLE_RATE: "1.0"
@@ -130,13 +130,13 @@ functions:
     layers: ${self:custom.layers}
 ```
 
-**Serverless Framework Using Python:**
+**使用 Python 的 Serverless Framework：**
 
 ```yaml {filename:serverless.yml}
-# other configuration
+# 其他配置
 
 provider:
-  # more configuration
+  # 更多配置
   region: <AWS_REGION>
   environment:
     SENTRY_TRACES_SAMPLE_RATE: "1.0"
@@ -155,13 +155,13 @@ functions:
     layers: ${self:custom.layers}
 ```
 
-Currently, there's no way of using the [latest layer plugin](https://www.npmjs.com/package/serverless-latest-layer-version) since the `lambda:ListLayerVersions on resource: arn:aws:lambda:eu-west-1:943013980633:layer:SentryNodeServerlessSDK` hasn't been given the necessary permissions.
+目前，由于 `lambda:ListLayerVersions on resource: arn:aws:lambda:eu-west-1:943013980633:layer:SentryNodeServerlessSDK` 没有被赋予必要的权限，因此无法使用 [latest layer plugin](https://www.npmjs.com/package/serverless-latest-layer-version)。
 
 ### SST
 
-If you use Node functions in [SST](https://serverless-stack.com) and you want to use this integration, you'll need to:
+如果您在 [SST](https://serverless-stack.com) 中使用 Node 函数并且想要使用此集成，您需要：
 
-1. Import the [Lambda layer](/platforms/javascript/guides/aws-lambda/layer/) using the [`LayerVersion`](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda.LayerVersion.html) construct and set it by calling [`addDefaultFunctionLayers`](https://docs.serverless-stack.com/constructs/Stack#adddefaultfunctionlayers).
-2. Then set the `NODE_OPTIONS`, `SENTRY_DSN`, and `SENTRY_TRACES_SAMPLE_RATE` environment variables with the [`addDefaultFunctionEnv`](https://docs.serverless-stack.com/constructs/Stack#adddefaultfunctionenv) method.
+1. 使用 [`LayerVersion`](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda.LayerVersion.html) 构造导入 [Lambda 层](/platforms/javascript/guides/aws-lambda/layer/)，并通过调用 [`addDefaultFunctionLayers`](https://docs.serverless-stack.com/constructs/Stack#adddefaultfunctionlayers) 进行设置。
+2. 然后使用 [`addDefaultFunctionEnv`](https://docs.serverless-stack.com/constructs/Stack#adddefaultfunctionenv) 方法设置 `NODE_OPTIONS`、`SENTRY_DSN` 和 `SENTRY_TRACES_SAMPLE_RATE` 环境变量。
 
-Read [how this integration works](/organization/integrations/cloud-monitoring/aws-lambda/how-it-works/) and [the SST docs](https://docs.serverless-stack.com/monitoring-your-app-in-prod#sentry) for more information.
+阅读[此集成如何工作](/organization/integrations/cloud-monitoring/aws-lambda/how-it-works/)和 [SST 文档](https://docs.serverless-stack.com/monitoring-your-app-in-prod#sentry) 以获取更多信息。

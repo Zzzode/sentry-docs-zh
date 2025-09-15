@@ -1,41 +1,41 @@
 ---
-title: Troubleshooting
+title: 故障排除
 sidebar_order: 3
-description: "Troubleshoot common issues with cron monitoring."
+description: "解决 cron 监控的常见问题。"
 ---
 
-<Expandable title="Why Were All My Monitors Disabled?">
+<Expandable title="为什么我的所有监控都被禁用了？">
 
-All monitors are automatically deactivated at the start of a new billing period if there's not enough [on-demand spend](/pricing/#on-demand-capacity) to cover all active monitors. Monitors can be manually activated based on on-demand availability. See [Manage Your Cron Monitors](/pricing/quotas/manage-cron-monitors) for more details.
-
-</Expandable>
-
-<Expandable title="Why Was My Monitor Environment Marked As Broken or Automatically Muted?">
-
-If your monitor environment has been in a failing state for 14 days or more, we will automatically mark it as broken and notify you of this escalated failure state via email. If the monitor environment stays in this state for another 14 days, we will automatically mute it to stop it from generating additional noise through notifications or issue events.
+如果在新计费周期开始时没有足够的[按需支出](/pricing/#on-demand-capacity)来覆盖所有活动监控，所有监控将自动停用。监控可以根据按需可用性手动激活。有关更多详细信息，请参阅[管理您的 Cron 监控](/pricing/quotas/manage-cron-monitors)。
 
 </Expandable>
 
-<Expandable title="Why aren't recurring job errors showing up on my monitor details page?">
+<Expandable title="为什么我的监控环境被标记为已损坏或自动静音？">
 
-You may not have [linked errors to your monitor](/product/crons/getting-started/http/#connecting-errors-to-cron-monitors).
-
-</Expandable>
-
-<Expandable title="Why am I not receiving alerts when my monitor fails?">
-
-You may not have [set up alerts for your monitor](/product/crons/getting-started/http/#alerts).
+如果您的监控环境已处于失败状态 14 天或更长时间，我们将自动将其标记为已损坏，并通过电子邮件通知您此升级后的失败状态。如果监控环境在此状态下再持续 14 天，我们将自动将其静音，以防止其通过通知或问题事件产生额外噪音。
 
 </Expandable>
 
-<Expandable title="What is the crons data retention policy for check-ins?">
+<Expandable title="为什么我的监控详情页面上没有显示重复作业错误？">
 
-Our current data retention policy is 90 days.
+您可能没有[将错误链接到您的监控](/product/crons/getting-started/http/#connecting-errors-to-cron-monitors)。
 
 </Expandable>
 
-<Expandable title="Do you support a monitor schedule with a six-field crontab expression?">
+<Expandable title="为什么我的监控失败时我没有收到告警？">
 
-Currently, we only support crontab expressions with five fields.
+您可能没有[为您的监控设置告警](/product/crons/getting-started/http/#alerts)。
+
+</Expandable>
+
+<Expandable title="crons 签到的数据保留策略是什么？">
+
+我们当前的数据保留策略是 90 天。
+
+</Expandable>
+
+<Expandable title="你们支持六字段 crontab 表达式的监控计划吗？">
+
+目前，我们只支持五个字段的 crontab 表达式。
 
 </Expandable>

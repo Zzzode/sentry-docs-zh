@@ -1,59 +1,59 @@
 ---
-title: Custom Dashboards
+title: 自定义仪表板
 sidebar_order: 10
-description: "Learn how to edit or create additional dashboards to suit your organization's needs."
+description: "了解如何编辑或创建额外的仪表板以满足您组织的需求。"
 ---
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-Custom dashboards are shared across your organization, and users can view each other’s custom dashboards in the management view. Note that any changes you make are global, and will appear for users across the entire organization.
+自定义仪表板在您的组织中共享，用户可以在管理视图中查看彼此的自定义仪表板。请注意，您所做的任何更改都是全局的，并将出现在整个组织的用户中。
 
-## Manage Dashboards
+## 管理仪表板
 
-When you have either a Business or Trial Plan, navigating to **Dashboards** takes you to a view where you can manage dashboards instead of the [default dashboard](/product/dashboards/). From here, you can:
+当您拥有商业或试用计划时，导航到**仪表板**会将您带到可以管理仪表板的视图，而不是[默认仪表板](/product/dashboards/)。从这里，您可以：
 
-- [Create a dashboard](#create-dashboards)
-- [Create a dashboard from a template](#create-dashboards-from-templates)
-- Duplicate a dashboard
-- Delete a dashboard
+- [创建仪表板](#create-dashboards)
+- [从模板创建仪表板](#create-dashboards-from-templates)
+- 复制仪表板
+- 删除仪表板
 
-![Manage mode.](./img/dashboard-management.png)
+![管理模式。](./img/dashboard-management.png)
 
-### Create Dashboards
+### 创建仪表板
 
-Clicking "Create Dashboard" takes you to a new dashboard where you can immediately begin adding widgets. When you're creating a new dashboard or editing an existing one, the widgets are slightly grayed out. From here, you can:
+点击"创建仪表板"会将您带到新的仪表板，您可以立即开始添加小组件。当您创建新仪表板或编辑现有仪表板时，小组件会稍微变灰。从这里，您可以：
 
-- Rename the dashboard
-- Add and remove widgets
-- Rearrange existing widgets
-- Resize existing widgets
+- 重命名仪表板
+- 添加和删除小组件
+- 重新排列现有小组件
+- 调整现有小组件的大小
 
-![Edit mode.](./img/dashboard-template.png)
+![编辑模式。](./img/dashboard-template.png)
 
-### Create Dashboards From Templates
+### 从模板创建仪表板
 
-When the "Show Templates" toggle is enabled, several default dashboard templates are displayed. You can add each template directly to the list of dashboards by clicking "Add Dashboard", or preview it by clicking "Preview". You have to add a template before you can edit the resulting dashboard. You can also duplicate or delete a dashboard created from a template (this does not delete the template).
+启用"显示模板"切换时，会显示几个默认仪表板模板。您可以通过点击"添加仪表板"直接将每个模板添加到仪表板列表中，或通过点击"预览"进行预览。您必须先添加模板，然后才能编辑生成的仪表板。您还可以复制或删除从模板创建的仪表板（这不会删除模板）。
 
-### Dashboard Filters
+### 仪表板过滤器
 
-Dashboard filters are applied to all the widgets in your dashboard. They consist of [page filters](/concepts/search/#page-filters) that allow you to narrow down the widget results to certain projects, environments, and date ranges, and a release filter that restricts the data to certain releases. Changing a dashboard filter will prompt you to "Save" or "Cancel". To persist filter changes to your dashboard, click "Save", or click "Cancel" to discard the changes.
+仪表板过滤器应用于仪表板中的所有小组件。它们由[页面过滤器](/concepts/search/#page-filters)组成，允许您将小组件结果缩小到某些项目、环境和日期范围，以及将数据限制为某些版本的发布过滤器。更改仪表板过滤器将提示您"保存"或"取消"。要将过滤器更改持久保存到您的仪表板，请点击"保存"，或点击"取消"以放弃更改。
 
-### Dashboard Edit Access
+### 仪表板编辑访问权限
 
-To restrict who can edit or delete your dashboard, go to the "Edit Access" selector. As the dashboard creator, you can limit access to specific teams by selecting the checkboxes in the Edit Access Selector and clicking Save Changes to apply the updates. Dashboard creators and organization owners always retain edit access.
+要限制谁可以编辑或删除您的仪表板，请转到"编辑访问权限"选择器。作为仪表板创建者，您可以通过在编辑访问权限选择器中选择复选框并点击保存更改以应用更新来将访问权限限制为特定团队。仪表板创建者和组织所有者始终保留编辑访问权限。
 
-## Widget Builder
+## 小组件构建器
 
-When adding a widget or editing an existing one, you will be presented with a side panel where you can see the dashboard widget builder. The widget builder has several configuration options that you can use to shape data and add information to your dashboard. Learn more in the [Widget Builder documentation](/product/dashboards/widget-builder/).
+添加小组件或编辑现有小组件时，您将看到一个侧面板，您可以在其中看到仪表板小组件构建器。小组件构建器有几个配置选项，您可以使用这些选项来塑造数据并向仪表板添加信息。在[小组件构建器文档](/product/dashboards/widget-builder/)中了解更多信息。
 
-### Metrics Extraction
+### 指标提取
 
 <Include name="feature-available-for-user-group-early-adopter.mdx" />
 
-If you're using custom tags or custom filters in your widgets, we will start collecting metrics to give you accurate counts and rates. During widget creation or editing, you will see approximate metrics for transaction datasets based on indexed events. As soon as you save, we will start extracting metrics for those widgets. It may take up to 15 minutes to start seeing metrics.
+如果您在小组件中使用自定义标签或自定义过滤器，我们将开始收集指标以为您提供准确的计数和比率。在小组件创建或编辑期间，您将看到基于索引事件的事务数据集的近似指标。一旦您保存，我们将开始为这些小组件提取指标。可能需要最多 15 分钟才能开始看到指标。
 
-Learn more about the feature and limitations of [metrics extraction](/product/dashboards/widget-builder/#extracted-metrics).
+在[指标提取](/product/dashboards/widget-builder/#extracted-metrics)中了解有关该功能和限制的更多信息。
 
-## Widget Library
+## 小组件库
 
-The widget library contains a collection of prebuilt widgets you can add to your custom dashboards. Learn more by reading our [Widget Library docs](/product/dashboards/widget-library/).
+小组件库包含您可以添加到自定义仪表板的预构建小组件的集合。通过阅读我们的[小组件库文档](/product/dashboards/widget-library/)了解更多信息。

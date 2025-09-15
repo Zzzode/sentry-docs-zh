@@ -1,24 +1,26 @@
 ---
-title: "Queues"
+title: "队列（Queues）"
 sidebar_order: 30
-description: "Learn how to monitor your queues with Sentry for improved application performance and health. "
+description: "了解如何使用Sentry监控队列以提高应用程序性能和健康状况。"
 ---
 
-Message Queues make asynchronous service-to-service communication possible in distributed architectures. Queues are great for making work that sometimes fails, more resilient and are therefore a building block for distributed applications. Some examples of what queues can help with include handling webhooks from third-party APIs or handling periodic tasks (such as calculating metrics for your users daily).
+<Include name="feature-limited-on-team-retention.mdx" />
 
-If you have performance monitoring enabled and your application interacts with message queue systems, you can configure Sentry to monitor their performance and health.
+消息队列使分布式架构中的异步服务到服务通信成为可能。队列非常适合使有时失败的工作更具弹性，因此是分布式应用程序的构建块。队列可以帮助处理的一些示例包括处理来自第三方API的webhook或处理定期任务（例如为用户每日计算指标）。
 
-Queues allows you to monitor both the performance and error rates of your queue consumers and producers, providing observability into your distributed system.
+如果您启用了性能监控并且您的应用程序与消息队列系统交互，您可以配置Sentry来监控它们的性能和健康状况。
 
-The **Queues** page gives you a high-level overview so that you can see where messages are being written to. (You may see topic names or actual queue names, depending on the messaging system.) If you click on a transaction, you'll see the **Destination Summary** page, which provides metrics about specific endpoints within your applications that either write to, or read from the destination. You can also dig into individual endpoints within your application representing producers creating messages, and consumers reading messages. You'll see actual traces representing messages processed by your application.
+队列允许您监控队列消费者和生产者的性能和错误率，为您的分布式系统提供可观察性。
+
+**队列**页面为您提供了高级概览，以便您可以看到消息被写入的位置。（您可能会看到主题名称或实际的队列名称，具体取决于消息系统。）如果您点击事务，您将看到**目标摘要**页面，该页面提供有关应用程序中特定端点的指标，这些端点要么写入，要么从目标读取。您还可以深入应用程序中表示创建消息的生产者和读取消息的消费者中的各个端点。您将看到代表应用程序处理消息的实际跟踪。
 
 <Arcade src="https://demo.arcade.software/6EU6i8RYw7QN1E5pU85D?embed&show_copy_link=true" />
 
-### Prerequisites and Limitations
+### 先决条件和限制
 
-Queues currently supports [auto instrumentation](/platform-redirect/?next=%2Ftracing%2Finstrumentation%2Fautomatic-instrumentation) for the [Celery Distributed Task Queue](https://docs.celeryq.dev/en/stable/) in Python. Other messaging systems can be monitored using custom instrumentation.
+队列目前支持[Python中的Celery分布式任务队列](https://docs.celeryq.dev/en/stable/)的[自动检测](/platform-redirect/?next=%2Ftracing%2Finstrumentation%2Fautomatic-instrumentation)。其他消息系统可以使用自定义检测进行监控。
 
-Instructions for custom instrumentation in various languages are linked to below:
+下面链接了各种语言的自定义检测说明：
 
 - [Python SDK](/platforms/python/tracing/instrumentation/custom-instrumentation/queues-module/)
 - [JavaScript SDK](/platforms/javascript/guides/node/tracing/instrumentation/custom-instrumentation/queues-module/)

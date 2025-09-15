@@ -1,146 +1,146 @@
 ---
-title: Issue Alert Configuration
+title: 问题警报配置
 sidebar_order: 10
-description: "Learn more about the options for configuring an issue alert."
+description: "了解有关配置问题警报的选项的更多信息。"
 ---
 
-Sentry provides several configuration options to create an issue alert based on your organization's needs.
+Sentry 提供了几种配置选项，可根据您组织的需求创建问题警报。
 
-## Environment
+## 环境
 
-Specify which <PlatformLink to="/configuration/environments/">environment(s)</PlatformLink> will use this particular alert rule. This control filters on the `environment` tag in your events. This filter is helpful because the urgency and workflows you apply to production alerts might differ from those you apply to alerts originating from your QA environment, for example.
+指定哪些<PlatformLink to="/configuration/environments/">环境</PlatformLink>将使用此特定警报规则。此控制过滤事件中的 `environment` 标签。此过滤器很有用，因为您应用于生产警报的紧急性和工作流可能与应用于来自 QA 环境的警报的紧急性和工作流不同。
 
-The “Environment” dropdown list here has the same environments that are available for the selected project in the common “Environment” filter dropdown (this does not include hidden environments). Selecting "All Environments" is equivalent to having no environment filter.
+此处的"环境"下拉列表与公共"环境"过滤器下拉列表中选定项目可用的环境相同（这不包括隐藏环境）。选择"所有环境"等同于没有环境过滤器。
 
-## Project
+## 项目
 
-Specify which project will use this particular alert rule. The created alert rule will only process events from this project.
+指定哪个项目将使用此特定警报规则。创建的警报规则将仅处理来自此项目的事件。
 
-## "When" Conditions: Triggers
+## "何时"条件：触发器
 
-"When" conditions, or triggers, specify what type of activity you'd like monitored for the issue:
+"何时"条件或触发器指定您希望监控问题的活动类型：
 
-- New issue is created
-- Changes state from `resolved` to `unresolved`
-- Changes state from `archived` to `escalating`
-- The number of events in an issue is more than a certain number or has a higher [percent change](#change-alerts) in an interval
-- The number of unique users is more than a certain number or has a higher [percent change](#change-alerts) in an interval
-- An issue affects more than [\{X\} percent of sessions in \{time\}](#percent-based-alerts)
-- A new issue is marked as [high priority](/product/issues/issue-priority/)
-- An existing issue is marked as [high priority](/product/issues/issue-priority/)
+- 创建新问题
+- 状态从 `已解决` 更改为 `未解决`
+- 状态从 `已归档` 更改为 `升级`
+- 问题中的事件数量超过某个数字或在间隔内具有更高的[百分比变化](#change-alerts)
+- 受影响唯一用户的数量超过某个数字或在间隔内具有更高的[百分比变化](#change-alerts)
+- 问题在 {时间} 内影响超过 [{X} 百分比的会话](#percent-based-alerts)
+- 新问题被标记为[高优先级](/product/issues/issue-priority/)
+- 现有问题被标记为[高优先级](/product/issues/issue-priority/)
 
-Triggers are optional. If you don’t select a trigger, the "When" conditions are considered met by default. That is, _all_ events will meet this condition.
+触发器是可选的。如果您没有选择触发器，则默认情况下满足"何时"条件。也就是说，_所有_事件都将满足此条件。
 
-Learn more about issue states in [Issue States & Triage](/product/issues/states-triage/).
+在[问题状态与分类](/product/issues/states-triage/)中了解有关问题状态的更多信息。
 
-### Change Alerts
+### 更改警报
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-When you select the number of events or users affected by an issue as a trigger, you have the option to set that trigger based on percent change. Percent change triggers are useful for alerting you when the number of errors in an issue or the number of unique users affected is significantly different from normal.
+当您选择问题的事件数量或受影响用户数量作为触发器时，您可以选择基于百分比变化设置该触发器。百分比变化触发器在问题中的错误数量或受影响唯一用户数量与正常情况显著不同时向您发出警报很有用。
 
-For example, an alert can be triggered when an issue is affecting 10% more unique users in an hour compared to a week ago. Another example would be when the number of events in an issue is 40% higher this week than it was 30 days ago.
+例如，当问题在一小时内影响的唯一用户比一周前多 10% 时，可以触发警报。另一个例子是，当问题中的事件数量本周比 30 天前高 40% 时。
 
-![The conditions that can be set to alert on an issue.](./img/issue-change-alert.png)
+![可以设置为对问题发出警报的条件。](./img/issue-change-alert.png)
 
-### Percent-Based Alerts
+### 基于百分比的警报
 
-You can set a trigger for when an issue affects more than \{X\} percent of [sessions](/product/releases/health/#session) in \{time\}.
+您可以设置触发器，当问题影响 {时间} 内超过 {X} 百分比的[会话](/product/releases/health/#session)时。
 
-_Percent of sessions affected_ is an approximation that's calculated by taking the number of sessions in the last hour and scaling it to the alerting window appropriately. For example, if the alert is configured to look at the last five minutes, the number of sessions is approximated by taking the number of sessions in the last hour and dividing it by 12.
+_受影响的会话百分比_是一个近似值，通过获取最后一小时的会话数量并适当地缩放到警报窗口来计算。例如，如果警报配置为查看最后五分钟，则通过获取最后一小时的会话数量并将其除以 12 来近似会话数量。
 
-Percent-based alerts will only trigger if the number of sessions in the last hour exceeds 50.
+基于百分比的警报仅在最后一小时的会话数量超过 50 时才会触发。
 
-## "If" Conditions: Filters
+## "如果"条件：过滤器
 
-Sentry checks "if conditions", or filters, after “When” conditions are met, and these help control noise by filtering out issues that don’t match your specified criteria. You can filter on issue or event properties. If an event filter is specified, it checks only the event that triggered the alert, such as:
+Sentry 在"何时"条件满足后检查"如果条件"或过滤器，这些过滤器通过过滤掉不符合您指定条件的问题来帮助控制噪音。您可以按问题或事件属性进行过滤。如果指定了事件过滤器，它仅检查触发警报的事件，例如：
 
-- The issue is older or newer than a certain duration.
-- The issue has happened at least \{X\} times.
-- The issue is assigned to \{no one/a team/a member\}.
-- The event is from the latest release.
-- The event's \{attribute\} \{matches\} \{value\}. Match types: equals, does not equal, starts with, ends with, contains, does not contain, is set, is not set, is in, or is not in.
-- The event's \{tag\} \{matches\} \{value\}. Match types: equals, does not equal, starts with, ends with, contains, does not contain, is set, is not set, is in, or is not in.
-- The event's level \{matches\} \{level\}. Match types: equal to, less than or equal to, or greater than or equal to.
+- 问题早于或晚于某个持续时间。
+- 问题至少发生了 {X} 次。
+- 问题分配给 {无人/团队/成员}。
+- 事件来自最新版本。
+- 事件的 {属性} {匹配} {值}。匹配类型：等于、不等于、开始于、结束于、包含、不包含、已设置、未设置、在或不在。
+- 事件的 {标签} {匹配} {值}。匹配类型：等于、不等于、开始于、结束于、包含、不包含、已设置、未设置、在或不在。
+- 事件的级别 {匹配} {级别}。匹配类型：等于、小于或等于或大于或等于。
 
-Learn more about and <PlatformLink to="/enriching-events/tags/">tags</PlatformLink> and [event attributes](/concepts/search/searchable-properties/#event-properties).
+在<PlatformLink to="/enriching-events/tags/">标签</PlatformLink>和[事件属性](/concepts/search/searchable-properties/#event-properties)中了解更多信息。
 
-## “Then” Conditions: Actions
+## "然后"条件：操作
 
-"Then conditions", or actions, specify what should happen when trigger and filter conditions are met:
+"然后条件"或操作指定在满足触发器和过滤器条件时应执行的操作：
 
-- Send a notification to either [Suggested Assignees](#suggested_assignees), a team, or a member.
-- Send a notification to an integration, which can include these options, depending on which integrations you have installed:
-  - Send a [Slack](/organization/integrations/notification-incidents/slack/) notification
-  - Send a [Discord](/organization/integrations/notification-incidents/discord/) notification
-  - Send a [PagerDuty](/organization/integrations/notification-incidents/pagerduty/) notification
-  - Send a [Microsoft Teams](/organization/integrations/notification-incidents/msteams/) notification
-  - Send a notification to all legacy integrations
-  - Send a notification using an [integration](/organization/integrations/) built on the [integration platform](/organization/integrations/integration-platform/#alerts)
-- Create an issue for an [integration](/organization/integrations/), which includes:
+- 向[建议受让人](#suggested_assignees)、团队或成员发送通知。
+- 向集成发送通知，根据您安装的集成，可以包括以下选项：
+  - 发送 [Slack](/organization/integrations/notification-incidents/slack/) 通知
+  - 发送 [Discord](/organization/integrations/notification-incidents/discord/) 通知
+  - 发送 [PagerDuty](/organization/integrations/notification-incidents/pagerduty/) 通知
+  - 发送 [Microsoft Teams](/organization/integrations/notification-incidents/msteams/) 通知
+  - 向所有旧版集成发送通知
+  - 使用基于[集成平台](/organization/integrations/integration-platform/#alerts)构建的[集成](/organization/integrations/)发送通知
+- 为[集成](/organization/integrations/)创建问题，包括：
   - [Jira](/organization/integrations/issue-tracking/jira/)
   - [Azure DevOps](/organization/integrations/source-code-mgmt/azure-devops)
 
-Learn more about [routing alerts with integrations](/product/alerts/create-alerts/routing-alerts/).
+在[使用集成路由警报](/product/alerts/create-alerts/routing-alerts/)中了解更多信息。
 
-### Suggested Assignees
+### 建议受让人
 
-Suggested Assignees include people or teams currently assigned the issue, issue owners defined in [ownership rules](/product/issues/ownership-rules/), and anyone who has been identified as author of a [suspect commit](/product/issues/suspect-commits/). When an alert is triggered, they can choose to be notified via email or Slack (depending on their [notification settings](/product/alerts/notifications/notification-settings/)).
+建议受让人包括当前分配问题的人员或团队、在[所有权规则](/product/issues/ownership-rules/)中定义的问题所有者以及被识别为[可疑提交](/product/issues/suspect-commits/)作者的人员。触发警报时，他们可以选择通过电子邮件或 Slack 接收通知（取决于他们的[通知设置](/product/alerts/notifications/notification-settings/)）。
 
-If no suggested assignees are found, the notification will be sent to the teams or members specified in the fallback notification setting, as shown below:
+如果未找到建议受让人，通知将发送到回退通知设置中指定的团队或成员，如下所示：
 
-![Suggested Assignees with notify all project members selected.](./img/suggested_assignee_all_members.png)
+![建议受让人与通知所有项目成员已选择。](./img/suggested_assignee_all_members.png)
 
-The following members will be notified based on the option selected and their notification settings:
+根据所选选项及其通知设置，将通知以下成员：
 
-- **All Project Members:** Every team member who has access to the project will be notified. This could potentially notify a large number of people. If two teams have access to the project, every member of both teams will be notified.
-- **Recently Active Members:** The 20 most recently logged-in members, who have access to the project.
-- **Nobody:** No one will be notified.
+- **所有项目成员：** 有权访问项目的每个团队成员都将收到通知。这可能会通知大量人员。如果两个团队有权访问项目，两个团队的所有成员都将收到通知。
+- **最近活跃成员：** 20 个最近登录的成员，他们有权访问项目。
+- **无人：** 没有人会收到通知。
 
-### Team Slack Notifications
+### 团队 Slack 通知
 
-Teams can configure a Slack channel to receive alert notifications. This can be done by typing `/sentry link team` in the desired Slack channel. To view a team's associated Slack channel in [sentry.io](https://sentry.io), navigate to **Settings > Teams > [Team] > Notifications**.
+团队可以配置 Slack 频道以接收警报通知。这可以通过在所需的 Slack 频道中键入 `/sentry link team` 来完成。要在 [sentry.io](https://sentry.io) 中查看团队的关联 Slack 频道，请导航到**设置 > 团队 > [团队] > 通知**。
 
-### Notification Tests
+### 通知测试
 
-Notification tests allow you to test if your integrations are working properly. Sending a test notification creates a dummy event and sends a notification to all of the selected integrations.
+通知测试允许您测试您的集成是否正常工作。发送测试通知会创建一个虚拟事件，并向所有选定的集成发送通知。
 
-## Action Interval (Rate Limit)
+## 操作间隔（速率限制）
 
-The action interval, or rate limit, controls how often the alert rule can be triggered for a particular issue. If alert conditions match an issue, Sentry executes the actions only if they haven't already been executed for that issue within the rate limit period. For example, if an issue meets alert conditions multiple times in a one-minute period, but your frequency threshold is one minute, you’ll only be alerted once.
+操作间隔或速率限制控制特定问题的警报规则可以触发的频率。如果警报条件与问题匹配，Sentry 仅在速率限制期内尚未为该问题执行操作时才执行操作。例如，如果一个问题的警报条件在一分钟内多次满足，但您的频率阈值为一分钟，您将只收到一次警报。
 
-The available intervals are:
+可用间隔为：
 
-- Minutes: 5, 10, 30, 60
-- Hours: 3, 12, 24
-- Days: 7, 30
+- 分钟：5、10、30、60
+- 小时：3、12、24
+- 天：7、30
 
-## Alert Preview
+## 警报预览
 
-The preview displays a list of issues that would have triggered the alert and the last time they would have triggered it.
+预览显示将触发警报的问题列表以及它们上次触发的时间。
 
-Rules with any of following can't be previewed:
+无法预览具有以下任何内容的规则：
 
-- The issue is assigned to \{no one/a team/a member\}.
-- The event is from the latest release.
-- An issue affects more than [\{X\} percent of sessions in \{time\}](#percent-based-alerts)
-- No ["When" conditions](#when-conditions-triggers)
-- Both [issue frequency](#change-alerts) conditions and [event filters](#if-conditions-filters) (filters that start with "The event")
+- 问题分配给 {无人/团队/成员}。
+- 事件来自最新版本。
+- 问题影响超过 [{X} 百分比的会话在 {时间}](#percent-based-alerts)
+- 没有["何时"条件](#when-conditions-triggers)
+- 同时具有[问题频率](#change-alerts)条件和[事件过滤器](#if-conditions-filters)（以"事件"开头的过滤器）
 
-## Alert Name
+## 警报名称
 
-Give your alert a descriptive name, such as the team affected and the topic of the alert. For example, "Frontend Latency", "Backend Failure Rate", or "Billing Apdex".
+为您的警报指定一个描述性名称，例如受影响的团队和警报主题。例如，"前端延迟"、"后端失败率"或"计费 Apdex"。
 
-## Team
+## 团队
 
-You can choose a team to associate with an alert so that members of that team can edit the alert. Note that you can only make this association if you are a member of the team. If no team is selected, anyone can edit the alert.
+您可以选择与警报关联的团队，以便该团队的成员可以编辑警报。请注意，您只能在与您是团队成员的情况下进行此关联。如果未选择团队，任何人都可以编辑警报。
 
-## Project-Level Alert Settings
+## 项目级警报设置
 
-In **[Project] > Settings > Alerts**, you can configure alert email subject templates and digest settings. Sentry users with owner, manager, or admin permissions and above can change these default notification settings.
+在 **[项目] > 设置 > 警报** 中，您可以配置警报电子邮件主题模板和摘要设置。具有所有者、管理员或管理员权限及以上的 Sentry 用户可以更改这些默认通知设置。
 
-### Digests
+### 摘要
 
-The digests feature only works for issue alert emails (not notifications sent through integrations), and unlike the [action interval](#action-interval-rate-limit), limits the total number of alert emails sent for the project. This project-level setting allows you to control the minimum and maximum delivery intervals for alerts.
+摘要功能仅适用于问题警报电子邮件（不适用于通过集成发送的通知），并且与[操作间隔](#action-interval-rate-limit)不同，限制为项目发送的警报电子邮件总数。此项目级设置允许您控制警报的最小和最大传递间隔。
 
-![A sliding adjustment scale for the frequency of alert emails.](./img/alert-digest.png)
+![警报电子邮件频率的滑动调整比例。](./img/alert-digest.png)

@@ -1,56 +1,56 @@
 ---
 title: Seer
 sidebar_order: 7
-description: "Learn more about Sentry's integration platform Seer webhooks for Issue Fix analysis notifications."
+description: "了解有关 Sentry 集成平台 Seer webhooks 的问题修复分析通知的更多信息。"
 ---
 
-Sentry integrations that have subscribed to Seer webhooks can receive notifications about the Seer [Issue Fix](/product/ai-in-sentry/seer/issue-fix/) process. These webhooks allow you to track the progress of automated root cause analysis, solution generation, and code fixes.
+已订阅 Seer webhooks 的 Sentry 集成可以接收有关 Seer [问题修复](/product/ai-in-sentry/seer/issue-fix/)流程的通知。这些 webhooks 允许您跟踪自动化根本原因分析、解决方案生成和代码修复的进度。
 
-## Sentry-Hook-Resource Header
+## Sentry-Hook-Resource 标头
 
 `'Sentry-Hook-Resource': 'seer'`
 
-## Webhook Types
+## Webhook 类型
 
-Seer webhooks support seven different event types that track the complete lifecycle of AI-powered issue resolution:
+Seer webhooks 支持七种不同的事件类型，跟踪 AI 驱动问题解决的完整生命周期：
 
-### Root Cause Analysis
-- `seer.root_cause_started` - Triggered when root cause analysis begins
-- `seer.root_cause_completed` - Triggered when root cause analysis completes with results
+### 根本原因分析
+- `seer.root_cause_started` - 当根本原因分析开始时触发
+- `seer.root_cause_completed` - 当根本原因分析完成并带有结果时触发
 
-### Solution Generation
-- `seer.solution_started` - Triggered when solution generation begins
-- `seer.solution_completed` - Triggered when a solution has been generated
+### 解决方案生成
+- `seer.solution_started` - 当解决方案生成开始时触发
+- `seer.solution_completed` - 当解决方案已生成时触发
 
-### Code Generation
-- `seer.coding_started` - Triggered when code generation/fixing begins
-- `seer.coding_completed` - Triggered when code changes are ready
-- `seer.pr_created` - Triggered when pull request(s) are created
+### 代码生成
+- `seer.coding_started` - 当代码生成/修复开始时触发
+- `seer.coding_completed` - 当代码更改准备就绪时触发
+- `seer.pr_created` - 当拉取请求被创建时触发
 
-## Common Attributes
+## 通用属性
 
-All Seer webhooks share these common attributes:
+所有 Seer webhooks 共享这些通用属性：
 
 ### action
 
-- type: string
-- description: The specific Seer event that occurred (e.g., `root_cause_started`, `solution_completed`)
+- 类型：字符串
+- 描述：发生的特定 Seer 事件（例如，`root_cause_started`、`solution_completed`）
 
 ### data['run_id']
 
-- type: integer
-- description: Unique identifier for this Seer analysis run
+- 类型：整数
+- 描述：此 Seer 分析运行的唯一标识符
 
 ### data['group_id']
 
-- type: integer
-- description: The Sentry issue ID being analyzed
+- 类型：整数
+- 描述：正在分析的 Sentry 问题 ID
 
-## Event-Specific Payloads
+## 事件特定有效负载
 
-### Root Cause Started
+### 根本原因已开始
 
-Minimal payload indicating analysis has begun:
+指示分析已开始的最小有效负载：
 
 ```json
 {
@@ -70,9 +70,9 @@ Minimal payload indicating analysis has begun:
 }
 ```
 
-### Root Cause Completed
+### 根本原因已完成
 
-Includes the identified root cause:
+包括已识别的根本原因：
 
 ```json
 {
@@ -89,8 +89,8 @@ Includes the identified root cause:
       "description": "Woah wow there's a bug here.",
       "steps": [
         {
-          "title": "User navigates to the dashboard page, initiating page load.",
-          "code_snippet_and_analysis": "The user's browser sends a GET request to `/dashboard`. This is the entry point for the issue.",
+          "title": "用户导航到仪表板页面，启动页面加载。",
+          "code_snippet_and_analysis": "用户的浏览器向 `/dashboard` 发送 GET 请求。这是问题的入口点。",
           "timeline_item_type": "human_action",
           "relevant_code_file": {
             "file_path": "N/A",
@@ -99,8 +99,8 @@ Includes the identified root cause:
           "is_most_important_event": false
         },
         {
-          "title": "Next.js server renders the /dashboard route.",
-          "code_snippet_and_analysis": "The Next.js server processes the request and hits the bug",
+          "title": "Next.js 服务器渲染 /dashboard 路由。",
+          "code_snippet_and_analysis": "Next.js 服务器处理请求并命中错误",
           "timeline_item_type": "internal_code",
           "relevant_code_file": {
             "file_path": "src/app/page.ts",
@@ -117,9 +117,9 @@ Includes the identified root cause:
 }
 ```
 
-### Solution Started
+### 解决方案已开始
 
-Minimal payload indicating solution generation has begun:
+指示解决方案生成已开始的最小有效负载：
 
 ```json
 {
@@ -139,9 +139,9 @@ Minimal payload indicating solution generation has begun:
 }
 ```
 
-### Solution Completed
+### 解决方案已完成
 
-Includes the generated solution details:
+包括生成的解决方案详细信息：
 
 ```json
 {
@@ -158,13 +158,12 @@ Includes the generated solution details:
       "description": "Definitely need to fix this.",
       "steps": [
         {
-          "title": "Go fix it",
+          "title": "去修复它"
         },
         {
-          "title": "Then go fix this other thing.",
-        },
-      ],
-      
+          "title": "然后去修复这个其他事情。"
+        }
+      ]
     }
   },
   "installation": {
@@ -173,9 +172,9 @@ Includes the generated solution details:
 }
 ```
 
-### Coding Started
+### 编码已开始
 
-Minimal payload indicating code generation has begun:
+指示代码生成已开始的最小有效负载：
 
 ```json
 {
@@ -195,9 +194,9 @@ Minimal payload indicating code generation has begun:
 }
 ```
 
-### Coding Completed
+### 编码已完成
 
-Includes details about the code changes made:
+包括有关所做代码更改的详细信息：
 
 ```json
 {
@@ -215,9 +214,9 @@ Includes details about the code changes made:
         "repo_name": "my-app",
         "repo_external_id": "12345",
         "title": "fix: Initialize undefined variable",
-        "description": "This change initializes the 'blooopy' variable before use to prevent ReferenceError",
-        "diff": "<the diff as a string>",
-        "branch_name": "seer/fix-this-thing",
+        "description": "此更改在使用前初始化 'blooopy' 变量以防止 ReferenceError",
+        "diff": "<差异作为字符串>",
+        "branch_name": "seer/fix-this-thing"
       }
     ]
   },
@@ -227,9 +226,9 @@ Includes details about the code changes made:
 }
 ```
 
-### PR Created
+### PR 已创建
 
-Includes pull request details, there may be more than one pull request if there are multiple repos:
+包括拉取请求详细信息，如果有多个仓库，可能有多个拉取请求：
 
 ```json
 {
@@ -260,16 +259,16 @@ Includes pull request details, there may be more than one pull request if there 
 }
 ```
 
-## Use Cases
+## 用例
 
-Seer webhooks enable you to:
+Seer webhooks 使您能够：
 
-1. **Track Progress**: Monitor the status of Seer Issue Fix in real-time
-2. **Build Notifications**: Send custom notifications when fixes are ready
-3. **Audit Trail**: Maintain a log of all Seer fixes for your issues
-4. **Custom Integrations**: Build custom tools that react to Seer's analysis results
+1. **跟踪进度**：实时监控 Seer 问题修复的状态
+2. **构建通知**：在修复准备就绪时发送自定义通知
+3. **审计跟踪**：维护所有 Seer 修复问题的日志
+4. **自定义集成**：构建响应 Seer 分析结果的自定义工具
 
-## Best Practices
+## 最佳实践
 
-- Store the `run_id` to correlate related webhook events
-- Use the `group_id` to link webhooks back to the original Sentry issue
+- 存储 `run_id` 以关联相关的 webhook 事件
+- 使用 `group_id` 将 webhooks 链接回原始 Sentry 问题

@@ -1,125 +1,125 @@
 ---
-title: Splunk (Legacy)
+title: Splunk（旧版）
 sidebar_order: 1
-description: "Learn more about Sentry's Splunk integration, which allows you to send Sentry events to Splunk."
+description: "了解更多关于Sentry的Splunk集成，它允许您将Sentry事件发送到Splunk。"
 ---
 <Alert>
 
-Splunk integration is deprecated and is not available to be installed on new projects.
+Splunk集成已弃用，无法在新项目中安装。
 
 </Alert>
 
-Connect Splunk to Sentry with the [Data Forwarding](/concepts/data-management/data-forwarding/) feature.
+使用[数据转发](/concepts/data-management/data-forwarding/)功能将Splunk连接到Sentry。
 
 <Alert>
 
-We only support Splunk Cloud plans. We do not support Splunk Enterprise plans. See the [Splunk documentation](https://dev.splunk.com/) for specific details on your Splunk installation.
+我们仅支持Splunk Cloud方案。我们不支持Splunk Enterprise方案。有关您的Splunk安装的详细信息，请查看[Splunk文档](https://dev.splunk.com/)。
 
 </Alert>
 
-This integration needs to be set up in each project for which you wish to use it. It is maintained and supported by the [Sentry community](https://open.sentry.io/).
+此集成需要为您希望使用它的每个项目进行设置。它由[Sentry社区](https://open.sentry.io/)维护和支持。
 
-## Install and Configure
+## 安装和配置
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要Sentry所有者、管理员或管理员权限才能安装此集成。
 
 </Alert>
 
-Navigate to **Settings > Integrations > Splunk**
+导航到**设置 > 集成 > Splunk**
 
-![Install Splunk integration](./img/splunk.png)
+![安装Splunk集成](./img/splunk.png)
 
-### Enabling HEC
+### 启用HEC
 
-To get started, you’ll need to first enable the HTTP Event Collector:
+首先，您需要首先启用HTTP事件收集器：
 
-Under **Settings**, select **Data Inputs**:
+在**设置**下，选择**数据输入**：
 
-![Splunk settings](./img/splunk-settings.png)
+![Splunk设置](./img/splunk-settings.png)
 
-Select **HTTP Event Collector** under Local Inputs:
+在本地输入下选择**HTTP事件收集器**：
 
-![Splunk data inputs](./img/splunk-data-inputs.png)
+![Splunk数据输入](./img/splunk-data-inputs.png)
 
-Under your HEC settings, click "Global Settings":
+在您的HEC设置下，点击"全局设置"：
 
-![Splunk HEC inputs](./img/splunk-hec-inputs.png)
+![Splunk HEC输入](./img/splunk-hec-inputs.png)
 
-Change **All Tokens** to **Enabled**, and note the HTTP Port Number (`8088` by default):
+将**所有令牌**更改为**已启用**，并记下HTTP端口号（默认为`8088`）：
 
-![Splunk global settings](./img/splunk-hec-global-settings.png)
+![Splunk全局设置](./img/splunk-hec-global-settings.png)
 
 <Alert>
 
-If you’re running Splunk in a privileged environment, you may need to expose the HEC port.
+如果您在特权环境中运行Splunk，您可能需要公开HEC端口。
 
 </Alert>
 
-### Creating a Sentry Input
+### 创建Sentry输入
 
-Under HTTP Event Collector, create a new Sentry input by clicking "New Token":
+在HTTP事件收集器下，通过点击"新令牌"创建新的Sentry输入：
 
-![Splunk Sentry input](./img/splunk-new-http-input.png)
+![Splunk Sentry输入](./img/splunk-new-http-input.png)
 
-Enter a name (e.g. `Sentry`), and click "Next":
+输入名称（例如`Sentry`），然后点击"下一步"：
 
-![Input a name in Splunk](./img/splunk-new-input-name.png)
+![在Splunk中输入名称](./img/splunk-new-input-name.png)
 
-Select the index you wish to make accessible (e.g. `main`), and click "Review":
+选择您希望使其可访问的索引（例如`main`），然后点击"审查"：
 
-![Select index in Splunk](./img/splunk-new-input-index.png)
+![在Splunk中选择索引](./img/splunk-new-input-index.png)
 
-You’ll be prompted to review the input details. Click "Submit" to continue:
+系统将提示您审查输入详细信息。点击"提交"继续：
 
-![Review form before submitting](./img/splunk-new-input-review.png)
+![提交前审查表单](./img/splunk-new-input-review.png)
 
-The input has now been created, and you should be presented with the **Token Value**:
+输入现已创建，您应该会看到**令牌值**：
 
-![Token has been successfully created in Splunk](./img/splunk-new-input-final.png)
+![令牌已在Splunk中成功创建](./img/splunk-new-input-final.png)
 
-### Enabling Splunk Forwarding
+### 启用Splunk转发
 
-To enable Splunk forwarding, you’ll need the following:
+要启用Splunk转发，您需要以下内容：
 
-- Your instance URL (see note below)
-- The Sentry HEC token value
+- 您的实例URL（见下面的说明）
+- Sentry HEC令牌值
 
-In Sentry, navigate to the project you want to forward events from, and click "Project Settings".
+在Sentry中，导航到您要转发事件的项目，然后点击"项目设置"。
 
-### Data Forwarding
+### 数据转发
 
-Configure [data forwarding](/concepts/data-management/data-forwarding/) in **[Project] > Settings > Data Forwarding**, and provide the required information for the given integration.
+在**[项目] > 设置 > 数据转发**中配置[数据转发](/concepts/data-management/data-forwarding/)，并为给定集成提供所需信息。
 
-After navigating to **Data Forwarding**, enable the Splunk integration:
+导航到**数据转发**后，启用Splunk集成：
 
-![Data forwarding settings page](./img/splunk-data-forwarding-setting.png)
+![数据转发设置页面](./img/splunk-data-forwarding-setting.png)
 
-Your instance URL is going to vary based on the type of Splunk service you’re using. If you’re using self-service Splunk Cloud, the instance URL will be the URL of the Splunk instance running the HTTP Event Collector (HEC):
+您的实例URL将根据您使用的Splunk服务类型而有所不同。如果您使用的是自助服务Splunk Cloud，实例URL将是运行HTTP事件收集器（HEC）的Splunk实例的URL：
 
 ```
 https://<host>:8088
 ```
 
-For all other Splunk Cloud plans, you’ll use the `http-inputs` prefix:
+对于所有其他Splunk Cloud方案，您将使用`http-inputs`前缀：
 
 ```
 https://http-inputs-<host>:8088
 ```
 
-If you’re using Splunk behind your firewall, you’ll need to fill in the appropriate host.
+如果您在防火墙后使用Splunk，您需要填写适当的主机。
 
-Once you’ve filled in the required fields, hit **Save Changes**:
+填写完所需字段后，点击**保存更改**：
 
-![Splunk settings form](./img/splunk-data-forwarding-setting-complete.png)
+![Splunk设置表单](./img/splunk-data-forwarding-setting-complete.png)
 
-We’ll now begin forwarding all new events into your Splunk instance.
+我们现在将开始将所有新事件转发到您的Splunk实例。
 
 <Alert>
 
-Sentry will internally limit the maximum number of events sent to your Splunk instance to 1000 per second.
+Sentry将在内部限制发送到您的Splunk实例的最大事件数量为每秒1000个。
 
 </Alert>
 
-![Splunk page showing Sentry data](./img/splunk-search-sentry.png)
+![显示Sentry数据的Splunk页面](./img/splunk-search-sentry.png)

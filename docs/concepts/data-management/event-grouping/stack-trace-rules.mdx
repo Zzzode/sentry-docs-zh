@@ -1,193 +1,193 @@
 ---
-title: "Stack Trace Rules"
+title: 堆栈跟踪规则
 sidebar_order: 30
-description: "Learn how to use stack trace rules to group incoming events based on matchers."
+description: "了解如何使用堆栈跟踪规则基于匹配器对传入事件进行分组。"
 ---
 
 <Include name="only-error-issues-note.mdx" />
 
-Stack trace rules improve issue tracking by ensuring accurate grouping and better classification of stack frames as in-app or system. This helps focus on relevant code, reduces noise, and minimizes false positives. By tailoring rules to your project, you can streamline debugging and maintain consistency across teams or multiple applications.
+堆栈跟踪规则通过确保准确分组和更好地将堆栈帧分类为应用程序内或系统，从而改善问题跟踪。这有助于专注于相关代码，减少噪音，并最小化误报。通过为您的项目定制规则，您可以简化调试并在团队或多个应用程序之间保持一致性。
 
-When you set stack trace rules (previously known as _grouping enhancements_) for grouping in Sentry, they influence the data that's fed into the grouping algorithm. These rules can be configured on a per-project basis in **Project Settings > Issue Grouping > Stack Trace Rules**.
+当您在 Sentry 中为分组设置堆栈跟踪规则（以前称为_分组增强_）时，它们会影响输入到分组算法中的数据。这些规则可以在**项目设置 > 问题分组 > 堆栈跟踪规则**中按项目配置。
 
-Here are a few things to note about stack trace rules:
+以下是关于堆栈跟踪规则需要注意的几点：
 
-- Each rule is written on a single line.
-- Rules consist of one or more match expressions followed by one or more actions triggered when all expressions match.
-- Rules are applied sequentially, from top to bottom, across all frames in the stack trace.
+- 每个规则写在单独一行上。
+- 规则由一个或多个匹配表达式组成，后跟当所有表达式匹配时触发的一个或多个操作。
+- 规则按顺序从上到下应用于堆栈跟踪中的所有帧。
 
-In addition, the stack trace rules using the below matchers and actions can also be applied to incoming profiles to improve frame classification (in-app vs system, for example).
+此外，使用以下匹配器和操作的堆栈跟踪规则也可以应用于传入配置文件以改善帧分类（例如应用程序内与系统）。
 
-Allowed Matchers:
+允许的匹配器：
   * `stack.abs_path`
   * `stack.module`
   * `stack.function`
   * `stack.package`
 
-Allowed Actions:
+允许的操作：
   * `+app`
   * `-app`
 
-The syntax for stack trace rules is similar to:
+堆栈跟踪规则的语法类似于：
 
-```bash {tabTitle: Enhancement Rules}
-matcher-name:expression other-matcher:expression ... action1 action2 ...
+```bash {tabTitle: 增强规则}
+匹配器名称:表达式 其他匹配器:表达式... 操作1 操作2...
 ```
 
-If you want to negate the match, prefix the expression with an exclamation mark (`!`). If a line is prefixed with a hash (`#`), it's ignored and treated as a comment.
+如果要否定匹配，请在表达式前加上感叹号 (`!`)。如果行以哈希 (`#`) 开头，则忽略它并将其视为注释。
 
-The following is a practical example of how this looks:
+以下是实际示例：
 
-```bash {tabTitle: Enhancement Rules}
-# mark all functions in the std namespace to be outside the app
+```bash {tabTitle: 增强规则}
+# 将 std 命名空间中的所有函数标记为在应用程序外
 family:native stack.function:std::*       -app
 
-# mark all code in node modules not to be in app
+# 将 node_modules 中的所有代码标记为不在应用程序内
 stack.abs_path:**/node_modules/**         -app
 
-# remove all generated javascript code from all grouping
+# 从所有分组中删除所有生成的 JavaScript 代码
 stack.abs_path:**/generated/**.js         -group
 ```
 
-## Matchers
+## 匹配器
 
-Multiple matchers can be defined in a line. The following matchers are available:
+可以在一行中定义多个匹配器。以下匹配器可用：
 
 <DefinitionList>
 
 ### `family`
 
-Matches on the general platform family, which currently includes `javascript`, `native` and `other`. Comma separate rules to apply them to multiple platforms.
+匹配一般平台系列，目前包括 `javascript`、`native` 和 `other`。用逗号分隔规则以将它们应用于多个平台。
 
-```bash {tabTitle:Match multiple}
+```bash {tabTitle: 匹配多个}
 family:javascript,native stack.abs_path:**/generated/**  -group
 ```
 
-```bash {tabTitle:Match only JavaScript}
+```bash {tabTitle: 仅匹配 JavaScript}
 family:javascript stack.abs_path:**/generated/**  -group
 ```
 
-```bash {tabTitle:Match only native}
+```bash {tabTitle: 仅匹配 native}
 family:native stack.abs_path:**/generated/**  -group
 ```
 
 ### `stack.abs_path`
 
-alias: `path`
+别名：`path`
 
-This matcher is case insensitive with Unix glob behavior on a path in a stack trace. The path separators are normalized to `/`. As a special rule, if the filename is relative, it still matches on `**/`.
+此匹配器在堆栈跟踪中的路径上不区分大小写，具有 Unix 通配符行为。路径分隔符规范化为 `/`。作为特殊规则，如果文件名是相对的，它仍然匹配 `**/`。
 
-```bash {tabTitle:Enhancement Rules}
-# match on all files under `project` with a `.c` extension
+```bash {tabTitle: 增强规则}
+# 匹配 `project` 下所有具有 .c 扩展名的文件
 stack.abs_path:**/project/**.c +app
 
-# matches on vendor/foo without sub folders
+# 匹配 vendor/foo 而不带子文件夹
 stack.abs_path:**/vendor/foo/*.c -app
 
-# matches on `foo.gen.c` as well as `foo/bar.gen.c`.
+# 匹配 `foo.gen.c` 以及 `foo/bar.gen.c`。
 stack.abs_path:**/*.gen.c -group
 ```
 
 ### `stack.module`
 
-alias: `module`
+别名：`module`
 
-Module is similar to `path` but matches on the `module`. This is not used for Native but it is used for JavaScript, Python, and similar platforms. Matches are case-sensitive, and normal globbing is available. Note that modules are not packages, which can be confusing for Native environments.
+模块类似于 `path`，但匹配 `module`。这不用于 Native，但用于 JavaScript、Python 和类似平台。匹配区分大小写，并且可以使用普通通配符。请注意，模块不是包，这对于 Native 环境可能会造成混淆。
 
 ### `stack.function`
 
-alias: `function`
+别名：`function`
 
-Matches on a function in a stack trace, and is case-sensitive with normal globbing.
+匹配堆栈跟踪中的函数，区分大小写，具有普通通配符。
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.function:myproject_* +app
 stack.function:malloc      -group
 ```
 
 ### `stack.package`
 
-alias: `package`
+别名：`package`
 
-Matches on a package in a stack trace. The package is the container that contains a function or module. This is a `.jar`, a `.dylib` or similar. The same matching rules as for `path` apply. For example, this is typically an absolute path.
+匹配堆栈跟踪中的包。包是包含函数或模块的容器。这是 `.jar`、`.dylib` 或类似文件。应用与 `path` 相同的匹配规则。例如，这通常是绝对路径。
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.package:**/libcurl.dylib -group
 ```
 
 ### `app`
 
-Matches on the current state of the in-app flag of a stack trace frame. `yes` means the frame is in-app, `no` means it's not.
+匹配堆栈跟踪帧的应用程序内标志的当前状态。`yes` 表示帧在应用程序内，`no` 表示不在。
 
 ### `category`
 
-Matches on a [built-in](#built-in-categories) or a user-defined frame category.
-See [variable actions](#variable-actions) on how to set a category.
+匹配[内置](#built-in-categories)或用户定义的帧类别。
+有关如何设置类别，请参阅[变量操作](#variable-actions)。
 
-```bash {tabTitle:Category Match}
+```bash {tabTitle: 类别匹配}
 category:telemetry -group
 ```
 
-#### Built-in Categories
+#### 内置类别
 
-Frame categorization is heavily used by our newest grouping algorithm. You can match on a variety of categories, including:
+帧分类被我们的最新分组算法广泛使用。您可以匹配各种类别，包括：
 
-- `system` - detected system libraries
-- `std` - detected standard libraries
-- `ui` - UI frameworks
-- `driver` - graphics drivers, and so on
-- `telemetry` - crash reporting and analytics frameworks
+- `system` - 检测到的系统库
+- `std` - 检测到的标准库
+- `ui` - UI 框架
+- `driver` - 图形驱动程序等
+- `telemetry` - 崩溃报告和分析框架
 
-See [our source code](https://github.com/getsentry/sentry/blob/master/src/sentry/grouping/enhancer/enhancement-configs/mobile%402021-04-02.txt) for a full list of built-in categories.
+在我们的[源代码](https://github.com/getsentry/sentry/blob/master/src/sentry/grouping/enhancer/enhancement-configs/mobile%402021-04-02.txt)中查看内置类别的完整列表。
 
 </DefinitionList>
 
-### Matching Sibling Frames
+### 匹配兄弟帧
 
-If information about the surrounding frames is necessary to apply a rule to a frame, use caller/callee matching syntax. For example:
+如果需要有关周围帧的信息才能将规则应用于帧，请使用调用者/被调用者匹配语法。例如：
 
-```bash {tabTitle:Sibling matches}
-# Ignore in-app frames if they are called by telemetry
+```bash {tabTitle: 兄弟匹配}
+# 如果它们由遥测调用，则忽略应用程序内帧
 [ category:telemetry ] | app:yes -group
 
-# Ignore system frames if they call app frames
+# 如果它们调用应用程序帧，则忽略系统帧
 category:system | [ app:yes ] -group
 ```
 
-## Actions
+## 操作
 
-There are two types of **actions**: flag and variables setting.
+有两种类型的**操作**：标志和变量设置。
 
-### Flag Actions
+### 标志操作
 
-A _flag_ identifies the action to be taken if all matchers match, and it uses these prefixes:
+_标志_标识当所有匹配器匹配时要执行的操作，它使用这些前缀：
 
-- `+` sets the flag
-- `-` unsets the flag
-- `^` applies to frames above the matching frame (toward the crash)
-- `v` applies to frames below the matching frame (away from the crash)
+- `+` 设置标志
+- `-` 取消设置标志
+- `^` 应用于匹配帧上方的帧（朝向崩溃）
+- `v` 应用于匹配帧下方的帧（远离崩溃）
 
-As an example, `-group ^-group` removes the matching frame and all frames above it from the grouping.
+例如，`-group ^-group` 从分组中删除匹配帧及其上方的所有帧。
 
-- `app`: marks or unmarks a frame in-app
-- `group`: adds or removes a frame from grouping
+- `app`：标记或取消标记帧为应用程序内
+- `group`：从分组中添加或删除帧
 
-### Variable Actions
+### 变量操作
 
-A limited set of _variables_ can be defined (`variable=value`):
+可以定义有限的_变量_集 (`variable=value`)：
 
-- `max-frames`: Sets the total number of frames to be considered for grouping. The default is `0`, which means "all frames". If set to `3`, only the top three frames are considered.
+- `max-frames`：设置用于分组的总帧数。默认为 `0`，表示"所有帧"。如果设置为 `3`，则仅考虑顶部三帧。
 
 {/*<!--
-- `category`: Sets a custom category for the frame.
+- `category`：为帧设置自定义类别。
 
-  - Custom categories overwrite [built-in categories](#built-in-categories).
-  - If multiple category-applying rules match a frame, only the category set in the bottom-most rule is preserved.
+  - 自定义类别覆盖[内置类别](#built-in-categories)。
+  - 如果多个应用类别的规则匹配帧，则仅保留最底部规则中设置的类别。
 -->*/}
 
-### Example
+### 示例
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.abs_path:**/node_modules/** -group
 stack.abs_path:**/app/utils/requestError.jsx -group
 stack.abs_path:**src/getsentry/src/getsentry/** +app
@@ -203,33 +203,33 @@ family:native stack.function:std::* -app
 family:native stack.function:core::* -app
 ```
 
-## Recommendations
+## 建议
 
-These recommendations will greatly improve your out-of-the-box grouping experience.
+这些建议将大大改善您的开箱即用分组体验。
 
-### Mark in-app Frames
+### 标记应用程序内帧
 
-To proactively improve your experience, help Sentry determine which frames in your stack trace are "in-app" (part of your own application) and which are not. The SDK defines the default rules, but in many cases, this can be improved on the server as well. In particular, for languages where server-side processing is necessary (for example, Native C, C++, or JavaScript), it's better to override this on the server.
+为了主动改善您的体验，帮助 Sentry 确定堆栈跟踪中的哪些帧是"应用程序内"（您自己的应用程序的一部分），哪些不是。SDK 定义了默认规则，但在许多情况下，这也可以在服务器上进行改进。特别是对于需要服务器端处理的语言（例如，Native C、C++ 或 JavaScript），最好在服务器上覆盖此设置。
 
-For instance, the following marks all frames that are below a specific C++ namespace are in-app:
+例如，以下将所有低于特定 C++ 命名空间的帧标记为应用程序内：
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.function:myapplication::* +app
 ```
 
-See [in-app frames for Apple](/platforms/apple/usage/in-app-frames) to find out how the `sentry-cocoa` SDK marks frames as in-app.
+查看[Apple 的应用程序内帧](/platforms/apple/usage/in-app-frames)以了解 `sentry-cocoa` SDK 如何将帧标记为应用程序内。
 
-#### Stack Trace Rules
+#### 堆栈跟踪规则
 
-The following marks frames from libdispatch starting with `_dispatch_` as `inApp`.
+以下将以 `_dispatch_` 开头的 libdispatch 帧标记为 `inApp`。
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.function:_dispatch_*  +app
 ```
 
-You can also achieve the same result by marking other frames "not in-app." However, if that's the case, you should ensure that first all frames are set to "in-app" to override the defaults:
+您还可以通过将其他帧标记为"不在应用程序内"来实现相同的结果。但是，如果是这种情况，您应该首先确保所有帧都设置为"应用程序内"以覆盖默认值：
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 app:no                   +app
 stack.function:std::*    -app
 stack.function:boost::*  -app
@@ -237,52 +237,52 @@ stack.function:boost::*  -app
 
 <Alert>
 
-You need to force all frames to be in-app first because there might already have been some defaults set by the client SDK or earlier processing.
+您需要首先强制所有帧为应用程序内，因为客户端 SDK 或早期处理可能已经设置了一些默认值。
 
 </Alert>
 
-If you're using the `sentry-cocoa` SDK, you can also achieve the same result by marking other frames `not inApp`. The following sample marks functions from the classes `DataRequest` and `DownloadRequest` as `not inApp`.
+如果您使⽤ `sentry-cocoa` SDK，您还可以通过将其他帧标记为 `not inApp` 来实现相同的结果。以下示例将 `DataRequest` 和 `DownloadRequest` 类中的函数标记为 `not inApp`。
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.function:DataRequest*  -app
 stack.function:DownloadRequest*  -app
 ```
 
-### Cut Stack Traces
+### 剪切堆栈跟踪
 
-In many cases, you want to remove the top or bottom of the stack trace. For instance, many code bases use a common function to generate an error. In this case, the error machinery will appear as part of the stack trace.
+在许多情况下，您希望删除堆栈跟踪的顶部或底部。例如，许多代码库使用公共函数来⽣成错误。在这种情况下，错误机制将显示为堆栈跟踪的⼀部分。
 
-For example, if you use Rust, you likely want to remove some frames that are related to panic handling:
+例如，如果您使⽤ Rust，您可能希望删除与恐慌处理相关的⼀些帧：
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.function:std::panicking::begin_panic       ^-app -app ^-group -group
 stack.function:core::panicking::begin_panic      ^-app -app ^-group -group
 ```
 
-Here we tell the system that all frames from `begin-panic` to the crash location are not part of the application (including the panic frame itself). All frames above are, in all cases, irrelevant for grouping.
+在这⾥，我们告诉系统从 `begin-panic` 到崩溃位置的所有帧都不是应⽤程序的⼀部分（包括恐慌帧本身）。在所有情况下，上⽅的帧都与分组⽆关。
 
-Likewise, you can also remove the base of a stack trace. This is particularly useful if you have different main loops that drive an application:
+同样，您还可以删除堆栈跟踪的基础。如果您有不同的主循环驱动应⽤程序，这特别有用：
 
-```bash {tabTitle:Enhancement Rules}
+```bash {tabTitle: 增强规则}
 stack.function:myapp::LinuxMainLoop         v-group -group
 stack.function:myapp::MacMainLoop           v-group -group
 stack.function:myapp::WinMainLoop           v-group -group
 ```
 
-### Stack Trace Frame Limits
+### 堆栈跟踪帧限制
 
-This isn't useful for _all_ projects, but it can work well for large applications with many crashes. The default strategy is to consider most of the stack trace relevant for grouping. This means that every different stack trace that leads to a crashing function will cause a different group to be created. If you do not want that, you can force the groups to be much larger by limiting how many frames should be considered.
+这对_所有_项⽬都没有⽤，但对于有许多崩溃的⼤型应⽤程序可能很有效。默认策略是考虑⼤部分堆栈跟踪与分组相关。这意味着导致崩溃函数的每个不同堆栈跟踪都会导致创建不同的组。如果您不希望这样，您可以通过限制应考虑多少帧来强制组变得⼤得多。
 
-For instance, if any of the frames in the stack trace refer to a common external library, you could tell the system only to consider the top N frames:
+例如，如果堆栈跟踪中的任何帧引⽤公共外部库，您可以告诉系统仅考虑顶部 N 帧：
 
-```bash {tabTitle:Enhancement Rules}
-# always only consider the top 1 frame for all native events
+```bash {tabTitle: 增强规则}
+# 始终仅考虑所有原生事件的顶部 1 帧
 family:native max-frames=1
 
-# if the bug is in proprietarymodule.so, only consider top 2 frames
+# 如果错误在 proprietarymodule.so 中，仅考虑顶部 2 帧
 family:native stack.package:**/proprietarymodule.so  max-frames=2
 
-# these are functions we want to consider much more of the stack trace for
+# 对于这些函数，我们希望考虑更多堆栈跟踪
 family:native stack.function:KnownBadFunction1  max-frames=5
 family:native stack.function:KnownBadFunction2  max-frames=5
 ```

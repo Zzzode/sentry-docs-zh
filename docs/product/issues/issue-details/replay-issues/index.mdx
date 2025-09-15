@@ -1,25 +1,25 @@
 ---
-title: Replay Issues
+title: 重放问题
 sidebar_order: 30
-description: "Learn more about which replay issues Sentry detects."
+description: "了解更多关于Sentry检测的重放问题类型。"
 ---
 
-If you've enabled [Session Replay](/product/explore/session-replay/), you'll be able to see new issue types on the [**Issues**](https://sentry.io/orgredirect/organizations/:orgslug/issues/) page in Sentry.
+如果您启用了[会话重放](/product/explore/session-replay/)，您将能够在Sentry的[**问题**](https://sentry.io/orgredirect/organizations/:orgslug/issues/)页面上看到新的问题类型。
 
-## Quota Consumption
+## 配额消耗
 
 <Alert>
-Replay issues do not consume error quota.
+重放问题不消耗错误配额。
 </Alert>
 
-When a replay is created it consumes [replay quota](/pricing/quotas/manage-replay-quota/) (not to be confused with [error quota](/pricing/quotas/manage-event-stream-guide/)). As the replay is being processed by the server Sentry detects the replay issue types listed below and groups those into issues. These errors are created on the backend after ingest and do not consume error quota. They will not appear on your [stats](https://sentry.io/orgredirect/organizations/:orgslug/stats/) page under the "Total Errors" or "Accepted Errors" graphs. You are not billed for their volume.
+当创建重放时，它会消耗[重放配额](/pricing/quotas/manage-replay-quota/)（不要与[错误配额](/pricing/quotas/manage-event-stream-guide/)混淆）。当重放被服务器处理时，Sentry会检测下面列出的重放问题类型并将它们分组为问题。这些错误是在摄取后在后端创建的，不消耗错误配额。它们不会出现在您的[统计](https://sentry.io/orgredirect/organizations/:orgslug/stats/)页面上的"总错误"或"已接受错误"图表中。您不会被收取它们的费用。
 
-## Replay Issue Types
+## 重放问题类型
 
-- [Rage clicks](/product/issues/issue-details/replay-issues/rage-clicks/) are a series of consecutive clicks on the same unresponsive page element. They are a strong signal of user frustration and most likely deserve your attention.
+- [愤怒点击](/product/issues/issue-details/replay-issues/rage-clicks/)是在同一无响应页面元素上的一系列连续点击。它们是用户沮丧的强烈信号，很可能值得您关注。
 
-- [Hydration errors](/product/issues/issue-details/replay-issues/hydration-error/) are a React-specific problem that happen when the initial UI does not match what was rendered on the server. They can result in a slower pageload experience for users.
+- [水合错误](/product/issues/issue-details/replay-issues/hydration-error/)是React特有的问题，当初始UI与服务器渲染的内容不匹配时发生。它们可能导致用户页面加载体验变慢。
 
-## Searching for Replay Issues
+## 搜索重放问题
 
-If you use the term `issue.category:replay` in Issue Details search, you'll be able to filter for rage click and hydration error issues.
+如果您在问题详情搜索中使用术语`issue.category:replay`，您将能够过滤愤怒点击和水合错误问题。

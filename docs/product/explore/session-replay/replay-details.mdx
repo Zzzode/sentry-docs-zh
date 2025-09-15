@@ -1,72 +1,72 @@
 ---
-title: "Replay Details"
+title: "重放详情"
 sidebar_order: 72
-description: "Learn more about how information is organized on the Replay Details page and how to share and delete replays."
+description: "了解更多关于重放详情页面上的信息组织方式以及如何共享和删除重放。"
 ---
 
 <Include name="session-replay-web-report-bug.mdx" />
 
-Every replay has a detailed view that contains the embedded video player and rich debugging context. Playing back the video will allow you to see every user interaction in relation to frontend and backend errors, console messages, DOM events, network requests and more depending on your platform. It’s like having [DevTools](https://developer.chrome.com/docs/devtools/overview/) active for your production user sessions. Almost every component on this page is connected through timestamps. See the breakdown of each component and why it’s valuable:
+每个重放都有一个包含嵌入式视频播放器和丰富调试上下文的详细视图。回放视频将允许您看到每个用户交互与前端和后端错误、控制台消息、DOM 事件、网络请求等的关系，具体取决于您的平台。这就像为您的生产用户会话激活了 [DevTools](https://developer.chrome.com/docs/devtools/overview/)。此页面上的几乎每个组件都通过时间戳连接。查看每个组件的细分及其价值：
 
-![Session Replay details user interface](./img/replay-details.png)
+![会话重放详情用户界面](./img/replay-details.png)
 
-- **Replay Player:** Video-like reproduction of a user session. This is where you can visualize exactly what actions the user took during a user session and how the application behaved within this specific user’s environment, including device, OS, latency, settings, and so on. Most importantly, you can see which actions led to an error, which takes the guesswork out of debugging.
-  - By default, the Session Replay SDK is configured to redact all text, user input, and media elements. See all privacy configuration options [here](/platform-redirect/?next=/session-replay/privacy/).
+- **重放播放器：** 用户会话的视频式重现。在这里，您可以可视化用户在用户会话期间采取的确切操作以及应用程序在该特定用户环境中的行为，包括设备、操作系统、延迟、设置等。最重要的是，您可以看到哪些操作导致了错误，这消除了调试中的猜测。
+  - 默认情况下，会话重放 SDK 配置为编辑所有文本、用户输入和媒体元素。在此处查看所有隐私配置选项 [/platform-redirect/?next=/session-replay/privacy/]。
 
-* **Breadcrumbs:** The replay breadcrumbs show when key user interactions took place. Breadcrumbs are synced with the replay player and will auto-scroll as the video plays. 
-Specifically:
-  - **User Clicks or Taps:** including rage and dead clicks on Web.
-  - **Navigations, Page Loads, & View Changes:** [Learn more about spans](/product/sentry-basics/distributed-tracing/).
-  - **Mobile specific:** Backgrounding as well as foregrounding, network connectivity, and battery usage.
-  - **Web Vitals:** and an overall performance score [Learn more](/product/insights/web-vitals/)
-  - **Custom Breadcrumbs:** Learn more about configuring [custom breadcrumbs](/product/sentry-basics/integrate-backend/configuration-options/#breadcrumbs).
+* **面包屑：** 重放面包屑显示关键用户交互发生的时间。面包屑与重放播放器同步，并将在视频播放时自动滚动。
+具体包括：
+  - **用户点击或点击：** 包括 Web 上的愤怒和无效点击。
+  - **导航、页面加载和视图更改：** [了解有关跨度的更多信息](/product/sentry-basics/distributed-tracing/)。
+  - **移动端特定：** 后台化以及前台化、网络连接和电池使用。
+  - **Web 指标：** 和整体性能评分 [了解更多](/product/insights/web-vitals/)
+  - **自定义面包屑：** 了解如何配置 [自定义面包屑](/product/sentry-basics/integrate-backend/configuration-options/#breadcrumbs)。
 
-  Some [breadcrumb types](/product/issues/issue-details/breadcrumbs/) visible in **Issue Details** are not 1:1 to the replay breadcrumbs list. The trail of events typically seen in the Issue Details page are now displayed in the Console and Network components of the **Replay Details** page.  
+  **问题详情**中可见的某些[面包屑类型](/product/issues/issue-details/breadcrumbs/)不是重放面包屑列表的 1:1。通常在问题详情页面中看到的事件轨迹现在显示在**重放详情**页面的控制台和网络组件中。
 
-- **Timeline:** This section at the bottom of the **Replay Details** page illustrates where significant events (such as errors, user interactions, and more) happen over the course of the replay. This allows users to easily scrub to key events by dragging across the timeline. It also visually conveys the amount of time that took place between events and has a zoom functionality, so you can easily zoom in to distinguish between events that happen close together.
+- **时间线：** **重放详情**页面底部的此部分说明了重要事件（如错误、用户交互等）在重放过程中的发生位置。这允许用户通过拖动时间线轻松擦除到关键事件。它还直观地传达了事件之间经过的时间量，并具有缩放功能，因此您可以轻松放大以区分紧密发生的事件。
 
-* **Console:** A list of debugging messages that don't belong in the breadcrumbs list will appear here. For web, this includes `console.log` statements and browser-generated messages to the developer. For React Native, custom `console.log` will appear here, and in Android, logs from [Logcat](/platforms/android/integrations/logcat/) and [Timber](/platforms/android/integrations/timber/) are also supported.
+* **控制台：** 不属于面包屑列表的调试消息列表将显示在这里。对于 Web，这包括 `console.log` 语句和浏览器生成的开发者消息。对于 React Native，自定义 `console.log` 将显示在这里，在 Android 中，[Logcat](/platforms/android/integrations/logcat/) 和 [Timber](/platforms/android/integrations/timber/) 的日志也得到支持。
 
-- **Network:** A list of all network requests that were initiated by the app while the replay recording was active. As the video plays, there is a visual indicator that tracks through the table of network requests, highlighting which requests happened prior to or next to this point in the video. You can also click the timestamp on the far right of each request to bring yourself to that point in the replay player. If configured for web, Sentry can also show the actual [HTTP request body and headers](/platform-redirect/?next=/session-replay/configuration/#network-details).
+- **网络：** 应用程序在重放录制处于活动状态时发起的所有网络请求的列表。当视频播放时，有一个视觉指示器跟踪网络请求表，突出显示在此点之前或之后发生的请求。您还可以点击每个请求最右侧的时间戳，将您带到重放播放器中的该点。如果为 Web 配置，Sentry 还可以显示实际的 [HTTP 请求正文和标头](/platform-redirect/?next=/session-replay/configuration/#network-details)。
 
-- **Errors:** See all the errors that occurred in the replay (including in your backend), with links to the corresponding events and [issue(s)](/product/issues/issue-details/error-issues/), as well as the impact these issues have had holistically across all users on your application.
+- **错误：** 查看重放中发生的所有错误（包括您的后端），带有到相应事件和[问题](/product/issues/issue-details/error-issues/)的链接，以及这些错误对您的应用程序所有用户的整体影响。
 
-- **Trace:** Connects all the [trace(s)](/product/sentry-basics/tracing/distributed-tracing/#traces-transactions-and-spans) that happened during the replay.
-  - Due to transaction sampling, this view may be missing traces.
+- **追踪：** 连接重放期间发生的所有[追踪](/product/sentry-basics/tracing/distributed-tracing/#traces-transactions-and-spans)。
+  - 由于事务采样，此视图可能缺少追踪。
 
-- **Memory (web):** The view shows a heap size chart displaying the total amount of memory being used by JavaScript objects.
-  - This view is only available when the replay was recorded on a Chromium-based browser.
+- **内存（Web）：** 视图显示堆大小图表，显示 JavaScript 对象使用的总内存量。
+  - 此视图仅在重放在基于 Chromium 的浏览器上录制时可用。
 
-- **Tags:** A complete list of built-in fields and custom tags associated with a replay, such as operating system version and name, device specs, release, and user details.
+- **标签：** 与重放关联的内置字段和自定义标签的完整列表，如操作系统版本和名称、设备规格、发布和用户详细信息。
 
 
-## Share Replays
+## 共享重放
 
-Share a replay at a specific timestamp with a Sentry member by clicking the “Share” button in the top-right corner of the **Replay Details** page. This allows you to share replays at the point of a critical event or user flow with other Sentry members in your organization.
+通过点击**重放详情**页面右上角的"共享"按钮，在特定时间戳与 Sentry 成员共享重放。这允许您与其他组织中的 Sentry 成员共享关键事件或用户流程点的重放。
 
-![Highlight the button to share a replay](./img/replay-details-share.png)
+![突出显示共享重放的按钮](./img/replay-details-share.png)
 
-## Delete Replays
+## 删除重放
 
-Delete an individual replay by clicking the “Delete” button in the top-right corner of **the Replay Details** page. You cannot delete replays that are in progress. Please note that deleting replays does not affect your quota.
+通过点击**重放详情**页面右上角的"删除"按钮删除单个重放。您无法删除进行中的重放。请注意，删除重放不会影响您的配额。
 
-## Tags
+## 标签
 
-Find a complete list of built-in fields and custom tags associated with a replay under the “Tags” tab for additional context around the replay you’re viewing.
+在"标签"选项卡下找到与重放关联的内置字段和自定义标签的完整列表，以获取您正在查看的重放的额外上下文。
 
-![Highlight the button to share a replay](./img/replay-details-tags.png)
+![突出显示共享重放的按钮](./img/replay-details-tags.png)
 
-## Retention
+## 保留期
 
-Replays are retained for 90 days in Sentry for paid plans (the same retention period as other event types, such as Errors and Transactions). For free plans, replays are retained for 30 days in Sentry. The retention period is not configurable.
+重放在 Sentry 中为付费计划保留 90 天（与其他事件类型（如错误和事务）的保留期相同）。对于免费计划，重放在 Sentry 中保留 30 天。保留期不可配置。
 
-## Inbound Filtering
+## 入站过滤
 
-If you've chosen not to capture certain errors by applying any of the below inbound filter rules, those same rules will also apply to Session Replays.
+如果您选择通过应用以下任何入站过滤规则来不捕获某些错误，这些相同规则也将适用于会话重放。
 
-- IP Addresses
-- Releases
-- Request URLs
-- User-Agents
+- IP 地址
+- 发布
+- 请求 URL
+- 用户代理
 
-**Note**: Because filtered outcomes are emitted per **segment** whereas successful outcomes are emitted per **replay**  (a replay being a collection of segments), you may see a noticeable increase in filtered outcomes on your [Stats](https://sentry.io/orgredirect/organizations/:orgslug/stats) page. This is not an error.
+**注意**：由于过滤结果按**段**发出，而成功结果按**重放**发出（重放是段的集合），您可能会在[统计](https://sentry.io/orgredirect/organizations/:orgslug/stats)页面上看到过滤结果的显著增加。这不是错误。

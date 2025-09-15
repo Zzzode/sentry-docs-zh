@@ -1,55 +1,51 @@
 ---
-title: Job Monitoring
+title: 作业监控
 sidebar_order: 1
-description: "Learn how to set up monitor notifications, monitor the same job in multiple environments, and manage your monitor in the Sentry UI."
+description: "了解如何设置监控通知、在多个环境中监控同一作业，以及在 Sentry UI 中管理您的监控。"
 ---
 
-Sentry's Cron Monitoring service can notify you and store a timeline of the following check-in events:
+Sentry 的 Cron 监控服务可以通知您并存储以下签到事件的时间线：
 
-- **Missed check-in:** The job didn't execute in the predicted timeframe or frequency. This can happen for various reasons, such as:
-  - The job scheduler is misconfigured, skipped, or failed to initiate your job.
-  - A timeout failure event when a job sent an initial check-in but failed to send a final check-in.
-  - Network issues, such as an outbound firewall or an unstable connection.
-  - An invalid request format.
-- **Failed check-in:** The job has reported its execution as unsuccessful.
-- **Successful check-in:** The job has reported its execution as successful.
+- **签到遗漏：** 作业未在预测的时间范围或频率内执行。这可能由于各种原因发生，例如：
+  - 作业调度程序配置错误、跳过或未能启动作业。
+  - 超时失败事件，当作业发送了初始签到但未能发送最终签到时。
+  - 网络问题，例如出站防火墙或不稳定连接。
+  - 无效的请求格式。
+- **签到失败：** 作业已报告其执行不成功。
+- **签到成功：** 作业已报告其执行成功。
 
-To see information about your cron monitor, select "Crons" from the sidebar menu and click on your cron monitor's name.
+要查看有关您的 cron 监控的信息，请从侧边栏菜单中选择"Crons"，然后点击您的 cron 监控名称。
 
-## Cron Monitor Details
+## Cron 监控详情
 
-This is where you'll find a daily historical bar chart showing successful, failed, and missed check-ins and a line chart of the runtime average for the job execution.
+在这里，您会找到一个每日历史条形图，显示成功、失败和遗漏的签到，以及作业执行的运行时平均值折线图。
 
-The "Issues" section shows the issues created from this Cron Monitor. Issues are created when a cron monitor job execution is missed or failed. If you have configured the Sentry SDK for your job, any errors thrown during the job runtime will be shown here as well.
+"问题"部分显示从此 Cron 监控创建的问题。当 cron 监控作业执行遗漏或失败时，会创建问题。如果您已为作业配置了 Sentry SDK，作业运行时抛出的任何错误也将显示在此处。
 
-The table of recent check-ins lists previously scheduled jobs and their statuses.
+最近签到表列出了先前计划的作业及其状态。
 
 <Arcade src="https://demo.arcade.software/7XmPfL0l2pp6KmBUXwMc?embed" />
 
-## Multiple Environments
+## 多个环境
 
-To monitor the same job in different environments, use a shared schedule to send check-ins for multiple environments to one monitor. Each environment will have its own status and set of check-ins.
+要在不同环境中监控同一作业，请使用共享计划将多个环境的签到发送到单个监控。每个环境将有自己的状态和签到集。
 
-### Alerting on Specific Environments
+### 特定环境的告警
 
-To only receive failing or missed monitor alerts for a specific environment or set of environments, [configure the
-environment](/product/alerts/create-alerts/issue-alert-config/#environment) for
-your monitor alert.
+要仅接收特定环境或环境集的失败或遗漏监控告警，请为您的监控告警[配置环境](/product/alerts/create-alerts/issue-alert-config/#environment)。
 
-### Existing Limitations:
+### 现有限制：
 
-- It's not currently possible to pause an individual monitor environment.
+- 目前无法暂停单个监控环境。
 
-- It's not currently possible to see an aggregate view of a monitors' status
-  across all environments. Each environment will appear as its own row in the
-  monitor list.
+- 目前无法查看监控状态在所有环境中的聚合视图。每个环境将在监控列表中显示为自己的行。
 
-## Ownership
+## 所有权
 
-Cron monitors can be assigned an owner as either a Team or specific Organization Member. When an owner is assigned to a monitor, new issues produced by failures of that monitor will be assigned to that owner.
+Cron 监控可以被分配所有者，可以是团队或特定组织成员。当所有者被分配给监控时，该监控失败产生的新问题将被分配给该所有者。
 
-## Pausing Your Cron Monitor
+## 暂停您的 Cron 监控
 
-You can pause job monitoring in the header of your cron monitor. When you pause, your monitor will stop recording check-ins and will no longer notify you of any failed or missed check-ins.
+您可以在 cron 监控的标题中暂停作业监控。当您暂停时，您的监控将停止记录签到，并且不再通知您任何失败或遗漏的签到。
 
-Note: Pausing your cron monitor won't pause the execution of your job or change the configuration of your job scheduler.
+注意：暂停您的 cron 监控不会暂停作业的执行或更改作业调度程序的配置。

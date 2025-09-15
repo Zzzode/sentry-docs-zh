@@ -1,9 +1,9 @@
 ---
-title: Requests
+title: 请求
 sidebar_order: 4
 ---
 
-All API requests should be made to the `/api/0/` prefix, and will return JSON as the response:
+所有 API 请求都应发送到 `/api/0/` 前缀，并将返回 JSON 作为响应：
 
 ```bash
 curl -i https://sentry.io/api/0/
@@ -19,21 +19,21 @@ Allow: GET, HEAD, OPTIONS
 {"version": "0"}
 ```
 
-## HTTP Verbs
+## HTTP 动词
 
-Sentry makes an attempt to stick to appropriate HTTP verbs, but we always prioritize usability over correctness.
+Sentry 尝试坚持适当的 HTTP 动词，但我们始终优先考虑可用性而非正确性。
 
-| Method    | Description                                                           |
+| 方法      | 描述                                                           |
 | --------- | --------------------------------------------------------------------- |
-| `DELETE`  | Used for deleting resources.                                          |
-| `GET`     | Used for retrieving resources.                                        |
-| `OPTIONS` | Describes the given endpoint.                                         |
-| `POST`    | Used for creating resources.                                          |
-| `PUT`     | Used for updating resources. Partial data is accepted where possible. |
+| `DELETE`  | 用于删除资源。                                          |
+| `GET`     | 用于检索资源。                                        |
+| `OPTIONS` | 描述给定的端点。                                         |
+| `POST`    | 用于创建资源。                                          |
+| `PUT`     | 用于更新资源。尽可能接受部分数据。 |
 
-## Parameters and Data
+## 参数和数据
 
-Any parameters not included in the URL should be encoded as JSON with a Content-Type of `'application/json'`:
+未包含在 URL 中的任何参数都应编码为 JSON，Content-Type 为 `'application/json'`：
 
 ```bash
 curl -i https://sentry.io/api/0/organizations/acme/projects/1/groups/ \
@@ -41,7 +41,7 @@ curl -i https://sentry.io/api/0/organizations/acme/projects/1/groups/ \
     -H 'Content-Type: application/json'
 ```
 
-Additional parameters are sometimes specified via the querystring, even for `POST`, `PUT`, and `DELETE` requests:
+附加参数有时通过查询字符串指定，即使对于 `POST`、`PUT` 和 `DELETE` 请求也是如此：
 
 ```bash
 curl -i https://sentry.io/api/0/organizations/acme/projects/1/groups/?status=unresolved \

@@ -1,55 +1,55 @@
 ---
-title: Development Environment
+title: 开发环境
 noindex: true
 sidebar_order: 1
 ---
 
-This setup assumes you have [Yarn][Yarn], [Volta][volta] and [pre-commit][pre-commit] installed.
+此设置假设您已安装[Yarn][Yarn]、[Volta][volta]和[pre-commit][pre-commit]。
 
-If you prefer not to use Volta, make sure you're using Node 20.
+如果您不想使用Volta，请确保使用Node 20。
 
-First, open a terminal and clone the `sentry-docs` repo:
+首先，打开终端并克隆`sentry-docs`仓库：
 
 ```bash
-# Clone the docs repo
+# 克隆文档仓库
 git clone git@github.com:getsentry/sentry-docs.git
 ```
 
-Next, navigate into the cloned repo and run the following to install dependencies:
+接下来，进入克隆的仓库并运行以下命令安装依赖：
 
 ```bash
-# Install or update application dependencies
+# 安装或更新应用程序依赖
 make
 ```
 
-Now, run the development webserver (depending on the docs you want to run):
+现在，运行开发Web服务器（取决于您要运行的文档）：
 
 ```bash
-# Start dev server for user docs
+# 为用户文档启动开发服务器
 yarn dev
 
-# Start dev server for developer docs
+# 为开发者文档启动开发服务器
 yarn dev:developer-docs
 ```
 
-You will now be able to access docs via http://localhost:3000.
+您现在可以通过http://localhost:3000访问文档。
 
 [Next.js]: https://nextjs.org/
 [volta]: https://volta.sh/
 [pre-commit]: https://pre-commit.com/
 [Yarn]: https://yarnpkg.com/
 
-## Linting
+## 代码检查
 
-A few linters are available. Run `yarn lint` to apply them all.
+有几个代码检查工具可用。运行`yarn lint`应用所有检查。
 
-Some lints can be auto-fixed with eslint
+一些检查可以通过eslint自动修复
 
 ```bash
 yarn lint:eslint:fix
 ```
 
-Additionally we use prettier to format our code and markdown. Run prettier if you get linting errors in CI:
+此外，我们使用prettier格式化代码和markdown。如果在CI中获得代码检查错误，请运行prettier：
 
 ```bash
 yarn lint:prettier:fix

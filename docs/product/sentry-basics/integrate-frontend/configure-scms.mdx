@@ -1,46 +1,46 @@
 ---
-title: Enable Suspect Commits & Stack Trace Linking
+title: 启用可疑提交和堆栈跟踪链接
 sidebar_order: 5
-description: "Learn how to integrate your source code with Sentry, so that Sentry can track commits and surface suspect commits and suggested assignees to help you resolve issues faster."
+description: "学习如何将您的源代码与 Sentry 集成，以便 Sentry 可以跟踪提交并显示可疑提交和建议的负责人，帮助您更快地解决问题。"
 ---
 
 <Include name="only-error-issues-note.mdx" />
 
-Sentry uses commit metadata from your source code repositories to help you resolve your issues faster. This is done by suggesting _suspect commits_ that might have introduced an error right in your **Issue Details** page. It also allows Sentry to display _suggested assignees_ — the list of the authors of those commits — and suggest their assignment to resolve the issue.
+Sentry 使用来自源代码仓库的提交元数据来帮助您更快地解决问题。这是通过在您的**问题详情**页面中建议_可疑提交_（可能已引入错误的提交）来完成的。它还允许 Sentry 显示_建议的负责人_——这些提交的作者列表——并建议将他们分配给解决问题。
 
-Now that you've created a release, you can tell Sentry which commits are associated with this latest version of your code; this is called _commit tracking_.
+现在您已经创建了发布，您可以告诉 Sentry 哪些提交与此最新版本的代码相关联；这称为_提交跟踪_。
 
-## 1. Integrate Your GitHub Account and Repository
+## 1. 集成您的 GitHub 账户和仓库
 
-Use Sentry's GitHub integration to link your source code repository to your Sentry project. This enables Sentry to use commit metadata to help you streamline issue triaging.
+使用 Sentry 的 GitHub 集成将您的源代码仓库链接到您的 Sentry 项目。这使 Sentry 能够使用提交元数据来帮助您简化问题分类。
 
-1. To integrate GitHub with your Sentry org, follow the [GitHub Integration Install instructions](/organization/integrations/source-code-mgmt/github/#install). Be sure to give the integration access to the appropriate repository — in this case, the `frontend-tutorial` repo you forked.
+1. 要将 GitHub 与您的 Sentry 组织集成，请按照 [GitHub 集成安装说明](/organization/integrations/source-code-mgmt/github/#install) 操作。确保为集成提供对适当仓库的访问权限——在本例中，是您 fork 的 `frontend-tutorial` 仓库。
 
-   After you've added the integration, you should be redirected to a page showing your GitHub repositories in Sentry. Verify that the right repos have been added.
+   添加集成后，您应该被重定向到一个页面，显示您在 Sentry 中的 GitHub 仓库。验证是否已添加正确的仓库。
 
-1. Go to the "Code Mappings" tab.
+1. 转到"代码映射"选项卡。
 
-1. Click "Add Code Mapping".
+1. 点击"添加代码映射"。
 
-1. Fill out the information requested to add a code mapping between your Sentry project and the `frontend-tutorial` repository's `main` or `master` branch. Tell Sentry that your components live in the `src/` directory:
+1. 填写请求的信息，以在您的 Sentry 项目和 `frontend-tutorial` 仓库的 `main` 或 `master` 分支之间添加代码映射。告诉 Sentry 您的组件位于 `src/` 目录中：
 
-   ![Add code mapping](./img/configure-scms-09.png)
+   ![添加代码映射](./img/configure-scms-09.png)
 
-### UI Walkthrough
+### UI 操作演示
 
-Follow along with the interactive demo below to see how to integrate your GitHub account and repository.
+跟随下面的交互式演示，了解如何集成您的 GitHub 账户和仓库。
 
 <Arcade src="https://demo.arcade.software/OlEYtzImezSBwsV8SVc8?embed" />
 
-## 2. Set Up Commit Tracking
+## 2. 设置提交跟踪
 
-A _release_ is a version of your code deployed to an environment. See the [Releases](/product/releases/) documentation to learn more. Sentry uses releases to match up your source maps and source code. Releases can also be used to enable Sentry's [Suspect Commits](/product/issues/suspect-commits/) feature.
+_发布_是部署到环境的代码版本。请参阅 [发布](/product/releases/) 文档了解更多信息。Sentry 使用发布来匹配您的源映射和源代码。发布还可用于启用 Sentry 的 [可疑提交](/product/issues/suspect-commits/) 功能。
 
-The Sentry webpack plugin can automatically configure release information and send it to Sentry when you create a new build of your project. Let's enable this feature.
+Sentry webpack 插件可以在创建项目的新构建时自动配置发布信息并将其发送到 Sentry。让我们启用此功能。
 
-1. Go back to your `frontend-tutorial` project and stop it with `Ctrl + C`.
+1. 返回您的 `frontend-tutorial` 项目并使用 `Ctrl + C` 停止它。
 
-1. Create a Sentry auth token:
+1. 创建 Sentry 身份验证令牌：
 
    <OrgAuthTokenNote />
 
@@ -48,9 +48,9 @@ The Sentry webpack plugin can automatically configure release information and se
    SENTRY_AUTH_TOKEN=___ORG_AUTH_TOKEN___
    ```
 
-    You'll need to pass your auth token to your build command later on. We recommend storing it inside an environment variable. Auth tokens should always stay secret, so avoid storing yours inside your version control.
+    稍后您需要将身份验证令牌传递给构建命令。我们建议将其存储在环境变量中。身份验证令牌应始终保持机密，因此避免将其存储在版本控制中。
 
-1. To start associating commits and releases, add the following lines of code to `webpack.config.js` in your Sentry webpack plugin config:
+1. 要开始关联提交和发布，请将以下代码行添加到 `webpack.config.js` 中的 Sentry webpack 插件配置中：
 
 
    ```javascript {filename:webpack.config.js}
@@ -59,7 +59,7 @@ The Sentry webpack plugin can automatically configure release information and se
          project: "___PROJECT_SLUG___",
          authToken: process.env.SENTRY_AUTH_TOKEN,
 
-         // Enable automatically creating releases and associating commits
+         // 启用自动创建发布和关联提交
          release: {
            create: true,
            setCommits: {
@@ -69,116 +69,116 @@ The Sentry webpack plugin can automatically configure release information and se
       }),
    ```
 
-1. Save the file.
+1. 保存文件。
 
-## 3. Create a New Error and Commit
+## 3. 创建新的错误和提交
 
-Now that releases are set up to track commits, tweak the error and create a new commit to verify that this works.
+现在发布已设置为跟踪提交，调整错误并创建新的提交以验证这是否有效。
 
-1. In `src/components/App.js`, edit line 97. This will make sure Sentry recognizes a new error that it can associate with the release you will create.
+1. 在 `src/components/App.js` 中，编辑第 97 行。这将确保 Sentry 识别它可以与您将创建的发布关联的新错误。
 
    ```javascript {filename:src/components/App.js}
    this.myCodeIsMorePerfect();
    ```
 
-1. Save the file.
+1. 保存文件。
 
-1. Add all your changes to git with:
+1. 使用以下命令将所有更改添加到 git：
 
    ```bash
-   git commit -am 'Added a new error and some other stuff'
+   git commit -am '添加了新错误和其他内容'
    git push
    ```
 
-1. Create another production build. During this process, the webpack plugin will create a new release and associate your commit to that release.
+1. 创建另一个生产构建。在此过程中，webpack 插件将创建新的发布并将您的提交与该发布关联。
 
    ```bash
    npm run build
    ```
 
-1. Run your production build:
+1. 运行您的生产构建：
 
    ```bash
    npx serve build
    ```
 
-1. Create a new issue for Sentry by generating another error in your app. Open the URL your app is running in, add products to your cart, and click "Checkout". You should soon see a new issue in Sentry.
+1. 通过在您的应用程序中生成另一个错误来创建 Sentry 的新问题。打开您的应用程序运行的 URL，将产品添加到购物车，然后点击"结账"。您应该很快在 Sentry 中看到新问题。
 
-## 4. Verify Suspect Commits and Suggested Assignees
+## 4. 验证可疑提交和建议的负责人
 
-Now suspect commits and suggested assignees should start appearing on the **Issue Details** page. Sentry determines these using files observed in the stack trace, authors of those files, and ownership rules.
+现在可疑提交和建议的负责人应该开始出现在**问题详情**页面上。Sentry 使用堆栈跟踪中观察到的文件、这些文件的作者和所有权规则来确定这些。
 
-1. Check your email for the alert about the new error. Notice that a new "Suspect Commits" section has been added to the email.
+1. 检查您的电子邮件，了解有关新错误的警报。请注意，新的"可疑提交"部分已添加到电子邮件中。
 
-   ![Suspect Commits email](./img/issue_email_suspect_commits.png)
+   ![可疑提交邮件](./img/issue_email_suspect_commits.png)
 
-1. Click "View on Sentry" to open the **Issue Details** page.
+1. 点击"在 Sentry 上查看"以打开**问题详情**页面。
 
-1. Verify that the "Suspect Commits" section now points to the suspected commit that likely introduced the error. You can click on the commit link to see the actual commit details on GitHub.
+1. 验证"可疑提交"部分现在指向可能引入错误的可疑提交。您可以点击提交链接在 GitHub 上查看实际的提交详细信息。
 
-1. In the right side panel, click under "Assigned To" to open the dropdown to see suggested assignees. You'll see that the author of the suspect commit is listed as a suggested assignee for this issue.
+1. 在右侧面板中，点击"分配给"下的下拉菜单以查看建议的负责人。您会看到可疑提交的作者被列为该问题的建议负责人。
 
-   ![Suggested Assignees](./img/suggested_assignees.png)
+   ![建议的负责人](./img/suggested_assignees.png)
 
-   You can assign the issue to the suggested assignee by clicking on their email. Alternatively, you can choose to assign the issue to other users or teams associated with the project.
+   您可以通过点击他们的电子邮件将问题分配给建议的负责人。或者，您可以选择将问题分配给项目关联的其他用户或团队。
 
-### UI Walkthrough
+### UI 操作演示
 
-The interactive demo below shows how to view suspect commits and suggested assignees for an issue.
+下面的交互式演示展示了如何查看问题的可疑提交和建议的负责人。
 
 <Arcade src="https://demo.arcade.software/XIrI8grPiEtHHSfCpCOt?embed" />
 
-## 5. Verify Release Configuration
+## 5. 验证发布配置
 
-Verify that releases have been configured correctly.
+验证发布是否已正确配置。
 
-1. In the main panel's "Tags" section, find the `release` tag and hover over the release ID link. You should see in the popup that the release now contains commit data.
+1. 在主面板的"标签"部分中，找到 `release` 标签并将鼠标悬停在发布 ID 链接上。您应该在弹出窗口中看到发布现在包含提交数据。
 
-1. Click on the release ID link to open the **Release Details** page.
+1. 点击发布 ID 链接以打开**发布详情**页面。
 
-1. Select the "Commits" tab. Notice that release now contains the associated list of commits.
+1. 选择"提交"选项卡。请注意，发布现在包含关联的提交列表。
 
-### UI Walkthrough
+### UI 操作演示
 
-The interactive demo below shows how to view commits associated with the release.
+下面的交互式演示展示了如何查看与发布关联的提交。
 
 <Arcade src="https://demo.arcade.software/9MPvlig6reJdsDgm9TDZ?embed" />
 
-## 6. Use Stack Trace Links
+## 6. 使用堆栈跟踪链接
 
-Stack trace links allows you to jump from a stack trace in [sentry.io](https://sentry.io) to the corresponding file in your source code provider. This is done by matching the file path in the stack trace to the file path in your source code provider.
+堆栈跟踪链接允许您从 [sentry.io](https://sentry.io) 中的堆栈跟踪跳转到源代码提供程序中的相应文件。这是通过将堆栈跟踪中的文件路径与源代码提供程序中的文件路径匹配来完成的。
 
-1. Go to the **Issue Details** page for the error you generated in the previous step.
+1. 转到上一步中生成的错误的**问题详情**页面。
 
-1. Click "Tell us where your source code is" so Sentry can verify your code mapping.
+1. 点击"告诉我们您的源代码在哪里"，以便 Sentry 可以验证您的代码映射。
 
-1. In the popup, verify or enter the file path and the correct GitHub URL.
+1. 在弹出窗口中，验证或输入文件路径和正确的 GitHub URL。
 
-1. Click "Save". You should now see that the stack trace is linked to the code file in GitHub.
+1. 点击"保存"。您现在应该看到堆栈跟踪已链接到 GitHub 中的代码文件。
 
-1. Click "Open this line in GitHub" to go directly to the line of code causing the error.
+1. 点击"在 GitHub 中打开此行"以直接跳转到导致错误的代码行。
 
-### UI Walkthrough
+### UI 操作演示
 
-The interactive demo below walks through how to set up and view stack trace links in the UI.
+下面的交互式演示展示了如何在 UI 中设置和查看堆栈跟踪链接。
 
 <Arcade src="https://demo.arcade.software/gfwrOiPMJ0lxasNIvJI3?embed" />
 
-## More Information
+## 更多信息
 
-With GitHub integrated and your releases linked to your sources and commits, you can use Sentry's suspect commits, suggested assignees, and stack trace links to help you triage and resolve issues faster. To learn more about how to get the most value out of releases and integrations, check out these resources:
+通过 GitHub 集成并将您的发布链接到您的源代码和提交，您可以使用 Sentry 的可疑提交、建议的负责人和堆栈跟踪链接来帮助您更快地分类和解决问题。要了解有关如何从发布和集成中获得最大价值的更多信息，请查看这些资源：
 
-- [Create Release and Associate Commits](/product/releases/setup/)
-- [Global Integrations](/organization/integrations/)
+- [创建发布并关联提交](/product/releases/setup/)
+- [全局集成](/organization/integrations/)
 
-## Next Steps
+## 后续步骤
 
-You should now have Sentry's error monitoring set up with source maps and suspect commits working.
+您现在应该已设置好 Sentry 的错误监控，源映射和可疑提交正常工作。
 
-On top of error monitoring, Sentry offers other features to help you detect and fix problems with your apps, like:
+除了错误监控之外，Sentry 还提供其他功能来帮助您检测和修复应用程序的问题，例如：
 
-- [Session Replay](/product/explore/session-replay/) to view a a video-like reproduction of your user sessions when errors occur.
-- [Insights](/product/insights/) to track application performance and errors across services.
-- [Profiling](/product/explore/profiling/) to get deeper level of visibility on top of traditional tracing.
+- [会话重放](/product/explore/session-replay/)，在发生错误时查看用户会话的视频式重现。
+- [洞察](/product/insights/)，跨服务跟踪应用程序性能和错误。
+- [性能分析](/product/explore/profiling/)，在传统跟踪之上获得更深层次的可见性。
 
-As well as [Codecov](https://docs.codecov.com/docs) to give you automated code coverage reports as part of your CI/CD.
+以及 [Codecov](https://docs.codecov.com/docs)，为您提供 CI/CD 的一部分的自动代码覆盖率报告。

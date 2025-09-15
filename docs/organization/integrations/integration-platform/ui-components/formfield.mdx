@@ -1,14 +1,14 @@
 ---
-title: FormField Components
+title: FormField 组件
 sidebar_order: 4
-description: "Learn about FormField components."
+description: "了解 FormField 组件。"
 ---
 
-The [issue linking](/organization/integrations/integration-platform/ui-components/issue-link) and [alert rule action](/organization/integrations/integration-platform/ui-components/alert-rule-action) UI components can use `FormField` components to display attributes in their respective modals. These components can render custom forms with inputs specified according to the schemes below. They behave similarly to their HTML equivalents.
+[问题链接](/organization/integrations/integration-platform/ui-components/issue-link)和[警报规则操作](/organization/integrations/integration-platform/ui-components/alert-rule-action)UI 组件可以使用 `FormField` 组件在其各自的模态框中显示属性。这些组件可以根据下面的方案指定输入来渲染自定义表单。它们的行为类似于其 HTML 等效项。
 
-## Text
+## 文本
 
-### Schema
+### 架构
 
 ```json {filename:schema.json}
 {
@@ -19,17 +19,17 @@ The [issue linking](/organization/integrations/integration-platform/ui-component
 }
 ```
 
-### Attributes
+### 属性
 
-- `label` - (Required) Label text to be rendered for the form field
-- `name` - (Required) Value to use in `name` attribute of the field
-- `default` - default to pre-populate with. Options include `issue.title` and `issue.description`. Only used for [issue link](/organization/integrations/integration-platform/ui-components/issue-link) components.
-  - `issue.title` - title of the Sentry issue
-  - `issue.description` - description of the Sentry issue
+- `label` -（必需）要为表单字段渲染的标签文本
+- `name` -（必需）要在字段的 `name` 属性中使用的值
+- `default` - 要预填充的默认值。选项包括 `issue.title` 和 `issue.description`。仅用于[问题链接](/organization/integrations/integration-platform/ui-components/issue-link)组件。
+  - `issue.title` - Sentry 问题的标题
+  - `issue.description` - Sentry 问题的描述
 
-## Textarea
+## 文本区域
 
-### Schema
+### 架构
 
 ```json {filename:schema.json}
 {
@@ -40,17 +40,17 @@ The [issue linking](/organization/integrations/integration-platform/ui-component
 }
 ```
 
-### Attributes
+### 属性
 
-- `label` - (Required) Label text to be rendered for the form field
-- `name` - (Required) Value to use in `name` attribute of the field
-- `default` - default to pre-populate with options include `issue.title` and `issue.description`. Only used for [issue link](/organization/integrations/integration-platform/ui-components/issue-link) components.
-  - `issue.title` - title of the Sentry issue
-  - `issue.description` - description of the Sentry issue
+- `label` -（必需）要为表单字段渲染的标签文本
+- `name` -（必需）要在字段的 `name` 属性中使用的值
+- `default` - 要预填充的默认值，选项包括 `issue.title` 和 `issue.description`。仅用于[问题链接](/organization/integrations/integration-platform/ui-components/issue-link)组件。
+  - `issue.title` - Sentry 问题的标题
+  - `issue.description` - Sentry 问题的描述
 
-## Select
+## 选择
 
-### Schema
+### 架构
 
 ```json {filename:schema.json}
 {
@@ -65,19 +65,19 @@ The [issue linking](/organization/integrations/integration-platform/ui-component
 }
 ```
 
-### Attributes
+### 属性
 
-- `label` - (Required) Label text to be rendered for the form field
-- `name` - (Required) Value to use in `name` attribute of the field
-- `uri` - (Required if developer doesn't provide `options`) URI to retrieve values from. Check out our [URI Guidelines](/organization/integrations/integration-platform/ui-components/#uri-guidelines) documentation for formatting help.
-- `async` - (Optional) Used only if `uri` is present. If true (default), will query the URI as the user types, for autocomplete suggestions (see response format below). If false, will query the URI once initially to retrieve all possible options. This request _must_ succeed, and the response _must_ return data in the format Sentry expects, otherwise the entire component won't render.
-- `options` - (Required if developer doesn't provide `uri`) Static list of options in the format of `[["value1", "label1"], ["value2", "label2"]]`
-- `depends_on` - (Optional) If a field value depends on the value of another field, a request will be made to load those options when the dependent field is set.
-- `skip_load_on_open` (Optional) If true, this field will not load options when the page loads. Instead, it will wait for the user to start typing before fetching options.
+- `label` -（必需）要为表单字段渲染的标签文本
+- `name` -（必需）要在字段的 `name` 属性中使用的值
+- `uri` -（如果开发者不提供 `options` 则为必需）从中检索值的 URI。查看我们的 [URI 指南](/organization/integrations/integration-platform/ui-components/#uri-guidelines)文档以获取格式帮助。
+- `async` -（可选）仅在存在 `uri` 时使用。如果为 true（默认），将在用户键入时查询 URI 以获取自动完成建议（参见下面的响应格式）。如果为 false，将最初查询 URI 一次以检索所有可能的选项。此请求 _必须_ 成功，响应 _必须_ 以 Sentry 期望的格式返回数据，否则整个组件将不会渲染。
+- `options` -（如果开发者不提供 `uri` 则为必需）格式为 `[["value1", "label1"], ["value2", "label2"]]` 的静态选项列表
+- `depends_on` -（可选）如果字段值依赖于另一个字段的值，则当依赖字段设置时将发出请求以加载这些选项。
+- `skip_load_on_open`（可选）如果为 true，此字段在页面加载时不会加载选项。相反，它将等待用户开始键入后再获取选项。
 
-### URI Request Format
+### URI 请求格式
 
-The request sent to the `uri` to load options is a `GET` request. The parameters are encoded into the query parameters like so:
+发送到 `uri` 以加载选项的请求是 `GET` 请求。参数编码到查询参数中，如下所示：
 
 ```json
 {
@@ -88,14 +88,14 @@ The request sent to the `uri` to load options is a `GET` request. The parameters
 }
 ```
 
-- `installationId` - The ID of the installation associated with the request
-- `projectSlug` - The slug of the project in Sentry
-- `query` - The search term the user is typing
-- `dependentData` - A JSON encoded string of the dependent data if that field has `depends_on` set
+- `installationId` - 与请求关联的安装的 ID
+- `projectSlug` - Sentry 中项目的 slug
+- `query` - 用户正在键入的搜索词
+- `dependentData` - 如果该字段设置了 `depends_on`，则为依赖数据的 JSON 编码字符串
 
-### URI Response Format
+### URI 响应格式
 
-Response from `uri`, when specified, must be JSON and match the following format:
+当指定 `uri` 时，来自 `uri` 的响应必须是 JSON 并匹配以下格式：
 
 ```json
 [

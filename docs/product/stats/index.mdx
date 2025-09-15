@@ -1,168 +1,167 @@
 ---
-title: Stats
-description: "The Sentry Stats page displays important metrics such as Usage, and Issues that help teams track project health. Learn how to get started here."
+title: 统计信息
+description: "Sentry 统计页面显示重要指标，如使用情况和问题，帮助团队跟踪项目健康状况。在此了解如何开始使用。"
 sidebar_order: 130
 ---
 
-The [**Stats**](https://sentry.io/orgredirect/organizations/:orgslug/stats/) page is an overview of the usage data that Sentry receives across your entire organization. It allows you to spot projects that have experienced recent spikes in activity or are showing more errors than others and may require a closer look. You can also adjust the displayed date range, enabling you to narrow down to a specific time period or zoom out for a broader view.
-![Overview of Usage Stats page](./img/usage-stats-page-errors.png)
+[**统计**](https://sentry.io/orgredirect/organizations/:orgslug/stats/) 页面是您整个组织 Sentry 接收的使用数据的概览。它允许您发现最近活动激增或比其他项目显示更多错误并可能需要仔细查看的项目。您还可以调整显示的日期范围，使您能够缩小到特定时间段或放大以获得更广阔的视图。
+![使用情况统计页面概览](./img/usage-stats-page-errors.png)
 
-With the dropdowns at the top of the page, you can set whether the page displays stats for errors, transactions, or attachments, as well as the date range. With the date selector, the time period can be set from an hour to a maximum of 90 days, and all of the page elements change dynamically when you update this setting.
+通过页面顶部的下拉菜单，您可以设置页面显示错误、事务或附件的统计信息，以及日期范围。使用日期选择器，时间周期可以设置为从一小时到最长 90 天，当您更新此设置时，所有页面元素都会动态变化。
 
 <Alert>
-  This page does not include data about sessions because they are not a billable
-  event type.
+  此页面不包括关于会话的数据，因为它们不是可计费的事件类型。
 </Alert>
 
 
-There are three tabs available on the page: [Usage](#usage-stats), [Issues](#issue-stats), and [Health](#health-stats).
+页面上有三个可用选项卡：[使用情况](#usage-stats)、[问题](#issue-stats) 和 [健康状况](#health-stats)。
 
-The "Usage" tab shows your organization’s event and attachments usage, while also providing a high-level overview of how different projects are using Sentry. The "Issues" tab shows a breakdown of the issues assigned to your team and how they triaged them, while the "Health" tab provides an overview of your team’s project health.
+"使用情况" 选项卡显示您组织的事件和附件使用情况，同时还提供不同项目如何使用 Sentry 的高级概览。"问题" 选项卡显示分配给您的团队的问题的细分以及它们如何分类，而"健康状况" 选项卡提供您团队项目健康状况的概览。
 
 
-## Usage Stats
+## 使用情况统计
 
-The "Usage" tab provides an overview of the events (errors and transactions) and attachments that Sentry has received across your entire organization. It includes a detailed breakdown of each project's consumption categorized as _Accepted_, _Filtered_, _Rate Limited_, _Invalid_ or _Client Discard_.
+"使用情况" 选项卡提供了整个组织 Sentry 接收的事件（错误和事务）和附件的概览。它包括每个项目消耗的详细分类，分类为 _已接受_、_已过滤_、_速率限制_、_无效_ 或 _客户端丢弃_。
 
-### Accepted
+### 已接受
 
-Events and attachments that were successfully processed and stored.
+已成功处理并存储的事件和附件。
 
-### Filtered
+### 已过滤
 
-Filtered events and attachments intentionally excluded based on defined settings. Common reasons include:
+基于定义设置有意排除的已过滤事件和附件。常见原因包括：
 
-- **Browser Extensions**: Filtered by browser extension.
-- **Chunk Load Errors**: Filtered when code chunks can’t be found on the server.
-- **Discarded Hash**: Filtered based on fingerprints of previously deleted and discarded issues.
-- **Error Message**: Filtered based on specific error messages.
-- **Filtered Transaction**: Filtered because it was a call to a filtered transaction.
-- **Invalid CSP**: Filtered due to an invalid Content Security Policy (CSP) policy.
-- **Ip Address**: Filtered by IP address.
-- **Legacy Browsers**: Filtered by certain legacy versions of browsers that are known to cause problems.
-- **Localhost**: Filtered due to localhost restriction.
-- **Release Version**: Filtered by release name (version).
-- **React Hydration Errors**: Filtered due to a mismatch between the server-rendered and initial client User Interface.
-- **Web Crawlers**: Identified as a known web crawler.
+- **浏览器扩展**：由浏览器扩展过滤。
+- **块加载错误**：当代码块在服务器上找不到时过滤。
+- **已丢弃哈希**：基于先前删除和丢弃问题的指纹过滤。
+- **错误消息**：基于特定错误消息过滤。
+- **已过滤事务**：因为它是对已过滤事务的调用而过滤。
+- **无效 CSP**：由于无效的内容安全策略 (CSP) 策略而过滤。
+- **IP 地址**：按 IP 地址过滤。
+- **旧版浏览器**：由某些已知会导致问题的旧版浏览器版本过滤。
+- **本地主机**：由于本地主机限制而过滤。
+- **发布版本**：按发布名称（版本）过滤。
+- **React 水合错误**：由于服务器渲染和初始客户端用户界面之间的不匹配而过滤。
+- **网络爬虫**：被识别为已知的网络爬虫。
 
-For more details, please consult the [Inbound Filters](/concepts/data-management/filtering/) documentation.
+有关更多详细信息，请参阅[入站过滤器](/concepts/data-management/filtering/)文档。
 
-### Rate Limited
-Events and attachments discarded due to rate limits or quota. The following reasons are currently defined:
+### 速率限制
+由于速率限制或配额而丢弃的事件和附件。目前定义了以下原因：
 
-- **Disabled**:  Data was received for a feature or function that is not available to your organization.
-- **DSN Limit**: Traffic exceeded a rate limit defined on the client key (DSN). See [Rate Limits](/pricing/quotas/#rate-limits) for more information.
-- **Global Limit**: Traffic exceeded an organization-wider or project-wide rate limit. This setting is no longer available to most organizations.
-- **Quota**: The monthly quota of your subscription was depleted and there is no pay-as-you-go budget left. See [Adjusting your Quota](/pricing/quotas/#adjusting-your-quota) for more information.
-- **Spike Protection**: Activated to protect from a sudden spike in event volume. See [Spike Protection](/pricing/quotas/spike-protection/) for more information.
-- **Internal Limit**: A rate limit for excessive volume was enforced by Sentry. These limits are not configurable.
+- **已禁用**：为组织不可用的功能或功能接收的数据。
+- **DSN 限制**：流量超过了客户端密钥 (DSN) 上定义的速率限制。有关更多信息，请参阅[速率限制](/pricing/quotas/#rate-limits)。
+- **全局限制**：流量超过了组织范围或项目范围的速率限制。此设置不再适用于大多数组织。
+- **配额**：您订阅的月度配额已耗尽，没有按需付费预算。有关更多信息，请参阅[调整您的配额](/pricing/quotas/#adjusting-your-quota)。
+- **峰值保护**：激活以防止事件量突然激增。有关更多信息，请参阅[峰值保护](/pricing/quotas/spike-protection/)。
+- **内部限制**：Sentry 强制执行的过量体积速率限制。这些限制不可配置。
 
-### Invalid
-Events and attachments might be discarded if they don't match the expected format or contain data that can't be processed. The following reasons are currently defined:
+### 无效
+如果事件和附件不符合预期格式或包含无法处理的数据，可能会被丢弃。目前定义了以下原因：
 
-- **Disallowed Domain**: A request from an unallowed origin was sent to Sentry. Check project settings to configure allowed domains.
-- **Duplicate**: An event with the same id has already been processed for this project. Sentry does not allow duplicate events and only stores the first one.
-- **Empty**: An empty request or a request missing its primary data component was submitted.
-- **Invalid Data**: Data sent by the SDK was invalid and does not meet the basic schema. This likely indicates an SDK implementation bug. Please report a bug if this issue persists.
-- **Invalid Request**: The HTTP submission was invalid or was missing required information. This is likely due to a problem in the SDK implementation. Please report a bug if this issue persists.
-- **Minidump**: The minidump in a minidump upload request was missing or invalid. See the [Minidumps documentation](/platforms/native/guides/minidumps/) for details on how to upload minidumps.
-- **Payload**: The HTTP submission was incomplete and could not be processed. This is likely due to a network failure.
-- **Project Missing**: The specified Sentry project is disabled or project information in the submitted request was inconclusive.
-- **Sampling**: Tracing data that is discarded during sampling.
-- **Security Report**: An invalid or unsupported security report was submitted. If this report originates from an up-to-date browser, please report a bug to Sentry. See [Security Policy Reporting](/security-legal-pii/security/security-policy-reporting/) for more information.
-- **Too Large**: The HTTP submission or its contained data exceeds size limits. If available, what exactly exceeded might be provided as "Too Large &lt;what&gt;", where &lt;what&gt; specifies the specific size limit that was exceeded (e.g., "Too Large Event") else "Too Large Other". For the exact size limits, refer to [this document](https://develop.sentry.dev/sdk/data-model/envelopes/#size-limits)
-- **Unreal**: An unsupported or invalid Unreal Engine crash report was submitted. If this request originates from a recent or development version of the Unreal Engine, please report a bug to Sentry. See [Unreal Engine](/platforms/unreal/) for more information.
-- **Internal**: An internal problem at Sentry prevented regular processing or storage of the submitted information.
+- **不允许的域**：从未允许的来源向 Sentry 发送的请求。检查项目设置以配置允许的域。
+- **重复**：已为此项目处理了具有相同 ID 的事件。Sentry 不允许重复事件，只存储第一个。
+- **空**：提交了空请求或缺少其主要数据组件的请求。
+- **无效数据**：SDK 发送的数据无效，不符合基本模式。这可能表示 SDK 实现错误。如果此问题持续存在，请报告错误。
+- **无效请求**：HTTP 提交无效或缺少必需信息。这可能是由于 SDK 实现中的问题。如果此问题持续存在，请报告错误。
+- **小型转储**：小型转储上传请求中的小型转储缺失或无效。有关如何上传小型转储的详细信息，请参阅[小型转储文档](/platforms/native/guides/minidumps/)。
+- **有效负载**：HTTP 提交不完整，无法处理。这可能是由于网络故障。
+- **项目缺失**：指定的 Sentry 项目已禁用或提交请求中的项目信息不明确。
+- **采样**：采样期间丢弃的跟踪数据。
+- **安全报告**：提交无效或不支持的安全报告。如果此报告来自最新的浏览器，请向 Sentry 报告错误。有关更多信息，请参阅[安全策略报告](/security-legal-pii/security/security-policy-reporting/)。
+- **太大**：HTTP 提交或其包含的数据超出大小限制。如果可用，可能会提供确切超出部分作为"太大 &lt;what&gt;"，其中 &lt;what&gt; 指定超出的大小限制（例如，"太大事件"），否则"太大其他"。有关确切大小限制，请参阅[此文档](https://develop.sentry.dev/sdk/data-model/envelopes/#size-limits)
+- **虚幻**：提交不受支持或无效的虚幻引擎崩溃报告。如果此请求来自虚幻引擎的最新或开发版本，请向 Sentry 报告错误。有关更多信息，请参阅[虚幻引擎](/platforms/unreal/)。
+- **内部**：Sentry 的内部问题阻止了提交信息的常规处理或存储。
 
-### Client Discard
-Events and attachments discarded by the SDK. The following reasons are currently defined:
+### 客户端丢弃
+SDK 丢弃的事件和附件。目前定义了以下原因：
 
-- **Queue Overflow**: An SDK internal queue (for example, a transport queue) overflowed.
-- **Cache Overflow**: An SDK internal cache (for example, an offline event cache) overflowed.
-- **Ratelimit Backoff**: The SDK dropped events because a previous rate limit instructed the SDK to back off.
-- **Network Error**: Events were dropped due to network errors, and were not retried.
-- **Sample Rate**: An event was dropped because of the configured sample rate.
-- **Before Send**: An event was dropped in `before_send`.
-- **Event Processor**: An event was dropped by an event processor; this may also be used for ignored exception/errors.
-- **Send Error**: An event was dropped because of an error when sending it (for example, a 400 response).
-- **Internal SDK Error**: An event was dropped due to an internal SDK error (for example, a web worker crash).
-- **Insufficient Data**: An event was dropped due to a lack of data in the event (for example, not enough samples in a profile).
-- **Backpressure**: An event was dropped due to downsampling caused by the system being under load.
+- **队列溢出**：SDK 内部队列（例如，传输队列）溢出。
+- **缓存溢出**：SDK 内部缓存（例如，脱机事件缓存）溢出。
+- **速率限制退避**：由于先前的速率限制指示 SDK 退避，SDK 丢弃了事件。
+- **网络错误**：由于网络错误而丢弃事件，且未重试。
+- **采样率**：由于配置的采样率而丢弃事件。
+- **发送前**：在 `before_send` 中丢弃事件。
+- **事件处理器**：事件处理器丢弃事件；这也可能用于忽略的异常/错误。
+- **发送错误**：由于发送时出错而丢弃事件（例如，400 响应）。
+- **内部 SDK 错误**：由于内部 SDK 错误而丢弃事件（例如，Web worker 崩溃）。
+- **数据不足**：由于事件中缺少数据而丢弃事件（例如，配置文件中的样本不足）。
+- **背压**：由于系统负载过高导致的下采样而丢弃事件。
 
-For more details, please consult the [Client Reports](https://develop.sentry.dev/sdk/telemetry/client-reports/#envelope-item-payload) documentation.
+有关更多详细信息，请参阅[客户端报告](https://develop.sentry.dev/sdk/telemetry/client-reports/#envelope-item-payload)文档。
 
-### Usage Cards
+### 使用情况卡片
 
-The cards on the page provide high-level usage stats about events and attachments, including the total number of either for the time period specified. You can also see which ones were accepted, filtered, rate limited, or invalid.
+页面上的卡片提供事件和附件的高级使用情况统计，包括指定时间周期的总数。您还可以看到哪些被接受、过滤、速率限制或无效。
 
-### Summary Chart
+### 摘要图表
 
-The chart on this page displays a breakdown of events and attachments over the selected date range. Depending on the date range that you set the chart to display, each bar in the chart represents a different amount of time or interval. For example, if you set the chart to display seven days, each bar in the chart represents one hour, but if you set it to display 90 days, each bar represents one day. You can also use the “Type” dropdown to set whether the chart shows a cumulative count of events or attachments, or a daily (or hourly) count.
+此页面上的图表显示所选日期范围内事件和附件的细分。根据您设置图表显示的日期范围，图表中的每个条形代表不同的时间量或间隔。例如，如果您将图表设置为显示七天，图表中的每个条形代表一小时，但如果您将其设置为显示 90 天，每个条形代表一天。您还可以使用"类型"下拉菜单设置图表是否显示事件或附件的累积计数，或每日（或每小时）计数。
 
-When you set a date range that results in intervals of one day or more, the time zone is displayed in UTC to ensure consistency for users across different time zones. For time periods with intervals of less than 24 hours, the time zone is based on your "Timezone" setting in **User Settings > Account Details**.
+当您设置导致一天或更长时间间隔的日期范围时，时区以 UTC 显示，以确保不同时区用户的一致性。对于间隔小于 24 小时的时间段，时区基于您在**用户设置 > 账户详情**中的"时区"设置。
 
-### Project Usage Stats Table
+### 项目使用情况统计表
 
-The “Project” table provides insight into per-project usage of your errors, transactions, and attachments over time. The table shows you the total errors, transactions, or attachments. Those are further broken down into the accepted, filtered, and dropped categories.
+"项目"表提供了对您的错误、事务和附件随时间按项目使用情况的洞察。该表向您显示总错误、事务或附件。这些进一步细分为已接受、已过滤和已丢弃类别。
 
-Each project in the table has individual settings, which you can access from by clicking the settings icon (gear wheel) next to the name of the project. For instance, you might want to go to the project settings so you can limit the quota consumed by its DSNs. Clicking the name of the project takes you to the **[Project Details](/product/projects/project-details/)** page.
+表中的每个项目都有单独的设置，您可以通过点击项目名称旁边的设置图标（齿轮）来访问。例如，您可能想要转到项目设置，以便限制其 DSN 消耗的配额。点击项目名称会将您带到**[项目详情](/product/projects/project-details/)**页面。
 
-The table displays only the projects of the teams that you belong to, unless you have permissions to see all projects.
+该表仅显示您所属团队的项目，除非您有权限查看所有项目。
 
-## Issues Stats
-
-<Include name="feature-available-for-plan-business.mdx" />
-
-The "Issues" tab shows activity about issues assigned to your team; how many new issues were detected, how many resolved issues regressed, and how they were triaged.
-
-![The Issues Stats page](./img/issues-stats.png)
-
-#### All Unresolved Issues
-
-The "All Unresolved Issues" chart and table show new and returning issues per project in the last seven days, as well as those that haven’t been resolved or archived in the past.
-
-#### New and Returning Issues
-
-The "New and Returning Issues" chart and table show the new, regressed, and escalating issues that were assigned to your team.
-
-#### Issues Triaged
-
-The "Issues Triaged" chart and table show how many new and returning issues were reviewed by your team each week. Reviewing an issue includes marking it as reviewed, resolving it, assigning it to another team, or deleting it.
-
-#### Age of Unresolved Issues
-
-The "Age of Unresolved Issues" chart and table show how long ago the oldest seven unresolved issues were first created for the projects your team owns, sorted by their age.
-
-#### Time to Resolution
-
-The "Time to Resolution" chart shows the mean time it took for issues to be resolved by your team each week.
-
-## Health Stats
+## 问题统计
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-The "Health" tab shows information about the overall health of your projects; the crash free sessions, user misery of your team’s key transactions, the number of alerts triggered by your team’s alert rules, and the number of releases per project.
+"问题"选项卡显示分配给您的团队的问题活动；检测到多少新问题，多少已解决问题回归，以及它们如何分类。
 
-![The Health Stats page](./img/health-stats.png)
+![问题统计页面](./img/issues-stats.png)
 
-#### Crash Free Sessions
+#### 所有未解决问题
 
-The "Crash Free Sessions" table shows the percentage of sessions that didn’t cause a crash for the selected date range.
+"所有未解决问题"图表和表显示过去七天内每个项目的新问题和回归问题，以及过去未解决或归档的问题。
 
-#### User Misery
+#### 新问题和回归问题
 
-The "User Misery" table shows transactions where users experienced load times four times the project’s configured threshold, with the number of unique users for each of those transactions.
+"新问题和回归问题"图表和表显示分配给您的团队的新问题、回归和升级问题。
 
-#### Metric Alerts Triggered
+#### 问题分类
 
-The "Metric Alerts Triggered" chart and table show alert rules that have been triggered for the projects your team owns.
+"问题分类"图表和表显示您的团队每周审查了多少新问题和回归问题。审查问题包括将其标记为已审查、解决、分配给另一个团队或删除。
 
-#### Number of Releases
+#### 未解决问题年龄
 
-The "Number of Releases" chart and table show the releases that were created for each of your team's projects.
+"未解决问题年龄"图表和表显示您的团队拥有的项目中最旧的七个未解决问题首次创建的时间，按它们的年龄排序。
 
-## Continuous Profiling Stats
+#### 解决时间
 
-#### Dropped Profile Hours
+"解决时间"图表显示您的团队每周解决问题所需的平均时间。
 
-[Relay](/product/relay/) calculates profile durations for accepted outcomes rather than for every profile chunk received. Both profile hours and UI profile hours stats are derived from these accepted profile chunks or UI profile chunks, respectively, with no duration data stored for dropped outcomes (which are simply counted). Each profile chunk has a maximum duration of 66 seconds. Based on internal testing data the 10th and 25th percentiles of accepted profile chunk durations are approximately 9.9 seconds. This metric was used to select 9.0 seconds as the estimation multiplier for each dropped profile chunk.
+## 健康状况统计
+
+<Include name="feature-available-for-plan-business.mdx" />
+
+"健康状况"选项卡显示有关您项目整体健康状况的信息；无崩溃会话的百分比、团队关键事务的用户痛苦、团队警报规则触发的警报数量以及每个项目的发布数量。
+
+![健康状况统计页面](./img/health-stats.png)
+
+#### 无崩溃会话
+
+"无崩溃会话"表显示所选日期范围内未导致崩溃的会话百分比。
+
+#### 用户痛苦
+
+"用户痛苦"表显示用户体验加载时间是项目配置阈值四倍的事务，以及每个事务的唯一用户数。
+
+#### 触发的指标警报
+
+"触发的指标警报"图表和表显示为您的团队项目触发的警报规则。
+
+#### 发布数量
+
+"发布数量"图表和表显示为您的团队每个项目创建的发布。
+
+## 持续分析统计
+
+#### 丢弃的分析小时数
+
+[Relay](/product/relay/) 计算已接受结果的配置文件持续时间，而不是为每个接收到的配置文件块。分析小时数和 UI 分析小时数统计都源自这些已接受的配置文件块或 UI 配置文件块，分别为丢弃结果（仅计数）不存储持续时间数据。每个配置文件块的最大持续时间为 66 秒。基于内部测试数据，已接受配置文件块持续时间的第 10 和第 25 百分位数约为 9.9 秒。此指标用于选择 9.0 秒作为每个丢弃配置文件块的估计乘数。

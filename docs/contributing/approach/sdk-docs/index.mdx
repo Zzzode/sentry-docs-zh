@@ -1,99 +1,99 @@
 ---
-title: SDK Documentation Structure
+title: SDK文档结构
 noindex: true
 sidebar_order: 10
 ---
 
-Our structure for SDK content focuses on getting a user up and running quickly, then learning about all the features that can be configured or enabled in subpages. These subpages provide reference material, with code examples specific to the SDK.
+我们的SDK内容结构专注于让用户快速上手，然后了解可以在子页面中配置或启用的所有功能。这些子页面提供参考材料，带有特定于SDK的代码示例。
 
-## Content Sections
+## 内容部分
 
-SDKs provide content that focus on 10 sections (two of which are auto-generated) that rely on common content. Each section is explained in detail on its own page. A quick overview:
+SDK提供专注于10个部分的内容（其中两个是自动生成的），这些部分依赖于通用内容。每个部分在自己的页面上有详细解释。快速概述：
 
-1. **Quick Start / Getting Started (legacy)**
+1. **快速入门/入门指南（传统）**
 
-   A single, critical page.
+   一个单一的、关键的页面。
 
-   For new SDKs and updated guides, use:
-   **[How to Write - Quick Start](/contributing/approach/sdk-docs/write-quick-start/)**
+   对于新的SDK和更新的指南，使用：
+   **[如何编写 - 快速入门](/contributing/approach/sdk-docs/write-quick-start/)**
 
-   To update existing Getting Started guides, use:
-    **[How to Write - Getting Started](/contributing/approach/write-getting-started)**
+   要更新现有的入门指南，使用：
+    **[如何编写 - 入门指南](/contributing/approach/write-getting-started)**
 
-   This content is used in two different areas for Sentry customers:
+   此内容用于Sentry客户的两个不同区域：
 
    1. [docs.sentry.io](https://docs.sentry.io)
-   2. In-app wizard for customers creating or adding a project
+   2. 为客户创建或添加项目的应用内向导
 
-2) **Configuration**
+2) **配置**
 
-   Covers all the ways customers can manage their implementation of the SDK. It consists of subpages (all of which can be turned on or off, as appropriate to the SDK).
+   涵盖客户管理其SDK实现的所有方式。它由子页面组成（所有这些子页面都可以根据SDK的适当性打开或关闭）。
 
-   **[How to Update: Configuration](/contributing/approach/write-configuration)**
+   **[如何更新：配置](/contributing/approach/write-configuration)**
 
-3) **Usage**
+3) **使用**
 
-   Covers how to capture errors and messages, with a subpage to set the Level.
+   涵盖如何捕获错误和消息，以及设置级别的子页面。
 
-   **[How to Update: Usage](/contributing/approach/write-usage)**
+   **[如何更新：使用](/contributing/approach/write-usage)**
 
-4) **Troubleshooting**
+4) **故障排除**
 
-   Covers corner and edge cases we know of. This content is developed at the primary SDK level, so is shared by the primary SDK and its associated guides. It is not common to all SDKs/platforms.
+   涵盖我们知道的角落和边缘情况。此内容在主要SDK级别开发，因此由主要SDK及其相关指南共享。它不适用于所有SDK/平台。
 
-   The content resides in this directory `/docs/platforms/<SDK>/common/troubleshooting/`
+   内容位于此目录 `/docs/platforms/<SDK>/common/troubleshooting/`
 
-5) (Optional) **Migration Guide**
+5) (可选) **迁移指南**
 
-   Provided for customers who need to upgrade from the Raven version of the SDK. Not needed for newer SDKs.
+   为需要从SDK的Raven版本升级的客户提供。较新的SDK不需要。
 
-6) **Tracing** section
+6) **跟踪** 部分
 
-   Covers how to enable tracing (for customers who previously only used error monitoring) as enabled by each SDK, as well as subpages on Sampling and Transactions.
+   涵盖如何启用跟踪（针对以前仅使用错误监控的客户），如每个SDK所启用，以及关于采样和事务的子页面。
 
-   _This section is a WIP._
+   _此部分是正在进行中的工作。_
 
-7) **Enriching Events** section
+7) **丰富事件** 部分
 
-   Covers the data sent to Sentry, as well as how to customize it.
+   涵盖发送到Sentry的数据以及如何自定义它。
 
-   **[How to Update: Enriching Events](/contributing/approach/write-enriching-events)**
+   **[如何更新：丰富事件](/contributing/approach/write-enriching-events)**
 
-8) **Data Management** section
+8) **数据管理** 部分
 
-   Covers our algorithm for grouping and how it can be modified, as well as how to scrub sensitive data using the SDK.
+   涵盖我们分组算法以及如何修改它，以及如何使用SDK清理敏感数据。
 
-   **[How to Update: Data Management](/contributing/approach/write-data-management)**
+   **[如何更新：数据管理](/contributing/approach/write-data-management)**
 
-9) (Auto-generated) **Other Guides**
+9) (自动生成) **其他指南**
 
-   Lists the other related platforms/integrations/SDKs for this SDK.
+   列出此SDK的其他相关平台/集成/SDK。
 
-10) (Auto-generated) **Other Platforms**
+10) (自动生成) **其他平台**
 
-    Lists the other primary SDK/platforms.
+    列出其他主要SDK/平台。
 
-This model is quite flexible - some SDKs will incorporate more information- others will require less information.
+这个模型非常灵活 - 一些SDK将包含更多信息，其他SDK将需要更少的信息。
 
-We have several goals to using this format:
+我们使用这种格式有几个目标：
 
-- Ensure customers have a single page that gets them started quickly.
-- Update the SDK content so that it is both **technically accurate** and **complete**.
-- Ensure we've architected to support the structure of our docs, which separates Platform/SDK content from Product content. Think of this as "Platform/SDK docs help a customer send data to Sentry" and "Product docs help a customer understand what's in [sentry.io](http://sentry.io), then determine an appropriate response"
+- 确保客户有一个单一的页面可以快速开始。
+- 更新SDK内容，使其既**技术上准确**又**完整**。
+- 确保我们已经架构以支持我们文档的结构，该结构将平台/SDK内容与产品内容分开。将此视为"平台/SDK文档帮助客户将数据发送到Sentry"和"产品文档帮助客户理解 [sentry.io](http://sentry.io) 中的内容，然后确定适当的响应"
 
-## Where to Start
+## 从哪里开始
 
-1. Read the [contributor guidelines](/contributing/). The guidelines will help you set up your docs environment (the move to our new tooling is significant) and provide key technical details about SDK content, search, redirects, and the Wizard pages. If you need help, ask for help by opening an issue in GitHub.
-2. Use the "How to" pages to understand what content is covered where.
-3. Use the files and folder structure in JavaScript as a model.
-4. Create a PR and please request getsentry/docs as reviewers.
+1. 阅读 [贡献者指南](/contributing/)。指南将帮助您设置文档环境（迁移到我们的新工具非常重要）并提供有关SDK内容、搜索、重定向和向导页面的关键技术细节。如果需要帮助，请通过在GitHub上提出问题来寻求帮助。
+2. 使用"如何"页面来了解内容涵盖的位置。
+3. 使用JavaScript中的文件和文件夹结构作为模型。
+4. 创建PR，并请请求 getsentry/docs 作为审阅者。
 
-## What Not To Do
+## 不要做什么
 
-- Wonder and ponder. The model is not meant to work 100% of the time. It's anticipated that some of the content won't work neatly. If you're not sure where content should display, ask a question by opening an issue in GitHub.
-- Don't forget to update the Wizard Pages that use the Getting Started content to help direct customers on sentry.io
-- Don't forget to update the listing of SDKs that support performance monitoring, as appropriate.
+- 思考和沉思。该模型并不意味着100%的时间都有效。预计某些内容不会整齐地工作。如果您不确定内容应该显示在哪里，请通过在GitHub上提出问题来提问。
+- 不要忘记更新使用入门指南内容来帮助指导 sentry.io 上的客户的向导页面
+- 不要忘记更新支持性能监控的SDK列表，如适当。
 
-## SDK Documentation Guides
+## SDK文档指南
 
 <PageGrid />

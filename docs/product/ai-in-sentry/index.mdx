@@ -1,41 +1,41 @@
 ---
-title: AI in Sentry
+title: Sentry 中的 AI
 sidebar_order: 25
-description: "Learn about Sentry's AI-powered features that help you analyze and debug your code faster."
+description: "了解 Sentry 的 AI 驱动功能，帮助您更快地分析和调试代码。"
 ---
 
-Sentry leverages artificial intelligence (AI) and machine learning (ML) to enhance your debugging and monitoring experience. Our AI-powered features help you understand issues faster, get automated fixes, and gain deeper insights into your application's behavior.
+Sentry 利用人工智能 (AI) 和机器学习 (ML) 来增强您的调试和监控体验。我们的 AI 驱动功能帮助您更快地理解问题，获得自动修复，并深入了解应用程序的行为。
 
-## AI-Powered Features
+## AI 驱动功能
 
 ### [Seer](/product/ai-in-sentry/seer/)
 
-Seer is Sentry's AI debugging agent that helps resolve errors and performance issues in your applications. Seer combines issue detection, analysis, and automated fixing capabilities to streamline your debugging workflow.
+Seer 是 Sentry 的 AI 调试代理，帮助解决应用程序中的错误和性能问题。Seer 结合了问题检测、分析和自动修复功能，以简化您的调试工作流程。
 
-- **[Issue Fix](/product/ai-in-sentry/seer/issue-fix/)**: Automated root cause analysis and suggested code fixes, for errors and performance issues.
-- **Issue Scan**: Scans issues as they are ingested in Sentry to determine an actionability score and run Seer's issue fix on them automatically.
+- **[问题修复](/product/ai-in-sentry/seer/issue-fix/)**：自动根本原因分析和建议的代码修复，用于错误和性能问题。
+- **问题扫描**：在 Sentry 中摄取问题时扫描问题，以确定可操作性分数并自动在其上运行 Seer 的问题修复。
 
-### Issue Summary
+### 问题摘要
 
-**Issue summary** provides a quick overview of an issue by highlighting key insights taken from event and issue-level metadata. You'll see a quick overview of what's going wrong, a potential cause, and if relevant, insights from trace-connected issues.
+**问题摘要**通过突出显示从事件和问题级别元数据中获取的关键洞察，提供问题的快速概述。您将看到出错的快速概述、潜在原因，以及如果相关，来自跟踪连接问题的洞察。
 
 ### [Sentry Prevent AI](/product/ai-in-sentry/sentry-prevent-ai/)
 
-Sentry Prevent AI is a generative AI assistant developed by Sentry, available in GitHub. It helps you generate new tests for uncovered code and reviews your code changes, offering suggestions for improvement before merging pull requests.
+Sentry Prevent AI 是由 Sentry 开发的生成式 AI 助手，可在 GitHub 中使用。它帮助您为未覆盖的代码生成新测试，并审查您的代码更改，在合并拉取请求之前提供改进建议。
 
-### Query Assistant
+### 查询助手
 
-**You can ask Seer to query your traces and spans data via natural language queries and find relevant samples of compute metrics without building the whole query manually 
+**您可以让 Seer 通过自然语言查询查询您的跟踪和跨度数据，并找到计算指标的相关样本，而无需手动构建整个查询
 
-## Privacy and security
+## 隐私和安全
 
-Sentry includes strong guarantees for privacy and security of your data. At a glance:
+Sentry 包括对您的数据隐私和安全的强大保证。概览：
 
-- Sentry does not train generative AI models using your data by default and without your permission.
-- AI-generated output is shown only to you and other authorized users in your account.
+- Sentry 默认情况下不会使用您的数据训练生成式 AI 模型，也不会未经您的许可。
+- AI 生成的输出仅显示给您和您账户中的其他授权用户。
 
-You can get more details at [AI Privacy and Security](/product/ai-in-sentry/ai-privacy-and-security/). To learn more about all our data privacy practices go to [the security and legal docs](/security-legal-pii/security/ai-ml-policy/#use-of-identifying-data-for-generative-ai-features).
+您可以在 [AI 隐私和安全](/product/ai-in-sentry/ai-privacy-and-security/) 中获取更多详细信息。要了解有关我们所有数据隐私实践的更多信息，请访问 [安全和法律文档](/security-legal-pii/security/ai-ml-policy/#use-of-identifying-data-for-generative-ai-features)。
 
-## Disabling Generative AI Features
+## 禁用生成式 AI 功能
 
-If you don't find Seer and other generative AI features useful and want to disable them for all users, you can do so in your organization's settings with the ["Show Generative AI Features" toggle](https://sentry.io/orgredirect/organizations/:orgslug/settings/#hideAiFeatures).
+如果您发现 Seer 和其他生成式 AI 功能没有用，并且想要为所有用户禁用它们，您可以在组织设置中使用 ["显示生成式 AI 功能"切换](https://sentry.io/orgredirect/organizations/:orgslug/settings/#hideAiFeatures) 来执行此操作。

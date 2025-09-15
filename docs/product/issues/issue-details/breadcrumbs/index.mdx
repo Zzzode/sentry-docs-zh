@@ -1,45 +1,45 @@
 ---
-title: Using Breadcrumbs
-description: "Learn about using breadcrumbs on the Issue Details page to help debug faster."
+title: 使用面包屑
+description: "了解如何在问题详情页面上使用面包屑以帮助更快地调试。"
 sidebar_order: 60
 ---
 
-Sentry uses _breadcrumbs_ to create a trail of events that happened prior to an issue. These events are very similar to traditional logs, but can record more rich structured data.
+Sentry 使用 _面包屑_ 来创建问题发生前的事件轨迹。这些事件与传统日志非常相似，但可以记录更丰富的结构化数据。
 
-SDKs automatically start recording breadcrumbs by enabling integrations. To learn how to do this for your platform, select it from the dropdown at the top of the left hand nav. You'll be taken to the breadcrumb documentation specific to the platform you use.
+SDK 通过启用集成自动开始记录面包屑。要了解如何为您的平台执行此操作，请从左侧导航顶部的下拉菜单中选择它。您将被带到您使用的平台特定的面包屑文档。
 
-If an error event provides a trail, you'll see the breadcrumbs on the **Issue Details** page in [Sentry.io](https://sentry.io/orgredirect/organizations/:orgslug/issues/) displays .
+如果错误事件提供了轨迹，您将在 [Sentry.io](https://sentry.io/orgredirect/organizations/:orgslug/issues/) 中的 **问题详情** 页面上看到面包屑。
 
-![Breadcrumbs section](../img/issue-breadcrumbs.png)
+![面包屑部分](../img/issue-breadcrumbs.png)
 
-## Breadcrumbs Display
+## 面包屑显示
 
-You'll see a few of the breadcrumbs that may be available for the event in the issue "Details" tab. To access the rest of them, click the "View All" button at the bottom of the section. This will open a slide out drawer where you can search, filter, sort, and change the time display for all available breadcrumbs.
+您将在问题的"详情"选项卡中看到事件可能可用的一些面包屑。要访问其余的，请点击部分底部的"查看全部"按钮。这将打开一个滑出抽屉，您可以在其中搜索、过滤、排序和更改所有可用面包屑的时间显示。
 
-Here are all the ways you can narrow down what you see:
-- **Search**: Shows only breadcrumbs that match the query. Matches can occur on `type`, `category`, `message` and `data`.
-- **Filter**:  Filters by the associated `type` and `level`.
-- **Sort**: Determines whether breadcrumbs are shown by Newest or Oldest first. (Your sort preference will be saved to the browser.)
-- **Time Display:** Determines how breadcrumb timestamps are displayed, either as absolute timestamps (respecting user preferences for a 24-hour clocks/timezone), or relative to the first breadcrumb in the list. If a relative timestamp appear negative, it means that it took place before the top-most breadcrumb in the list. (Your time display preference will be saved to the browser.)
+以下是您可以缩小所见内容的所有方法：
+- **搜索**：仅显示与查询匹配的面包屑。匹配可以发生在 `type`、`category`、`message` 和 `data` 上。
+- **过滤**：按关联的 `type` 和 `level` 过滤。
+- **排序**：确定面包屑是按最新还是最旧优先显示。（您的排序偏好将保存到浏览器。）
+- **时间显示**：确定面包屑时间戳的显示方式，可以是绝对时间戳（尊重用户对 24 小时时钟/时区的偏好），或相对于列表中第一个面包屑。如果相对时间戳显示为负数，则意味着它发生在列表中顶部面包屑之前。（您的时间显示偏好将保存到浏览器。）
 
-![Breadcrumbs drawer](./img/breadcrumbs-drawer.png)
-
-
-## Breadcrumb Attributes
-
-Each breadcrumb is composed of the following:
-
-- **Type**: `type` is a semi-internal attribute that controls how breadcrumbs are categorized. If left unchanged, all breadcrumbs are recorded as `default`, but Sentry provides other [types](https://develop.sentry.dev/sdk/data-model/event-payloads/breadcrumbs/#breadcrumb-types) that each have their own color/icon in the UI.
-
-- **Category**: The event category. This data is similar to a logger name and helps you understand where an event took place, such as `auth`.
-
-- **Message**: A string describing the event, rendered as text with all whitespace preserved. It's often used as a drop-in for a traditional log message.
-
-- **Data**: A key-value mapping of a breadcrumb's arbitrary data. This is useful for attaching structured information related to the breadcrumb, like IDs or variable values.
-
-- **Level**: The severity of an event. The level is set to one of five values: fatal, error, warning, info, and debug, in order of severity.
-
-- **Time**: A timestamp showing when the breadcrumb occurred. The format is either a string, as defined in [RFC 3339](https://tools.ietf.org/html/rfc3339), or a numeric value representing the number of seconds that have elapsed since the Unix epoch.
+![面包屑抽屉](./img/breadcrumbs-drawer.png)
 
 
-Learn more detailed information about breadcrumb data in the [Breadcrumbs Interface developer documentation](https://develop.sentry.dev/sdk/data-model/event-payloads/breadcrumbs/).
+## 面包屑属性
+
+每个面包屑由以下内容组成：
+
+- **类型**：`type` 是一个半内部属性，控制面包屑的分类方式。如果保持不变，所有面包屑都记录为 `default`，但 Sentry 提供其他 [类型](https://develop.sentry.dev/sdk/data-model/event-payloads/breadcrumbs/#breadcrumb-types)，每种类型在 UI 中都有自己的颜色/图标。
+
+- **类别**：事件类别。此数据类似于记录器名称，可帮助您了解事件发生的地点，例如 `auth`。
+
+- **消息**：描述事件的字符串，呈现为保留所有空格的文本。它通常用作传统日志消息的替代品。
+
+- **数据**：面包屑任意数据的键值映射。这对于附加与面包屑相关的结构化信息很有用，如 ID 或变量值。
+
+- **级别**：事件的严重性。级别设置为五个值之一：fatal、error、warning、info 和 debug，按严重性顺序排列。
+
+- **时间**：显示面包屑发生时间的时间戳。格式是 [RFC 3339](https://tools.ietf.org/html/rfc3339) 中定义的字符串，或表示自 Unix 纪元以来经过的秒数的数值。
+
+
+在 [面包屑接口开发者文档](https://develop.sentry.dev/sdk/data-model/event-payloads/breadcrumbs/) 中了解有关面包屑数据的更详细信息。

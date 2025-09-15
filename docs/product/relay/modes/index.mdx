@@ -1,51 +1,47 @@
 ---
-title: Relay Modes
-description: "Relay can operate in different modes depending on your organization's needs."
+title: Relay 模式
+description: "Relay 可以根据您组织的需求以不同模式运行。"
 sidebar_order: 2
 ---
 
-Relay can operate in one of several major modes, and it is critical to understand the modes prior if you are configuring the Relay server rather than using the default settings.
+Relay 可以在几种主要模式之一中运行，如果您正在配置 Relay 服务器而不是使用默认设置，则理解这些模式至关重要。
 
-The mode is stored in the configuration file, which contains the `relay.mode` field. This field specifies the mode in which Relay will run: `managed` or `proxy`. The Relay mode controls whether or not Relay obtains project settings for events.
+模式存储在配置文件中，该文件包含 `relay.mode` 字段。此字段指定 Relay 将运行的模式：`managed` 或 `proxy`。Relay 模式控制 Relay 是否为事件获取项目设置。
 
-In Sentry, event processing is configured according to both project and organization settings. Some settings, such as privacy controls, are set at the organization level, then inherited by all projects in that organization; other settings are specified per project. For Relay, events are processed according to the inherited project settings to which the event is sent.
+在 Sentry 中，事件处理根据项目和组织设置进行配置。某些设置（如隐私控制）在组织级别设置，然后由该组织中的所有项目继承；其他设置按项目指定。对于 Relay，事件根据事件发送到的继承项目设置进行处理。
 
-Configuration for Relay is refreshed in regular intervals by polling Sentry. Sentry does not need line-of-sight to your Relays. See [Configuration Options](/product/relay/options/) regarding configuration of intervals, timeouts, and retries.
+Relay 的配置通过轮询 Sentry 定期刷新。Sentry 不需要对您的 Relays 进行视线。有关间隔、超时和重试的配置，请参阅[配置选项](/product/relay/options/)。
 
-## Managed Mode
+## 托管模式
 
-Managed is Relay's default mode. Because settings are obtained from Sentry, authentication is required in this mode. If authentication fails, no events will be accepted by Relay.
+托管是 Relay 的默认模式。由于设置是从 Sentry 获取的，因此在此模式下需要身份验证。如果身份验证失败，Relay 将不接受任何事件。
 
-As Relay receives events from your applications, it will request project
-settings from Sentry to process the events. If Sentry is unable to provide
-the settings for a particular project, all data for that project will
-be discarded.
+当 Relay 从您的应用程序接收事件时，它将从 Sentry 请求项目设置以处理事件。如果 Sentry 无法为特定项目提供设置，则该项目的所有数据都将被丢弃。
 
-To activate managed mode, set this configuration:
+要激活托管模式，请设置此配置：
 
 ```yaml
 relay:
   mode: managed
 ```
 
-## Proxy Mode
+## 代理模式
 
-Proxy mode forwards all events with minimal processing and does not receive any project settings from Sentry.
+代理模式以最小处理转发所有事件，并且不会从 Sentry 接收任何项目设置。
 
-<Alert title="Rate Limiting">
+<Alert title="速率限制">
 
-Rate limiting is still applied in `proxy` mode for all projects.
+在 `proxy` 模式下，所有项目仍然应用速率限制。
 
 </Alert>
 
-To activate proxy mode, set this configuration:
+要激活代理模式，请设置此配置：
 
 ```yaml
 relay:
   mode: proxy
 ```
 
-## Static Mode
+## 静态模式
 
-Static mode has been deprecated as of Relay version 25.9.0. Please use `managed` or `proxy` mode instead. When switching to `managed` mode don't forget to migrate any data scrubbing rules in your config directory by [configuring them in the Sentry UI](/security-legal-pii
-/scrubbing/).
+从 Relay 版本 25.9.0 开始，静态模式已被弃用。请改用 `managed` 或 `proxy` 模式。切换到 `managed` 模式时，不要忘记通过[在 Sentry UI 中配置它们](/security-legal-pii/scrubbing/)来迁移配置目录中的任何数据清理规则。

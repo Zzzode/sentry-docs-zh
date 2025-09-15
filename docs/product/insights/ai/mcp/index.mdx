@@ -1,21 +1,23 @@
 ---
 title: "MCP"
 sidebar_order: 20
-description: "Learn how to use Sentry's MCP monitoring tools to trace and debug your Model Context Protocol implementations, including server connections, resource access, and tool executions."
+description: "了解如何使用Sentry的MCP监控工具来跟踪和调试您的模型上下文协议实现，包括服务器连接、资源访问和工具执行。"
 ---
 
 <Include name="feature-stage-beta.mdx" />
 
-Sentry's MCP (Model Context Protocol) monitoring tools help you understand what's happening in your MCP implementations. They automatically collect information about MCP server connections, resource access, tool executions, and errors across your entire MCP pipeline—from client requests to server responses.
+Sentry的MCP（模型上下文协议）监控工具帮助您了解MCP实现中发生的情况。它们自动收集有关MCP服务器连接、资源访问、工具执行和错误的信息，涵盖整个MCP管道——从客户端请求到服务器响应。
 
-## Example MCP Monitoring Use Cases
+## MCP监控用例示例
 
-- Your MCP server is failing to respond to tool calls, and you want to trace the complete request flow to identify where the connection is breaking.
-- Clients report that your MCP resources are returning outdated or malformed data, and you need to debug the full context of resource requests and server responses.
-- Your MCP implementations are experiencing performance issues, and you want to identify which components (server startup, resource fetching, or tool execution) are causing bottlenecks.
+- 您的MCP服务器未能响应工具调用，您想要跟踪完整的请求流程以识别连接中断的位置。
+- 客户端报告您的MCP资源返回过时或格式错误的数据，您需要调试资源请求和服务器响应的完整上下文。
+- 您的MCP实现遇到性能问题，您想要识别哪些组件（服务器启动、资源获取或工具执行）正在造成瓶颈。
 
-## Get Started
+## 开始使用
 
-To use MCP Monitoring, you must have an existing Sentry account and project set up. If you don't have one, [create an account here](https://sentry.io/signup/).
+要使用MCP监控，您必须拥有现有的Sentry帐户和项目设置。如果您还没有，请[在此处创建帐户](https://sentry.io/signup/)。
 
-![MCP Monitoring Overview](./img/overview.png)
+![MCP监控概览](./img/overview.png)
+
+了解如何[为MCP设置Sentry](/product/insights/ai/mcp/getting-started/)。

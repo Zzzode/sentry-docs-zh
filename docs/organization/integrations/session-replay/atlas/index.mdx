@@ -1,36 +1,36 @@
 ---
 title: Atlas
 sidebar_order: 1
-description: "Learn more about Sentry's Atlas integration and how you can connect Atlas sessions directly to Sentry issues"
+description: "了解 Sentry 的 Atlas 集成以及如何将 Atlas 会话直接连接到 Sentry 问题"
 ---
 
-Atlas is all-in-one customer support software built to show your customers’ experience in a simple, timeline view. Easily link Atlas sessions to Sentry issues and link Sentry issues to existing Atlas sessions.
+Atlas 是一体化客户支持软件，旨在以简单的时间轴视图显示您的客户体验。轻松将 Atlas 会话链接到 Sentry 问题，并将 Sentry 问题链接到现有的 Atlas 会话。
 
-This integration is maintained and supported by the company that created it. For more details, check out our [Integration Platform documentation](/organization/integrations/integration-platform/).
+此集成由创建它的公司维护和支持。更多详细信息，请查看我们的[集成平台文档](/organization/integrations/integration-platform/)。
 
-## Install and Configure
+## 安装和配置
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或管理员权限才能安装此集成。
 
-Atlas **won't** work with self-hosted Sentry.
+Atlas **不**适用于自托管 Sentry。
 
 </Alert>
 
-1. Navigate to **App Configuration > Sentry** in Atlas
+1. 在 Atlas 中导航到**应用配置 > Sentry**
 
-![Installation flow for Sentry integration from Atlas](./img/atlas_install.png)
+![从 Atlas 安装 Sentry 集成的流程](./img/atlas_install.png)
 
-2. Follow the instructions to install the Atlas app from within Sentry
+2. 按照说明从 Sentry 内部安装 Atlas 应用
 
-## Session Linking
+## 会话链接
 
-Session linking allows you to associate Sentry issues with sessions in Atlas so that they can be viewed by your support team when they are assisting your customers.
+会话链接允许您将 Sentry 问题与 Atlas 中的会话关联，以便您的支持团队在协助客户时可以查看它们。
 
-Session linking is automatically attempted if a user has been identified by Sentry. However, if there are multiple simultaneous sessions, disambiguation is needed. For this reason, the best practice is to always identify Atlas sessions from Sentry.
+如果 Sentry 已识别用户，则会自动尝试会话链接。但是，如果有多个同时会话，则需要消除歧义。因此，最佳实践是始终从 Sentry 识别 Atlas 会话。
 
-This can be done by first getting the session id from Atlas by calling the following from the client:
+这可以通过首先从 Atlas 获取会话 ID 来完成，方法是从客户端调用以下内容：
 
 ```javascript
 apiAxios.interceptors.request.use((config) => {
@@ -40,7 +40,7 @@ apiAxios.interceptors.request.use((config) => {
 });
 ```
 
-You can send this to the Sentry via your Client SDK:
+您可以通过客户端 SDK 将其发送到 Sentry：
 
 ```javascript
 Sentry.addEventProcessor((event) => {
@@ -52,16 +52,16 @@ Sentry.addEventProcessor((event) => {
 });
 ```
 
-or from the Server SDK:
+或从服务器 SDK：
 
 ```python
 sentry_sdk.set_tag("atlasSupport.sessionId", atlas_session_id)
 ```
 
-Now, Sentry issues will appear in the customer’s timeline in Atlas:
+现在，Sentry 问题将出现在 Atlas 中的客户时间轴中：
 
-![Sentry issues appearing on the customer timeline within Atlas](./img/atlas_timeline.png)
+![Sentry 问题出现在 Atlas 中的客户时间轴内](./img/atlas_timeline.png)
 
-As well as within the session recording:
+以及在会话录制中：
 
-![Sentry issues appearing on the session recording within Atlas](./img/atlas_session.png)
+![Sentry 问题出现在 Atlas 中的会话录制内](./img/atlas_session.png)

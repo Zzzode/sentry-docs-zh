@@ -1,22 +1,22 @@
 ---
-title: "Trace View"
+title: "追踪视图"
 sidebar_order: 30
 redirect_from:
 - /concepts/key-terms/tracing/trace-view/
-description: "Learn more about the Trace View page, where you can drill down into the details of a single trace, allowing you to debug slow services, identify related errors, and find other bottlenecks."
+description: "了解更多关于追踪视图页面的信息，您可以深入了解单个追踪的详细信息，帮助您调试缓慢的服务、识别相关错误并找到其他瓶颈。"
 ---
 
-The Trace View page is designed to be your one-stop-shop when debugging performance or errors. It gives you full context on what was happening when an error or performance issue occurred, all in one place. The waterfall Trace View allows you to see everything that may have occurred during a trace, including errors, performance issues, and any profiles that may have been collected.
+追踪视图页面旨在成为您在调试性能或错误时的一站式商店。它为您提供错误发生或性能问题发生时正在发生的事情的完整上下文，全部集中在一个地方。瀑布式追踪视图允许您查看追踪期间可能发生的所有事情，包括错误、性能问题以及可能收集的任何性能分析。
 
-In addition, looking at the Trace View allows you to drill down into a single trace so you can visualize the high-level transactions and spans that took place within that trace. This makes debugging slow services, identifying related errors, and rooting out bottlenecks easier and faster, since you no longer have to navigate around multiple pages of the Sentry product.
+此外，查看追踪视图允许您深入了解单个追踪，以便您可以可视化该追踪内发生的高级事务和跨度。这使得调试缓慢的服务、识别相关错误和找出瓶颈变得更容易和更快，因为您不再需要浏览Sentry产品的多个页面。
 
-## Product Walkthrough: Trace View Page
+## 产品演练：追踪视图页面
 
-Sentry's default visualization of a trace is a waterfall-like structure, where the entries (transactions and spans) in the list are organized chronologically and through ancestry (child spans will fall under their parents). This allows you to follow the order of operations and drill into sub-operations.
+Sentry对追踪的默认可视化是一个瀑布式结构，其中列表中的条目（事务和跨度）按时间顺序和通过祖先关系组织（子跨度将落在其父级下）。这使您能够按照操作顺序进行跟踪并深入了解子操作。
 
-On the left side is a list of operations, and on the right is their duration and any events, such as errors, which may have occurred in that timeframe.
+左侧是操作列表，右侧是它们的持续时间以及在该时间范围内可能发生的任何事件，例如错误。
 
-By default, the waterfall view shows a list of transactions. If you need more granular data and want to see spans as well, click "+" to the left of a transaction to expand the waterfall. The waterfall view helps surface any performance issues or profiles collected during a given timeframe.
+默认情况下，瀑布视图显示事务列表。如果您需要更细粒度的数据并希望查看跨度，请单击事务左侧的"+"以展开瀑布。瀑布视图有助于显示在给定时间范围内收集的任何性能问题或性能分析。
 
 <br />
 
@@ -49,57 +49,52 @@ By default, the waterfall view shows a list of transactions. If you need more gr
 
 <br />
 
-### Previous and Next Traces
+### 上一个和下一个追踪
 
-As users interact with an application, they generate multiple traces. For example, when a user loads a page in their browser and then navigates to another page, this creates two separate traces: one for the initial pageload and another for the subsequent navigation. By default, Sentry will link the traces together.
+当用户与应用程序交互时，他们会生成多个追踪。例如，当用户在浏览器中加载页面然后导航到另一个页面时，这会创建两个单独的追踪：一个用于初始页面加载，另一个用于后续导航。默认情况下，Sentry会将追踪链接在一起。
 
-If linked traces are available, you will see "Previous" or "Next" buttons below the waterfall view. These buttons allow you to navigate between traces that occurred before or after the current one.
+如果有链接的追踪可用，您将在瀑布视图下方看到"上一个"或"下一个"按钮。这些按钮允许您在当前追踪之前或之后发生的追踪之间导航。
 
-![Previous and next trace links](./img/trace-view-links.png)
+![上一个和下一个追踪链接](./img/trace-view-links.png)
 
-### Helpful Tips
+### 有用的提示
 
-Because debugging often involves multiple people or teams, we've made it easy to draw attention to specific areas of the trace and share a link that shows what you've highlighted with your colleagues. To do this, click on the row you'd like to draw attention to and share the resulting URL. Your colleague will see exactly what you want them to.
+由于调试通常涉及多个人或团队，我们让您可以轻松地将注意力吸引到追踪的特定区域，并分享一个显示您与同事突出显示的内容的链接。为此，请单击您想要引起注意的行并分享结果URL。您的同事将准确看到您希望他们看到的内容。
 
-Whatever you highlight will also be saved if you navigate away from the page and will still be there when you use your browser's back and forward buttons.
+无论您突出显示什么，如果您离开页面，它也会被保存，并且当您使用浏览器的后退和前进按钮时，它仍然会在那里。
 
-If you're doing a comparison and want an easy way to go back and forth between highlighted areas of interest in your trace, you can pin the tabs. When a tab is pinned, the view will be persistent throughout your session.
+如果您正在进行比较，并且想要一种简单的方法在追踪中感兴趣的区域之间来回切换，您可以固定标签。当标签被固定时，该视图将在整个会话期间保持持久。
 
 <br />
 <Arcade src="https://demo.arcade.software/yP3PFytK0ckfetjJTe52?embed&show_copy_link=true" />
 <br />
-Sometimes, duration gaps between entries can be small, but critical to your debugging
-effort. That's why the Trace View enables you to zoom into certain areas of the trace,
-either by double clicking on row elements (which zooms into the row) or by using
-your scroll wheel.
+有时，条目之间的持续时间差距可能很小，但对您的调试工作至关重要。这就是为什么追踪视图使您能够放大追踪的某些区域，通过双击行元素（放大到该行）或使用鼠标滚轮。
 <br />
 <Arcade src="https://demo.arcade.software/U8JbMjFJR1KRiP4G4j4E?embed&show_copy_link=true" />
 <br />
-The Trace View has other features like search, which makes it easy to visualize matching
-spans that you can then iterate over using the up or down arrows. You can also tailor
-the layout to your preference.
+追踪视图还有其他功能，如搜索，可以轻松可视化匹配的跨度，然后您可以使用向上或向下箭头进行迭代。您还可以根据您的偏好定制布局。
 
-We're going to continue adding features that enable you to perform efficient investigation into whatever issues you might be facing. If you have feedback or requests, please share it with us. We'd love to hear how we can make your life easier and your users happier.
+我们将继续添加功能，使您能够对可能遇到的任何问题进行高效调查。如果您有反馈或请求，请与我们分享。我们很乐意听取您的意见，了解我们如何让您的生活更轻松，让您的用户更快乐。
 
-## Troubleshooting
+## 故障排除
 
-### Orphan Traces and Broken Subtraces
+### 孤立追踪和断开的子追踪
 
-In a fully instrumented system, a span in one service will connect to a transaction in a subsequent service. For a variety of reasons, a transaction in a service may not arrive in Sentry. When Sentry encounters these types of transactions within a trace, the transactions are linked with a dashed line since they can no longer be directly connected to the root, creating an orphan trace.
+在完全检测的系统中，一个服务中的跨度将连接到后续服务中的事务。由于各种原因，服务中的事务可能不会到达Sentry。当Sentry在追踪中遇到这些类型的事务时，事务将用虚线链接，因为它们无法再直接连接到根，从而创建孤立追踪。
 
-In addition, broken subtraces can occur when Sentry receives an error for a trace, but the corresponding transaction does not exist. Such errors are linked using dashed lines and clicking on the row takes you to the corresponding **Issue Details** page.
+此外，当Sentry接收到追踪的错误但相应的事务不存在时，可能会发生断开的子追踪。此类错误用虚线链接，单击行将带您到相应的**问题详情**页面。
 
-Also, in these cases you can click "Open In Discover" to see all the events in the trace.
+此外，在这些情况下，您可以单击"在发现中打开"以查看追踪中的所有事件。
 
-Broken subtraces may be caused by:
+断开的子追踪可能由以下原因引起：
 
-- SDK sampling. Setting a sample rate that's too low may prevent the SDK from sending a transaction. We recommend [sending us all of your transaction data](/organization/dynamic-sampling/#deciding-on-your-sdk-sample-rate).
-- [Ad blockers](/platforms/javascript/troubleshooting/#dealing-with-ad-blockers) may prevent transactions in browsers being sent, but HTTP requests to backend projects will still create child transactions
-- [Rate-limiting](/product/accounts/quotas/#limiting-events) on a project may cause only some events to be sent to Sentry
-- [Project permissions](/product/accounts/membership/#restricting-access) may mean you do not have access to transactions in another project
-- [Differences in quota limits](/product/accounts/quotas/) between transactions and errors. When a quota limit is reached - for example, for transactions - an error is received, but corresponding transaction is not.
-- Exceeding the span limit. Transactions are associated via the child spans of the parent transaction, but if the number of spans exceed the limit, the association cannot be made
+- SDK采样。设置过低的采样率可能会阻止SDK发送事务。我们建议[向我们发送所有事务数据](/organization/dynamic-sampling/#deciding-on-your-sdk-sample-rate)。
+- [广告拦截器](/platforms/javascript/troubleshooting/#dealing-with-ad-blockers)可能会阻止浏览器中的事务被发送，但对后端项目的HTTP请求仍将创建子事务
+- 项目上的[速率限制](/product/accounts/quotas/#limiting-events)可能会导致仅某些事件被发送到Sentry
+- [项目权限](/product/accounts/membership/#restricting-access)可能意味着您无法访问另一个项目中的事务
+- 事务和错误之间的[配额限制差异](/product/accounts/quotas/)。当达到配额限制时 - 例如，对于事务 - 接收到错误，但相应的事务没有。
+- 超出跨度限制。事务通过父事务的子跨度关联，但如果跨度数量超过限制，则无法进行关联
 
-### Multiple Roots
+### 多个根
 
-Each trace ID should have only one root, a transaction without any parents. Automatic instrumentation should prevent multiple roots; however, if the trace ID of your transactions is being set using custom instrumentation, you may encounter multiple roots.
+每个追踪ID应该只有一个根，一个没有任何父级的事务。自动检测应该防止多个根；但是，如果您的事务的追踪ID正在使用自定义检测设置，您可能会遇到多个根。

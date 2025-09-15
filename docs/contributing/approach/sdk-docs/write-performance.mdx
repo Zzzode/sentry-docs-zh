@@ -1,81 +1,81 @@
 ---
-title: How to Write - Performance
+title: 如何编写 - 性能
 noindex: true
 sidebar_order: 70
 ---
 
-The Performance section of the content covers performance instrumentation for our SDKs. A new framework can adopt the common content, which is stored in `/docs/platforms/<SDK>/common/performance` - feel free to peruse the files in that directory to help answer any questions.
+内容的性能部分涵盖了我们SDK的性能工具。新框架可以采用通用内容，这些内容存储在 `/docs/platforms/<SDK>/common/performance` 中 - 请随意浏览该目录中的文件以帮助回答任何问题。
 
 <Alert >
 
-Don't change the common content. That change will ripple across all guides that rely on the common content. Instead, open an issue on GitHub with questions or suggestions.
+不要更改通用内容。该更改将波及所有依赖通用内容的指南。相反，请在GitHub上提出问题或建议。
 
 </Alert >
 
-## Start Here
+## 从这里开始
 
-Determine if the page applies:
+确定页面是否适用：
 
-- If the content **does not apply**, add the guide to `notSupported` list in the frontmatter of the file. This will turn off the display of the content for this guide.
-- If the content **does apply**, add the `include` file to the correct directory as noted for each page. If the code sample is not provided, the page will display a big gray box requesting that customers open an issue for the missing sample.
+- 如果内容**不适用**，请将指南添加到文件的前端内容中的 `notSupported` 列表中。这将关闭此指南的内容显示。
+- 如果内容**适用**，请将 `include` 文件添加到每个页面中注明的正确目录中。如果未提供代码示例，页面将显示一个大灰框，要求客户为缺失的示例提出问题。
 
-### Set Up
+### 设置
 
-The set up page is where readers may start, though the note at the beginning directs into the instrumentation content, if applicable. The reader path depends on whether the SDK has already been instrumented for performance monitoring in the refreshed Getting Started page. For folks adopting this feature later, this page covers how to set up.
+设置页面是读者可能开始的地方，尽管开头的注释将引导到工具内容（如果适用）。读者路径取决于SDK是否已在刷新的入门指南中为性能监控进行了工具化。对于稍后采用此功能的人，此页面涵盖如何设置。
 
-We expect this content to apply to all SDKS, as supported.
+我们希望此内容适用于所有支持的SDK。
 
-This file is `index.mdx`. It explains how to install or set up (if appropriate) as well as how to enable tracing.
+此文件是 `index.mdx`。它解释了如何安装或设置（如果适当）以及如何启用跟踪。
 
-To develop content for this file:
+为此文件开发内容：
 
-1. If the guide is still a work-in-progress and is exposed as an experimental or an early access feature, add the platform to the `<PlatformSection>` wrapping the appropriate alert located at the beginning of the content for the page.
+1. 如果指南仍在进行中，并作为实验或早期访问功能公开，请将平台添加到包装页面开头内容中适当警报的 `<PlatformSection>` 中。
 
-1. If the guide is expected to be used in a high-throughput environment, add the platform to the following `<PlatformSection>` which advises testing before deploying to production.
+1. 如果指南预期在高吞吐量环境中使用，请将平台添加到以下 `<PlatformSection>` 中，该部分建议在部署到生产环境之前进行测试。
 
-1. If automatic instrumentation is still in preview/beta for the guide, add your platform to the next `<PlatformSection>` that wraps around text that discusses this.
+1. 如果自动工具化仍为预览/测试版，请将您的平台添加到围绕讨论此内容的文本的下一个 `<PlatformSection>` 中。
 
-1. If automatic instrumentation is supported, add your platform to the `<PlatformSection>` immediately following **Verify** which advises users to either use auto or custom (or manual) instrumentation to verify the feature. Either omit the platform from the `supported` list or add the platform to the `notSupported` list if auto instrumentation is not available.
+1. 如果支持自动工具化，请将您的平台添加到紧随**验证**之后的 `<PlatformSection>` 中，该部分建议用户使用自动或自定义（或手动）工具化来验证功能。从 `supported` 列表中省略平台或将其添加到 `notSupported` 列表中，如果自动工具化不可用。
 
-1. Add a code sample to `/src/platform-includes/performance/configure-sample-rate/` that covers how to set sample rates. Make sure to update `/docs/platforms/<SDK>/common/configuration/sampling.mdx` and **Tracing Options** in `/docs/platforms/<SDK>/common/configuration/options.mdx`.
+1. 将代码示例添加到 `/src/platform-includes/performance/configure-sample-rate/`，涵盖如何设置采样率。确保更新 `/docs/platforms/<SDK>/common/configuration/sampling.mdx` 和 `/docs/platforms/<SDK>/common/configuration/options.mdx` 中的**跟踪选项**。
 
-1. Do one of the following based on whether automatic instrumentation is available for the guide or not:
-   a. If automatic instrumentation is supported, add your platform to the `<PlatformSection>` immediately following **Verify** which advises users to either use auto or custom (a.k.a. manual) instrumentation to verify the feature. Either omit the platform from `supported` or the platform to `notSupported`.
+1. 根据指南是否支持自动工具化，执行以下操作之一：
+   a. 如果支持自动工具化，请将您的平台添加到紧随**验证**之后的 `<PlatformSection>` 中，该部分建议用户使用自动或自定义（即手动）工具化来验证功能。从 `supported` 中省略平台或将平台添加到 `notSupported`。
 
-   b. If automatic instrumentation is not supported, add your platform to the second `<PlatformSection>` after **Verify** which advises users to test out tracing using custom (manual) instrumentation. Omit the platform from the `supported` list or add it to the `notSupported` list if automatic instrumentation is available.
+   b. 如果不支持自动工具化，请将您的平台添加到**验证**之后的第二个 `<PlatformSection>` 中，该部分建议用户使用自定义（手动）工具化测试跟踪。从 `supported` 列表中省略平台或将其添加到 `notSupported` 列表中，如果自动工具化可用。
 
-1. Determine if the paragraph regarding pageload and navigation applies to the guide. If so, add the guide to the `Supported` list in the `<PlatformSection>`. If not, either omit the guide from the `supported` list or add the guide to the `notSupported` list, which will prevent the content from displaying for this guide.
+1. 确定关于页面加载和导航的段落是否适用于指南。如果是，请将指南添加到 `<PlatformSection>` 中的 `Supported` 列表中。如果不是，请从 `supported` 列表中省略指南或将指南添加到 `notSupported` 列表中，这将阻止内容为此指南显示。
 
-### Custom Instrumentation
+### 自定义工具化
 
-We expect this content to apply to all SDKS.
+我们希望此内容适用于所有SDK。
 
-This file is `performance/instrumentation/custom-instrumentation.mdx`. It explains how to manually instrument transactions.
+此文件是 `performance/instrumentation/custom-instrumentation.mdx`。它解释了如何手动工具化事务。
 
-If custom instrumentation for the framework is exposed as an experimental or an early access feature, add the guide to the `<PlatformSection>` wrapping the appropriate alert located at the beginning of the content for the page.
+如果框架的自定义工具化作为实验或早期访问功能公开，请将指南添加到包装页面开头内容中适当警报的 `<PlatformSection>` 中。
 
-To develop content for this file, add code samples to these directories:
+为此文件开发内容，将代码示例添加到这些目录：
 
 - `/src/platform-includes/performance/enable-manual-instrumentation/`
 - `/src/platform-includes/performance/add-spans-example/`
 - `/src/platform-includes/performance/retrieve-transaction/`
 
-If any of the above files are not applicable to your framework, find the `<PlatformSection>` wrapping the `<PlatformContent>` pointing to the unsupported file, and add your guide to its `notSupported` list. If such a `<PlatformSection>` doesn't already exist, create one and add your guide to its `notSupported` list.
+如果上述任何文件不适用于您的框架，请找到包装指向不受支持文件的 `<PlatformContent>` 的 `<PlatformSection>`，并将您的指南添加到其 `notSupported` 列表中。如果这样的 `<PlatformSection>` 尚不存在，请创建一个并将您的指南添加到其 `notSupported` 列表中。
 
-Then, determine whether to provide a code sample illustrating how to connect errors and spans. If so, add the SDK to the `Supported` list in the appropriate `<PlatformSection>`, then add a code sample `/src/platform-includes/performance/connect-errors-spans/`.
+然后，确定是否提供说明如何连接错误和跨度的代码示例。如果是，请将SDK添加到适当 `<PlatformSection>` 中的 `Supported` 列表中，然后将代码示例添加到 `/src/platform-includes/performance/connect-errors-spans/`。
 
-### Automatic Instrumentation
+### 自动工具化
 
-Populate the `sdk_name/common/performance/instrumentation/` directory with the file `automatic-instrumentation.mdx`.
+使用文件 `automatic-instrumentation.mdx` 填充 `sdk_name/common/performance/instrumentation/` 目录。
 
-### Troubleshooting
+### 故障排除
 
-This file is `troubleshooting-performance.mdx`. It explains corner cases and how to solve known issues.
+此文件是 `troubleshooting-performance.mdx`。它解释角落情况以及如何解决的已知问题。
 
-1. Determine if the framework needs an illustration of how to group transactions. If so, add the framework to `Supported` list in the `<PlatformSection>`, then add a code sample to `performance/group-transaction-example/`. If not, add the framework to `notSupported` list, which will prevent the **Group Transactions** heading from displaying for this framework.
+1. 确定框架是否需要说明如何分组事务的图示。如果是，请将框架添加到 `<PlatformSection>` 中的 `Supported` 列表中，然后将代码示例添加到 `performance/group-transaction-example/`。如果不是，请将框架添加到 `notSupported` 列表中，这将阻止**分组事务**标题为此框架显示。
 
-2. Add an example to `src/platform-includes/performance/control-data-truncation/`
+2. 将示例添加到 `src/platform-includes/performance/control-data-truncation/`
 
-### Sampling
+### 采样
 
-Guidelines TBD.
+指南待定。

@@ -1,255 +1,255 @@
 ---
-title: Manage Your Error Quota
-keywords: ["best practices"]
+title: 管理您的错误配额
+keywords: ["最佳实践"]
 sidebar_order: 30
-description: "Learn how to use the tools Sentry provides to control the type and amount of errors that you pay for."
+description: "了解如何使用 Sentry 提供的工具来控制您需要付费的错误类型和数量。"
 ---
 
-Sending all your application errors to Sentry ensures you'll be notified in real-time when errors occur in your code. However, with a basic setup, you may consume your error quota too rapidly and trigger more notifications than you can use. Sentry provides tools to control the _type_ and _amount_ of errors that are monitored. These tools allow you to:
+将所有应用程序错误发送到 Sentry 可以确保您在代码中发生错误时实时收到通知。但是，通过基本设置，您可能会过快地消耗错误配额，并触发比您可以使用更多的通知。Sentry 提供了控制被监控的错误的 _类型_ 和 _数量_ 的工具。这些工具允许您：
 
-1. Receive more actionable and meaningful error events.
-2. Reserve real-time notifications for errors that actually break your code.
-3. Manage your error quota.
+1. 接收更具可操作性和意义的错误事件。
+2. 为实际破坏代码的错误保留实时通知。
+3. 管理您的错误配额。
 
-Applying the proper filters, SDK configuration, and rate limits is an iterative and on-going process, but these tips will show you how to get the most out of your error events. These tips are ordered from easiest or least time-consuming to most challenging or potentially time-consuming. Options 1-5 are all things you can do in [sentry.io](https://sentry.io), whereas the remaining ones are things you'll do in the SDK.
+应用适当的过滤器、SDK 配置和速率限制是一个迭代且持续的过程，但这些技巧将向您展示如何充分利用您的错误事件。这些技巧从最简单或最省时的到最具挑战性或可能最耗时的进行排序。选项 1-5 都是您可以在 [sentry.io](https://sentry.io) 中做的事情，而其余的则是您将在 SDK 中要做的事情。
 
-## Before You Begin: Check Your Quota Usage
+## 开始之前：检查您的配额使用情况
 
-You can look at your events in aggregate in the "Usage Stats" tab of **Stats**. This information will help you answer key questions about the breakdown of your incoming events or which projects are consuming your quota. The answers to these questions can help you figure out where you need to do further fine-tuning of your SDK filters and configuration.
+您可以在 **统计** 的"使用情况统计"选项卡中查看您的聚合事件。这些信息将帮助您回答关于传入事件分解或哪些项目正在消耗您的配额的关键问题。这些问题的答案可以帮助您确定需要在何处对 SDK 过滤器和配置进行进一步微调。
 
-This page is accessible to all members of your organization, so Owners in your Sentry org can share this page with the developers directly responsible for a given project. Also, you can come back to this page to check if the changes you've made are having the desired effect.
+此页面对您组织的所有成员都可访问，因此您 Sentry 组织中的所有者可以与直接负责给定项目的开发人员共享此页面。此外，您可以返回此页面检查您所做的更改是否产生了预期效果。
 
-### How can I see a breakdown of incoming events?
+### 如何查看传入事件的分解？
 
-The [Usage Stats](/product/stats/#usage-stats) tab displays details about the total amount of data Sentry has received across your entire organization for up to 90 days. The page breaks down the events (by project) into three categories: _accepted_, _dropped_, or _filtered_. Only accepted events affect your quota:
+[使用情况统计](/product/stats/#usage-stats)选项卡显示整个组织最多90天内 Sentry 接收的数据总量的详细信息。该页面将事件（按项目）分为三类：_已接受_、_已丢弃_ 或 _已过滤_。只有已接受的事件会影响您的配额：
 
-![Usage Stats page showing errors](./img/usage-stats-errors.png)
+![使用情况统计页面显示错误](./img/usage-stats-errors.png)
 
-### What are my busiest projects?
+### 我最忙的项目是什么？
 
-The "Project" table in the "Usage Stats" tab of **Stats** breaks down your data by project, so you can see which ones are consuming your quota. Clicking on the settings icon next to a project name in the table will open the project's settings page where you can manage its [inbound filters](#3-inbound-data-filters) and [rate limits](#6-rate-limiting).
+**统计** 的"使用情况统计"选项卡中的"项目"表按项目分解您的数据，以便您可以看到哪些项目正在消耗您的配额。点击表中项目名称旁边的设置图标将打开项目设置页面，您可以在其中管理其[入站过滤器](#3-inbound-data-filters)和[速率限制](#6-rate-limiting)。
 
-### Which issues are consuming my quota?
-
-<Alert>
-
-You can only update the columns of the Results table in **Discover** if your organization is on a Business plan.
-
-</Alert>
-
-You can set up [a query](https://sentry.io/orgredirect/organizations/:orgslug/discover/results/?field=title&field=project&field=count%28%29&name=All+Events&query=event.type%3Aerror&sort=-count&statsPeriod=14d&yAxis=count%28%29) in **Discover** to take a more proactive approach to resolving your busiest issues. When you're building the query, search for `event.type:error` and then set the columns `issue`, `title`, `project`, and `count()`, as shown below:
-
-![Busiest Projects](./img/manage-event-stream-02.png)
-
-Once the changes are applied, sort the "Results" table by the "COUNT()" column to display your busiest issues:
-
-![Busiest Issues](./img/manage-event-stream-10.png)
-
-Once you know where your quota is being used, you can start taking the steps below to control it.
-
-## Grace Period
-
-All accounts have access to a one-time grace period. This means that if an account depletes its error event volume and has never previously triggered a grace period, we continue to accept events for the next three days at a maximum rate of 10,000 events per hour. If you choose not to increase your error volume, Sentry will stop accepting events for the remainder of the current billing month. However, if you increase your volume, error events accepted during the grace period will be counted as consumed volume.
-
-While this grace period isn't dependent on the [Spike Protection feature](#7-spike-protection), you'll probably get a notification that you've entered a grace period along with a notification of a spike.
-
-## Spike Protection
-
-Spike Protection protects users from spiking event volume. Typically, spikes are caused by anomalies and have the potential to deplete your available event volume rapidly. Your baseline consumption is used to compute a threshold and spike protection is triggered if event volume exceeds this threshold. When spike protection is triggered, events start getting dropped, ensuring that you don't get charged for the excess volume.
-
-## Adjusting Quotas
+### 哪些问题正在消耗我的配额？
 
 <Alert>
 
-Quotas can only be updated by a Billing or Owner member of your Sentry organization.
+只有在您的组织使用商业计划时，您才能更新 **发现** 中结果表的列。
 
 </Alert>
 
-Once your event volume is approaching or has exceeded the quota, teammates with the "Owner" organization permission level will receive [notification](/product/alerts/notifications/#quota-notifications) emails. You can then choose to [increase](#increasing-quotas) or [decrease](#decreasing-quotas) your quota.
+您可以在 **发现** 中设置[查询](https://sentry.io/orgredirect/organizations/:orgslug/discover/results/?field=title&field=project&field=count%28%29&name=All+Events&query=event.type%3Aerror&sort=-count&statsPeriod=14d&yAxis=count%28%29)，以更主动地解决您最繁忙的问题。构建查询时，搜索 `event.type:error`，然后将列设置为 `issue`、`title`、`project` 和 `count()`，如下所示：
 
-If this is your first time exceeding your errors quota and you're on a paid plan, you'll be entered into a one-time grace period. Learn more by reading this [help article](https://sentry.zendesk.com/hc/en-us/articles/23983502355099-What-happens-when-I-run-out-of-event-capacity-and-a-grace-period-is-triggered).
+![最繁忙的项目](./img/manage-event-stream-02.png)
 
-### Increasing Quotas
+应用更改后，按"COUNT()"列对"结果"表进行排序，以显示您最繁忙的问题：
 
-If you're dropping events that you want to keep because you've exceeded your quota, add to your quota at any time during your billing period by either increasing your [reserved](#reserved-volume) or [pay-as-you-go](/pricing/#pricing-how-it-works) quota.
+![最繁忙的问题](./img/manage-event-stream-10.png)
 
-When you exceed your quota threshold, the server will respond with a 429 HTTP status code, which communicates to SDKs and clients to stop sending events. This status code comes with a `Retry-After` header that indicates the time for which this rate limit is active. However, clients are not supposed to retry events, but instead drop events until the rate limit has expired, to prevent queue backlogs. Note, that since event ingestion and rate limiting happen asynchronously, the 429 HTTP status code is always slightly delayed.
+一旦您知道配额的使用位置，您就可以开始采取以下步骤来控制它。
 
-To increase your quota, go to **Settings > Subscription** and click the "Manage Subscription" button to access your subscription options. When you increase your quota, the change goes into effect immediately.
+## 宽限期
 
-If you're on a Developer plan and want to increase your quota, you'll need to upgrade to a Team or Business plan. On these plans you can prepay for more event volume and purchase pay-as-you-go volume, as needed. Learn about Sentry's plans on our [pricing page](https://sentry.io/pricing/).
+所有账户都可以使用一次性宽限期。这意味着如果账户耗尽了错误事件量，并且之前从未触发过宽限期，我们将以每小时最多10,000个事件的最大速率继续接受事件三天。如果您选择不增加事件量，Sentry 将在当前计费月的剩余时间内停止接受事件。但是，如果您增加量，宽限期内接受的错误事件将计为消耗量。
+
+虽然此宽限期不依赖于[峰值保护功能](#7-spike-protection)，但您可能会收到已进入宽限期的通知以及峰值通知。
+
+## 峰值保护
+
+峰值保护保护用户免受事件量激增的影响。通常，峰值是由异常引起的，有可能迅速耗尽您可用的事件量。您的基线消耗用于计算阈值，如果事件量超过此阈值，则会触发峰值保护。当触发峰值保护时，事件开始被丢弃，确保您不会因超额量而被收费。
+
+## 调整配额
 
 <Alert>
 
-If you upgrade from Team to Business mid-billing period, your pay-as-you-go pricing changes retroactively.
+只有您 Sentry 组织的账单或所有者成员才能更新配额。
 
 </Alert>
 
-### Reserved Volume
+一旦您的事件量接近或已超过配额，具有"所有者"组织权限级别的队友将收到[通知](/product/alerts/notifications/#quota-notifications)电子邮件。然后您可以选择[增加](#increasing-quotas)或[减少](#decreasing-quotas)您的配额。
 
-If the number of events you need is steadily increasing, you may want to increase your reserved capacity or volume. Reserved volume is less expensive than pay-as-you-go volume since you prepay for it. It also allows you to choose the number of events that you want to have available beforehand rather than just setting an arbitrary pay-as-you-go budget. Learn more about [reserved volume](/pricing/#prepaid-reserved-capacity) in our pricing documentation.
+如果这是您第一次超出错误配额并且您使用的是付费计划，您将进入一次性宽限期。通过阅读此[帮助文章](https://sentry.zendesk.com/hc/en-us/articles/23983502355099-What-happens-when-I-run-out-of-event-capacity-and-a-grace-period-is-triggered)了解更多信息。
 
-You shouldn't increase your reserved volume if you think your need for more events is temporary, since [reducing your reserved volume is tied to your billing period](#decreasing-quotas).
+### 增加配额
 
-### Pay-as-you-go Budget
+如果您因为超出配额而丢弃了您想要保留的事件，请通过在计费期间的任何时间增加您的[预留](#reserved-volume)或[按量付费](/pricing/#pricing-how-it-works)配额来添加到您的配额。
 
-If you need to increase your event quota temporarily, we recommend that you add or increase pay-as-you-go budget. This is ideal for situations like rolling out a new version of your application where you anticipate more events for the month. Learn more about [pay-as-you-go budget](/pricing/#pricing-how-it-works) in our pricing documentation.
+当您超出配额阈值时，服务器将响应429 HTTP状态码，该状态码向SDK和客户端传达停止发送事件的信号。此状态码附带一个`Retry-After`标头，指示此速率限制处于活动状态的时间。但是，客户端不应重试事件，而应丢弃事件直到速率限制到期，以防止队列积压。请注意，由于事件摄取和速率限制是异步发生的，429 HTTP状态码总是略有延迟。
 
-### Decreasing Quotas
+要增加您的配额，请转到 **设置 > 订阅** 并点击"管理订阅"按钮以访问您的订阅选项。当您增加配额时，更改会立即生效。
 
-Plan downgrades and decreases in reserved volume are processed at the end of your billing period, and remaining volume cannot be refunded. For example, if you have a monthly billing period that starts on the 5th of the month, and you decrease your reserved volume on June 20th, then this change will be processed on July 4th. Your billing period beginning on July 5th will reflect your new reserved volume.
+如果您使用的是开发者计划并希望增加配额，则需要升级到团队或商业计划。在这些计划中，您可以预付更多事件量并按需购买按量付费量。在我们的[定价页面](https://sentry.io/pricing/)上了解 Sentry 的计划。
+
+<Alert>
+
+如果您在计费期间从团队升级到商业，您的按量付费定价会追溯更改。
+
+</Alert>
+
+### 预留容量
+
+如果您需要的事件数量稳步增加，您可能需要增加预留容量或量。预留容量比按量付费量便宜，因为您需要预付费用。它还允许您提前选择您想要可用的事件数量，而不仅仅是设置任意的按量付费预算。在我们的定价文档中了解更多关于[预留容量](/pricing/#prepaid-reserved-capacity)的信息。
+
+如果您认为您对更多事件的需求是暂时的，则不应增加预留容量，因为[减少预留容量与您的计费周期相关](#decreasing-quotas)。
+
+### 按量付费预算
+
+如果您需要临时增加事件配额，我们建议您添加或增加按量付费预算。这非常适合像推出新版本应用程序这样的情况，您预计当月会有更多事件。在我们的定价文档中了解更多关于[按量付费预算](/pricing/#pricing-how-it-works)的信息。
+
+### 减少配额
+
+计划降级和预留容量减少在您的计费期结束时处理，剩余容量不能退款。例如，如果您的月度计费期从每月5日开始，而您在6月20日减少了预留容量，则此更改将在7月4日处理。从7月5日开始的计费期将反映您的新预留容量。
 
 <Alert level="warning">
 
-If you have an annual billing period, plan downgrades and decreases in reserved volume go into effect at the beginning of your **next billing year.**
+如果您有年度计费期，计划降级和预留容量减少将在您的**下一个计费年度**开始时生效。
 
 </Alert>
 
-Changes to pay-as-you-go volume typically go into effect immediately and are guaranteed to go into effect within 24 hours. However, you can't decrease your pay-as-you-go budget to less than what you've consumed in the current period.
+对按量付费量的更改通常会立即生效，并保证在24小时内生效。但是，您不能将按量付费预算减少到低于您在当前期间已消耗的金额。
 
-To decrease your quota, go to **Settings > Subscription** and click "Manage Subscriptions". When you reach the "Review & Confirm" step, the date that these changes go into effect will be displayed.
+要减少您的配额，请转到 **设置 > 订阅** 并点击"管理订阅"。当您到达"查看并确认"步骤时，将显示这些更改生效的日期。
 
 <Alert>
 
-We strongly recommend that you make subscription changes **before** the last day of your billing period. Depending on your time zone, in some cases, changes made on the last day of the billing period will not go into effect until the next billing period.
+我们强烈建议您在计费期的最后一天**之前**进行订阅更改。根据您的时区，在某些情况下，在计费期的最后一天所做的更改要到下一个计费期才会生效。
 
 </Alert>
 
-## Rate Limiting
+## 速率限制
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-Rate limiting allows you to set the maximum volume of error events a project key will accept during a period of time. For example, if you have a project in production that generates a lot of noise, a rate limit allows you to set the maximum amount of data, such as “500 events per minute”. Additionally, you can create a second key for the same project for your staging environment, which is unlimited, ensuring your QA process is still untouched.
+速率限制允许您设置项目密钥在时间段内将接受的最大错误事件量。例如，如果您有一个在生产中生成大量噪音的项目，速率限制允许您设置最大数据量，例如"每分钟500个事件"。此外，您可以为同一项目创建第二个密钥用于暂存环境，该环境不受限制，确保您的 QA 过程仍然不受影响。
 
-In **[Settings > Projects > [Project] > SDK Setup > Client Keys (DSN)**, click "Configure", and you can create multiple DSN keys per project and assign different (or no) rate limits to each key. This will allow you to dynamically allocate keys (with varying thresholds) depending on release, environment, and so on.
+在 **设置 > 项目 > [项目] > SDK 设置 > 客户端密钥 (DSN)** 中，点击"配置"，您可以为每个项目创建多个 DSN 密钥，并为每个密钥分配不同的（或无）速率限制。这将允许您根据发布、环境等动态分配具有不同阈值的密钥。
 
-![Per DSN Key rate limits](./img/manage-event-stream-11.png)
+![每个 DSN 密钥的速率限制](./img/manage-event-stream-11.png)
 
-Once you've set the limit, events dropped because of rate limiting generate a 429 error code.
+设置限制后，由于速率限制而丢弃的事件会生成429错误代码。
 
-While rate limiting is quite useful for managing your monthly event quota, keep in mind that once a defined threshold is crossed, subsequent events will be dropped. Therefore, you shouldn't constantly be hitting your rate limit; rather, it should act as a ceiling intended to protect you from unexpected spikes.
+虽然速率限制对于管理您的月度事件配额非常有用，但请记住，一旦超过定义的阈值，后续事件将被丢弃。因此，您不应不断达到速率限制；相反，它应该作为旨在保护您免受意外峰值的天花板。
 
-### Setting Useful Rate Limits
+### 设置有用的速率限制
 
-A good way to set a project rate limit is by figuring out the expected event volume based on your average traffic. Here's how to do that:
+设置项目速率限制的一个好方法是根据您的平均流量计算预期事件量。以下是如何做到这一点：
 
-1. Go to **Settings > Projects > [Project] > SDK Setup > Client Keys (DSN)** and open the project DSN key configuration under by clicking "Configure".
-1. In the "KEY USAGE IN THE LAST 30 DAYS" graph, look for the highest point, or the maximum daily rate. In the example below, the maximum daily rate in the last month is less than 34K:
-   ![Calculating rate limits](./img/manage-event-stream-14-new.png)
-   {/*<!-- image notes: Sentry, airflow, Santry, app-frontend -->*/}
-1. Based on the rate, choose a **daily** maximum value or ceiling. In this example, we calculated a daily maximum of approximately 35K, which is around 1458 events an **hour**, or about 24 events a **minute**.
-1. Set a daily, hourly, or minute-based rate limit. We recommend using a minute-based rate to avoid situations where a random event spike might exhaust your daily or hourly quota and leave you without event data for a long period.
+1. 转到 **设置 > 项目 > [项目] > SDK 设置 > 客户端密钥 (DSN)** 并通过点击"配置"打开项目 DSN 密钥配置。
+1. 在"过去30天的密钥使用情况"图表中，查找最高点或最大日速率。在下面的示例中，过去一个月的最大日速率小于34K：
+   ![计算速率限制](./img/manage-event-stream-14-new.png)
+   {/*<!-- 图像注释：Sentry, airflow, Santry, app-frontend -->*/}
+1. 根据速率，选择**每日**最大值或上限。在此示例中，我们计算的每日最大值约为35K，约为**每小时**1458个事件，或约**每分钟**24个事件。
+1. 设置每日、每小时或基于分钟的速率限制。我们建议使用基于分钟的速率，以避免随机事件峰值可能耗尽您的每日或每小时配额并使您长时间没有事件数据的情况。
 
-You should periodically go back and check the graph to see the number of events dropped due to rate limiting and, if needed, revisit your settings.
+您应该定期返回并检查图表，查看由于速率限制而丢弃的事件数量，如果需要，请重新访问您的设置。
 
-![Revisit rate limits](./img/manage-event-stream-15-new.png)
+![重新访问速率限制](./img/manage-event-stream-15-new.png)
 
-## Review Event Repetition
+## 审查事件重复
 
-The following rules apply for error event repetition and your quota:
+以下规则适用于错误事件重复和您的配额：
 
-- If you previously resolved an issue, a new error event counts toward your quota because it may represent a regression in your code.
-- If you have chosen to ignore alerts about error events with the same fingerprint, a new event counts toward your quota because the event is still occurring.
-- If you ["Delete & Discard"](#delete--discard) an issue, then **future** error events with the same fingerprint will not count toward your quota.
+- 如果您之前已解决某个问题，则新的错误事件将计入您的配额，因为它可能代表代码中的回归。
+- 如果您选择忽略具有相同指纹的错误事件的通知，则新事件将计入您的配额，因为事件仍在发生。
+- 如果您["删除并丢弃"](#delete--discard)某个问题，则**未来**具有相同指纹的错误事件将不计入您的配额。
 
-### Delete & Discard
-
-<Include name="feature-available-for-plan-business.mdx" />
-
-If there is an irrelevant, reoccurring issue that you are unable or unwilling to resolve, you can archive it from the **Issue Details** page (temporarily or forever) by clicking "Archive". This will filter out future matching events.
-
-![Archive Issues](./img/manage-event-stream-06-new.png)
-
-You can find a list of deleted and discarded issues in the "Discarded Issues" tab in **Settings > Projects > [Project] > Processing > Inbound Filters**. From here, you can un-discarded any of these issues to receive future events.
-
-You can always view your archived issues by adding `is: archived` to the search bar in the **Issues** page, and can un-archive them from there.
-
-![List of Archived Issues](./img/manage-event-stream-07-new.png)
-
-Once you've identified a set of discarded issues, it might make sense to go back to your SDK configuration and add the related errors into your `beforeSend` client-side filtering.
-
-## Inbound Data Filters
-
-While SDK configuration requires changes to your source code and depends on your next deployment, server-side filters can be easily configured per project in the "Data Filters" section of **Settings > Projects > [Project] > Processing > Inbound Filters**.
-
-Once applied, you can track the filtered events (numbers and cause) using the graph provided at the top of the "Inbound Data Filters" page.
-
-![Built-in Inbound Filters](./img/manage-event-stream-03.png)
-
-Sentry provides several methods to filter all events and attachments server-side, which are applied before checking for potential rate limits. Inbound filters include:
-
-- Common browser extension errors
-- Events coming from `localhost`
-- Known legacy browsers errors
-- Known web crawlers
-- Error messages
-- Specific release versions of your code
-- Certain IP addresses
-
-The first four options above are settings that you simply toggle on or off. Setting the others is explained further below.
-
-After these checks are processed, events and attachments that aren't dropped based on these filters count toward your quota. They're accepted into Sentry, where they're persisted and stored.
-
-### IP Filters
-
-If you have a rogue client, Sentry supports blocking an IP from sending data. Navigate to **[Project] > Settings > Projects > [Project] >  Inbound Filters** to add the IP addresses (or subnets) in the "IP Addresses" field.
-
-### Filter by Release
+### 删除并丢弃
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-If you discover a problematic release causing excessive noise, Sentry supports ignoring all events and attachments from that release. Navigate to **Settings > Projects > [Project] >  Inbound Filters** , then add the release to the "Releases" field.
+如果您有一个无法或不愿解决的无关的、重复出现的问题，您可以从**问题详情**页面通过点击"归档"来将其归档（临时或永久）。这将过滤掉未来的匹配事件。
 
-### Filter by Error Message
+![归档问题](./img/manage-event-stream-06-new.png)
+
+您可以在**设置 > 项目 > [项目] > 处理 > 入站过滤器**中的"已丢弃问题"选项卡中找到已删除和已丢弃问题的列表。从这里，您可以取消丢弃任何这些问题以接收未来事件。
+
+您始终可以通过在**问题**页面的搜索栏中添加 `is: archived` 来查看已归档的问题，并可以从那里取消归档它们。
+
+![已归档问题列表](./img/manage-event-stream-07-new.png)
+
+一旦您确定了一组已丢弃的问题，返回您的 SDK 配置并将相关错误添加到您的 `beforeSend` 客户端过滤中可能是有意义的。
+
+## 入站数据过滤器
+
+虽然 SDK 配置需要更改源代码并取决于您的下一次部署，但服务器端过滤器可以在 **设置 > 项目 > [项目] > 处理 > 入站过滤器** 的"数据过滤器"部分中为每个项目轻松配置。
+
+应用后，您可以使用"入站数据过滤器"页面顶部提供的图表跟踪过滤的事件（数量和原因）。
+
+![内置入站过滤器](./img/manage-event-stream-03.png)
+
+Sentry 提供了几种在服务器端过滤所有事件和附件的方法，这些都是在检查潜在速率限制之前应用的。入站过滤器包括：
+
+- 常见浏览器扩展错误
+- 来自 `localhost` 的事件
+- 已知旧版浏览器错误
+- 已知网络爬虫
+- 错误消息
+- 代码的特定发布版本
+- 某些 IP 地址
+
+上述前四个选项是您只需打开或关闭的设置。设置其他的解释如下。
+
+在这些检查处理完毕后，未根据这些过滤器丢弃的事件和附件会计入您的配额。它们被接受进入 Sentry，在那里它们被持久化和存储。
+
+### IP 过滤器
+
+如果您有恶意客户端，Sentry 支持阻止 IP 发送数据。导航到 **[项目] > 设置 > 项目 > [项目] > 入站过滤器** 以在"IP 地址"字段中添加 IP 地址（或子网）。
+
+### 按发布版本过滤
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-Sentry supports filtering out a specific or certain kind of error as well. Navigate to **Settings > Projects > [Project] >  Inbound Filters** , then add the error message to the "Error Message" field.
+如果您发现导致过多噪音的问题发布版本，Sentry 支持忽略来自该发布版本的所有事件和附件。导航到 **设置 > 项目 > [项目] > 入站过滤器**，然后将发布版本添加到"发布版本"字段。
 
-To ensure you’re adding the correct message to the inbound filter setting, check the JSON for an event in the issue. The filter by error message setting matches the data found in the `title` field near the end of the file.
+### 按错误消息过滤
 
-## SDK Sample Rate
+<Include name="feature-available-for-plan-business.mdx" />
 
-If a sample rate is defined for the SDK, the SDK evaluates whether this event should be sent as a representative fraction of events. Setting a sample rate is [documented for each SDK](/platform-redirect/?next=/configuration/sampling/).
+Sentry 还支持过滤掉特定或某种类型的错误。导航到 **设置 > 项目 > [项目] > 入站过滤器**，然后将错误消息添加到"错误消息"字段。
 
-The SDK sample rate is not dynamic; changing it requires re-deployment. Also, keep in mind that setting an SDK sample rate limits visibility into the source of events. Setting a rate limit for your project may better suit your needs.
+为确保您向入站过滤器设置添加了正确的消息，请检查问题中事件的 JSON。按错误消息过滤设置与文件末尾附近的 `title` 字段中找到的数据匹配。
 
-## SDK Filtering: beforeSend
+## SDK 采样率
 
-All Sentry SDKs support the `beforeSend` callback method. Once implemented, the method is invoked when the SDK captures an error event, right before sending it to your Sentry account. It receives the event object as a parameter, so you can use that to modify the event's data or drop it completely (by returning `null`) based on your custom logic and the data available on the event, like _tags_, _environment_, _release version_, _error attributes_, and so on. Note that only error and message events pass through `beforeSend`. Transaction events have a separate method, `beforeSendTransaction`, though it's not yet supported in all SDKs. Learn more about both methods in [Filtering Events](/platform-redirect/?next=/configuration/filtering/).
+如果为 SDK 定义了采样率，则 SDK 评估是否应将此事件作为事件的代表性部分发送。为每个 SDK [记录](/platform-redirect/?next=/configuration/sampling/)设置采样率。
 
-## SDK Configuration
+SDK 采样率不是动态的；更改它需要重新部署。此外，请记住，设置 SDK 采样率会限制对事件源的可见性。为您的项目设置速率限制可能更适合您的需求。
 
-The Sentry SDKs have several configuration options that can be used to filter unwanted errors from leaving your application's runtime. A lot of these options are platform-specific, so make sure you look for yours in our platform docs under [Configuration](/platform-redirect/?next=/configuration/). Following are some configuration examples for JavaScript and other SDKs.
+## SDK 过滤：beforeSend
+
+所有 Sentry SDK 都支持 `beforeSend` 回调方法。实现后，当 SDK 捕获错误事件时，在将其发送到您的 Sentry 账户之前调用该方法。它以事件对象作为参数接收，因此您可以使用它来根据事件上可用的自定义逻辑和数据（如 _标签_、_环境_、_发布版本_、_错误属性_ 等）修改事件数据或完全丢弃事件（通过返回 `null`）。请注意，只有错误和消息事件通过 `beforeSend`。事务事件有一个单独的方法 `beforeSendTransaction`，尽管并非所有 SDK 都支持它。在[过滤事件](/platform-redirect/?next=/configuration/filtering/)中了解有关这两种方法的更多信息。
+
+## SDK 配置
+
+Sentry SDK 有几个配置选项可用于过滤不需要的错误，使其不会离开应用程序的运行时。其中许多选项是特定于平台的，因此请确保在我们的平台文档中的[配置](/platform-redirect/?next=/configuration/)下查找您的选项。以下是 JavaScript 和其他 SDK 的一些配置示例。
 
 ### JavaScript
 
-The JavaScript SDK includes multiple integrations: functional plugins that you can configure, enable, or disable. Learn more in [JavaScript SDK Integrations](/platforms/javascript/configuration/integrations/). Several integrations allow you to configure the types of events you want Sentry to monitor; two of them, InboundFilters and GlobalHandlers are explained below:
+JavaScript SDK 包括多个集成：您可以配置、启用或禁用的功能插件。在 [JavaScript SDK 集成](/platforms/javascript/configuration/integrations/)中了解更多信息。几个集成允许您配置您希望 Sentry 监控的事件类型；其中两个，InboundFilters 和 GlobalHandlers，解释如下：
 
 #### InboundFilters
 
-The integration is enabled by default and adds the following configuration options to the SDK:
+集成默认启用，并为 SDK 添加以下配置选项：
 
-- `allowUrls`: Domains that might raise acceptable exceptions represented in a regex pattern format.
-- `denyUrls`: A list of strings or regex patterns which match error URLs that should be blocked from sending events. Configuring both `allowUrls` and `denyUrls` on the SDK can be used to block subdomains of the domains listed in `allowUrls`.
-- `ignoreErrors`: Instructs the SDK to never send an error to Sentry if it matches any of the listed error messages or regular expressions. The SDK will try to match against the message or, if there is no message, a string containing the exception type and value formatted like so: `ExceptionType: value`.
-- `ignoreTransactions`: Instructs the SDK to never send a transaction to Sentry if it matches any of the listed transaction names or regular expressions.
+- `allowUrls`：可能引发可接受异常的域，以正则表达式模式格式表示。
+- `denyUrls`：匹配应阻止发送事件的错误 URL 的字符串或正则表达式模式列表。在 SDK 上配置 `allowUrls` 和 `denyUrls` 都可用于阻止 `allowUrls` 中列出的域的子域。
+- `ignoreErrors`：指示 SDK 如果与列出的任何错误消息或正则表达式匹配，则永远不要向 Sentry 发送错误。SDK 将尝试匹配消息，如果没有消息，则匹配包含异常类型和值的字符串，格式如下：`ExceptionType: value`。
+- `ignoreTransactions`：指示 SDK 如果与列出的任何事务名称或正则表达式匹配，则永远不要向 Sentry 发送事务。
 
-To learn more and see code samples, check out:
+要了解更多信息并查看代码示例，请查看：
 
-- [Filtering](/platforms/javascript/configuration/filtering/)
-- [Enriching Events: Add Context](/platforms/javascript/enriching-events/context/)
+- [过滤](/platforms/javascript/configuration/filtering/)
+- [丰富事件：添加上下文](/platforms/javascript/enriching-events/context/)
 
 #### GlobalHandlers
 
-This integration attaches global handlers to capture uncaught exceptions (`onerror`) and unhandled rejections (`onunhandledrejection`). Both handlers are enabled by default, but can be disabled through configuration. Learn more in [GlobalHandlers Integration](/platforms/javascript/configuration/integrations/globalhandlers/).
+此集成附加全局处理程序以捕获未捕获的异常 (`onerror`) 和未处理的拒绝 (`onunhandledrejection`)。两个处理程序默认启用，但可以通过配置禁用。在 [GlobalHandlers 集成](/platforms/javascript/configuration/integrations/globalhandlers/)中了解更多信息。
 
-Check out additional configuration options with the [BrowserApiErrors](/platforms/javascript/configuration/integrations/browserapierrors/) and [ReportingObserver](/platforms/javascript/configuration/integrations/reportingobserver/) integrations.
+查看 [BrowserApiErrors](/platforms/javascript/configuration/integrations/browserapierrors/) 和 [ReportingObserver](/platforms/javascript/configuration/integrations/reportingobserver/) 集成的其他配置选项。
 
-### Other SDKs
+### 其他 SDK
 
-**Java** - Sentry's [Java SDK](/platforms/java/) provides integrations with common Java logging libraries. The configuration allows you to set a logging threshold determining the minimum level to capture a log message as breadcrumb. It also provides a setting to configure the minimum log level to capture an event.
+**Java** - Sentry 的 [Java SDK](/platforms/java/) 提供了与常见 Java 日志记录库的集成。配置允许您设置日志记录阈值，确定捕获日志消息作为面包屑的最小级别。它还提供了一个设置来配置捕获事件的最小日志级别。
 
-**PHP** - The `error_types` configuration option allows you to set the error types you want Sentry to monitor. Learn more in PHP [Basic Options](/platforms/php/configuration/options/#common-options).
+**PHP** - `error_types` 配置选项允许您设置您希望 Sentry 监控的错误类型。在 PHP [基本选项](/platforms/php/configuration/options/#common-options)中了解更多信息。
 
-**Ruby** - The `excluded_exceptions` configuration option allows you to set the exception types you wish to suppress. Learn more in the [Ruby configuration docs](/platforms/ruby/configuration/options/#optional-settings)
+**Ruby** - `excluded_exceptions` 配置选项允许您设置您希望抑制的异常类型。在 [Ruby 配置文档](/platforms/ruby/configuration/options/#optional-settings)中了解更多信息

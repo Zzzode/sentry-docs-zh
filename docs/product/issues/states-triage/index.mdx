@@ -1,67 +1,67 @@
 ---
-title: Issue Status
+title: 问题状态
 sidebar_order: 30
-description: "Learn how issue status works and and how to triage issues."
+description: "了解问题状态如何工作以及如何分类问题。"
 ---
 
-Use the status tags attached to issues on the [**Issues** page](https://sentry.io/issues/) in Sentry to help you triage and prioritize problems with your application that are important to you. Keep in mind that an issue can only have **one status at a time.**
+使用Sentry[**问题**页面](https://sentry.io/issues/)上附加到问题的状态标签来帮助您分类和优先考虑对您重要的应用程序问题。请记住，问题一次只能有**一个状态**。
 
-Here's a list of all statuses, how they're assigned to an issue, and their custom search term:
+以下是所有状态的列表、它们如何分配给问题以及它们的自定义搜索词：
 
-| Status         | Condition                                                                                                                                                                                                            | Custom Search Term |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| **New**        | An issue that was created in the last 7 days.                                                                                                                                                                        | is:new             |
-| **Ongoing**    | An issue that was created more than 7 days ago or has manually been marked as reviewed.                                                                                                                              | is:ongoing         |
-| **Escalating** | An issue that's exceeded its forecasted event volume. For more details, see [Escalating Issues Algorithm](escalating-issues). Please note that escalating issues currently does not work for merged/unmerged issues. | is:escalating      |
-| **Regressed**  | A resolved issue that's come up again.                                                                                                                                                                               | is:regressed       |
-| **Archived**   | An issue that's been marked as archived.                                                                                                                                                                             | is:archived        |
-| **Resolved**   | An issue that's been marked as fixed.                                                                                                                                                                                | is:resolved        |
+| 状态         | 条件                                                                                                                                                                                                            | 自定义搜索词 |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| **新**        | 在过去7天内创建的问题。                                                                                                                                                                        | is:new       |
+| **进行中**    | 超过7天前创建的问题或已手动标记为已审核的问题。                                                                                                                                      | is:ongoing   |
+| **升级中** | 超过其预测事件量的问题。有关更多详细信息，请参见[升级问题算法](escalating-issues)。请注意，升级问题目前不适用于合并/取消合并的问题。 | is:escalating |
+| **回归**  | 已解决但再次出现的问题。                                                                                                                                                                       | is:regressed |
+| **已归档**   | 已被标记为已归档的问题。                                                                                                                                                                         | is:archived  |
+| **已解决**   | 已被标记为已修复的问题。                                                                                                                                                                         | is:resolved  |
 
-The diagram below shows how the statuses are updated automatically and manually:
+下图显示了状态如何自动和手动更新：
 
-![Issue Status Diagram](./img/issue_statuses.png)
+![问题状态图](./img/issue_statuses.png)
 
-One way to limit the issues that you see is by selecting a tab at the top of the **Issues** page. On the “Unresolved" tab, you'll find `New`, `Ongoing`, `Escalating`, and `Regressed` issues. You can also narrow down further by choosing the "For Review", "Regressed", "Escalating", or "Archived" tabs.
+限制您看到的问题的一种方法是选择**问题**页面顶部的选项卡。在"未解决"选项卡上，您会找到`新`、`进行中`、`升级中`和`回归`问题。您还可以通过选择"待审核"、"回归"、"升级中"或"已归档"选项卡进一步缩小范围。
 
-## Manually Triaging Issues
+## 手动分类问题
 
-While some issue statuses are added and updated automatically, you can manually `Archive` or `Resolve` an issue, which will also change its status and remove it from the `is:for_review` list. Items in the `is:for_review` list are new, regressed, or unresolved issues that haven't been reviewed yet.
+虽然某些问题状态会自动添加和更新，但您可以手动`归档`或`解决`问题，这也会更改其状态并将其从`is:for_review`列表中删除。`is:for_review`列表中的项目是新问题、回归问题或尚未审核的未解决问题。
 
-### Archive
+### 归档
 
-Archive an issue to move it out of the issue stream and pause alerts on it until the issue gets worse. Archiving makes sense for noisy issues that are less pressing or not applicable to you or your team. Archiving changes the issue status to `Archived` and moves the issue from "Unresolved" into the "Archived" tab.
+归档问题以将其移出问题流并暂停其警报，直到问题变得更糟。归档适用于嘈杂的问题，这些问题不太紧急或不适用于您或您的团队。归档将问题状态更改为`已归档`并将问题从"未解决"移动到"已归档"选项卡。
 
-Sentry will automatically bring an issue back to the top of the list and change its status to `Escalating` if the events in that issue significantly increase over a short period of time. To learn more about how this works, see [Escalating Issues Algorithm](escalating-issues). By default, issues are archived until escalating. There's also an option to mark an issue as `Archived` for:
+如果该问题的事件在短时间内显著增加，Sentry将自动将问题返回到列表顶部并将其状态更改为`升级中`。要了解有关此工作原理的更多信息，请参见[升级问题算法](escalating-issues)。默认情况下，问题在升级前被归档。还有将问题标记为`已归档`的选项：
 
-- Forever
-- A set period of time
-- Until it occurs a set number of times
-- Until a set number of users are affected
+- 永久
+- 设定时间段
+- 直到发生设定次数
+- 直到影响设定数量的用户
 
-If you archive an issue "Forever", events connected with that issue will continue to be recorded, but the issue will never be labeled as escalating even if it meets escalating conditions. You can still unarchive any archived issue, including those that have been archived "Forever". All unarchived issues will then show up in the "Unresolved" tab.
+如果您将问题归档"永久"，与该问题相关的事件将继续被记录，但即使满足升级条件，问题也永远不会被标记为升级。您仍然可以取消归档任何已归档的问题，包括那些已被"永久"归档的问题。所有取消归档的问题将显示在"未解决"选项卡中。
 
-### Resolve
+### 解决
 
-You can manually mark an issue as `Resolved` when it’s been fixed. You can also specify further by resolving it in:
+当问题已修复时，您可以手动将其标记为`已解决`。您还可以通过以下方式进一步指定解决：
 
-- Your next release
-- A current release
-- Another release
+- 您的下一个版本
+- 当前版本
+- 另一个版本
 
-or
+或
 
-- By [including the issue ID in a commit](/product/releases/associate-commits/?original_referrer=https%3A%2F%2Fdocs.sentry.io%2Fproduct%2Fissues%2Fstates-triage%2F#resolve-issues-by-commit)
+- 通过[在提交中包含问题ID](/product/releases/associate-commits/?original_referrer=https%3A%2F%2Fdocs.sentry.io%2Fproduct%2Fissues%2Fstates-triage%2F#resolve-issues-by-commit)
 
-If the same issue comes back, its status will automatically change to `Regressed`.
+如果相同的问题再次出现，其状态将自动更改为`回归`。
 
-### Delete
+### 删除
 
-You can remove an issue from the issue list by deleting it, but it will reappear as a new issue if it recurs.
+您可以通过删除问题将其从问题列表中删除，但如果它再次发生，它将作为新问题重新出现。
 
-There's also an option to `Delete and Discard Forever`, which will make it so that the issue is never seen again, even if it recurs. Any future events tied to the permanently deleted issue will be discarded automatically and won't count towards [your quota](/pricing/quotas/).
+还有`删除并永久丢弃`的选项，这将使问题永远不会再次出现，即使它再次发生。与永久删除的问题相关的任何未来事件将自动被丢弃，并且不会计入[您的配额](/pricing/quotas/)。
 
 <Alert>
 
-You can only delete [Error Issues](/product/issues/issue-details/error-issues/?original_referrer=https%3A%2F%2Fdocs.sentry.io%2Fproduct%2Fissues%2Fstates-triage%2F). Other issue categories, such as [Performance Issues](/product/issues/issue-details/performance-issues/?original_referrer=https%3A%2F%2Fdocs.sentry.io%2Fproduct%2Fissues%2Fstates-triage%2F), don't support this feature.
+您只能删除[错误问题](/product/issues/issue-details/error-issues/?original_referrer=https%3A%2F%2Fdocs.sentry.io%2Fproduct%2Fissues%2Fstates-triage%2F)。其他问题类别，如[性能问题](/product/issues/issue-details/performance-issues/?original_referrer=https%3A%2F%2Fdocs.sentry.io%2Fproduct%2Fissues%2Fstates-triage%2F)，不支持此功能。
 
 </Alert>

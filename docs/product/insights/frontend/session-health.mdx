@@ -1,9 +1,44 @@
 ---
-title: Session Health
+title: 会话健康（Session Health）
 sidebar_order: 30
-description: "Get insights about your application's session health over time."
+description: "获取有关应用程序会话健康随时间变化的洞察。"
 ---
 
-<Include name="insights-session-health-body.mdx" />
+如果您在Sentry上启用了[会话和发布](/product/releases/setup/)，您可以充分利用洞察上的会话健康标签页。会话健康标签页包含各种数据可视化，帮助您发现有关会话表现的洞察。在大多数Web或移动应用程序中，每次页面（或视图）加载和每次导航更改都会创建一个会话。阅读更多[这里](/product/releases/health/#sessions)。
 
-<Include name="insights-session-health-frontend.mdx" />
+这些图表帮助您了解会话随时间的趋势，自定义的图表视图和可切换的图例允许您深入了解您最关心的指标。
+
+## 先决条件
+
+您必须启用[会话和发布](/product/releases/setup/)才能查看这些洞察。洞察上的会话健康仅适用于前端和移动模块。
+
+## 图表
+
+![洞察前端会话健康标签页](./common-imgs/img/frontend-insights-session-health.png)
+
+对于前端模块，提供以下图表：
+
+- 不健康会话
+- 会话健康
+- 会话计数
+- 用户健康
+- 用户计数
+- [问题](/product/issues/)
+
+除问题图表外，大多数这些图表都基于会话支持的数据。
+
+会话健康、会话计数、用户健康和用户计数图表旨在按状态分解会话表现的趋势。状态选项包括健康、崩溃、错误或异常。对于前端会话，"错误"状态指的是已处理的错误，"崩溃"指的是未处理的错误。请注意，这些是互斥的组。[了解更多关于会话状态](/product/releases/health/#session-status)。
+
+不健康会话图表将错误、崩溃和异常会话的总比率合并为一条线。
+
+问题图表显示所选项目随时间变化的新问题和已解决问题的数量。它还提供所选项目最近看到的两个问题的预览。图表标题在悬停时有一个按钮，可以查看所选项目的所有问题。
+
+![问题图表](./common-imgs/img/frontend-insights-issue-chart.png)
+
+点击图表图例中的任何系列选项以隐藏它。在某些图表中，包括会话健康图表，健康系列默认隐藏，以便您可以更好地看到错误、异常和崩溃系列。
+
+可以自定义整体图表视图，以便您可以显示您最关心的可视化和指标。只需点击图表标题附近的切换按钮即可查看可以显示的其他图表。
+
+![图表切换](./common-imgs/img/frontend-insights-chart-toggle.png)
+
+图表视图将保存到浏览器的本地存储中，因此当您返回页面时，您之前选择的图表视图仍将显示。

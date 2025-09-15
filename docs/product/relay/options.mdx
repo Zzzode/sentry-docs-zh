@@ -1,133 +1,131 @@
 ---
-title: Configuration Options
-description: "Configure Relay to suit the needs of your organization."
+title: 配置选项
+description: "配置 Relay 以满足您组织的需求。"
 sidebar_order: 3
 ---
 
-Configuration for Relay is typically recorded in the file `.relay/config.yml` (relative to the working directory). Configuration options can be overridden through environment variables. To change the config location, pass the `--config` option to any Relay command:
+Relay 的配置通常记录在文件 `.relay/config.yml` 中（相对于工作目录）。配置选项可以通过环境变量覆盖。要更改配置位置，请将 `--config` 选项传递给任何 Relay 命令：
 
 ```shell
 ❯ ./relay run --config /path/to/folder
 ```
 
-All configuration keys are `snake_case`.
+所有配置键都是 `snake_case`。
 
-## Credentials
+## 凭据
 
-Credentials can be initiated as described in the [getting started page](/product/relay/getting-started/), but can be overridden by setting the following environment variables:
+凭据可以按照[入门页面](/product/relay/getting-started/)中的描述进行初始化，但可以通过设置以下环境变量来覆盖：
 
-- Secret key: `RELAY_SECRET_KEY`.
-- Public key: `RELAY_PUBLIC_KEY`.
-- ID: `RELAY_ID`.
+- 密钥：`RELAY_SECRET_KEY`。
+- 公钥：`RELAY_PUBLIC_KEY`。
+- ID：`RELAY_ID`。
 
 ## Relay
 
-| key                        | type    | value                                                                                         | description                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| -------------------------- | ------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| relay.mode                 | String  | default value: `managed` possible values: `managed, proxy` optional: `false` | Controls how Relay obtains the project configuration for events. For detailed explanation of these modes, see [Relay Modes](/product/relay/modes/). `Environment variable: "RELAY_MODE."`                                                                                                                                                                                                                                                       |
-| relay.upstream             | String  | default value: `https://sentry.io` optional: `false`                                          | Fully qualified URL of the upstream Relay or Sentry instance. `Environment variable: "RELAY_UPSTREAM_URL".` <Alert level="warning" title="Important"> Relay doesn't check for cycles. Don't set this option to an endpoint that will cause events to be cycled back here. </Alert>                                                                                                                                                              |
-| relay.host                 | String  | default value: `0.0.0.0  in Docker, otherwise  127.0.0.1` optional: `false`                   | The host to which Relay should bind (network interface). `Environment variable: "RELAY_HOST".`                                                                                                                                                                                                                                                                                                                                                  |
-| relay.port                 | Integer | default value: `3000` optional: `false`                                                       | The port to which Relay should bind for the unencrypted Relay HTTP server. `Environment variable: "RELAY_PORT".`                                                                                                                                                                                                                                                                                                                                |
-| relay.override_project_ids | Boolean | optional: `true`                                                                              | Overrides project identifiers stated in client DSNs with the identifier used at the Sentry upstream. By default, Relay rejects data on project ID mismatch. Set this setting to `true` when Relay redirects traffic to a migrated Sentry instance, such as when moving from self-hosted to Sentry SaaS. Validation of project identifiers can be safely omitted in these cases, and you can continue to use the previous DSNs in your services. |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| relay.mode | String | 默认值：`managed` 可能值：`managed, proxy` 可选：`false` | 控制 Relay 如何获取事件的项目配置。有关这些模式的详细说明，请参阅[Relay 模式](/product/relay/modes/)。`环境变量："RELAY_MODE."` |
+| relay.upstream | String | 默认值：`https://sentry.io` 可选：`false` | 上游 Relay 或 Sentry 实例的完全限定 URL。`环境变量："RELAY_UPSTREAM_URL"。` <Alert level="warning" title="重要"> Relay 不检查循环。不要将此选项设置为会导致事件循环回来的端点。 </Alert> |
+| relay.host | String | 默认值：`0.0.0.0 在 Docker 中，否则为 127.0.0.1` 可选：`false` | Relay 应绑定到的主机（网络接口）。`环境变量："RELAY_HOST"。` |
+| relay.port | Integer | 默认值：`3000` 可选：`false` | Relay 应为未加密的 Relay HTTP 服务器绑定到的端口。`环境变量："RELAY_PORT"。` |
+| relay.override_project_ids | Boolean | 可选：`true` | 用 Sentry 上游使用的标识符覆盖客户端 DSN 中声明的项目标识符。默认情况下，Relay 在项目 ID 不匹配时拒绝数据。当 Relay 将流量重定向到迁移的 Sentry 实例时，将此设置设为 `true`，例如从自托管迁移到 Sentry SaaS。在这些情况下，可以安全地省略项目标识符的验证，您可以继续在您的服务中使用以前的 DSN。 |
 
 ## HTTP
 
-These settings control network-related configurations.
+这些设置控制与网络相关的配置。
 
-| key                     | type    | value           | description                                                                                                                                                                                                                                 |
-| ----------------------- | ------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| http.timeout            | Integer | default: `5`    | Timeout for upstream requests in seconds. This timeout covers the period of time from when a request is sent to when response headers are received. It doesn’t cover the connection process, handshakes, or reading of the response body.   |
-| http.connection_timeout | Integer | default: `3`    | Timeout for establishing connections with the upstream in seconds. Relay reuses connections when the upstream supports connection keep-alive. Connections are retained for a maximum of 75 seconds of activity or 15 seconds of inactivity. |
-| http.max_retry_interval | Integer | default: `60`   | Maximum interval between failed request retries in seconds.                                                                                                                                                                                 |
-| http.host_header        | String  | default: `null` | Custom HTTP Host header to be sent to the upstream.                                                                                                                                                                                         |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| http.timeout | Integer | 默认值：`5` | 上游请求的超时时间（以秒为单位）。此超时涵盖从发送请求到接收响应头的时间段。它不包括连接过程、握手或响应主体的读取。 |
+| http.connection_timeout | Integer | 默认值：`3` | 与上游建立连接的超时时间（以秒为单位）。当上游支持连接保持活动时，Relay 会重用连接。连接最多保留 75 秒的活动时间或 15 秒的非活动时间。 |
+| http.max_retry_interval | Integer | 默认值：`60` | 失败请求重试之间的最大间隔（以秒为单位）。 |
+| http.host_header | String | 默认值：`null` | 要发送到上游的自定义 HTTP Host 头。 |
 
-## Caching
+## 缓存
 
-These settings fine tune caching of project states.
+这些设置微调项目状态的缓存。
 
-| key                        | type    | value                             | description                                                                                                                                                                                                                                         |
-| -------------------------- | ------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| cache.project_expiry       | Integer | default: `300 (5 minutes)`        | The cache timeout for project configurations in seconds. Irrelevant if you use the "simple proxy mode", where your project config is stored in local files.                                                                                         |
-| cache.project_grace_period | Integer | default: `0 (seconds)`            | The number of seconds you can continue using this project configuration after cache expiry while a new state is being fetched. This is added on top of `cache.project_expiry` and `cache.miss_expiry`.                                              |
-| cache.relay_expiry         | Integer | default: `3600 (1 hour)`          | The cache timeout for downstream Relay info (public keys) in seconds. This is only relevant if you plan to connect further Relays to this one.                                                                                                      |
-| cache.envelope_expiry      | Integer | default: `600 (10 minutes)`       | The maximum amount of time Relay buffers incoming payloads in its cache in case of network issues or backlogs. This applies to all types of data sent to Relay, including events, attachments, and sessions. See also `cache.envelope_buffer_size`. |
-| cache.miss_expiry          | Integer | default: `60 (1 minute)`          | The cache timeout for non-existing entries.                                                                                                                                                                                                         |
-| cache.batch_interval       | Integer | default: `100 (100 milliseconds)` | The buffer timeout for batched queries before they are sent upstream **in milliseconds**.                                                                                                                                                           |
-| cache.batch_size           | Integer | default: `500`                    | The maximum number of project configs to be fetched from Sentry at once.                                                                                                                                                                            |
-| cache.file_interval        | Integer | default: `10 (10 seconds)`        | The interval for watching local cache override files in seconds.                                                                                                                                                                                    |
-| cache.envelope_buffer_size | Integer | default: `1000`                   | The maximum number of incoming payloads that are buffered if network issues or backlogs happen. This applies to all types of data sent to Relay, including events, attachments, and sessions. See also `cache.envelope_expiry`.                     |
-| cache.eviction_interval    | Integer | default: `60 (seconds)`           | The interval for evicting outdated project configs from memory.                                                                                                                                                                                     |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| cache.project_expiry | Integer | 默认值：`300（5 分钟）` | 项目配置的缓存超时时间（以秒为单位）。如果您使用"简单代理模式"，其中您的项目配置存储在本地文件中，则此设置无关紧要。 |
+| cache.project_grace_period | Integer | 默认值：`0（秒）` | 在缓存过期后，在获取新状态时您可以继续使用此项目配置的秒数。这是在 `cache.project_expiry` 和 `cache.miss_expiry` 之上添加的。 |
+| cache.relay_expiry | Integer | 默认值：`3600（1 小时）` | 下游 Relay 信息（公钥）的缓存超时时间（以秒为单位）。只有当您计划将更多 Relays 连接到此 Relay 时，这才相关。 |
+| cache.envelope_expiry | Integer | 默认值：`600（10 分钟）` | Relay 在其缓存中缓冲传入有效负载的最大时间（在网络问题或积压的情况下）。这适用于发送到 Relay 的所有类型的数据，包括事件、附件和会话。另请参阅 `cache.envelope_buffer_size`。 |
+| cache.miss_expiry | Integer | 默认值：`60（1 分钟）` | 不存在的条目的缓存超时时间。 |
+| cache.batch_interval | Integer | 默认值：`100（100 毫秒）` | 批处理查询在上游发送之前的缓冲超时时间**以毫秒为单位**。 |
+| cache.batch_size | Integer | 默认值：`500` | 一次从 Sentry 获取的最大项目配置数量。 |
+| cache.file_interval | Integer | 默认值：`10（10 秒）` | 监视本地缓存覆盖文件的时间间隔（以秒为单位）。 |
+| cache.envelope_buffer_size | Integer | 默认值：`1000` | 如果发生网络问题或积压，可以缓冲的传入有效负载的最大数量。这适用于发送到 Relay 的所有类型的数据，包括事件、附件和会话。另请参阅 `cache.envelope_expiry`。 |
+| cache.eviction_interval | Integer | 默认值：`60（秒）` | 从内存中驱逐过期项目配置的时间间隔。 |
 
-## Spooling
+## 溢出
 
-| key                             | type    | value            | description                                                                                                                                                                                                                     |
-| ------------------------------- | ------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| spool.envelopes.path            | String  | default: `null`  | The path to the spool file used to save envelopes to disk. If provided, enables on-disk spooling. Relay will create the directory structure if needed. Note that `~` is interpreted as a literal and not as the home directory. |
-| spool.envelopes.max_memory_size | String  | default: `500MB` | The maximum in-memory buffer for incoming envelopes. The buffer will be spooled to disk when the configured size is reached.                                                                                                    |
-| spool.envelopes.max_disk_size   | String  | default: `500MB` | The maximum on-disk spool size.                                                                                                                                                                                                 |
-| spool.envelopes.max_connections | Integer | default: `20`    | The maximum number of connections in the pool to manage on-disk spooling.                                                                                                                                                       |
-| spool.envelopes.min_connections | Integer | default: `10`    | The minimum number of connections in the pool to manage on-disk spooling.                                                                                                                                                       |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| spool.envelopes.path | String | 默认值：`null` | 用于将信封保存到磁盘的溢出文件路径。如果提供，则启用磁盘溢出。Relay 会在需要时创建目录结构。请注意，`~` 被解释为字面意思，而不是主目录。 |
+| spool.envelopes.max_memory_size | String | 默认值：`500MB` | 传入信封的最大内存缓冲区。当达到配置的大小时，缓冲区将溢出到磁盘。 |
+| spool.envelopes.max_disk_size | String | 默认值：`500MB` | 最大磁盘溢出大小。 |
+| spool.envelopes.max_connections | Integer | 默认值：`20` | 管理磁盘溢出的连接池中连接的最大数量。 |
+| spool.envelopes.min_connections | Integer | 默认值：`10` | 管理磁盘溢出的连接池中连接的最小数量。 |
 
-## Size Limits
+## 大小限制
 
-These settings control HTTP-related limits. All values are either integers, or are
-human-readable strings of a number and a human-readable unit, such as:
+这些设置控制与 HTTP 相关的限制。所有值都是整数，或者是数字和人类可读单位的字符串，例如：
 
 - `500B`
-- `1kB` (_1,000_ bytes)
-- `1KB` or `1KiB` (_1,024_ bytes)
-- `1MB` (_1,000,000_ bytes)
-- `1MiB` (_1,048,576_ bytes)
+- `1kB`（_1,000_ 字节）
+- `1KB` 或 `1KiB`（_1,024_ 字节）
+- `1MB`（_1,000,000_ 字节）
+- `1MiB`（_1,048,576_ 字节）
 
-| key                              | type    | value                     | description                                                                                                                                                                                                                                                                                                            |
-| -------------------------------- | ------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| limits.max_concurrent_requests   | Integer | default: `100`            | The maximum number of concurrent connections upstream. If supported by the upstream, Relay supports connection keep-alive.                                                                                                                                                                                             |
-| limits.max_concurrent_queries    | Integer | default: `5`              | The maximum number of queries that can be sent concurrently from Relay upstream before Relay starts buffering requests. Queries are all requests made upstream for obtaining information and explicitly exclude event submission. The concurrency of queries is additionally constrained by `max_concurrent_requests`. |
-| limits.max_event_size            | String  | default: `1MiB`           | The maximum payload size for events.                                                                                                                                                                                                                                                                                   |
-| limits.max_attachment_size       | String  | default: `100MiB`          | The maximum attachment size.                                                                                                                                                                                                                                                                                           |
-| limits.max_attachments_size      | String  | default: `100MiB`          | The maximum combined size for all attachments in an envelope or request.                                                                                                                                                                                                                                               |
-| limits.max_envelope_size         | String  | default: `100MiB`          | The maximum payload size for an entire envelope. Individual limits still apply.                                                                                                                                                                                                                                        |
-| limits.max_session_count         | Integer | default: `100`            | The maximum number of session items per envelope.                                                                                                                                                                                                                                                                      |
-| limits.max_api_payload_size      | String  | default: `20MiB`          | The maximum payload size for general API requests.                                                                                                                                                                                                                                                                     |
-| limits.max_api_file_upload_size  | String  | default: `40MiB`          | The maximum payload size for file uploads and chunks.                                                                                                                                                                                                                                                                  |
-| limits.max_api_chunk_upload_size | String  | default: `100MiB`         | The maximum payload size for chunks.                                                                                                                                                                                                                                                                                   |
-| limits.max_thread_count          | Integer | default: `number of cpus` | The maximum number of threads spawned for each CPU and web worker. The total number of threads spawned will roughly be `2 * limits.max_thread_count + N`, where `N` is a fixed set of management threads.                                                                                                              |
-| limits.query_timeout             | Integer | default: `30 (seconds)`   | The maximum number of seconds a query can take across retries. Individual requests have lower timeouts.                                                                                                                                                                                                                |
-| limits.shutdown_timeout          | Integer | default: `10 (seconds)`   | The maximum number of seconds you'd have to wait for pending events after receiving a shutdown signal. `Environment variable: "SHUTDOWN_TIMEOUT".`                                                                                                                                                                     |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| limits.max_concurrent_requests | Integer | 默认值：`100` | 上游的最大并发连接数。如果上游支持，Relay 支持连接保持活动。 |
+| limits.max_concurrent_queries | Integer | 默认值：`5` | 在 Relay 开始缓冲请求之前，可以并发从 Relay 向上游发送的最大查询数。查询是向上游发出的所有请求，用于获取信息，明确排除事件提交。查询的并发性还受到 `max_concurrent_requests` 的约束。 |
+| limits.max_event_size | String | 默认值：`1MiB` | 事件的最大有效负载大小。 |
+| limits.max_attachment_size | String | 默认值：`100MiB` | 附件的最大大小。 |
+| limits.max_attachments_size | String | 默认值：`100MiB` | 信封或请求中所有附件的最大组合大小。 |
+| limits.max_envelope_size | String | 默认值：`100MiB` | 整个信封的最大有效负载大小。仍适用单个限制。 |
+| limits.max_session_count | Integer | 默认值：`100` | 每个信封的最大会话项目数。 |
+| limits.max_api_payload_size | String | 默认值：`20MiB` | 一般 API 请求的最大有效负载大小。 |
+| limits.max_api_file_upload_size | String | 默认值：`40MiB` | 文件上传和块的最大有效负载大小。 |
+| limits.max_api_chunk_upload_size | String | 默认值：`100MiB` | 块的最大有效负载大小。 |
+| limits.max_thread_count | Integer | 默认值：`cpu 数量` | 为每个 CPU 和 Web 工作线程生成的最大线程数。生成的总线程数大致为 `2 * limits.max_thread_count + N`，其中 `N` 是一组固定的管理线程。 |
+| limits.query_timeout | Integer | 默认值：`30（秒）` | 查询在重试中可以花费的最大秒数。单个请求具有较低的超时时间。 |
+| limits.shutdown_timeout | Integer | 默认值：`10（秒）` | 在收到关闭信号后，您必须等待挂起事件的最大秒数。`环境变量："SHUTDOWN_TIMEOUT"。` |
 
-## Logging
+## 日志记录
 
-| key                         | type    | value                                                                   | description                                                                                                                                                                                                                            |
-| --------------------------- | ------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| logging.level               | String  | default: `info` possible values: `off, error, warn, info, debug, trace`. | The log level for the relay. <Alert level="warning" title="Warning"> On `debug` and `trace` levels, Relay emits extremely verbose messages which can have severe impact on application performance. </Alert>. `Environment variable: "RELAY_LOG_LEVEL"`                           |
-| logging.format              | String  | default: `auto` possible values: `auto, pretty, simplified, json`       | Controls the log format. `auto`: Auto detect (pretty for TTY, simplified for other) `pretty`: Human readable format with colors `simplified`: Simplified human readable log output `json`: JSON records, suitable for logging software |
-| logging.enable_backtraces   | Boolean | default: `true`                                                         | Writes back traces for all internal errors to the log stream and includes them in Sentry errors.                                                                                                                                       |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| logging.level | String | 默认值：`info` 可能值：`off, error, warn, info, debug, trace`。 | Relay 的日志级别。 <Alert level="warning" title="警告"> 在 `debug` 和 `trace` 级别，Relay 会发出极其详细的消息，这可能对应用程序性能产生严重影响。 </Alert>。`环境变量："RELAY_LOG_LEVEL"` |
+| logging.format | String | 默认值：`auto` 可能值：`auto, pretty, simplified, json` | 控制日志格式。`auto`：自动检测（TTY 为 pretty，其他为 simplified）`pretty`：带颜色的人类可读格式`simplified`：简化的人类可读日志输出`json`：JSON 记录，适合日志记录软件 |
+| logging.enable_backtraces | Boolean | 默认值：`true` | 为所有内部错误将回溯写入日志流，并将它们包含在 Sentry 错误中。 |
 
-## StatsD Metrics
+## StatsD 指标
 
-| key                  | type                      | value                   | description                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| -------------------- | ------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| metrics.statsd       | String                    | optional: `true`        | If set to a host/port string then metrics will be reported to this StatsD instance.                                                                                                                                                                                                                                                                                                                                                                                |
-| metrics.prefix       | String                    | default: `sentry.relay` | The prefix that should be added to all metrics.                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| metrics.default_tags | Map of strings to strings | default: `empty`        | A set of default tags that should be attached to all outgoing StatsD metrics.                                                                                                                                                                                                                                                                                                                                                                                      |
-| metrics.hostname_tag | String                    | optional: `true`        | If set, adds a tag of the given name and sets it to the hostname of the machine that is running Relay. This configuration is useful to distinguish multiple Relays.                                                                                                                                                                                                                                                                                                |
-| metrics.buffering    | Boolean                   | default: `true`         | Determines if the emitted metrics will be buffered before sending to StatsD server. This generally improves performance, but comes with a caveat that with low traffic volume, metrics might take a few more seconds to propagate.                                                                                                                                                                                                                                 |
-| metrics.sample_rate  | Float                     | default: `1.0`          | Global sample rate for all emitted metrics. Should be between 0.0 and 1.0. If outside that range, the value will be normalized (negative values would become 0.0, positive larger than 1.0 would become 1.0). For instance, the value of 0.3 means that only 30% of the emitted metrics will be sent. Note that the implemented sampling approach isn't aware of metric types. For example, it won't rescale counter values when the sample rate is less than 1.0. |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| metrics.statsd | String | 可选：`true` | 如果设置为主机/端口字符串，则指标将报告到此 StatsD 实例。 |
+| metrics.prefix | String | 默认值：`sentry.relay` | 应添加到所有指标的前缀。 |
+| metrics.default_tags | 字符串到字符串的映射 | 默认值：`empty` | 应附加到所有传出 StatsD 指标的一组默认标签。 |
+| metrics.hostname_tag | String | 可选：`true` | 如果设置，添加一个给定名称的标签，并将其设置为运行 Relay 的机器的主机名。此配置有助于区分多个 Relays。 |
+| metrics.buffering | Boolean | 默认值：`true` | 确定发出的指标在发送到 StatsD 服务器之前是否会被缓冲。这通常会提高性能，但有一个警告，即在低流量量的情况下，指标可能需要多花几秒钟才能传播。 |
+| metrics.sample_rate | Float | 默认值：`1.0` | 所有发出指标的全局采样率。应在 0.0 和 1.0 之间。如果超出该范围，该值将被标准化（负值将变为 0.0，大于 1.0 的正值将变为 1.0）。例如，值 0.3 表示只有 30% 的发出指标将被发送。请注意，实现的采样方法不知道指标类型。例如，当采样率小于 1.0 时，它不会重新缩放计数器值。 |
 
-## Internal Error Reporting
+## 内部错误报告
 
-Configures error reporting for errors happening within Relay. Disabled by
-default.
+配置 Relay 内部发生的错误报告。默认情况下禁用。
 
-| key            | type    | value            | description                                                                                                                                                                          |
-| -------------- | ------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| sentry.enabled | Boolean | default: `false` | Determines whether to report internal errors to a separate DSN. `false` means that no internal errors will be sent, but will still be logged.                                        |
-| sentry.dsn     | String  | optional: `true` | Sentry DSN to which you can report internal Relay failures. We recommend setting this to a value that sends Relay errors directly to Sentry instead of sending them to itself first. |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| sentry.enabled | Boolean | 默认值：`false` | 确定是否将内部错误报告到单独的 DSN。`false` 表示不会发送内部错误，但仍会记录它们。 |
+| sentry.dsn | String | 可选：`true` | 您可以向其报告内部 Relay 故障的 Sentry DSN。我们建议将此设置为直接将 Relay 错误发送到 Sentry 的值，而不是先将它们发送到它自己。 |
 
 ## GeoIP
 
-By default, Relay does not include geographical location information in events. Set the MaxMind database file path to add GeoIP info in events.
+默认情况下，Relay 不包括事件中的地理位置信息。设置 MaxMind 数据库文件路径以在事件中添加 GeoIP 信息。
 
-| key        | type   | value           | description                                                                                                              |
-| ---------- | ------ | --------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| geoip.path | String | default: `null` | The path to the MaxMind GeoIP City database file. When set the additional GeoIP information will be added to the events. |
+| 键 | 类型 | 值 | 描述 |
+| --- | --- | --- | --- |
+| geoip.path | String | 默认值：`null` | MaxMind GeoIP City 数据库文件的路径。设置后，额外的 GeoIP 信息将添加到事件中。 |

@@ -1,32 +1,32 @@
 ---
-title: Dashboards
+title: 仪表板
 sidebar_order: 100
-description: "With Sentry’s Dashboards, you can get a focused view of your application’s health, while being able to easily navigate across multiple projects."
+description: "使用 Sentry 的仪表板，您可以获得应用程序健康状况的集中视图，同时能够轻松地在多个项目之间导航。"
 ---
 
 <Include name="feature-available-for-plan-team.mdx" />
 
-Sentry's <SandboxLink scenario="dashboards" projectSlug="react">Dashboards</SandboxLink> provide you with a broad overview of your application’s health by allowing you to navigate through error and performance data across multiple projects. Dashboards are made up of one or more widgets, and each widget visualizes one or more [dataset](/product/dashboards/widget-builder/#choose-your-dataset).
+Sentry 的 <SandboxLink scenario="dashboards" projectSlug="react">仪表板</SandboxLink> 通过允许您浏览跨多个项目的错误和性能数据，为您提供应用程序健康状况的广泛概述。仪表板由一个或多个小组件组成，每个小组件可视化一个或多个 [数据集](/product/dashboards/widget-builder/#choose-your-dataset)。
 
-![Widgets visualizing events, errors by country, affected users, and handled vs unhandled issues.](./img/dashboard-customise.png)
+![可视化事件、按国家/地区划分的错误、受影响用户以及已处理与未处理问题的小组件。](./img/dashboard-customise.png)
 
-All widgets in the same view reflect the date range indicated in date time range filter and update synchronously if you update that date range. You can also zoom in on any time series visualizations you may want to investigate, and all of the widgets reflect the time period that you’ve zoomed in on.
+同一视图中的所有小组件都反映日期时间范围过滤器中指示的日期范围，如果您更新该日期范围，它们将同步更新。您还可以放大任何您可能想要调查的时间序列可视化，并且所有小组件都将反映您已放大的时间段。
 
-## Custom Dashboards
+## 自定义仪表板
 
-If you’d like to edit the default dashboard or build out multiple ones, each with its own set of unique widgets, you may want to consider our [Custom Dashboards](/product/dashboards/custom-dashboards/) feature which enables you to create more robust views such as the one below.
+如果您想要编辑默认仪表板或构建多个仪表板，每个仪表板都有自己独特的小组件集，您可能需要考虑我们的 [自定义仪表板](/product/dashboards/custom-dashboards/) 功能，该功能使您能够创建更强大的视图，如下所示。
 
-## Open Dashboard Widgets in Discover and Issues
+## 在发现和问题中打开仪表板小组件
 
-Each <SandboxLink scenario="dashboards" projectSlug="react">Dashboard</SandboxLink> widget has an ellipsis that opens a context menu. From here, depending on the type of data the widget shows, you can open the widget in [Discover](/product/explore/discover-queries/) or [Issues](/product/issues/) to get more information.
+每个 <SandboxLink scenario="dashboards" projectSlug="react">仪表板</SandboxLink> 小组件都有一个省略号，可打开上下文菜单。从这里，根据小组件显示的数据类型，您可以在 [发现](/product/explore/discover-queries/) 或 [问题](/product/issues/) 中打开小组件以获取更多信息。
 
-## Widget Viewer
+## 小组件查看器
 
-Dashboard widgets can be opened in an expanded widget viewer mode for further exploration. The widget viewer allows enhanced filtering, sorting, and navigation features that are not available in the basic widget card view:
+仪表板小组件可以在扩展的小组件查看器模式下打开以进行进一步探索。小组件查看器允许使用在基本小组件卡片视图中不可用的增强过滤、排序和导航功能：
 
-- Widget tables display more rows per page, can be paginated and sorted, and allow column width adjustment
-- Widget charts can be zoomed in without affecting the rest of the dashboard
-- Chart visualizations display an additional table of results grouped by `title` for further insights
-- Widget viewer URLs can be copied and shared for easy revisiting
+- 小组件表格每页显示更多行，可以分页和排序，并允许调整列宽
+- 小组件图表可以放大而不会影响仪表板的其余部分
+- 图表可视化显示按 `title` 分组的额外结果表以获取进一步的洞察
+- 小组件查看器 URL 可以复制和共享以便轻松重新访问
 
-Click the expand icon on the top right of any widget card to open the viewer.
+点击任何小组件卡片右上角的展开图标以打开查看器。

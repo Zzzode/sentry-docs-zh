@@ -1,31 +1,31 @@
 ---
-title: Set Up
+title: 设置
 sidebar_order: 1
-description: "Learn about setting up your SDK to enable Releases and to monitor release health."
+description: "了解如何设置您的SDK以启用发布并监控发布健康状况。"
 ---
 
-Setting up your application to send Sentry releases data fully is a multi-step process, and is adaptable to your organization's needs.
+设置您的应用程序以完全向Sentry发送发布数据是一个多步骤过程，并且可以适应您组织的需求。
 
-If you're using one of our [release automation](/product/releases/setup/release-automation/) options, it will automate steps 3.2 and 4 of this process. If you're managing your releases manually, then you should follow all of the steps below.
+如果您使用我们的[发布自动化](/product/releases/setup/release-automation/)选项之一，它将自动化此过程的步骤3.2和4。如果您手动管理发布，则应遵循以下所有步骤。
 
-## 1. Configure Your SDK
+## 1. 配置您的SDK
 
-With your SDK configured to provide a release identifier and enable session tracking, you can monitor both [releases](/product/releases/) and [release health](/product/releases/health/). Check out the documentation for your specific platform to [configure the SDK](/platform-redirect/?next=/configuration/releases/).
+通过将您的SDK配置为提供发布标识符并启用会话跟踪，您可以监控[发布](/product/releases/)和[发布健康状况](/product/releases/health/)。查看您的特定平台的文档以[配置SDK](/platform-redirect/?next=/configuration/releases/)。
 
 <Alert>
 
-You must have the environment [configured in your SDK](/platform-redirect/?next=/configuration/environments/) to use this feature.
+您必须在SDK中[配置环境](/platform-redirect/?next=/configuration/environments/)才能使用此功能。
 
 </Alert>
 
-### Release Health
+### 发布健康状况
 
-Release health is supported for the following SDKs:
+以下SDK支持发布健康状况：
 
 - [Android](/platforms/android/configuration/releases/#release-health)
 - [Flutter](/platforms/dart/guides/flutter/configuration/releases/#release-health)
 - [iOS](/platforms/apple/configuration/releases/#release-health)
-- [JavaScript (browser)](/platforms/javascript/configuration/releases/#release-health)
+- [JavaScript (浏览器)](/platforms/javascript/configuration/releases/#release-health)
 - [JavaScript (node)](/platforms/javascript/guides/node/configuration/releases/#release-health)
 - [Electron](/platforms/javascript/guides/electron/configuration/releases/#release-health)
 - [Native (C/C++)](/platforms/native/configuration/releases/#release-health)
@@ -36,9 +36,9 @@ Release health is supported for the following SDKs:
 - [.NET](/platforms/dotnet/configuration/releases/#release-health)
 - [Unity](/platforms/unity/configuration/releases/#release-health)
 
-## 2. Upload Source Maps or Other Debug Files
+## 2. 上传源映射或其他调试文件
 
-In cases where your code is processed — bundled, minified, transpiled, compiled, or otherwise obfuscated by tools like webpack, Terser, or the C++ compiler — source maps (or other debug files) are necessary for Sentry to display the source code in your stack traces in its original untransformed form. Setting up source maps is also necessary before [suspect commits](#3-associate-commits) can be enabled. Check out our SDK documentation to find source map or other debug file set up instructions for your specific platform if it's not in the list below:
+在您的代码被处理的情况下——由webpack、Terser或C++编译器等工具打包、压缩、转译、编译或以其他方式混淆——源映射（或其他调试文件）对于Sentry以原始未转换形式在堆栈跟踪中显示源代码是必要的。在启用[可疑提交](#3-关联提交)之前，设置源映射也是必要的。查看我们的SDK文档，为您的特定平台查找源映射或其他调试文件设置说明（如果不在以下列表中）：
 
 - [Android](/platforms/android/configuration/using-ndk/#symbolicate-stack-traces)
 - [Flutter](/platforms/dart/guides/flutter/upload-debug/)
@@ -46,18 +46,18 @@ In cases where your code is processed — bundled, minified, transpiled, compile
 - [JavaScript](/platforms/javascript/sourcemaps/)
 - [Node.js](/platforms/javascript/guides/node/sourcemaps/)
 
-## 3. Associate Commits
+## 3. 关联提交
 
-[Associating commits](/product/releases/associate-commits/) to a release allows you to more easily pinpoint which changes may be responsible for a given issue. To set them up:
+[将提交关联](/product/releases/associate-commits/)到发布允许您更容易地查明哪些更改可能对给定问题负责。要设置它们：
 
-1. [Install a repository integration](/organization/integrations/source-code-mgmt/) so Sentry can access your commit history. (You can also upload commit data manually through our API if you don't want to use an integration.)
-2. Configure your release management script to [associate commits with each release](/product/releases/associate-commits/). If you're using one of our [release automation](/product/releases/setup/release-automation/) options, this will be done for you.
+1. [安装仓库集成](/organization/integrations/source-code-mgmt/)，以便Sentry可以访问您的提交历史。（如果您不想使用集成，也可以通过我们的API手动上传提交数据。）
+2. 配置您的发布管理脚本以[将提交与每个发布关联](/product/releases/associate-commits/)。如果您使用我们的[发布自动化](/product/releases/setup/release-automation/)选项之一，这将为您完成。
 
-Learn more about the benefits of tracking commit in [Associate Commits](/product/releases/associate-commits/).
+在[关联提交](/product/releases/associate-commits/)中了解更多关于跟踪提交的好处。
 
-## 4. Notify Sentry
+## 4. 通知Sentry
 
-If you're not using one of our [release automation](/product/releases/setup/release-automation/) options, let Sentry know you’ve deployed your release by sending an additional request after creating a release:
+如果您不使用我们的[发布自动化](/product/releases/setup/release-automation/)选项之一，请在创建发布后通过发送额外请求让Sentry知道您已部署发布：
 
 ```bash
 sentry-cli releases --org ORGANIZATION_SLUG deploys VERSION new -e ENVIRONMENT
@@ -65,14 +65,14 @@ sentry-cli releases --org ORGANIZATION_SLUG deploys VERSION new -e ENVIRONMENT
 
 <Alert>
 
-Make sure you have a [token](/cli/configuration/) properly configured.
+确保您已正确配置[令牌](/cli/configuration/)。
 
 </Alert>
 
-Typically, a release = a deployment, but if you have several environments in which you want to deploy a release, this step also allows you to create those deployments individually.
+通常，发布 = 部署，但如果您想在多个环境中部署发布，此步骤还允许您单独创建这些部署。
 
-You can also use our [API](/api/releases/create-a-deploy/) to create a deploy.
+您也可以使用我们的[API](/api/releases/create-a-deploy/)来创建部署。
 
-When you notify Sentry that you've deployed a release to a new environment, we can automatically send an email to Sentry users who have committed to the release being deployed.
+当您通知Sentry您已将发布部署到新环境时，我们可以自动向已提交到正在部署的发布的Sentry用户发送电子邮件。
 
-If [finalizing the release](/cli/releases/#finalizing-releases) isn't already included as part of your release automation process, make sure to do that. For more information, check out our [CLI documentation](/cli/releases/).
+如果[完成发布](/cli/releases/#finalizing-releases)尚未作为发布自动化过程的一部分包含在内，请确保这样做。有关更多信息，请查看我们的[CLI文档](/cli/releases/)。

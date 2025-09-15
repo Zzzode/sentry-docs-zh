@@ -1,20 +1,20 @@
 ---
-title: Configuration Options
+title: 配置选项
 sidebar_order: 2
-description: "Learn how to configure releases, breadcrumbs, and environments to enhance the SDK's functionality."
+description: "了解如何配置发布、面包屑和环境以增强 SDK 的功能。"
 ---
 
-Sentry has various configuration options to help enhance the SDK functionality. The options can help provide additional data needed to debug issues even faster or to help control what's sent to Sentry by filtering. Learn more in [Configuration](/platforms/python/configuration/).
+Sentry 具有各种配置选项来帮助增强 SDK 功能。这些选项可以帮助提供调试问题所需的额外数据，或通过过滤来控制发送到 Sentry 的内容。在[配置](/platforms/python/configuration/)中了解更多信息。
 
-## Releases
+## 发布
 
-A _release_ is a version of your code that's deployed to an environment. Configuring the release helps you figure out if there's a regression in your code, ensure accountability, resolve issues within Sentry, and stay up-to-date with your deployments. Releases need to be configured within your SDK and then managed through the [sentry-cli](/cli/).
+_发布_是部署到环境的代码版本。配置发布有助于您找出代码中的回归，确保问责制，在 Sentry 中解决问题，并随时了解您的部署情况。发布需要在您的 SDK 中进行配置，然后通过 [sentry-cli](/cli/) 进行管理。
 
-Sentry currently supports integrations with GitHub, Bitbucket, Azure DevOps, GitLab, and others. For a complete list of our integrations, check out our [Integrations documentation](/organization/integrations/).
+Sentry 目前支持与 GitHub、Bitbucket、Azure DevOps、GitLab 等的集成。有关我们集成的完整列表，请查看我们的[集成文档](/organization/integrations/)。
 
-To set up the release in this project:
+要在此项目中设置发布：
 
-1. Open the file `settings.py`. Notice that we add the `release` configuration option when initializing the SDK:
+1. 打开文件 `settings.py`。请注意，我们在初始化 SDK 时添加了 `release` 配置选项：
 
    ```python {filename: myproject/settings.py}
    sentry_sdk.init(
@@ -24,24 +24,24 @@ To set up the release in this project:
    )
    ```
 
-2. Open the `Makefile` you ran in the previous tutorial.
+2. 打开您在上一教程中运行的 `Makefile`。
 
    ![Makefile](./img/makefile.png)
 
-3. Notice that we're setting the release version name as an environment variable that's then used in the application's runtime. We're letting the CLI propose a release version name, but you probably want to apply your own naming conventions:
+3. 请注意，我们将发布版本名称设置为环境变量，然后在应用程序运行时使用。我们让 CLI 建议发布版本名称，但您可能希望应用自己的命名约定：
 
    ```Makefile {filename: Makefile}
    VERSION=`sentry-cli releases propose-version`
    ```
 
-4. We then create a new release for our project with the proposed or selected name.
+4. 然后我们使用建议或选择的名称为项目创建新的发布。
 
    ```Makefile {filename: Makefile}
    create_release:
        sentry-cli releases -o $(SENTRY_ORG) new -p $(SENTRY_PROJECT) $(VERSION)
    ```
 
-5. In the previous tutorial, we configured the GitHub integration and added the code repository for commit tracking. Now we can associate commits from that repository to the new release by running the command:
+5. 在上一教程中，我们配置了 GitHub 集成并添加了代码仓库用于提交跟踪。现在我们可以通过运行命令将来自该仓库的提交与新的发布关联：
 
    ```Makefile {filename: Makefile}
    associate_commits:
@@ -49,21 +49,21 @@ To set up the release in this project:
            set-commits $(VERSION) --auto
    ```
 
-## Breadcrumbs
+## 面包屑
 
-_Breadcrumbs_ are the trail of events that led up to an error. They're very useful for reproducing an issue. Depending on the platform, the SDK will track various types of breadcrumbs by default (for backend SDKs these are DB queries, network events, logging, and others). You can also add your own custom breadcrumbs.
+_面包屑_是导致错误的线索事件。它们对于重现问题非常有用。根据平台的不同，SDK 将默认跟踪各种类型的面包屑（对于后端 SDK，这些是数据库查询、网络事件、日志记录等）。您还可以添加自己的自定义面包屑。
 
-To add breadcrumbs to our app:
+要将面包屑添加到我们的应用程序：
 
-1. Open the file `myapp > view.py`.
+1. 打开文件 `myapp > view.py`。
 
-2. Notice that we import the `sentry_sdk` lib, which contains the `add_breadcrumb` method:
+2. 请注意，我们导入了 `sentry_sdk` 库，其中包含 `add_breadcrumb` 方法：
 
    ```python {filename: myapp/views.py}
    import sentry_sdk
    ```
 
-3. We then create a custom breadcrumb for each method-handler in the view classes. This breadcrumb gets added to the trail of breadcrumbs associated with any error triggered through these method call flows. For instance, under `HandledErrorView.get`:
+3. 然后我们在视图类的每个方法处理程序中创建自定义面包屑。此面包屑被添加到与通过这些方法调用流程触发的任何错误关联的面包屑线索中。例如，在 `HandledErrorView.get` 下：
 
    ```python {filename: myapp/views.py}
    sentry_sdk.add_breadcrumb(
@@ -73,13 +73,13 @@ To add breadcrumbs to our app:
    )
    ```
 
-## Environment
+## 环境
 
-_Environment_ is a powerful configuration option that enables developers using Sentry to perform various workflows, (such as filtering issues and triggering alerts) in the context of the deployment environment in which the errors occurred.
+_环境_是一个强大的配置选项，使使用 Sentry 的开发人员能够在发生错误的部署环境的上下文中执行各种工作流程（例如过滤问题和触发警报）。
 
-1. Open the `settings.py` file.
+1. 打开 `settings.py` 文件。
 
-2. Notice that we initialize the SDK with the `environment` configuration option. Any event that's subsequently captured by the SDK will be tagged with the configured environment value.
+2. 请注意，我们使用 `environment` 配置选项初始化 SDK。随后由 SDK 捕获的任何事件都将使用配置的环境值进行标记。
 
    ```python {filename: myproject/settings.py}
    sentry_sdk.init(
@@ -89,8 +89,8 @@ _Environment_ is a powerful configuration option that enables developers using S
    )
    ```
 
-   > Environment values are freeform strings. Neither the Sentry SDK nor [sentry.io](https://sentry.io) will limit you to any specific value or format. In this example, we hardcoded the value. In a real-life app, the value would probably be determined dynamically through a properties file, system, or environment variable.
+   > 环境值是自由格式的字符串。Sentry SDK 和 [sentry.io](https://sentry.io) 都不会将您限制为任何特定值或格式。在此示例中，我们对值进行了硬编码。在实际应用程序中，该值可能会通过属性文件、系统或环境变量动态确定。
 
-## Next
+## 下一步
 
-[Capturing Errors](/guides/integrate-backend/capturing-errors/)
+[捕获错误](/guides/integrate-backend/capturing-errors/)

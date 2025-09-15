@@ -1,58 +1,57 @@
 ---
-title: Integration Platform
+title: 集成平台
 sidebar_order: 10
-description: "Learn how to create integrations so that external services can interact with Sentry."
+description: "了解如何创建集成，以便外部服务可以与 Sentry 交互。"
 ---
 
-Sentry’s integration platform provides a way for external services to interact with Sentry using [webhooks](/organization/integrations/integration-platform/webhooks/), [UI components](/organization/integrations/integration-platform/ui-components/), and the [REST API](/api). Integrations using this platform are first-class actors within Sentry.
+Sentry 的集成平台提供了一种方式，让外部服务可以使用 [webhooks](/organization/integrations/integration-platform/webhooks/)、[UI 组件](/organization/integrations/integration-platform/ui-components/)和 [REST API](/api) 与 Sentry 交互。使用此平台的集成是 Sentry 中的一流参与者。
 
-## Example App
+## 示例应用
 
-If you're new to the integration platform, it might help to get started with an example project. To help you out, we've built an [example application](https://github.com/getsentry/integration-platform-example), which you can use as a starting point. It demonstrates the different features and data available for your application:
+如果您是集成平台的新手，从示例项目开始可能会有所帮助。为了帮助您，我们构建了一个[示例应用](https://github.com/getsentry/integration-platform-example)，您可以将其用作起点。它演示了您的应用程序可用的不同功能和数据：
 
-![Demo kanban application user interface that was built to show integration platform features.](./img/reference-implementation-frontend.png)
+![为展示集成平台功能而构建的演示看板应用用户界面。](./img/reference-implementation-frontend.png)
 
-It's a kanban application that uses many of the features available to Sentry integrations and it provides starter code in both Python and TypeScript. It also includes a step-by-step guide to setting up your first integration, as well as documentation and testing advice. Typically, the app should be safely consuming live Sentry data within minutes.
+它是一个看板应用，使用了 Sentry 集成可用的许多功能，并提供 Python 和 TypeScript 的起始代码。它还包括设置第一个集成的分步指南，以及文档和测试建议。通常，该应用应在几分钟内安全地使用实时 Sentry 数据。
 
-## Creating an Integration
+## 创建集成
 
-In [sentry.io](https://sentry.io), navigate to **Settings > Developer Settings**. From here, you can choose to create an [internal](/organization/integrations/integration-platform/internal-integration) or [public](/organization/integrations/integration-platform/public-integration) integration. Internal integrations can only be used by your organization, whereas public integrations can be published and are available for all Sentry users.
+在 [sentry.io](https://sentry.io) 中，导航到 **设置 > 开发者设置**。从这里，您可以选择创建[内部](/organization/integrations/integration-platform/internal-integration)或[公共](/organization/integrations/integration-platform/public-integration)集成。内部集成只能由您的组织使用，而公共集成可以发布并可供所有 Sentry 用户使用。
 
-![Settings page that allows developer to choose between public or internal integrations.](./img/dev-settings.png)
+![允许开发者选择公共或内部集成的设置页面。](./img/dev-settings.png)
 
-There are several configuration options for your integration, which are described briefly below. Each section provides links to more detailed information.
+您的集成有几个配置选项，下面简要描述。每个部分都提供了指向更详细信息的链接。
 
 ## Webhooks
 
-Webhooks allow your service to get requests about specific resources, depending on your selection. For more information, check out the [full Webhooks documentation](/organization/integrations/integration-platform/webhooks/).
+Webhooks 允许您的服务根据您的选择获取有关特定资源的请求。有关更多信息，请查看[完整的 Webhooks 文档](/organization/integrations/integration-platform/webhooks/)。
 
-In order to receive webhook events, you must specify the webhook URL when creating an integration. After you've specified the webhook URL, you'll be able to toggle on "Alert Rule Action" and create issue and metric alerts that send notifications to your integration.
+为了接收 webhook 事件，您必须在创建集成时指定 webhook URL。指定 webhook URL 后，您将能够打开"警报规则操作"并创建发送通知到您的集成的问题和指标警报。
 
-## UI Components
+## UI 组件
 
-The Sentry integration platform provides the ability to add rich UI components to [sentry.io](https://sentry.io) itself through a simple, declarative syntax. For more information, check out the [full UI Components documentation](/organization/integrations/integration-platform/ui-components/).
+Sentry 集成平台能够通过简单、声明式的语法向 [sentry.io](https://sentry.io) 本身添加丰富的 UI 组件。有关更多信息，请查看[完整的 UI 组件文档](/organization/integrations/integration-platform/ui-components/)。
 
-## Alerts
+## 警报
 
-You can make any integration available as an action in [issue alerts](/organization/integrations/integration-platform/webhooks/issue-alerts) and [metric alerts](/organization/integrations/integration-platform/webhooks/metric-alerts) by enabling the "Alert Rule Action" toggle. The integration will then show
-up as a service in the action section when creating or updating an alert rule. The interactive demo below shows how to set up an integration that can receive Sentry alerts.
+您可以通过启用"警报规则操作"切换，使任何集成在[问题警报](/organization/integrations/integration-platform/webhooks/issue-alerts)和[指标警报](/organization/integrations/integration-platform/webhooks/metric-alerts)中作为操作可用。然后，集成将在创建或更新警报规则时的操作部分中显示为服务。下面的交互式演示展示了如何设置可以接收 Sentry 警报的集成。
 
 <Arcade src="https://demo.arcade.software/v7uhzmdV6Q5PDzoVPAE6?embed&show_copy_link=true" />
 
-For your service to receive webhooks for alert rules, you must have `Send a notification via <your integration>` as an action in the rule. Once that's set up, you'll start receiving webhook requests for triggered alerts. For more information about the request and payload, check out the [full Webhooks documentation](/organization/integrations/integration-platform/webhooks/). If you'd like users to provide more app-specific information to handle these webhooks (e.g. assignees, teams, notification channels), consider implementing the [alert rule action UI component](/organization/integrations/integration-platform/ui-components/alert-rule-action).
+为了让您的服务接收警报规则的 webhooks，您必须在规则中将`通过 <您的集成> 发送通知`作为操作。设置完成后，您将开始接收触发警报的 webhook 请求。有关请求和有效负载的更多信息，请查看[完整的 Webhooks 文档](/organization/integrations/integration-platform/webhooks/)。如果您希望用户提供更多特定于应用的信息来处理这些 webhooks（例如受让人、团队、通知频道），请考虑实现[警报规则操作 UI 组件](/organization/integrations/integration-platform/ui-components/alert-rule-action)。
 
-## Permissions
+## 权限
 
-Permissions specify what level of access your service requires of Sentry resources. The scopes are directly applied to any API tokens issued to the application. For public integrations, Sentry will prompt users to approve these permissions upon installation. For more information, check out the [full documentation on Permissions](/api/permissions/).
+权限指定您的服务需要 Sentry 资源的访问级别。范围直接应用于颁发给应用的任何 API 令牌。对于公共集成，Sentry 将在安装时提示用户批准这些权限。有关更多信息，请查看[完整的权限文档](/api/permissions/)。
 
-![Form that allows developer to set what permissions they'll need from their user.](./img/permissions.png)
+![允许开发者设置他们需要用户哪些权限的表单。](./img/permissions.png)
 
-You can't create an integration or change an existing integration to have permissions greater than your own user settings. Permissions are scoped to the organization, so adding scopes for issues and events, projects, or teams will enable access to issues and events, projects, or teams across the organization.
+您无法创建权限大于您自己用户设置的集成或更改现有集成。权限按组织范围，因此为问题和事件、项目或团队添加范围将启用对整个组织的问题和事件、项目或团队的访问。
 
-## Auth Tokens
+## 认证令牌
 
-Auth tokens are passed using an auth header, and are used to authenticate as a user account with the API. [Public integrations](/organization/integrations/integration-platform/public-integration) require an OAuth flow for tokens. [Internal integrations](/organization/integrations/integration-platform/internal-integration) automatically generate tokens after installation. For more information, check out the [full Authentication documentation](/api/auth/).
+认证令牌使用认证头传递，并用于使用 API 以用户账户身份进行身份验证。[公共集成](/organization/integrations/integration-platform/public-integration)需要 OAuth 流来获取令牌。[内部集成](/organization/integrations/integration-platform/internal-integration)在安装后自动生成令牌。有关更多信息，请查看[完整的认证文档](/api/auth/)。
 
-## Learn More
+## 了解更多
 
 <PageGrid />

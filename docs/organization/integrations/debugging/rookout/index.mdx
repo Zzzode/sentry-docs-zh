@@ -1,40 +1,40 @@
 ---
 title: Rookout
 sidebar_order: 1
-description: "Learn more about Sentry's Rookout integration and how it can help you debug an issue."
+description: "了解更多关于Sentry的Rookout集成以及它如何帮助您调试问题。"
 ---
 
-Rookout adds a layer of depth to Sentry issues by allowing you to jump right from an Issue to a non-breaking breakpoint on the line that caused the error.
+Rookout通过允许您直接从问题跳到导致错误的行上的非断点断点，为Sentry问题增加了一层深度。
 
-This integration is maintained and supported by the company that created it. For more details, check out our [Integration Platform documentation](/organization/integrations/integration-platform/).
+此集成由创建它的公司维护和支持。有关更多详细信息，请查看我们的[集成平台文档](/organization/integrations/integration-platform/)。
 
-## Install and Configure
+## 安装和配置
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要Sentry所有者、经理或管理员权限才能安装此集成。
 
-Rookout **won't** work with self-hosted Sentry.
+Rookout**不会**与自托管Sentry一起工作。
 
 </Alert>
 
-1. Navigate to **Settings > Integrations > Rookout**
+1. 导航到**设置 > 集成 > Rookout**
 
-   ![Install Rookout integration](./img/rookout.png)
+   ![安装Rookout集成](./img/rookout.png)
 
-2. In the resulting modal, approve the permissions by clicking "Install".
+2. 在结果模态框中，通过点击"安装"批准权限。
 
-   ![Sentry modal indicating that permissions need installation.](./img/rookout_modal.png)
+   ![指示需要安装权限的Sentry模态框。](./img/rookout_modal.png)
 
-## Use Integration in Stack Trace
+## 在堆栈跟踪中使用集成
 
-After installing Rookout in Sentry, you can go straight to the line of code in your stack trace, and click the Rookout icon. That will take you directly to the same line of code in the same file inside Rookout.
+在Sentry中安装Rookout后，您可以直接转到堆栈跟踪中的代码行，然后点击Rookout图标。这将直接带您到Rookout中同一文件中的同一行代码。
 
-1. In Sentry, navigate to the specific **Issue** you want to link and navigate to the **Stack Trace**.
-2. In the Stack Trace, you'll see the option to open the line in Rookout by clicking on the Rookout icon.
+1. 在Sentry中，导航到您想要链接的特定**问题**并导航到**堆栈跟踪**。
+2. 在堆栈跟踪中，您会看到通过点击Rookout图标在Rookout中打开该行的选项。
 
-   ![Sentry stack trace showing the Rookout icon on a specific line.](./img/rookout_line_in_stack_trace.png)
+   ![Sentry堆栈跟踪显示特定行上的Rookout图标。](./img/rookout_line_in_stack_trace.png)
 
-3. Clicking on the Rookout icon takes you to Rookout's web UI where you can continue the debugging process. Rookout makes the best guess for the corresponding project and file in its web UI and will take you to the correct line of code in the file.
+3. 点击Rookout图标会带您到Rookout的Web UI，您可以继续调试过程。Rookout会对其Web UI中的相应项目和文件做出最佳猜测，并将带您到文件中正确的代码行。
 
-   ![Sentry modal indicating that permissions need installation.](./img/rookout_screen_1.png)
+   ![指示需要安装权限的Sentry模态框。](./img/rookout_screen_1.png)

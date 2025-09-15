@@ -1,752 +1,752 @@
 ---
-title: Event Properties
-description: "Learn more about searchable event properties."
+title: 事件属性
+description: "了解可搜索的事件属性。"
 sidebar_order: 20
 ---
 
-Events are the underlying event data captured using Sentry SDKs — that is, errors and transactions.
+事件是使用 Sentry SDK 捕获的底层事件数据——即错误和事务。
 
-You can search by event properties in the following [sentry.io](https://sentry.io) pages:
+您可以在以下 [sentry.io](https://sentry.io) 页面中按事件属性进行搜索：
 
-- Discover - in the query builder (depending on the dataset selection)
-- Dashboards - within the widget builder (depending on dataset selection)
-- Performance - only in transaction summaries
-- Issues - as indicated in the list below
-- Alerts - when creating a metric alert
+- 发现 - 在查询构建器中（取决于数据集选择）
+- 仪表板 - 在小组件构建器内（取决于数据集选择）
+- 性能 - 仅在事务摘要中
+- 问题 - 如下列表中所示
+- 警报 - 创建指标警报时
 
 <Alert>
 
-Please note that in Alerts only a limited number of properties are available for [filtering transaction events](/product/alerts/create-alerts/metric-alert-config/#tags--properties).
+请注意，在警报中，只有有限数量的属性可用于[过滤事务事件](/product/alerts/create-alerts/metric-alert-config/#tags--properties)。
 
 </Alert>
 
-When searching on event properties within the **Issues** page, the search will return any issue that has _one or more events_ matching the supplied event properties filter.
+在**问题**页面中搜索事件属性时，搜索将返回具有_一个或多个匹配事件_的任何问题，这些事件符合提供的事件属性过滤器。
 
-## Searchable Properties
+## 可搜索属性
 
-Below is a list of keys and tokens that can be used in the event search.
+以下是可用于事件搜索的键和标记列表。
 
 <DefinitionList>
 
 ### `apdex(threshold)`
 
-Returns results with the [Apdex score](/product/insights/overview/metrics/#apdex) that you entered. Values must be between `0` and `1`. Higher apdex values indicate higher user satisfaction.
+返回具有您输入的 [Apdex 分数](/product/insights/overview/metrics/#apdex) 的结果。值必须在 `0` 和 `1` 之间。较高的 apdex 值表示较高的用户满意度。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `app.in_foreground`
 
-Indicates if the app is in the foreground or background. Values are `1/0` or `true/false`
+指示应用是在前台还是后台。值为 `1/0` 或 `true/false`
 
-- **Type:** boolean
+- **类型：** 布尔值
 
 ### `avg(field)`
 
-Returns results with matching averages for the field selected. The field can be either a number or a duration. Typically used with a comparison operator.
+返回与所选字段匹配的平均值的结果。该字段可以是数字或持续时间。通常与比较运算符一起使用。
 
-- **Type:** matches field
+- **类型：** 匹配字段
 
 ### `count_if(column,operator,value)`
 
-Returns results with a matching count that satisfy the condition passed to the parameters of the function.
+返回满足传递给函数参数条件的匹配计数结果。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_miserable(field,threshold)`
 
-Returns results with a matching count of unique instances of the field that fall above the miserable threshold.
+返回与字段的唯一实例计数匹配的结果，这些实例高于痛苦阈值。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_unique(field)`
 
-Returns results with a matching count of the unique instances of the field entered.
+返回与输入字段的唯一实例计数匹配的结果。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_web_vitals(vital,threshold)`
 
-Returns results with a matching count that meet a Web Vitals quality threshold (`poor`, `meh`, `good`, or `any`).
+返回与 Web Vitals 质量阈值（`poor`、`meh`、`good` 或 `any`）匹配的计数结果。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count()`
 
-Returns results with a matching count. (Same as `timesSeen` in issue search.) Doesn't take a parameter.
+返回与匹配计数的结果。（与问题搜索中的 `timesSeen` 相同。）不需要参数。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `culprit`
 
-Deprecated
+已弃用
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.arch`
 
-CPU architecture
+CPU 架构
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.battery_level`
 
-If the device has a battery, this can be a floating point value defining the battery level (in the range 0-100).
+如果设备有电池，这可以是定义电池电量的浮点值（范围 0-100）。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.brand`
 
-Brand of the device
+设备品牌
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.charging`
 
-Whether the device was charging or not. Not a boolean.
+设备是否正在充电。不是布尔值。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.class`
 
-The estimated performance class of the client device, estimated `high`, `medium`, or `low`. For more details, see the [Device Classification](#device-classification) section below.
+客户端设备的估计性能等级，估计为 `high`、`medium` 或 `low`。有关更多详细信息，请参见下面的[设备分类](#device-classification)部分。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.family`
 
-Family of the device. Typically, the common part of a model name across generations. For example, iPhone, Samsung Galaxy.
+设备系列。通常是跨代型号名称的共同部分。例如，iPhone、Samsung Galaxy。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.locale`
 
-Deprecated
+已弃用
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.name`
 
-Details of the device
+设备详细信息
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.online`
 
-Whether the device was online or not. A string that is either `True` or `False`.
+设备是否在线。字符串，可以是 `True` 或 `False`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.orientation`
 
-Describes the orientation of the device and can be either `portrait` or `landscape`.
+描述设备的方向，可以是 `portrait` 或 `landscape`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.screen_density`
 
-Device screen density in pixels.
+设备屏幕密度（像素）。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.screen_dpi`
 
-Number of dots per inch of the device screen.
+设备屏幕每英寸点数。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.screen_height_pixels`
 
-Device screen height in pixels.
+设备屏幕高度（像素）。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.screen_width_pixels`
 
-Device screen width in pixels.
+设备屏幕宽度（像素）。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.simulator`
 
-Indicates whether this device is a simulator or a real device. A string that is either `True` or `False`.
+指示此设备是模拟器还是真实设备。字符串，可以是 `True` 或 `False`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.uuid`
 
-Deprecated
+已弃用
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `dist`
 
-Distinguishes build or deployment variants of the same release of an application. For example, the dist can be the build number of an Xcode build or the version code of an Android build.
+区分同一版本应用程序的构建或部署变体。例如，dist 可以是 Xcode 构建的构建号或 Android 构建的版本代码。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `environment`
 
-Refers to your code deployment naming convention. For example, _development_, _testing_, _staging_ and so on. [Learn more](/product/sentry-basics/environments/).In some pages of [sentry.io](https://sentry.io), you filter on environment using a dropdown.
+指您的代码部署命名约定。例如，_development_、_testing_、_staging_ 等。[了解更多](/product/sentry-basics/environments/)。在 [sentry.io](https://sentry.io) 的某些页面中，您可以使用下拉菜单按环境过滤。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `epm()`
 
-Returns results with a matching events-per-minute count. Doesn't take a parameter.
+返回与匹配事件每分钟计数的结果。不需要参数。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `eps()`
 
-Returns results with a matching events-per-second count. Doesn't take a parameter.
+返回与匹配事件每秒计数的结果。不需要参数。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `error.handled`
 
-Indicates whether the user has handled the exception — for example, using try...catch. An error is considered handled if all stack traces handle the error. Values are `1/0` or `true/false`
+指示用户是否已处理异常——例如，使用 try...catch。如果所有堆栈跟踪都处理错误，则错误被视为已处理。值为 `1/0` 或 `true/false`
 
-- **Type:** boolean
+- **类型：** 布尔值
 
 ### `error.main_thread`
 
-Indicates if the error occurred on the main thread. Values are `1/0` or `true/false`
+指示错误是否发生在主线程上。值为 `1/0` 或 `true/false`
 
-- **Type:** boolean
+- **类型：** 布尔值
 
 ### `error.mechanism`
 
-An object describing the mechanism that created this exception.
+描述创建此异常的机制的对象。
 
-- **Type:** array
+- **类型：** 数组
 
 ### `error.type`
 
-The type of exception. For example, `ValueError`.
+异常类型。例如，`ValueError`。
 
-- **Type:** array
+- **类型：** 数组
 
 ### `error.unhandled`
 
-The inversion of `error.handled`.
+`error.handled` 的反义。
 
-- **Type:** boolean
+- **类型：** 布尔值
 
 ### `error.value`
 
-Original value of a field that causes or exhibits the error.
+导致或显示错误的字段的原始值。
 
-- **Type:** array
+- **类型：** 数组
 
 ### `event.type`
 
-Type of the event (transaction, error, default, csp, and so on). The transaction type is unavailable in **Issues**.
+事件类型（transaction、error、default、csp 等）。事务类型在**问题**中不可用。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `failure_count()`
 
-Returns results with a matching count of events with a `transaction.status` value that's in the list of failing ones. Values can be: `ok`, `cancelled`, `unknown`. Doesn't take a parameter.
+返回具有与失败列表中的 `transaction.status` 值匹配的事件计数的结果。值可以是：`ok`、`cancelled`、`unknown`。不需要参数。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `failure_rate()`
 
-Returns results with a matching rate of failing transactions — that is, `failure_count()` divided by the `count()` (total count). Doesn't take a parameter.
+返回与失败事务的匹配率的结果——即 `failure_count()` 除以 `count()`（总计数）。不需要参数。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `geo.city`
 
-Full name of the city
+城市全名
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `geo.country_code`
 
-ISO 3166-1 country code
+ISO 3166-1 国家代码
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `geo.region`
 
-Full name of the country
+国家全名
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `has`
 
-Returns results with the defined tag or field, but not the value of that tag or field. For example, entering `has:user` would find events with the `user` tag.
+返回具有定义的标记或字段的结果，但不包括该标记或字段的值。例如，输入 `has:user` 会找到具有 `user` 标记的事件。
 
-- **Type:** error
+- **类型：** 错误
 
 ### `http.method`
 
-HTTP method of the [request](https://develop.sentry.dev/sdk/data-model/event-payloads/request/) that created the event.
+创建事件的[请求](https://develop.sentry.dev/sdk/data-model/event-payloads/request/)的 HTTP 方法。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `http.referer`
 
-Identifies the web page from which the resource was requested.
+标识请求资源的网页。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `http.status_code`
 
-HTTP status code, which indicates whether a response was successful. For example, `200` or `404`.
+HTTP 状态代码，指示响应是否成功。例如，`200` 或 `404`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `http.url`
 
-Full URL of the request that caused the error, but without any parameters
+导致错误的请求的完整 URL，但不包含任何参数
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `id`
 
-The event id. In **Issues**, use only the ID value without the `id` key.
+事件 id。在**问题**中，仅使用 ID 值而不使用 `id` 键。
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `issue`
 
-The short issue code, for example `SENTRY-ABC`.
+短问题代码，例如 `SENTRY-ABC`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `last_seen()`
 
-Datetime when the event was last seen. Equivalent to `max(timestamp)`. Doesn't take a parameter.
+事件最后出现的日期时间。等同于 `max(timestamp)`。不需要参数。
 
-- **Type:** datetime
+- **类型：** 日期时间
 
 ### `level`
 
-Severity of the event (such as: fatal, error, warning). Always set to info for transactions.
+事件的严重性（如：fatal、error、warning）。对于事务始终设置为 info。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `location`
 
-Location where the error happened.
+错误发生的位置。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `max(numeric field)`
 
-Returns results with a matching maximum value for the field entered.
+返回与输入字段的匹配最大值的结果。
 
-- **Type:** matches field
+- **类型：** 匹配字段
 
 ### `measurements.app_start_cold`
 
-A [cold start](/product/insights/mobile/mobile-vitals/app-starts/) refers to when the app launches for the first time after a reboot or update. The app is not in memory and no process exists.
+[冷启动](/product/insights/mobile/mobile-vitals/app-starts/)指应用在重启或更新后首次启动。应用不在内存中且不存在进程。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.app_start_warm`
 
-A [warm start](/product/insights/mobile/mobile-vitals/app-starts/) refers to when the app has already launched at least once and is partially in memory. For instance, the user backs out of your app, but then re-launches it. The process may have continued to run, but the app must recreate the activity from scratch.
+[温启动](/product/insights/mobile/mobile-vitals/app-starts/)指应用已经至少启动过一次且部分在内存中。例如，用户退出您的应用，但随后重新启动它。进程可能继续运行，但应用必须从头开始重新创建活动。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.cls`
 
-[Cumulative Layout Shift (CLS)](/product/insights/web-vitals/web-vitals-concepts/#cumulative-layout-shift-cls) is the sum of individual layout shift scores for every unexpected element shift during the rendering process.
+[累积布局偏移 (CLS)](/product/insights/web-vitals/web-vitals-concepts/#cumulative-layout-shift-cls) 是在渲染过程中每个意外元素偏移的单个布局偏移分数的总和。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.fcp`
 
-[First Contentful Paint (FCP)](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp) measures the time for the first content to render in the viewport.
+[首次内容绘制 (FCP)](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp) 测量第一个内容在视口中渲染的时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.fid`
 
-[First Input Delay (FID)](/product/insights/web-vitals/web-vitals-concepts/#first-input-delay-fid) measures the response time when the user tries to interact with the viewport.
+[首次输入延迟 (FID)](/product/insights/web-vitals/web-vitals-concepts/#first-input-delay-fid) 测量用户尝试与视口交互时的响应时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.fp`
 
-[First Paint (FP)](/product/insights/web-vitals/web-vitals-concepts/#first-paint-fp) measures the amount of time the first pixel takes to appear in the viewport, rendering any visual change from what was previously displayed.
+[首次绘制 (FP)](/product/insights/web-vitals/web-vitals-concepts/#first-paint-fp) 测量第一个像素出现在视口中所需的时间，渲染与之前显示的任何视觉变化。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.frames_frozen`
 
-[Slow and frozen frames](/product/insights/mobile/mobile-vitals/#slow-and-frozen-frames) measure the responsiveness of your app.
+[慢速和冻结帧](/product/insights/mobile/mobile-vitals/#slow-and-frozen-frames) 测量应用的响应性。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.frames_frozen_rate`
 
-Returns results with a matching rate of frozen frames. That is, `measurements.frames_frozen` divided by the `measurements.frames_total`.
+返回与冻结帧的匹配率的结果。即 `measurements.frames_frozen` 除以 `measurements.frames_total`。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.frames_slow`
 
-[Slow and frozen frames](/product/insights/mobile/mobile-vitals/#slow-and-frozen-frames) measure the responsiveness of your app.
+[慢速和冻结帧](/product/insights/mobile/mobile-vitals/#slow-and-frozen-frames) 测量应用的响应性。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.frames_slow_rate`
 
-Returns results with a matching rate of slow frames. That is, `measurements.frames_slow` divided by the `measurements.frames_total`.
+返回与慢速帧的匹配率的结果。即 `measurements.frames_slow` 除以 `measurements.frames_total`。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.frames_total`
 
-Returns results with a matching total number of frames.
+返回与总帧数的匹配计数的结果。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.lcp`
 
-[Largest Contentful Paint (LCP)](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp) measures the render time for the largest content to appear in the viewport.
+[最大内容绘制 (LCP)](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp) 测量最大内容出现在视口中的渲染时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.stall_count`
 
-A [stall](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#stall-tracking) is when the JavaScript event loop takes longer than expected to complete. Only applies to React Native.
+[停顿](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#stall-tracking) 是指 JavaScript 事件循环完成所需时间比预期长。仅适用于 React Native。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.stall_longest_time`
 
-The [longest stall time](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#stall-tracking) is the time, in milliseconds, of the longest event loop stall. Only applies to React Native.
+[最长停顿时间](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#stall-tracking) 是最长事件循环停顿的时间（以毫秒为单位）。仅适用于 React Native。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.stall_percentage`
 
-Stall percentage is equal to the `stall_total_time` divided by the `transaction.duration`. Only applies to React Native.
+停顿百分比等于 `stall_total_time` 除以 `transaction.duration`。仅适用于 React Native。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `measurements.stall_total_time`
 
-The [total stall time](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#stall-tracking) is the total combined time, in milliseconds, of all stalls. Only applies to React Native.
+[总停顿时间](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#stall-tracking) 是所有停顿的总时间（以毫秒为单位）。仅适用于 React Native。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.ttfb`
 
-[Time To First Byte (TTFB)](/product/insights/web-vitals/web-vitals-concepts/#time-to-first-byte-ttfb) measures the time that it takes for a user's browser to receive the first byte of page content.
+[首字节时间 (TTFB)](/product/insights/web-vitals/web-vitals-concepts/#time-to-first-byte-ttfb) 测量用户浏览器接收页面内容第一个字节所需的时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `measurements.ttfb.requesttime`
 
-The time between start of the request and start of the response (see [diagram](https://web.dev/ttfb/#what-is-ttfb)).
+请求开始到响应开始之间的时间（参见[图表](https://web.dev/ttfb/#what-is-ttfb)）。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `message`
 
-Returns errors with the matching message or transactions with matching transaction name. Also matches on any message containing the supplied value.Searching `message:undefined` will match an event with a message of `undefined is not an object`. Raw text searches (searches without the `message` key) are also checked against this field. For errors, the message can be a concatenatenation of elements, so searches might include unexpected results.
+返回与匹配消息的错误或与匹配事务名称的事务。也匹配包含提供值的任何消息。搜索 `message:undefined` 将匹配消息为 `undefined is not an object` 的事件。原始文本搜索（没有 `message` 键的搜索）也针对此字段进行检查。对于错误，消息可以是元素的连接，因此搜索可能包括意外结果。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `min(numeric field)`
 
-Returns results with a matching minimum value for the field entered.
+返回与输入字段的匹配最小值的结果。
 
-- **Type:** matches field
+- **类型：** 匹配字段
 
 ### `os.build`
 
-The internal build revision of the operating system.
+操作系统的内部构建版本。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `os.kernel_version`
 
-The independent kernel version string. This is typically the entire output of the `uname` syscall.
+独立的内核版本字符串。这通常是 `uname` 系统调用的完整输出。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `os.distribution_name`
 
-The Linux distribution name. This maps to `ID` in [`/etc/os-release/`](https://www.freedesktop.org/software/systemd/man/latest/os-release.html).
+Linux 发行版名称。这映射到 [`/etc/os-release/`](https://www.freedesktop.org/software/systemd/man/latest/os-release.html) 中的 `ID`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `os.distribution_version`
 
-The Linux distribution version. This maps to `VERSION_ID` in  [`/etc/os-release/`](https://www.freedesktop.org/software/systemd/man/latest/os-release.html).
+Linux 发行版版本。这映射到 [`/etc/os-release/`](https://www.freedesktop.org/software/systemd/man/latest/os-release.html) 中的 `VERSION_ID`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `percentile(field,level)`
 
-Returns results with an approximate percentile of the field to the level. The level can be between `0` and `1`. For example, if you wanted to find the 50th percentile of transaction durations, you would enter `percentile(transaction.duration, 0.5)`.
+返回与字段的近似百分位数到级别的结果。级别可以在 `0` 和 `1` 之间。例如，如果您想找到事务持续时间的第 50 个百分位数，您将输入 `percentile(transaction.duration, 0.5)`。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `platform`
 
-Name of the platform. This defaults to `other` and is only a property for platforms from this list:
-`as3`, `c`, `cfml`, `cocoa`, `csharp`, `elixir`, `go`, `groovy`, `haskell`, `java`, `javascript`, `native`, `node`, `objc`, `other`, `perl`, `php`, `python`, `ruby`
+平台名称。这默认为 `other`，仅适用于此列表中的平台：
+`as3`、`c`、`cfml`、`cocoa`、`csharp`、`elixir`、`go`、`groovy`、`haskell`、`java`、`javascript`、`native`、`node`、`objc`、`other`、`perl`、`php`、`python`、`ruby`
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `project`
 
-The name of the project. In some pages of [sentry.io](https://sentry.io), you can also filter on project using a dropdown.
+项目名称。在 [sentry.io](https://sentry.io) 的某些页面中，您还可以使用下拉菜单按项目过滤。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `project.id`
 
-The id of the project.
+项目的 id。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `pXY(duration field)`
 
-Returns results with an approximate percentile of the field. Replace "XY" with 50, 75, 95, 99, or 100. For example, if you wanted to find the 50th percentile of transaction durations, you would enter `p50(transaction.duration)`.
+返回与字段的近似百分位数的结果。将 "XY" 替换为 50、75、95、99 或 100。例如，如果您想找到事务持续时间的第 50 个百分位数，您将输入 `p50(transaction.duration)`。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `release`
 
-A release is a version of your code deployed to an environment. You can create a token with an exact match of the version of a release, or `release:latest` to pick the most recent release. [Learn more](/product/releases/usage/sorting-filtering/#latest-release).
+发布是部署到环境的代码版本。您可以使用发布版本的精确匹配创建标记，或 `release:latest` 选择最近的发布。[了解更多](/product/releases/usage/sorting-filtering/#latest-release)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `release.build`
 
-The number that identifies an iteration of your app. For example, `CFBundleVersion` on iOS or `versionCode` on Android. [Learn more](/product/releases/usage/sorting-filtering/).
+标识应用迭代的数字。例如，iOS 上的 `CFBundleVersion` 或 Android 上的 `versionCode`。[了解更多](/product/releases/usage/sorting-filtering/)。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `release.package`
 
-The unique identifier of the project/app. For example, `CFBundleIdentifier` on iOS or `packageName` on Android. [Learn more](/product/releases/usage/sorting-filtering/).
+项目/应用的唯一标识符。例如，iOS 上的 `CFBundleIdentifier` 或 Android 上的 `packageName`。[了解更多](/product/releases/usage/sorting-filtering/)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `release.stage`
 
-The usage your release is seeing relative to other releases. Values can be `adopted`, `low`, or `replaced`. [Learn more](/product/releases/health/#adoption-stages).
+发布相对于其他发布的使用情况。值可以是 `adopted`、`low` 或 `replaced`。[了解更多](/product/releases/health/#adoption-stages)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `release.version`
 
-A shorter version of the name; name without the package or short version of the hash. [Learn more](/product/releases/usage/sorting-filtering/).
+名称的较短版本；没有包的名称或哈希的短版本。[了解更多](/product/releases/usage/sorting-filtering/)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `sdk.name`
 
-Name of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `sdk.version`
 
-Version of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的版本。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `spans.browser`
 
-Cumulative browser time for a transaction, based on the span operations.
+基于跨度操作的事务的累积浏览器时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `spans.db`
 
-Cumulative db time for a transaction, based on span operations.
+基于跨度操作的事务的累积数据库时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `spans.http`
 
-Cumulative http time for a transaction, based on span operations.
+基于跨度操作的事务的累积 HTTP 时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `spans.resource`
 
-Cumulative resource time for a transaction, based on span operations.
+基于跨度操作的事务的累积资源时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `spans.ui`
 
-Cumulative UI time for a transaction, based on span operations.
+基于跨度操作的事务的累积 UI 时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `stack.abs_path`
 
-The absolute path to the source file. In events, this is an array; in issues, this is a single value.
+源文件的绝对路径。在事件中，这是一个数组；在问题中，这是一个单个值。
 
-- **Type:** array, single value
+- **类型：** 数组，单个值
 
 ### `stack.colno`
 
-Column number of the call, starting at 1.
+调用的列号，从 1 开始。
 
-- **Type:** array
+- **类型：** 数组
 
 ### `stack.filename`
 
-The path to the source file relative to the project root directory. In events, this is an array. In issues, this is a single value.
+相对于项目根目录的源文件路径。在事件中，这是一个数组。在问题中，这是一个单个值。
 
-- **Type:** array, single value
+- **类型：** 数组，单个值
 
 ### `stack.function`
 
-Name of the function being called. In events, this is an array. In issues, this is a single value.
+被调用函数的名称。在事件中，这是一个数组。在问题中，这是一个单个值。
 
-- **Type:** array, single value
+- **类型：** 数组，单个值
 
 ### `stack.in_app`
 
-Indicates whether a frame is related to the execution of the relevant code in the stack trace. For example, the frames that might power the framework’s web server of your app are probably not relevant. However, calls to the framework’s library once you start handling code likely are relevant. Values can be `1` (true) or `0` (false).
+指示帧是否与堆栈跟踪中相关代码的执行相关。例如，可能为您的应用框架提供支持的框架的 Web 服务器的帧可能不相关。但是，一旦您开始处理代码，对框架库的调用可能是相关的。值可以是 `1`（真）或 `0`（假）。
 
-- **Type:** array
+- **类型：** 数组
 
 ### `stack.lineno`
 
-Line number of the call, starting at 1.
+调用的行号，从 1 开始。
 
-- **Type:** array
+- **类型：** 数组
 
 ### `stack.module`
 
-Platform-specific module path. For example, `sentry.interfaces.Stacktrace`. In events, this is an array. In issues, this is a single value.
+平台特定的模块路径。例如，`sentry.interfaces.Stacktrace`。在事件中，这是一个数组。在问题中，这是一个单个值。
 
-- **Type:** array, single value
+- **类型：** 数组，单个值
 
 ### `stack.package`
 
-The "package" the frame was contained in. Depending on the platform, this can be different things. For C#, it can be the name of the assembly. For native code, it can be the path of the dynamic library or something else. In events, this is an array. In issues, this is a single value.
+帧所在的"包"。根据平台的不同，这可能是不同的东西。对于 C#，它可以是程序集的名称。对于本机代码，它可以是动态库的路径或其他东西。在事件中，这是一个数组。在问题中，这是一个单个值。
 
-- **Type:** array, single value
+- **类型：** 数组，单个值
 
 ### `sum(numeric field)`
 
-Returns results with a matching total value for the field entered.
+返回与输入字段的匹配总值的结果。
 
-- **Type:** matches field
+- **类型：** 匹配字段
 
 ### `timestamp`
 
-The finish timestamp of the transaction. Returns events with matching datetime.
+事务的完成时间戳。返回与匹配日期时间的事件。
 
-- **Type:** datetime
+- **类型：** 日期时间
 
 ### `timestamp.to_day`
 
-Timestamp rounded down to the nearest day.
+向下舍入到最近一天的时间戳。
 
-- **Type:** datetime
+- **类型：** 日期时间
 
 ### `timestamp.to_hour`
 
-Timestamp rounded down to the nearest hour.
+向下舍入到最近一小时的时间戳。
 
-- **Type:** datetime
+- **类型：** 日期时间
 
 ### `title`
 
-Title of the error or the transaction name.
+错误的标题或事务名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `trace`
 
-A trace represents the record of the entire operation you want to measure or track — like page load, searched using the UUID generated by Sentry’s SDK.
+跟踪表示您想要测量或跟踪的整个操作的记录——如页面加载，使用 Sentry SDK 生成的 UUID 进行搜索。
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `trace.parent_span`
 
-Span ID of the parent to the current transaction. This is null if the transaction is root.
+当前事务的父级的跨度 ID。如果事务是根，则为 null。
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `trace.span`
 
-Span ID of the root span of the root transaction in the event.
+事件中根事务的根跨度的跨度 ID。
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `transaction`
 
-For [transactions](/product/insights/overview/transaction-summary/#what-is-a-transaction), the name of the transaction. For errors, the name of the associated transaction.
+对于[事务](/product/insights/overview/transaction-summary/#what-is-a-transaction)，事务的名称。对于错误，关联事务的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `transaction.duration`
 
-Duration, in milliseconds, of the transaction.
+事务的持续时间（以毫秒为单位）。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `transaction.op`
 
-Short code identifying the [type of operation](https://develop.sentry.dev/sdk/performance/span-operations/) the span is measuring.
+标识[操作类型](https://develop.sentry.dev/sdk/performance/span-operations/)的短代码，跨度正在测量。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `transaction.status`
 
-Describes the status of the span/transaction. Check out our [Transaction Payloads documentation](https://develop.sentry.dev/sdk/data-model/event-payloads/transaction/) for all possible statuses.
+描述跨度/事务的状态。查看我们的[事务有效负载文档](https://develop.sentry.dev/sdk/data-model/event-payloads/transaction/)了解所有可能的状态。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `unreal.crash_type`
 
-The [Unreal Crash Context Type](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/GenericPlatform/ECrashContextType/)
+[Unreal 崩溃上下文类型](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/GenericPlatform/ECrashContextType/)
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user_misery(number)`
 
-Returns transactions with the defined user misery value. [User Misery](/product/insights/overview/metrics/#user-misery) is a user-weighted performance metric that counts the number of unique users who were frustrated; "frustration" is measured as a response time four times the satisfactory response time threshold (in milliseconds). It highlights transactions that have the highest impact on users.
+返回具有定义的用户痛苦值的事务。[用户痛苦](/product/insights/overview/metrics/#user-misery) 是一个用户加权的性能指标，计算感到沮丧的唯一用户数量；"沮丧" 以响应时间是满意响应时间阈值的四倍（以毫秒为单位）来衡量。它突出显示对用户影响最大的事务。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `user.display`
 
-In order, the first available user field available: email, then username, ID, and then IP address.
+按顺序，第一个可用的用户字段：电子邮件，然后是用户名，ID，然后是 IP 地址。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.email`
 
-An alternative, or addition, to the username. Sentry is aware of email addresses and can therefore display things such as Gravatars and unlock messaging capabilities.
+用户名的替代或补充。Sentry 了解电子邮件地址，因此可以显示 Gravatars 等功能并解锁消息传递功能。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.id`
 
-Application-specific internal identifier for the user.
+用户的应用程序特定内部标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.ip`
 
-User's IP address. Sentry uses the IP address as a unique identifier for unauthenticated users.
+用户的 IP 地址。Sentry 使用 IP 地址作为未验证用户的唯一标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.username`
 
-Username, which is typically a better label than the `user.id`.
+用户名，通常比 `user.id` 更好的标签。
 
-- **Type:** string
+- **类型：** 字符串
 
 </DefinitionList>

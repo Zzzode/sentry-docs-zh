@@ -1,89 +1,89 @@
 ---
-title: Alerts Best Practices
-keywords: ["best practice", "alerting", "manage noise"]
+title: 警报最佳实践
+keywords: ["最佳实践", "警报", "管理噪音"]
 sidebar_order: 30
-description: "Learn best practices for creating alerts."
+description: "了解创建警报的最佳实践。"
 ---
 
-Alerts should notify you when there's an important problem with your application. But they shouldn't be too noisy, because that can lead to alert fatigue. The following best practices will help you create relevant alerts that notify the right people — that is, the people equipped to fix the problem.
+警报应在您的应用程序出现重要问题时通知您。但它们不应过于嘈杂，因为这可能导致警报疲劳。以下最佳实践将帮助您创建相关的警报，通知正确的人员——即那些有能力解决问题的人员。
 
-There are two types of alerts: [issue alerts](/product/alerts/alert-types/#issue-alerts) and [metric alerts](/product/alerts/alert-types/#metric-alerts). Most of our alerting best practices are specific to issue alerts, however, the [alert conditions best practices](#alert-conditions-best-practices) apply to both issue and metric alerts.
+有两种类型的警报：[问题警报](/product/alerts/alert-types/#issue-alerts)和[指标警报](/product/alerts/alert-types/#metric-alerts)。我们的大多数警报最佳实践特定于问题警报，但是，[警报条件最佳实践](#alert-conditions-best-practices)适用于问题和指标警报。
 
-## Issue Alerts Best Practices
+## 问题警报最佳实践
 
-An issue alert is triggered when an individual issue meets some criteria. These criteria (or "triggers") can be based on state-changes or frequency. The best practices that follow cover alerts based on state and frequency changes, as well as reducing noise, and effective routing.
+当单个问题满足某些条件时，会触发问题警报。这些条件（或"触发器"）可以基于状态更改或频率。以下最佳实践涵盖了基于状态和频率更改的警报，以及减少噪音和有效路由。
 
-### State-Change Alerts
+### 状态更改警报
 
-The following triggers, or “when” conditions, capture state changes in issues:
+以下触发器或"何时"条件捕获问题中的状态更改：
 
-- A new issue is created
-- The issue changes state from resolved to unresolved, or a regression occurs
-- The issue changes state from archived to escalating
+- 创建新问题
+- 问题状态从已解决更改为未解决，或发生回归
+- 问题状态从已归档更改为升级
 
-Your first instinct might be to set an alert for every state change. However, this is likely to result in too many alerts if you're running an app with a significant number of users. In particular, regressions will be more common than you expect because Sentry auto-resolves issues after 14 days of silence (configurable), and many issues keep coming back after the 14-day window.
+您的第一直觉可能是为每个状态更改设置警报。但是，如果您运行一个拥有大量用户的应用程序，这可能会导致太多警报。特别是，回归会比您预期的更常见，因为 Sentry 在 14 天的静默后自动解决问题（可配置），并且许多问题在 14 天窗口后仍会继续出现。
 
-To deal with this, the **Issues** page includes the [**Review List**](/product/issues/states-triage/#mark-reviewed) (in the "For Review" tab), containing only issues that have had a state change in the last seven days. We recommended that you review this list once a day. If you need real-time notifications for particular types of issues, such as those affecting your enterprise customers, you can always create alerts with those filters.
+为了解决这个问题，**问题**页面包括[**审查列表**](/product/issues/states-triage/#mark-reviewed)（在"待审查"选项卡中），仅包含在过去七天内发生状态更改的问题。我们建议您每天查看此列表一次。如果您需要对特定类型的问题进行实时通知，例如那些影响您的企业客户的问题，您始终可以使用这些过滤器创建警报。
 
-### Frequency-Based Alerts
+### 基于频率的警报
 
-Below, we describe best practices for setting alerts using the following frequency-based triggers:
+下面，我们描述使用以下基于频率的触发器设置警报的最佳实践：
 
-- **Number of events in an issue**: This is a very commonly used trigger, but remember that frequency isn't everything: a low-frequency error can be more important than a high-frequency one if it's in a more important part of your app.
-- **Number of users affected by an issue**: Sometimes a very small number of users create a lot of errors, so in some cases alerting on users affected can be more important than error frequency. However, remember that not all errors that have user counts in Sentry may be actually user-facing, and vice versa.
-- **Percent of sessions affected by an issue**: Error counts and users affected require constant manual adjustments as your traffic patterns change and are not well suited to deal with seasonality (for example, fewer errors on the weekend). Also, it can be hard to assess the impact of an issue from error counts or counts of users affected. In such cases, if you've configured your project to capture session data, you can opt for alerting when an issue affects a certain percentage of user sessions.
+- **问题中的事件数量**：这是一个非常常用的触发器，但请记住，频率并非一切：低频错误可能比高频错误更重要，如果它位于应用程序更重要的部分。
+- **问题影响的用户数量**：有时极少数用户会产生大量错误，因此在某些情况下，基于受影响用户的警报可能比错误频率更重要。但是，请记住，并非 Sentry 中具有用户计数的所有错误实际上都是面向用户的，反之亦然。
+- **问题影响的会话百分比**：错误计数和受影响用户需要随着流量模式的变化进行持续的手动调整，并且不适合处理季节性（例如，周末错误较少）。此外，从错误计数或受影响用户计数评估问题的影响可能很困难。在这种情况下，如果您已将项目配置为捕获会话数据，您可以选择在问题影响一定百分比的用户会话时发出警报。
 
-### Reducing Noise
+### 减少噪音
 
-One way to keep alerts from becoming too noisy is to use filters, or “if” conditions, as part of your alert configuration. Below, we describe best practices for setting alerts using the following noise-reducing filtering options:
+防止警报变得过于嘈杂的一种方法是使用过滤器或"如果"条件作为警报配置的一部分。下面，我们描述使用以下降噪过滤选项设置警报的最佳实践：
 
-- **Prioritize high priority issues**: If you're getting too many notifications about non-error or low priority issues, add the 'high priority' condition to your alert configuration. That way, you'll only get alerts for high-priority issues.
-- **Prioritize using tags**: Filter issue alerts based on important tags, such as `customer_type=enterprise` or `url=/very/important/page`. You can find the list of tags available in your project under **[Project] > Settings > Tags**. The list is an aggregation of all tag keys (default and custom) encountered in events for that project.
-- **Prioritize new issues**: If you're frequently getting alerted about old issues, filter your alerts to issues created in the last few days using the `The issue is older or newer than...` filter.
-- **Filter transient issues**: Many issues exhibit a short burst of events that can trip your frequency-based alerts. To filter out these issues, use the `Issue has happened at least {X} times` filter.
-- **Prioritize the latest release**: Use the `The event is from the latest release` filter to make your issue alert only apply to the latest release.
-- **Archive noisy issues**: If you're seeing alerts from the same issue repeatedly, [archive the issue](/product/issues/states-triage/#archive). (This is not an alert configuration setting.)
+- **优先处理高优先级问题**：如果您收到太多关于非错误或低优先级问题的通知，请将"高优先级"条件添加到您的警报配置中。这样，您将仅收到高优先级问题的警报。
+- **使用标签进行优先处理**：根据重要标签过滤问题警报，例如 `customer_type=enterprise` 或 `url=/very/important/page`。您可以在 **[项目] > 设置 > 标签** 下找到项目中可用的标签列表。该列表是在该项目的事件中遇到的所有标签键（默认和自定义）的聚合。
+- **优先处理新问题**：如果您经常收到关于旧问题的警报，请使用`问题早于或晚于...`过滤器将您的警报过滤为在过去几天内创建的问题。
+- **过滤瞬态问题**：许多问题表现出可能触发基于频率的警报的短暂事件爆发。要过滤掉这些问题，请使用`问题至少发生了 {X} 次`过滤器。
+- **优先处理最新版本**：使用`事件来自最新版本`过滤器使您的问题警报仅适用于最新版本。
+- **归档嘈杂问题**：如果您反复看到来自同一问题的警报，请[归档该问题](/product/issues/states-triage/#archive)。（这不是警报配置设置。）
 
-### Routing
+### 路由
 
-These routing best practices ensure that you alert the right people about a problem in your application.
+这些路由最佳实践确保您向应用程序中的正确人员发出有关问题的警报。
 
-- **Ownership Rules**: Use [ownership rules and code owners](/product/issues/ownership-rules/) to let Sentry automatically send alerts to the right people, as well as to ease configuration burden. You can configure ownership in **[Project] > Settings > Ownership Rules**. In the case of ownership rules, when there are no matching owners, the alert goes to all project members by default. If this is too broad, and you'd like a specific owner to be the fallback, end your ownership rules with a rule like `*:<owner>`.
-- **Delivery methods for different priorities**: Use different delivery methods to separate alerts of different priorities. For example, you might route from highest to lowest priority like so:
-  - High priority: Page (for example, PagerDuty or OpsGenie)
-  - Medium priority: Notification (for example, Slack)
-  - Low priority: Email
-- **Review List**: Found in the "For Review" tab of **Issues**, the [**Review List**](/product/issues/states-triage/#mark-reviewed) is where you can check on your lowest priority issues without receiving any alerts.
-- **Build an integration**: If you would like to route alert notifications to solutions with which Sentry doesn't yet have an out-of-the-box integration, you can use our [integration platform](/organization/integrations/integration-platform/). When you create an integration, it will be available in the alert actions menu. You might want use your own integration for:
-  - Sending alerts to integrations not supported natively
-  - Aggregating alerts from your different monitoring systems
-  - Writing custom rules in the webhook handler to route alerts more intelligently
+- **所有权规则**：使用[所有权规则和代码所有者](/product/issues/ownership-rules/)让 Sentry 自动将警报发送给正确的人员，并减轻配置负担。您可以在 **[项目] > 设置 > 所有权规则** 中配置所有权。在所有权规则的情况下，当没有匹配的所有者时，默认情况下警报会发送给所有项目成员。如果这太宽泛，并且您希望特定所有者作为后备，请使用类似 `*:<owner>` 的规则结束您的所有权规则。
+- **不同优先级的传递方法**：使用不同的传递方法来分隔不同优先级的警报。例如，您可能按以下方式从高到低优先级路由：
+  - 高优先级：页面（例如，PagerDuty 或 OpsGenie）
+  - 中优先级：通知（例如，Slack）
+  - 低优先级：电子邮件
+- **审查列表**：在**问题**的"待审查"选项卡中找到，[**审查列表**](/product/issues/states-triage/#mark-reviewed)是您可以在不接收任何警报的情况下检查最低优先级问题的地方。
+- **构建集成**：如果您希望将警报通知路由到 Sentry 尚未提供开箱即用集成的解决方案，您可以使用我们的[集成平台](/organization/integrations/integration-platform/)。创建集成时，它将出现在警报操作菜单中。您可能希望为自己的集成使用：
+  - 将警报发送到本机不支持的集成
+  - 聚合来自不同监控系统的警报
+  - 在 webhook 处理程序中编写自定义规则以更智能地路由警报
 
-## Alert Conditions Best Practices
+## 警报条件最佳实践
 
-Both frequency-based issue alerts and metric alerts can notify you in two ways:
+基于频率的问题警报和指标警报都可以通过两种方式通知您：
 
-- When they cross a [fixed threshold](#fixed-thresholds)
-- When they deviate from their historical behavior, based on a [dynamic threshold](#dynamic-thresholds-change-alerts), or what we call a _change alert_
+- 当它们超过[固定阈值](#fixed-thresholds)
+- 当它们偏离其历史行为时，基于[动态阈值](#dynamic-thresholds-change-alerts)，或我们所谓的_更改警报_
 
-### Fixed Thresholds
+### 固定阈值
 
-Fixed thresholds are most effective when you have a clear idea of what constitutes good or bad performance. Typically, they’re the type of threshold you’ll use most often when setting up alerts. Some examples of fixed thresholds are:
+当您清楚了解什么构成良好或不良性能时，固定阈值最有效。通常，它们是您在设置警报时最常使用的阈值类型。固定阈值的一些示例是：
 
-- When your app's crash rate exceeds 1%
-- When your app's transaction volume drops to zero
-- When any issue affects more than 100 enterprise users in a day
-- When the response time of a key transaction exceeds 500 ms
+- 当您的应用程序崩溃率超过 1%
+- 当您的应用程序事务量降至零
+- 当任何问题在一天内影响超过 100 个企业用户
+- 当关键事务的响应时间超过 500 毫秒
 
-### Dynamic Thresholds: Change Alerts
+### 动态阈值：更改警报
 
-Dynamic thresholds help you detect when a metric deviates significantly from its “normal” range. For example, the percentage of sessions affected by an issue in the last 24 hours is _20% greater than one week ago_ (dynamic), rather than the percentage of sessions affected is simply _greater than 20%_ (fixed).
+动态阈值帮助您检测指标何时显著偏离其"正常"范围。例如，过去 24 小时内受问题影响的会话百分比_比一周前增加 20%_（动态），而不是受问题影响的会话百分比简单地_大于 20%_（固定）。
 
-Dynamic thresholds are good for when it’s cumbersome to create fixed thresholds for every metric of interest, or when you don’t have an expected value for a metric, such as in the following scenarios:
+动态阈值适用于为每个感兴趣的指标创建固定阈值很麻烦，或者当您没有指标的预期值时，例如以下情况：
 
-- **Seasonal fluctuations**: Seasonal metrics, such as number of transactions (which fluctuates daily), are more accurately monitored by comparing them to the previous day or week, rather than a fixed value.
-- **Unpredictable growth**: Fixed-threshold alerts may require continuous manual adjustment as traffic patterns change, such as with a fast-growing app. Dynamic thresholds work regardless of changing traffic patterns.
+- **季节性波动**：季节性指标，例如事务数量（每日波动），通过与前一天或一周相比而不是固定值进行更准确监控。
+- **不可预测的增长**：固定阈值警报可能需要随着流量模式的变化进行持续的手动调整，例如快速增长的應用程序。动态阈值无论流量模式如何变化都能工作。
 
-You may want to **complement** (more common) rather than **replace** (less common) fixed thresholds with dynamic thresholds.
+您可能希望**补充**（更常见）而不是**替换**（不太常见）固定阈值与动态阈值。
 
-Learn more about [change alerts for issue alerts](/product/alerts/create-alerts/issue-alert-config/#change-alerts) and [change alerts for metric alerts](/product/alerts/create-alerts/metric-alert-config/#change-alerts-percent-change) in the full documentation.
+在完整文档中了解有关[问题警报的更改警报](/product/alerts/create-alerts/issue-alert-config/#change-alerts)和[指标警报的更改警报](/product/alerts/create-alerts/metric-alert-config/#change-alerts-percent-change)的更多信息。

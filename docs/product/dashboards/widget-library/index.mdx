@@ -1,99 +1,99 @@
 ---
-title: Widget Library
+title: 小部件库
 sidebar_order: 20
-description: "Learn about Sentry's library of prebuilt widgets that you can use in your custom dashboards."
+description: "了解 Sentry 的预构建小部件库，您可以在自定义仪表板中使用它们。"
 ---
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-The widget library contains a collection of prebuilt widgets you can add to your [custom dashboards](/product/dashboards/customize-dashboards/). You can access the widget library by clicking the "Add Widget" button and selecting "From Widget Library" on the dashboard.
+小部件库包含一系列预构建的小部件，您可以将其添加到[自定义仪表板](/product/dashboards/customize-dashboards/)中。您可以通过点击"添加小部件"按钮并在仪表板上选择"从小部件库"来访问小部件库。
 
-The library includes the following widgets:
+该库包括以下小部件：
 
-- **Duration Distribution**: A multiple data series chart visualizing the distribution of transaction duration across various percentiles (p50, p75, and p95)
-- **High Throughput Transactions**: The top five transactions with the largest number of events, represented in an area chart
-- **LCP by Country**: Table showing the p75 of page load times for each country
-- **Miserable Users**: The total number of unique users who have experienced slow transactions (transaction duration greater than 1200ms)
-- **Slow vs. Fast Transactions**: Bar chart comparing the percentage of transactions that are over 300ms (slow) and under 300ms (fast)
-- **Issues For Review**: A table of unresolved issues for review, ordered by the most recently seen issues
-- **Top Unhandled Error Types**: The most frequently encountered unhandled errors
-- **Users Affected by Errors**: A comparison of the total number of errors and the number of unique users affected by the errors
-- **Crash Rates for Recent Releases**: Percentage of crashed sessions for your recent releases
-- **Session Health**: The total number of abnormal, crashed, errored, and healthy sessions
+- **持续时间分布**：多数据系列图表，可视化事务持续时间在各种百分位数（p50、p75 和 p95）上的分布
+- **高吞吐量事务**：前五个具有最多事件的事务，以面积图表示
+- **按国家/地区的LCP**：显示每个国家/地区页面加载时间 p75 的表格
+- **痛苦用户**：经历过慢事务（事务持续时间大于 1200 毫秒）的唯一用户总数
+- **慢速与快速事务**：条形图比较超过 300 毫秒（慢速）和低于 300 毫秒（快速）的事务百分比
+- **待审查问题**：待审查未解决问题的表格，按最近看到的问题排序
+- **顶级未处理错误类型**：最常遇到的未处理错误
+- **受错误影响的用户**：错误总数与受错误影响的唯一用户数量的比较
+- **最近发布的崩溃率**：最近发布的会话崩溃百分比
+- **会话健康**：异常、崩溃、错误和健康会话的总数
 
-You can change the title, queries, fields, visualization types, sort order, and other fields of these prebuilt widgets to suit your use case by clicking the context menu on the widget and selecting "Edit Widget".
+您可以通过点击小部件上的上下文菜单并选择"编辑小部件"来更改这些预构建小部件的标题、查询、字段、可视化类型、排序顺序和其他字段，以适合您的用例。
 
-## Example Use Cases
+## 示例用例
 
-### Performance across release versions
+### 跨发布版本的性能
 
-To monitor how your app is performing on a certain release, you can modify the "Duration Distribution" widget by adding the release version to the search condition:
+要监控您的应用程序在某个发布版本上的表现，您可以通过将发布版本添加到搜索条件来修改"持续时间分布"小部件：
 
-- Search condition 1: `release.version:{version}`
+- 搜索条件 1：`release.version:{version}`
 
-To compare performance with another release version, you can add another query by clicking the "Add Query" button and querying for a different release version:
+要与另一个发布版本的性能进行比较，您可以点击"添加查询"按钮添加另一个查询，并查询不同的发布版本：
 
-- Search condition 2: `release.version:{another_version}`
+- 搜索条件 2：`release.version:{another_version}`
 
-You can also compare performance before and after a certain version with the following conditions:
+您还可以使用以下条件比较某个版本之前和之后的性能：
 
-- Search condition 1: `release.version:<{version}`
-- Search condition 2: `release.version:>={version}`
+- 搜索条件 1：`release.version:<{version}`
+- 搜索条件 2：`release.version:>={version}`
 
-### Response thresholds
+### 响应阈值
 
-The "Duration Distribution" widget shows the spread of transaction duration times. This visualization can be modified to show if transaction durations are within certain target thresholds and present them as "satisfactory", "tolerable", or "frustrating" transactions. To create this type of visualization, change the "Visualization Display" to "Area Chart". Area charts stack results and are more appropriate for results that are cumulative:
+"持续时间分布"小部件显示事务持续时间时间的分布。此可视化可以修改为显示事务持续时间是否在某些目标阈值内，并将它们呈现为"令人满意"、"可容忍"或"令人沮丧"的事务。要创建此类可视化，请将"可视化显示"更改为"面积图"。面积图堆叠结果，更适合累积结果：
 
-- Visualization Display: `Area Chart`
+- 可视化显示：`面积图`
 
-Set one of the y-axis values to `count()` and remove the other two axes:
+将其中一个 y 轴值设置为 `count()` 并移除其他两个轴：
 
-- Y-Axis: `count()`
+- Y 轴：`count()`
 
-To the first query, add the search condition for satisfactory transaction duration (this example uses 300ms as the satisfactory response threshold):
+对于第一个查询，添加令人满意事务持续时间的搜索条件（此示例使用 300 毫秒作为令人满意的响应阈值）：
 
-- Search condition 1: `transaction.duration:<300`
+- 搜索条件 1：`transaction.duration:<300`
 
-Add another query for the tolerable condition by clicking the "Add Query" button. In this example, we're using the [Apdex](/product/insights/overview/metrics/#apdex) definition where tolerable response times are between the satisfactory threshold and four times the satisfactory threshold:
+点击"添加查询"按钮添加另一个可容忍条件的查询。在此示例中，我们使用 [Apdex](/product/insights/overview/metrics/#apdex) 定义，其中可容忍响应时间在令人满意阈值和令人满意阈值的四倍之间：
 
-- Search condition 2: `transaction.duration:<1200 AND transaction.duration:>=300`
+- 搜索条件 2：`transaction.duration:<1200 AND transaction.duration:>=300`
 
-Finally, add a third query for for the frustrating transaction duration:
+最后，添加第三个令人沮丧事务持续时间的查询：
 
-- Search condition 3: `transaction.duration:>=1200`
+- 搜索条件 3：`transaction.duration:>=1200`
 
-The chart now shows cumulative counts at different response time thresholds.
+图表现在显示不同响应时间阈值的累积计数。
 
-![Response Thresholds Widget.](./img/widget-library-response-thresholds-widget.png)
+![响应阈值小部件。](./img/widget-library-response-thresholds-widget.png)
 
-### My top issues
+### 我的首要问题
 
-You can track the impact of issues assigned to you or your team by counting the error events associated with each unique issue. Modify the "Issues For Review" widget by updating the search condition to filter for issue assignment:
+您可以通过计算与每个唯一问题关联的错误事件来跟踪分配给您或您团队的问题的影响。通过更新搜索条件以过滤问题分配来修改"待审查问题"小部件：
 
-- Search condition: `is:unresolved is:for_review assigned_or_suggested:me`
+- 搜索条件：`is:unresolved is:for_review assigned_or_suggested:me`
 
-Update "Columns" to add `project` so you can see the associated project with each issue, and change the "Sort by" to `Events` so the widget displays issues with the most error events in descending order:
+更新"列"以添加 `project`，这样您可以看到每个问题关联的项目，并将"排序方式"更改为 `Events`，这样小部件按降序显示具有最多错误事件的问题：
 
-- Columns: `issue, assignee, events, title, project`
-- Sort by: `Events`
+- 列：`issue, assignee, events, title, project`
+- 排序方式：`Events`
 
-### Priority issues
+### 优先问题
 
-The [issues dataset](/product/dashboards/widget-builder/#issues) is unique in that you can add a free form [token](/concepts/search/#syntax) to your search condition that will filter by issue titles containing the token. For example, you can search `integrity` to filter by all issue titles containing `integrity`. Update the search condition with a token of your choice:
+[问题数据集](/product/dashboards/widget-builder/#issues)的独特之处在于，您可以在搜索条件中添加一个自由形式[标记](/concepts/search/#syntax)，该标记将按包含该标记的问题标题进行过滤。例如，您可以搜索 `integrity` 以按所有包含 `integrity` 的问题标题进行过滤。使用您选择的标记更新搜索条件：
 
-- Search condition: `is:unresolved is:for_review {token}`
+- 搜索条件：`is:unresolved is:for_review {token}`
 
-Update "Columns" to add `links` so you can see seen any external links related to the issue, such as GitHub or Jira issues. Update the "Sort by" to `Priority` so the widget displays issues that have been trending upward recently:
+更新"列"以添加 `links`，这样您可以看到与问题相关的任何外部链接，例如 GitHub 或 Jira 问题。将"排序方式"更新为 `Priority`，这样小部件显示最近呈上升趋势的问题：
 
-- Columns: `issue, assignee, events, title, links`
-- Sort by: `Priority`
+- 列：`issue, assignee, events, title, links`
+- 排序方式：`Priority`
 
-### Release health
+### 发布健康
 
-To monitor the health of your releases over time, you can modify the "Session Health" widget as follows:
+要随时间监控发布的健康状况，您可以按如下方式修改"会话健康"小部件：
 
-- Visualization Display: `Area Chart`
+- 可视化显示：`面积图`
 
-Add search filters to narrow the data down to a particular release:
+添加搜索过滤器以将数据缩小到特定发布：
 
-- Search condition 1: `release:{version}`
+- 搜索条件 1：`release:{version}`

@@ -1,94 +1,94 @@
 ---
-title: "Widgets"
+title: "小组件"
 sidebar_order: 10
-description: "Learn more about Sentry's Insights widgets such as Most Slow Frames, Most Time-Consuming Queries, and Slow HTTP Ops, and how they can be used to surface performance insights in your applications."
+description: "了解更多关于Sentry的洞察小组件，如最慢帧、最耗时查询和慢HTTP操作，以及如何使用它们在您的应用程序中显示性能洞察。"
 ---
 
-Insights widgets offer visualizations that you can change to best match your workflow. They provide performance-specific views that allow you to see and act on transaction data across your organization.
-Depending on which [Insight Domain](http://localhost:3000/product/insights/) you've selected, different curated performance widgets will be available.
+洞察小组件提供您可以更改以最适合您工作流的可视化。它们提供性能特定的视图，让您查看并处理整个组织的事务数据。
+根据您选择的[洞察域](http://localhost:3000/product/insights/)，将提供不同的精选性能小组件。
 
 <Alert>
 
-The value displayed in the top right of some widgets is the **overall value for the selected time period**, not the average of the data displayed in the chart. For datasets with low event volume, the overall value may be higher or lower than expected because metrics like [Apdex](/product/insights/overview/metrics/#apdex) and [User Misery](/product/insights/overview/metrics/#user-misery) are non-linear.
+某些小组件右上角显示的值是**所选时间段的总体值**，而不是图表中显示数据的平均值。对于事件量低的数据集，总体值可能高于或低于预期，因为像[Apdex](/product/insights/overview/metrics/#apdex)和[用户痛苦](/product/insights/overview/metrics/#user-misery)这样的指标是非线性的。
 
 </Alert>
 
-## Average TTIDs
+## 平均TTID
 
-Shows the average TTID duration for top screens for mobile projects. Click the screen name to view more information about the screen in the [Screen Loads](/product/insights/mobile/mobile-vitals/screen-loads/) page.
+显示移动项目顶级屏幕的平均TTID持续时间。点击屏幕名称以在[屏幕加载](/product/insights/mobile/mobile-vitals/screen-loads/)页面中查看有关屏幕的更多信息。
 
-This widget is available in the [Mobile Overview](/product/insights/mobile/).
+此小组件在[移动概览](/product/insights/mobile/)中可用。
 
-![Performance Widgets - Average TTIDs](./img/widgets_average_ttids.png)
+![性能小组件 - 平均TTID](./img/widgets_average_ttids.png)
 
-## Most Slow Frames
+## 最慢帧
 
-Shows transactions with the most slow frames for mobile projects. Learn more in [Mobile Vitals](/product/insights/mobile/mobile-vitals).
+显示移动项目具有最多慢帧的事务。在[移动性能指标](/product/insights/mobile/mobile-vitals)中了解更多。
 
-This widget is available in the [Mobile Overview](/product/insights/mobile/).
+此小组件在[移动概览](/product/insights/mobile/)中可用。
 
-![Performance Widgets - Most Slow Frames](./img/widgets_most_slow_frames.png)
+![性能小组件 - 最慢帧](./img/widgets_most_slow_frames.png)
 
-## Most Frozen Frames
+## 最冻结帧
 
-Shows transactions with the most frozen frames for mobile projects. Learn more in [Mobile Vitals](/product/insights/mobile/mobile-vitals).
+显示移动项目具有最多冻结帧的事务。在[移动性能指标](/product/insights/mobile/mobile-vitals)中了解更多。
 
-This widget is available in the [Mobile Overview](/product/insights/mobile) tab.
+此小组件在[移动概览](/product/insights/mobile)标签中可用。
 
-![Performance Widgets - Most Frozen Frames](./img/widgets_most_frozen_frames.png)
+![性能小组件 - 最冻结帧](./img/widgets_most_frozen_frames.png)
 
-## Most Time-Consuming Queries
+## 最耗时查询
 
-Shows database queries that take the most time in your application. These queries are usually either slow, very frequent, or both. Click on a query to open its [**Query Summary** page](/product/insights/queries#query-summary-page) or click "View All" to open the [**Queries** page](/product/insights/queries#queries-page).
+显示在您的应用程序中花费最多时间的数据库查询。这些查询通常要么很慢，要么非常频繁，或两者兼有。点击查询以打开其[**查询摘要**页面](/product/insights/queries#query-summary-page)或点击"查看全部"以打开[**查询**页面](/product/insights/queries#queries-page)。
 
-This widget is available in the [Backend Overview](/product/insights/backend/).
+此小组件在[后端概览](/product/insights/backend/)中可用。
 
-![Performance Widgets - Most Time Spent Queries](./img/widgets_most_time_spent_queries.png)
+![性能小组件 - 最耗时查询](./img/widgets_most_time_spent_queries.png)
 
-## Most Time-Consuming Assets
+## 最耗时资源
 
-Shows assets that take the most time in your application. These assets are usually either slow, very frequent, or both. Click on a asset to open its [**Asset Summary** page](/product/insights/frontend/assets#asset-summary-page) or click "View All" to open the [**Assets** page](/product/insights/frontend/assets#assets-page).
+显示在您的应用程序中花费最多时间的资源。这些资源通常要么很慢，要么非常频繁，或两者兼有。点击资源以打开其[**资源摘要**页面](/product/insights/frontend/assets#asset-summary-page)或点击"查看全部"以打开[**资源**页面](/product/insights/frontend/assets#assets-page)。
 
-This widget is available in the [Frontend Overview](/product/insights/frontend/).
+此小组件在[前端概览](/product/insights/frontend/)中可用。
 
-![Performance Widgets - Most Time Spent Assets](./img/widgets_most_time_spent_assets.png)
+![性能小组件 - 最耗时资源](./img/widgets_most_time_spent_assets.png)
 
-## Most Time-Consuming Domains
+## 最耗时域
 
-Shows domains that the application spends a lot of time waiting for, sorted by total time per domain. The application either makes a lot of calls to these domains, or these domains take a long time to respond to requests. Click on a domain to open its [**Domain Summary** page](/product/insights/requests#domain-summary-page) or click "View All" to open the [**Requests** page](/product/insights/requests#requests-page).
+显示应用程序花费大量时间等待的域，按每个域的总时间排序。应用程序要么对这些域进行大量调用，要么这些域需要很长时间来响应请求。点击域以打开其[**域摘要**页面](/product/insights/requests#domain-summary-page)或点击"查看全部"以打开[**请求**页面](/product/insights/requests#requests-page)。
 
-This widget is available in the [Backend Overview](/product/insights/backend/), [Frontend Overview](/product/insights/frontend/) and [Mobile Overview](/product/insights/mobile/) tabs.
+此小组件在[后端概览](/product/insights/backend/)、[前端概览](/product/insights/frontend/)和[移动概览](/product/insights/mobile/)标签中可用。
 
-![Performance Widgets - Most time-consuming domains](./img/widgets_most_time_consuming_domains.png)
+![性能小组件 - 最耗时域](./img/widgets_most_time_consuming_domains.png)
 
-## Best Page Opportunities
+## 最佳页面机会
 
-Shows web pages in your application that have the most [Opportunity](/product/insights/web-vitals/#opportunity) to improve. These pages usually have poor [Web Vital](/product/insights/web-vitals/) scores, high throughput, or both. Click on a page to open its [**Page Overview** page](/product/insights/web-vitals/#page-overview) or click "View All" to open the [**Web Vitals** page](/product/insights/web-vitals/#web-vitals-page).
+显示您的应用程序中具有最多[机会](/product/insights/web-vitals/#opportunity)改进的网页。这些页面通常具有较差的[Web Vital](/product/insights/web-vitals/)分数、高吞吐量，或两者兼有。点击页面以打开其[**页面概览**页面](/product/insights/web-vitals/#page-overview)或点击"查看全部"以打开[**Web Vitals**页面](/product/insights/web-vitals/#web-vitals-page)。
 
-This widget is available in the [Frontend Overview](/product/insights/frontend/).
+此小组件在[前端概览](/product/insights/frontend/)中可用。
 
-![Performance Widgets - Best Page Opportunities](./img/widgets_best_page_opportunities.png)
+![性能小组件 - 最佳页面机会](./img/widgets_best_page_opportunities.png)
 
-## Slow HTTP Ops
+## 慢HTTP操作
 
-Shows transactions with slow cumulative HTTP spans. Slow HTTP ops are not shown for all projects and transactions as the transactions must contain HTTP spans. Check out the SDK documentation for the project in question for more information.
+显示具有慢累积HTTP span的事务。慢HTTP操作不会为所有项目和事务显示，因为事务必须包含HTTP span。查看相关项目的SDK文档以获取更多信息。
 
-This widget is available in the [Frontend Overview](/product/insights/frontend/) and [Backend Overview](/product/insights/backend/) tabs.
+此小组件在[前端概览](/product/insights/frontend/)和[后端概览](/product/insights/backend/)标签中可用。
 
-![Performance Widgets - Slow HTTP Ops](./img/widgets_slow_http_ops.png)
+![性能小组件 - 慢HTTP操作](./img/widgets_slow_http_ops.png)
 
-## Slow DB Ops
+## 慢DB操作
 
-Shows transactions with slow cumulative DB spans. Slow DB ops are not shown for all projects and transactions as the transactions must contain DB spans. Check out the SDK documentation for the project in question for more information.
+显示具有慢累积DB span的事务。慢DB操作不会为所有项目和事务显示，因为事务必须包含DB span。查看相关项目的SDK文档以获取更多信息。
 
-This widget is available in the [Backend Overview](/product/insights/backend/).
+此小组件在[后端概览](/product/insights/backend/)中可用。
 
-![Performance Widgets - Slow HTTP Ops](./img/widgets_slow_db_ops.png)
+![性能小组件 - 慢HTTP操作](./img/widgets_slow_db_ops.png)
 
-## Slow Resource Ops
+## 慢资源操作
 
-Shows transactions with slow cumulative resource spans. These show frontend transactions with poor performing resources spans, and show cumulative time spent loading scripts, CSS, and so on.
+显示具有慢累积资源span的事务。这些显示前端事务中性能不佳的资源span，并显示加载脚本、CSS等的累积时间。
 
-This widget is available in the [Frontend Overview](/product/insights/frontend/).
+此小组件在[前端概览](/product/insights/frontend/)中可用。
 
-![Performance Widgets - Slow Resource Ops](./img/widgets_slow_resource_ops.png)
+![性能小组件 - 慢资源操作](./img/widgets_slow_resource_ops.png)

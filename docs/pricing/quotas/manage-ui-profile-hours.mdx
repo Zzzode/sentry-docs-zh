@@ -1,66 +1,65 @@
 ---
-title: Manage Your UI Profile Hours
-keywords: ["best practices"]
+title: 管理您的 UI 性能分析小时数
+keywords: ["最佳实践"]
 sidebar_order: 51
-description: Learn how to use Sentry's tools to manage the amount of UI Profile hours you pay for.
+description: 了解如何使用 Sentry 的工具来管理您需要付费的 UI 性能分析小时数。
 ---
 
-You can control when UI Profiling is active as well as use sampling to control the number of UI Profile hours you are billed for. See below to learn how.
+您可以控制 UI 性能分析何时处于活动状态，并使用采样来控制您被计费的 UI 性能分析小时数。请参见下文了解如何操作。
 
-## Before You Begin: Check Your Usage       
+## 开始之前：检查您的使用情况
 
-You can look at your UI Profile hours in aggregate in the "Usage Stats" tab of the **Stats** page to understand the breakdown of your incoming profiles and see which projects are consuming your quota. This may help you figure out where you need to further fine-tune your configuration.
+您可以在 **统计** 页面的"使用情况统计"选项卡中查看您的 UI 性能分析小时数的聚合情况，以了解传入性能分析的分解情况以及哪些项目正在消耗您的配额。这可能有助于您确定需要在何处进一步微调配置。
 
-## How Can I Sample Profiles?
+## 如何对性能分析进行采样？
 
-UI Profiling only supports **client-side** sampling. To control client-side sampling behavior, you can set the `profile_session_sample_rate` configuration parameter to a value between 0.0-1.0 to control the number of profiling sessions that are sampled (the default is 0.0.)
+UI 性能分析仅支持**客户端**采样。要控制客户端采样行为，您可以将 `profile_session_sample_rate` 配置参数设置为 0.0-1.0 之间的值，以控制采样的性能分析会话数量（默认值为 0.0）。
 
-For UI Profiling, the initial user session starts when the SDK is initialized, and sampling is first evaluated at this point. The user session will either end on termination of the application **or** depending on the platform, there can be other events that end a user session (like backgrounding a mobile application). The sampling rate will be re-evaluated on each new user session.
+对于 UI 性能分析，初始用户会话在 SDK 初始化时开始，并在此点首次评估采样。用户会话将在应用程序终止时**或**根据平台的不同，可能有其他事件结束用户会话（如将移动应用程序置于后台）。每个新用户会话都会重新评估采样率。
 
-For example: In the browser, the user session begins when the tab is opened and the user session ends when the tab is closed. Sampling will be evaluated once at the start of each session, so if `profile_session_sample_rate` is set to 0.5, then 50% of the time your application is opened in a browser tab, profiling will be active for that tab's lifetime. On mobile, the user session begins when the application is started or foregrounded, and the user session ends when the application is terminated or backgrounded. The sampling will be evaluated once at the start of each session, so if `profile_session_sample_rate` is set to 0.5%, then 50% of the time a user opens your mobile app, profiling will be active until the user backgrounds or quits the app.
+例如：在浏览器中，用户会话在标签页打开时开始，用户会话在标签页关闭时结束。采样将在每个会话开始时评估一次，因此如果 `profile_session_sample_rate` 设置为 0.5，那么 50% 的时间您的应用程序在浏览器标签页中打开时，性能分析将在该标签页的生命周期内处于活动状态。在移动设备上，用户会话在应用程序启动或置于前台时开始，用户会话在应用程序终止或置于后台时结束。采样将在每个会话开始时评估一次，因此如果 `profile_session_sample_rate` 设置为 0.5%，那么 50% 的时间用户打开您的移动应用程序时，性能分析将处于活动状态，直到用户将应用程序置于后台或退出。
 
-## How Can I Control When Profiling Is Active?
+## 如何控制性能分析何时处于活动状态？
 
-UI Profiling provides two "lifecycle" modes that can be used to control when the profiler is running. These lifecycle modes are controlled by setting the `profile_lifecycle` SDK configuration option to one of two values:
+UI 性能分析提供了两种"生命周期"模式，可用于控制性能分析器何时运行。这些生命周期模式通过将 `profile_lifecycle` SDK 配置选项设置为以下两个值之一来控制：
 
-- `manual` (default) - This provides fully manual control over when the profile is running. You can use the `start_profile_session` and `stop_profile_session` functions to precisely control this. Note that a profile session has to be sampled based on the value of `profile_session_sample_rate` for `start_profiler` to have any effect. Calling `start_profile_session` will have no effect on un-sampled sessions.
+- `manual`（默认）- 这提供了对性能分析何时运行的完全手动控制。您可以使用 `start_profile_session` 和 `stop_profile_session` 函数来精确控制这一点。请注意，性能分析会话必须根据 `profile_session_sample_rate` 的值进行采样，`start_profiler` 才能生效。在未采样的会话上调用 `start_profile_session` 将不起作用。
 
-- `trace` - This provides a behavior similar to the previous transaction-based profiling product, where the profiler will automatically be started and stopped based on the trace lifecycle. In this mode, the profiler will automatically be started when there is at least one root span/transaction active, and automatically stopped when there are no root spans/transactions active. This lifecycle mode only works if both of the following conditions are met: 
+- `trace` - 这提供了类似于以前基于事务的性能分析产品的行为，其中性能分析器将根据跟踪生命周期自动启动和停止。在此模式下，当至少有一个根跨度/事务处于活动状态时，性能分析器将自动启动，当没有根跨度/事务处于活动状态时，性能分析器将自动停止。此生命周期模式仅在满足以下两个条件时才有效：
 
-    - The profile session is sampled (via `profile_session_sample_rate`)
-    - The trace is sampled (via `traces_sample_rate` or `traces_sampler`)
+    - 性能分析会话已采样（通过 `profile_session_sample_rate`）
+    - 跟踪已采样（通过 `traces_sample_rate` 或 `traces_sampler`）
 
- ## How Can I Estimate Usage For UI Profiling?
+## 如何估算 UI 性能分析的使用情况？
 
-### On Mobile
+### 在移动设备上
 
-To estimate monthly usage for UI profiling when used on mobile, the calculation is **average user session length in hours * the number of sampled user sessions per month.** For example, if the average user session length is 6 minutes and there are 10,000 sampled user sessions per month, then the total usage os **0.1 hours * 10,000 sessions = 1,000 hours per month.** You can reduce the number of profiling hours by profiling a smaller number of user sessions (reducing `profile_session_sample_rate`), or only profiling devices or configurations tht are particularly performance sensitive (like low-end mobile devices).
+要估算在移动设备上使用 UI 性能分析时的月度使用情况，计算方法是**平均用户会话长度（小时）* 每月采样的用户会话数量**。例如，如果平均用户会话长度为 6 分钟，每月有 10,000 个采样的用户会话，则总使用量为**0.1 小时 * 10,000 个会话 = 每月 1,000 小时**。您可以通过对较少数量的用户会话进行性能分析（减少 `profile_session_sample_rate`），或仅对性能特别敏感的设备或配置（如低端移动设备）进行性能分析来减少性能分析小时数。
 
-### In The Browser
+### 在浏览器中
 
-To estimate monthly usage for UI Profiling in the browser, the calculation is **average user session length in hours * the number of user sessions per month.** For example, if the average user session length is 6 minutes and there are 10,000 sampled user sessions per month, then the total usage is **0.1 hours * 10,000 sessions = 1,000 hours per month**. You can reduce the number of profiling hours by profiling a smaller number of user sessions (reducing `profile_session_sample_rate`).                                                                         
+要估算在浏览器中使用 UI 性能分析时的月度使用情况，计算方法是**平均用户会话长度（小时）* 每月用户会话数量**。例如，如果平均用户会话长度为 6 分钟，每月有 10,000 个采样的用户会话，则总使用量为**0.1 小时 * 10,000 个会话 = 每月 1,000 小时**。您可以通过对较少数量的用户会话进行性能分析（减少 `profile_session_sample_rate`）来减少性能分析小时数。
 
-## How Do You Purchase UI Profiling?
+## 如何购买 UI 性能分析？
 
- Set your Pay-As-You-Go (PAYG) budget, which can be used to allocate spend towards UI Profiling and other Sentry products. See the [pricing docs](/pricing/) for more info.
+设置您的按量付费（PAYG）预算，该预算可用于为 UI 性能分析和其他 Sentry 产品分配支出。有关更多信息，请参阅[定价文档](/pricing/)。
 
- ## What If I'm Already Using Transaction-Based Profiling?
+## 如果我已在使用基于事务的性能分析怎么办？
 
- UI Profiling and the previous transaction-based profiling are **mutually exclusive** within the same service, meaning you **cannot** use both at the same time. If you are setting `profiles_sample_rate` or `profiles_sampler` in your Sentry SDK configuration options, you are using transaction-based profiling. If you are setting `profile_session_sample_rate`, you are using UI Profiling.
+UI 性能分析和以前的基于事务的性能分析在同一服务中是**互斥的**，这意味着您**不能**同时使用两者。如果您在 Sentry SDK 配置选项中设置了 `profiles_sample_rate` 或 `profiles_sampler`，则您使用的是基于事务的性能分析。如果您设置了 `profile_session_sample_rate`，则您使用的是 UI 性能分析。
 
-  ### What If I Try To Activate Both At Once?
+### 如果我尝试同时激活两者会怎样？
 
- If you set `profile_session_sample_rate` while either `profiles_sample_rate` or `profiles_sampler` are configured, `profile_session_sample_rate` will have no effect and transaction-based profiling will take precedence.
+如果您在配置了 `profiles_sample_rate` 或 `profiles_sampler` 的情况下设置 `profile_session_sample_rate`，`profile_session_sample_rate` 将不起作用，基于事务的性能分析将优先。
 
-  ### Can I Use Both Transaction-Based Profiling and UI Profiling On Separate Services?
+### 我可以在单独的服务上同时使用基于事务的性能分析和 UI 性能分析吗？
 
- Across **separate** applications or services you **can** choose to use a mix of both transaction-based profiling APIs and the new UI Profiling APIs. We recommend that all users migrate to UI Profiling APIs, since transaction-based APIs will eventually be deprecated and removed in a major SDK release. We will continue to support ingesting transaction-based profiles sent by older SDKs for backward compatibility.
+在**单独**的应用程序或服务中，您**可以**选择混合使用基于事务的性能分析 API 和新的 UI 性能分析 API。我们建议所有用户迁移到 UI 性能分析 API，因为基于事务的 API 最终将被弃用，并在主要 SDK 版本中删除。我们将继续支持摄取由旧 SDK 发送的基于事务的性能分析，以保持向后兼容性。
 
- ## How Do I Migrate From Transaction-Based Profiling to UI Profiling?
+## 如何从基于事务的性能分析迁移到 UI 性能分析？
 
-- Replace usage of `profiles_sample_rate` and `profiles_sampler` with `profile_session_sample_rate`
-- If you're using the `manual` profile lifecycle mode, add calls to `start_profile_session` and `stop_profile_session`
-- If you're using the `trace` profile lifecycle mode, ensure that `traces_sample_rate` or `traces_sampler` are configured appropriately in addition to `profile_session_sample_rate`
+- 用 `profile_session_sample_rate` 替换 `profiles_sample_rate` 和 `profiles_sampler` 的使用
+- 如果您使用的是 `manual` 性能分析生命周期模式，请添加对 `start_profile_session` 和 `stop_profile_session` 的调用
+- 如果您使用的是 `trace` 性能分析生命周期模式，请确保除了 `profile_session_sample_rate` 之外，还适当配置了 `traces_sample_rate` 或 `traces_sampler`
 
-See the detailed [migration guide](/product/explore/profiling/continuous-ui-profiling-migration-guide/) for more information.
-
+有关更多信息，请参阅详细的[迁移指南](/product/explore/profiling/continuous-ui-profiling-migration-guide/)。

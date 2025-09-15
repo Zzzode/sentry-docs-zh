@@ -1,35 +1,35 @@
 ---
 title: HTTP
 sidebar_order: 100
-description: "Follow this guide to set up and manage monitors using the Sentry API."
+description: "按照本指南使用 Sentry API 设置和管理监控器。"
 ---
 
-Sentry Crons allows you to monitor the uptime and performance of any scheduled, recurring job. Once implemented, it'll allow you to get alerts and metrics to help you solve errors, detect timeouts, and prevent disruptions to your service.
+Sentry Crons 允许您监控任何计划、重复作业的正常运行时间和性能。实施后，它将允许您获取警报和指标，帮助您解决错误、检测超时并防止服务中断。
 
-## Requirements
+## 要求
 
-To begin monitoring your recurring, scheduled job:
+要开始监控您的重复、计划作业：
 
-1. [Create a new monitor](https://sentry.io/issues/alerts/new/crons/) in Sentry.
-2. Configure check-ins or a heartbeat for your job.
+1. 在 Sentry 中[创建新的监控器](https://sentry.io/issues/alerts/new/crons/)。
+2. 为您的作业配置检查点或心跳。
 
-Optionally, you can skip the first step and [create or update (upsert) a monitor through a check-in](#creating-or-updating-a-monitor-through-a-check-in-optional). See more below.
+您可以选择跳过第一步，通过检查点[创建或更新（upsert）监控器](#creating-or-updating-a-monitor-through-a-check-in-optional)。请参见下文。
 
-## Check-Ins (Recommended)
+## 检查点（推荐）
 
-Check-in monitoring allows you to track a job's progress by completing two check-ins: one at the start of your job and another at the end of your job. This two-step process allows Sentry to notify you if your job didn't start when expected (missed) or if it exceeded its maximum runtime (failed).
+检查点监控允许您通过完成两个检查点来跟踪作业的进度：一个在作业开始时，另一个在作业结束时。这个两步过程允许 Sentry 在您的作业未按预期启动（错过）或超过其最大运行时间（失败）时通知您。
 
 
 ```bash {tabTitle: cURL}
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
-# 🟡 Notify Sentry your job is running:
+# 🟡 通知 Sentry 您的作业正在运行：
 curl "${SENTRY_CRONS}?status=in_progress"
 
-# Execute your scheduled task here...
+# 在此处执行您的计划任务...
 
-# 🟢 Notify Sentry your job has completed successfully:
+# 🟢 通知 Sentry 您的作业已成功完成：
 curl "${SENTRY_CRONS}?status=ok"
 ```
 
@@ -41,11 +41,11 @@ GET /api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/?status=ok HTTP/1
 Host: ___ORG_INGEST_DOMAIN___
 ```
 
-If your job execution fails:
+如果您的作业执行失败：
 
 
 ```bash {tabTitle: cURL}
-# 🔴 Notify Sentry your job has failed:
+# 🔴 通知 Sentry 您的作业已失败：
 curl "${SENTRY_CRONS}?status=error"
 ```
 
@@ -56,23 +56,23 @@ Host: ___ORG_INGEST_DOMAIN___
 
 <Alert>
 
-If you expect your scheduled jobs to overlap, read about [Overlapping Jobs](#overlapping-jobs-optional) below.
+如果您期望您的计划作业重叠，请阅读下面的[重叠作业](#overlapping-jobs-optional)。
 
 </Alert>
 
-### Specifying monitor environments (Optional)
+### 指定监控器环境（可选）
 
-When sending check-ins to your monitor you may specify the `environment` of the
-check-in. This allows you to monitor a single schedule across multiple
-environments.
+向监控器发送检查点时，您可以指定检查点的
+`environment`。这允许您跨多个
+环境监控单个计划。
 
-If you don't specify an environment with your check-ins the default is `production`.
+如果您没有为检查点指定环境，则默认为 `production`。
 
 <Alert>
 
-Monitor environments are still early in development. Currently, after a check-in
-occurs for a specific environment, you must continue sending check-ins on
-schedule or delete the monitor environment; otherwise, it will be marked as missed.
+监控器环境仍在开发中。目前，在为特定环境
+发生检查点后，您必须继续按计划
+发送检查点或删除监控器环境；否则，它将被标记为错过。
 
 </Alert>
 
@@ -81,25 +81,25 @@ schedule or delete the monitor environment; otherwise, it will be marked as miss
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
-# 🟡 Notify Sentry your job is running in the dev environment:
+# 🟡 通知 Sentry 您的作业正在开发环境中运行：
 curl "${SENTRY_CRONS}?environment=dev&status=in_progress"
 
-# Execute your scheduled task here...
+# 在此处执行您的计划任务...
 
-# 🟢 Notify Sentry your dev environment job has completed successfully:
+# 🟢 通知 Sentry 您的开发环境作业已成功完成：
 curl "${SENTRY_CRONS}?environment=dev&status=ok"
 ```
 
-### Creating or Updating a Monitor Through a Check-In (Optional)
+### 通过检查点创建或更新监控器（可选）
 
-Sentry enables the automatic creation or update of a monitor (upsert) through the check-in payload. This can be useful if you have many scheduled tasks or need to create them dynamically.
+Sentry 允许通过检查点有效负载自动创建或更新监控器（upsert）。如果您有许多计划任务或需要动态创建它们，这可能很有用。
 
 
 ```bash {tabTitle: cURL}
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
-# 🟡 Notify Sentry your job is running:
+# 🟡 通知 Sentry 您的作业正在运行：
 curl -X POST "${SENTRY_CRONS}" \
     --header 'Content-Type: application/json' \
     --data-raw '{"monitor_config": {"schedule": {"type": "crontab", "value": "0 * * * *"}}, "status": "in_progress"}'
@@ -123,64 +123,64 @@ Content-Type: application/json
 }
 ```
 
-Monitor `monitor_config` parameters:
+监控器 `monitor_config` 参数：
 
-`schedule_type`:
+`schedule_type`：
 
-The schedule representation for your monitor, either `crontab` or `interval`.
+监控器的计划表示，可以是 `crontab` 或 `interval`。
 
-`schedule`:
+`schedule`：
 
-The job's schedule :
+作业的计划：
 
-This is an object specifying a `schedule_type` of either `crontab` or `interval`. The structure will vary depending on the type:
+这是一个指定 `schedule_type` 为 `crontab` 或 `interval` 的对象。结构将根据类型而变化：
 
 ```json
 {"type": "crontab", "value": "0 * * * *"}
 {"type": "interval", "value": "2", "unit": "hour"}
 ```
 
-`checkin_margin`:
+`checkin_margin`：
 
-The amount of time (in minutes) Sentry should wait for your check-in before it's considered missed ("grace period"). Optional.
+Sentry 应等待您的检查点的时间量（以分钟为单位），然后才被视为错过（"宽限期"）。可选。
 
 <Alert>
 
-We recommend that your check-in margin be less than or equal to your interval.
+我们建议您将检查点边距设置为小于或等于您的间隔。
 
 </Alert>
 
-`max_runtime`:
+`max_runtime`：
 
-The amount of time (in minutes) your job is allowed to run before it's considered failed. Optional.
+您的作业被允许运行的时间量（以分钟为单位），然后才被视为失败。可选。
 
-`failure_issue_threshold`:
+`failure_issue_threshold`：
 
-: The number of consecutive failed check-ins it takes before an issue is created. Optional.
+：连续失败的检查点导致创建问题之前所需的次数。可选。
 
-`recovery_threshold`:
+`recovery_threshold`：
 
-: The number of consecutive OK check-ins it takes before an issue is resolved. Optional.
+：连续 OK 检查点导致解决问题之前所需的次数。可选。
 
 `timezone`
 
-The `tz` where your job is running. This is usually your server's timezone, (such as `America/Los_Angeles`). See [list of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Optional.
+您的作业运行的 `tz` 位置。这通常是您服务器的时区，（例如 `America/Los_Angeles`）。请参见[tz 数据库时区列表](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)。可选。
 
 <Alert level="warning">
 
-It's important to provide a timezone for non-repeating crontab schedules, such as `0 17 * * *` (every day at 5pm).
+为非重复的 crontab 计划提供时区很重要，例如 `0 17 * * *`（每天下午 5 点）。
 
 </Alert>
 
-### Overlapping Jobs (Optional)
+### 重叠作业（可选）
 
-A job execution that begins before the previous job execution has been completed is called an overlapping job. This happens if you have a job with a runtime duration longer than your job's interval schedule.
+在前一个作业执行完成之前开始的作业执行称为重叠作业。如果您的作业运行时间超过作业的计划间隔，就会发生这种情况。
 
-A simple example is if you have a job that runs every minute (1), but takes five (5) minutes to complete each execution.
+一个简单的例子是，如果您有一个每分钟运行一次（1）的作业，但每次执行需要五分钟（5）。
 
-If this happens, you have to provide a stable check-in ID for your execution with each request to prevent unintended consequences.
+如果发生这种情况，您必须为每次请求提供稳定的检查点 ID，以防止意外后果。
 
-Usage example:
+使用示例：
 
 
 ```bash {tabTitle: cURL}
@@ -189,25 +189,25 @@ CHECK_IN_ID="$(uuidgen)"
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
-# 🟡 Notify Sentry your job is running with a check-in ID:
+# 🟡 使用检查点 ID 通知 Sentry 您的作业正在运行：
 curl "${SENTRY_CRONS}?check_in_id=${CHECK_IN_ID}&status=in_progress"
 
-# Execute your scheduled task here...
+# 在此处执行您的计划任务...
 
-# 🟢 Notify Sentry your job has completed successfully with a check-in ID:
+# 🟢 使用检查点 ID 通知 Sentry 您的作业已成功完成：
 curl "${SENTRY_CRONS}?check_in_id=${CHECK_IN_ID}&status=ok"
 ```
 
-## Heartbeat
+## 心跳
 
-Heartbeat monitoring notifies Sentry of a job's status through one check-in. This setup will only notify you if your job didn't start when expected (missed). If you need to track a job to see if it exceeded its maximum runtime (failed), use check-ins instead.
+心跳监控通过一个检查点通知 Sentry 作业的状态。此设置仅在您的作业未按预期启动（错过）时通知您。如果您需要跟踪作业以查看它是否超过其最大运行时间（失败），请改用检查点。
 
 
 ```bash {tabTitle: cURL}
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
-# 🟢 Notify Sentry your job has completed successfully:
+# 🟢 通知 Sentry 您的作业已成功完成：
 curl "${SENTRY_CRONS}?status=ok"
 ```
 
@@ -216,11 +216,11 @@ GET /api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/?status=ok HTTP/1
 Host: ___ORG_INGEST_DOMAIN___
 ```
 
-If your job execution fails:
+如果您的作业执行失败：
 
 
 ```bash {tabTitle: cURL}
-# 🔴 Notify Sentry your job has failed:
+# 🔴 通知 Sentry 您的作业已失败：
 curl "${SENTRY_CRONS}?status=error"
 ```
 
@@ -229,20 +229,20 @@ GET /api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/?status=error HTT
 Host: ___ORG_INGEST_DOMAIN___
 ```
 
-## Alerts
+## 警报
 
-When your recurring job fails to check in (missed), runs beyond its configured maximum runtime (failed), or manually reports a failure, Sentry will create an error event with a tag to your monitor.
+当您的重复作业未能检查点（错过）、运行超出其配置的最大运行时间（失败）或手动报告失败时，Sentry 将创建一个带有指向您的监控器标签的错误事件。
 
-To receive alerts about these events:
+要接收有关这些事件的警报：
 
-1. Navigate to **Alerts** in the sidebar.
-2. Create a new alert and select "Issues" under "Errors" as the alert type.
-3. Configure your alert and define a filter match to use: `The event's tags match {key} {match} {value}`.
+1. 在侧边栏中导航到**警报**。
+2. 创建新警报并在"错误"下选择"问题"作为警报类型。
+3. 配置您的警报并定义要使用的过滤器匹配：`事件的标签匹配 {键} {匹配} {值}`。
 
-Example: `The event's tags match monitor.slug equals my-monitor-slug-here`
+示例：`事件的标签匹配 monitor.slug 等于 my-monitor-slug-here`
 
 <Include name="common-imgs/crons-alerts-example" />
 
-Learn more in [Issue Alert Configuration](/product/alerts/create-alerts/issue-alert-config/).
+在[问题警报配置](/product/alerts/create-alerts/issue-alert-config/)中了解更多信息。
 
 <Include name="crons-rate-limits" />

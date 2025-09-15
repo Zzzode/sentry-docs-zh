@@ -1,50 +1,50 @@
 ---
-title: Escalating Issues Algorithm
+title: 升级问题算法
 sidebar_order: 40
-description: "Learn how the escalating issues algorithm works."
+description: "了解升级问题算法如何工作。"
 ---
 
 <Include name="merge-escalating-note.mdx" />
 
-By default, archived issues will transition to unresolved when the event count escalates. Sentry defines an issue as `Escalating` when the number of events is significantly higher than the previous week.
+默认情况下，已归档的问题将在事件计数升级时转换为未解决。当事件数量显著高于前一周时，Sentry将问题定义为`升级中`。
 
-The escalating issues algorithm uses historical data from the previous week to calculate thresholds for the next week on a per-issue basis. If an archived issue exceeds its predetermined threshold, it gets tagged as `Escalating`, unless it was "[Archived Forever](/product/issues/states-triage/#archive)". An escalating issue is automatically surfaced in the "Unresolved" and "Escalating" tabs.
+升级问题算法使用前一周的历史数据来计算下一周每个问题的阈值。如果已归档问题超过其预定阈值，它将被标记为`升级中`，除非它是"[永久归档](/product/issues/states-triage/#archive)"。升级中的问题会自动显示在"未解决"和"升级中"选项卡中。
 
-## Escalating Limit Calculation
+## 升级限制计算
 
-### Escalating Limit Calculation: Issue Age >= 7 Days
+### 升级限制计算：问题年龄 >= 7天
 
-If the issue is over 7 days old, the escalating limit is calculated on a daily basis as the max of either a baseline spike limit or a bursty limit:
+如果问题超过7天，升级限制按日计算，作为基线峰值限制或突发限制的最大值：
 
-limit<sub>escalating</sub> = max(limit<sub>spike</sub> , limit<sub>bursty</sub>)
+limit<sub>升级</sub> = max(limit<sub>峰值</sub> , limit<sub>突发</sub>)
 
-In most cases, the spike limit is applied to issues with a relatively stable event volume, while the bursty limit is applied to issues with regular bursts in volume (such as cron or Airflow jobs and task runners).
+在大多数情况下，峰值限制应用于事件量相对稳定的问题，而突发限制应用于事件量定期突发的问题（如cron或Airflow作业和任务运行器）。
 
-#### Spike Limit Calculation
+#### 峰值限制计算
 
-The spike limit calculation establishes a baseline for what’s considered a significant increase in volume for an issue. It takes the average hourly volume (weighted by day-of-week) and variance over the previous week to calculate the limit:
+峰值限制计算建立了被认为问题量显著增加的基线。它采用前一周的平均每小时量（按星期几加权）和方差来计算限制：
 
-limit<sub>spike</sub> = avg<sub>weighted</sub> + (min(max((avg + (5 \* std))/avg, 5),8) \* avg)
+limit<sub>峰值</sub> = avg<sub>加权</sub> + (min(max((avg + (5 * std))/avg, 5),8) * avg)
 
-**Example**
+**示例**
 
-![Spike limit example](./img/spike_limit.png)
+![峰值限制示例](./img/spike_limit.png)
 
-The chart above shows the event volumes for an actual Sentry issue that was escalating. The orange line shows the volume from the past week, which is then used to generate the spike threshold for the next week, represented by the green line. The blue line shows the next week’s volume, which crosses the threshold around hour 148 (day 7). At this point, the issue is flagged as escalating.
+上图显示了实际Sentry升级问题的量。橙色线显示过去一周的量，然后用于生成下一周的峰值阈值，由绿色线表示。蓝色线显示下一周的量，在大约第148小时（第7天）越过阈值。此时，问题被标记为升级中。
 
-#### Bursty Limit Calculation
+#### 突发限制计算
 
-Some issues, such as cron jobs, purposefully have a high volume of events in a short period of time. If we used the spike limit calculation, it could incorrectly flag these types of issues as escalating. To account for this, the algorithm uses a bursty limit calculation, which is based on the maximum hourly volume and the coefficient of variation (ratio of standard deviation over the average) for the previous week:
+某些问题，如cron作业，故意在短时间内有大量事件。如果我们使用峰值限制计算，可能会错误地将这些类型的问题标记为升级。为了解决这个问题，算法使用突发限制计算，它基于前一周的最大每小时量和变异系数（标准差与平均值的比率）：
 
-limit<sub>bursty</sub> = max<sub>timeseries</sub> \* min(max(2, 5e<sup>-0.65cv</sup>), 5)
+limit<sub>突发</sub> = max<sub>时间序列</sub> * min(max(2, 5e<sup>-0.65cv</sup>), 5)
 
-**Example**
-![Bursty limit example](./img/bursty_limit.png)
+**示例**
+![突发限制示例](./img/bursty_limit.png)
 
-This chart shows an example of a bursty Sentry issue. The spike limit, represented by the orange line, would have incorrectly flagged the issue as escalating. The algorithm accounts for this behavior with the new bursty limit, represented by the green line.
+此图表显示了一个突发Sentry问题的示例。由橙色线表示的峰值限制会错误地将问题标记为升级。算法通过新的突发限制（由绿色线表示）解决了这种行为。
 
-### Escalating Limit Calculation: Issue Age < 7 Days
+### 升级限制计算：问题年龄 < 7天
 
-If the issue is less than 7 days old and does not have historical data from the previous week, then the spike limit is calculated by taking the maximum hourly volume and multiplying it by 10:
+如果问题少于7天且没有前一周的历史数据，则峰值限制通过取最大每小时量并乘以10来计算：
 
-limit<sub>escalating</sub> = max<sub>timeseries</sub> \* 10
+limit<sub>升级</sub> = max<sub>时间序列</sub> * 10

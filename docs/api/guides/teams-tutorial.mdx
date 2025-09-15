@@ -1,55 +1,55 @@
 ---
-title: "Tutorial: Create and List Teams with the Sentry API"
+title: "教程：使用 Sentry API 创建和列出团队"
 sidebar_order: 7
 ---
 
-This guide walks you through the basics of using Sentry's API to list the teams in an organization and create a new team.
+本指南将指导您使用 Sentry 的 API 列出组织中的团队并创建新团队的基础知识。
 
-APIs used in this tutorial:
+本教程中使用的 API：
 
-- [List an Organization's Teams](/api/teams/list-an-organizations-teams/)
-- [Create a New Team](/api/teams/create-a-new-team/)
+- [列出组织的团队](/api/teams/list-an-organizations-teams/)
+- [创建新团队](/api/teams/create-a-new-team/)
 
-## Prerequisites
+## 先决条件
 
-- A Sentry authentication token with team:write scopes or higher and project:read scopes or higher.
+- 具有 team:write 作用域或更高作用域以及 project:read 作用域或更高作用域的 Sentry 认证令牌。
 
-  > If you don't have an authentication token, follow the [Create a Sentry Authentication Token](/api/guides/create-auth-token) tutorial to create an organization token with the following permissions, or higher:
+  > 如果您没有认证令牌，请按照[创建 Sentry 认证令牌](/api/guides/create-auth-token)教程创建具有以下内容或更高内容的组织令牌：
   >
-  > - Organization: Read
-  > - Team: Write
+  > - 组织：读取
+  > - 团队：写入
 
-We recommend using a free [Sentry developer account](https://sentry.io/pricing/) for this tutorial.
+我们建议为此教程使用免费的 [Sentry 开发者帐户](https://sentry.io/pricing/)。
 
-## List an Organization's Teams
+## 列出组织的团队
 
-First, you will use the [List an Organization's Teams](/api/teams/list-an-organizations-teams/) API to list all the teams in your organization.
+首先，您将使用[列出组织的团队](/api/teams/list-an-organizations-teams/) API 列出组织中的所有团队。
 
-### Find your organization ID
+### 查找您的组织 ID
 
-The list teams API requires you to pass in the an organization id to list teams for.
+列出团队 API 要求您传入组织 ID 以列出团队。
 
-You can find your organization ID in the browser URL of your Sentry instance. For example, https://test-org.sentry.io/.
+您可以在 Sentry 实例的浏览器 URL 中找到您的组织 ID。例如，https://test-org.sentry.io/。
 
-### Make the cURL call
+### 进行 cURL 调用
 
-1. Open your terminal.
+1. 打开您的终端。
 
-1. Save your auth token and organization ID as environment variables for ease of use. Paste the following commands into your terminal, replacing `<organization_id>` with your organization ID and `<auth_token>` with the auth token you copied previously:
+1. 将您的认证令牌和组织 ID 保存为环境变量以便于使用。将以下命令粘贴到您的终端中，将 `<organization_id>` 替换为您的组织 ID，将 `<auth_token>` 替换为您之前复制的认证令牌：
 
    ```bash
    export SENTRY_ORG_ID=<organization_id>
    export SENTRY_AUTH_TOKEN=<auth_token>
    ```
 
-1. Paste the following cURL command into your terminal:
+1. 将以下 cURL 命令粘贴到您的终端中：
 
    ```bash
    curl "https://sentry.io/api/0/organizations/$SENTRY_ORG_ID/teams/?detailed=0" \
        -H 'Authorization: Bearer $SENTRY_AUTH_TOKEN'
    ```
 
-1. Here's an example of what the output of the command should be, for an organization that has a team called "test-team":
+1. 以下是命令输出的示例，对于具有名为"test-team"的团队的组织：
 
    ```json
    [
@@ -85,18 +85,18 @@ You can find your organization ID in the browser URL of your Sentry instance. Fo
    ]
    ```
 
-   The output gives you details about the teams within the specified organization.
+   输出为您提供有关指定组织内团队的详细信息。
 
-   If your organization has enough teams, the API will return paginated results. See Sentry's docs on [Pagination](/api/pagination/) to learn how to handle paginated results.
+   如果您的组织有足够的团队，API 将返回分页结果。请参阅 Sentry 的[分页](/api/pagination/)文档，了解如何处理分页结果。
 
-1. [Optional] To list information about the projects associated with each team you can set the `detailed` query parameter to `1`:
+1. [可选] 要列出与每个团队关联的项目的详细信息，您可以将 `detailed` 查询参数设置为 `1`：
 
    ```bash
    curl "https://sentry.io/api/0/organizations/$SENTRY_ORG_ID/teams/?detailed=1" \
        -H 'Authorization: Bearer $SENTRY_AUTH_TOKEN'
    ```
 
-   Here's an example of what that output might look like if "test-team" has one associated project named "test-project":
+   如果"test-team"有一个名为"test-project"的关联项目，以下是输出的示例：
 
    ```json
    [
@@ -144,22 +144,22 @@ You can find your organization ID in the browser URL of your Sentry instance. Fo
    ]
    ```
 
-## Create a Team
+## 创建团队
 
-Now that you know what teams already exist in your org, use the [Create a New Team](/api/teams/create-a-new-team/) API to create another.
+现在您知道了组织中已存在的团队，请使用[创建新团队](/api/teams/create-a-new-team/) API 创建另一个团队。
 
-1. Make sure your auth token and organization ID are both still stored as environment variables in your shell.
+1. 确保您的认证令牌和组织 ID 仍作为环境变量存储在您的 shell 中。
 
-1. Paste the following cURL command into your terminal:
+1. 将以下 cURL 命令粘贴到您的终端中：
 
    ```bash
    curl -d "name=tutorial-team" -X POST "https://sentry.io/api/0/organizations/$SENTRY_ORG_ID/teams/" \
        -H 'Authorization: Bearer $SENTRY_AUTH_TOKEN'
    ```
 
-   The `name` query parameter means the name of the created team should be "tutorial-team".
+   `name` 查询参数意味着创建的团队的名称应为"tutorial-team"。
 
-1. Here's an example of what the output of the command should be:
+1. 以下是命令输出的示例：
 
    ```json
    {
@@ -193,27 +193,27 @@ Now that you know what teams already exist in your org, use the [Create a New Te
    }
    ```
 
-1. [Optional] To create a team where the `slug` value is different than the `name` value, you can specify both in your POST call, like so:
+1. [可选] 要创建 `slug` 值与 `name` 值不同的团队，您可以在 POST 调用中同时指定两者，如下所示：
 
    ```bash
    curl -d "name=tutorial-team&slug=tutorial-team-slug" -X POST "https://sentry.io/api/0/organizations/$SENTRY_ORG_ID/teams/" \
        -H 'Authorization: Bearer $SENTRY_AUTH_TOKEN'
    ```
 
-## List an Organization's Teams
+## 列出组织的团队
 
-Finally, call the [List an Organization's Teams](/api/teams/list-an-organizations-teams/) API one more time to make sure your new team is returned.
+最后，再次调用[列出组织的团队](/api/teams/list-an-organizations-teams/) API 以确保返回您的新团队。
 
-1. Make sure your auth token and organization ID are both still stored as environment variables in your shell.
+1. 确保您的认证令牌和组织 ID 仍作为环境变量存储在您的 shell 中。
 
-1. Paste the following cURL command into your terminal:
+1. 将以下 cURL 命令粘贴到您的终端中：
 
    ```bash
    curl "https://sentry.io/api/0/organizations/$SENTRY_ORG_ID/teams/?detailed=0" \
        -H 'Authorization: Bearer $SENTRY_AUTH_TOKEN'
    ```
 
-1. Your response should contain an entry for your new "tutorial-team" and look something like this:
+1. 您的响应应包含您的新"tutorial-team"的条目，并看起来像这样：
 
    ```json
    [

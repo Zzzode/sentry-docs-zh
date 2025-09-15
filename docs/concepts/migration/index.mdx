@@ -1,102 +1,102 @@
 ---
-title: Moving to SaaS
+title: 迁移到SaaS
 sidebar_order: 300
-description: "Learn more about the reasons to move to Sentry's SaaS solution, which for many customers is less expensive to maintain, and easier to scale and support."
+description: "了解更多关于迁移到Sentry SaaS解决方案的原因，对许多客户来说，这种方式维护成本更低，扩展和支持更容易。"
 ---
 
-Sentry offers a cloud-hosted, software-as-a-service (SaaS) solution in addition to a self-hosted solution, which are both functionally the same. However, many customers find that self-hosted Sentry can quickly become expensive to maintain, scale, and support, making our SaaS product the better and less costly option. To facilitate moving from self-hosted to SaaS, we provide a self-serve process known as "relocation".
+Sentry除了提供自托管解决方案外，还提供云托管的软件即服务（SaaS）解决方案，两者在功能上是相同的。然而，许多客户发现自托管的Sentry很快就会变得维护、扩展和支持成本高昂，使得我们的SaaS产品成为更好且成本更低的选择。为了促进从自托管到SaaS的迁移，我们提供了一个自助式流程，称为"迁移"（relocation）。
 
 <Alert>
-Check out this video on <a href="https://sentry.io/resources/migrate-to-sentry-saas-workshop/" className="plausible-event-name=migrating+to+saas+video">**Migrating to Sentry SaaS**</a> to learn about our relocation tooling.
+查看这个关于<a href="https://sentry.io/resources/migrate-to-sentry-saas-workshop/" className="plausible-event-name=migrating+to+saas+video">**迁移到Sentry SaaS**</a>的视频，了解我们的迁移工具。
 </Alert>
 
-For additional reading on considering SaaS, take a look at:
+关于考虑SaaS的其他阅读材料：
 
-- [Self Hosted or Cloud Sentry?](https://sentry.io/_/resources/about-sentry/self-hosted-vs-cloud/)
-- [XS:Code > Open Source is Free - But Expensive](https://dev.to/helad11/open-source-is-free-but-expensive-3h8a)
-- [Frequently asked migration questions](https://sentry.io/from/self-hosted/)
+- [自托管还是云Sentry？](https://sentry.io/_/resources/about-sentry/self-hosted-vs-cloud/)
+- [XS:Code > 开源是免费的 - 但很昂贵](https://dev.to/helad11/open-source-is-free-but-expensive-3h8a)
+- [常见问题：迁移问题](https://sentry.io/from/self-hosted/)
 
-## Relocating to Cloud
+## 迁移到云端
 
-If your organization started with self-hosted Sentry, you've invested time and effort in configuring and customizing your Sentry org. Your work won't be wasted if you decide to move to a SaaS account because you won't have to start from scratch. You'll be able to relocate a lot of what you've configured into your new account.
+如果您的组织最初使用的是自托管的Sentry，您已经在配置和定制您的Sentry组织方面投入了时间和精力。如果您决定迁移到SaaS账户，您的工作不会白费，因为您不需要从头开始。您可以将大部分已配置的内容迁移到您的新账户中。
 
-To make this relocation as seamless as possible, Sentry has a workflow that allows you to retain most of your account's settings and configurations as you move to SaaS. All you'll need is owner access to your self-hosted install, and a way to access it via the terminal.
+为了使这种迁移尽可能无缝，Sentry提供了一个工作流程，允许您在迁移到SaaS时保留大部分账户设置和配置。您所需要的只是对自托管安装的owner访问权限，以及通过终端访问它的方式。
 
-### What you'll keep
+### 您将保留的内容
 
-All of the configurations, team and project structure, and most metadata will be relocated. Specifically, for every organization you [choose to relocate](#2-choose-which-organizations-to-relocate) this includes:
+所有配置、团队和项目结构以及大部分元数据都将被迁移。具体来说，对于您[选择迁移的每个组织](#2-选择要迁移的组织)，这包括：
 
-- All organization settings
-- User accounts and options for all organization members
-- Projects and their settings
-- Teams and their settings
-- Alert rules
-- Crons
-- Dashboards
-- Enabled data scrubbers
-- Repositories
-- Recent and saved searches
+- 所有组织设置
+- 用户账户和所有组织成员选项
+- 项目及其设置
+- 团队及其设置
+- 告警规则
+- 定时任务（Crons）
+- 仪表板
+- 启用的数据清理器
+- 仓库
+- 最近和保存的搜索
 
-### What gets left behind
+### 会遗留的内容
 
-Any data related to specific issues, events, stack traces, or files like replays and source maps won't be transferred. Additionally, for security reasons, you'll need to reconnect and re-authenticate all of your integrations, and your users will need to re-connect their 2FA and create new API tokens after relocating.
+与特定问题、事件、堆栈跟踪或文件（如回放和源映射）相关的任何数据都不会被转移。此外，出于安全原因，您需要重新连接和重新验证您的所有集成，您的用户需要在迁移后重新连接他们的2FA并创建新的API令牌。
 
-Below is a non-exhaustive list of some items that will not be relocated:
+以下是一些不会被迁移的项目的非详尽列表：
 
-- Integrations, including parts of relocated items that depend on them (ex: if an Alert Rule triggers Slack notifications, that trigger will be omitted)
+- 集成，包括迁移项目依赖集成的部分（例如：如果告警规则触发Slack通知，该触发器将被省略）
 - Webhooks
-- Issues
-- Events
-- Replays and/or other [Event Attachments](/platforms/javascript/enriching-events/attachments/)
-- Source Maps, [Debug Information Files](/cli/dif/) and/or [Debug IDs](/platforms/javascript/sourcemaps/troubleshooting_js/debug-ids/)
-- Release information, including any references to external repositories via specific Pull Requests
-- Deployment information
-- Custom Avatars
+- 问题（Issues）
+- 事件（Events）
+- 回放和/或其他[事件附件](/platforms/javascript/enriching-events/attachments/)
+- 源映射、[调试信息文件](/cli/dif/)和/或[调试ID](/platforms/javascript/sourcemaps/troubleshooting_js/debug-ids/)
+- 发布信息，包括通过特定拉取请求对外部仓库的任何引用
+- 部署信息
+- 自定义头像
 
-One thing to note is that while we won't be able to transfer over historical event data, new incoming events will populate the projects in your relocated organization as soon as you [update your DSNs](#5-update-your-dsns). All relocated organization members will be automatically notified and re-invited via email once the relocation completes.
+需要注意的一点是，虽然我们无法转移历史事件数据，但新的传入事件将在您[更新DSN](#5-更新您的dsn)后立即填充您迁移组织中的项目。所有迁移的组织成员将在迁移完成后自动通过电子邮件收到通知和重新邀请。
 
-### Version support window
+### 版本支持窗口
 
-Self-serve relocation is only possible from the two most up-to-date minor self-hosted releases. That is, if the latest self-hosted release is version 24.2.3, your self-hosted install must be on at least version 24.1.0 to be successfully relocated.
+自助迁移仅可能从两个最新的次要自托管版本进行。也就是说，如果最新的自托管版本是24.2.3，您的自托管安装必须至少为24.1.0才能成功迁移。
 
-If you'd like to relocate from an earlier release, we ask that you [update](https://develop.sentry.dev/self-hosted/releases/) your self-hosted install to the latest version first. If there is some reason that this is not possible, please [contact support](https://sentry.io/contact/enterprise/) for more guidance.
+如果您想从更早的版本迁移，我们要求您先将自托管安装[更新](https://develop.sentry.dev/self-hosted/releases/)到最新版本。如果由于某种原因无法做到这一点，请[联系支持](https://sentry.io/contact/enterprise/)获取更多指导。
 
-### Data security
+### 数据安全
 
-Your data will be encrypted end-to-end during the relocation process. The only file that will pass over the network will be an encrypted tarball that we'll never store in plaintext, and will delete within 30 days of the start of your relocation.
+在迁移过程中，您的数据将端到端加密。唯一会通过网络传输的文件将是一个加密的压缩包，我们永远不会以明文形式存储它，并将在迁移开始后30天内删除。
 
-## How to Relocate
+## 如何迁移
 
-### 1. Sign up with a promo code
+### 1. 使用促销代码注册
 
-Before you begin the relocation process, [sign up](https://sentry.io/signup/relocate/) for a new account on Sentry. If you already have a Sentry account, login and navigate to the [relocation landing page](https://sentry.io/relocation/). In either case, you should see a page like this:
+在开始迁移过程之前，请在Sentry上[注册](https://sentry.io/signup/relocate/)一个新账户。如果您已有Sentry账户，请登录并导航到[迁移着陆页](https://sentry.io/relocation/)。无论哪种情况，您都应该看到如下页面：
 
-![Relocation getting started page](./img/relocation-landing-page.png)
+![迁移开始页面](./img/relocation-landing-page.png)
 
-**To receive a $100 credit, make sure to use the promo code `relocate100` on this page.**
+**要获得100美元积分，请务必在此页面使用促销代码`relocate100`。**
 
-### 2. Choose which organizations to relocate
+### 2. 选择要迁移的组织
 
-Your self-hosted installation may have multiple organizations, each identified by a unique slug. You'll need to decide which org slugs to keep. You can always change them post-relocation by going to the **Organization Settings** page.
+您的自托管安装可能有多个组织，每个组织都由唯一的slug标识。您需要决定要保留哪些组织slug。您始终可以在迁移后通过转到**组织设置**页面来更改它们。
 
-![Changing the org slug on the settings page](./img/org-slug.png)
+![在设置页面上更改组织slug](./img/org-slug.png)
 
-### 3. Follow the in-app relocation instructions
+### 3. 遵循应用内迁移说明
 
-The rest of the in-app relocation instructions will walk you through the specific details of how to export your self-hosted instance's relocatable data. This will require terminal access to the machine running your self-hosted instance. Here's a quick overview:
+其余的应用内迁移说明将指导您完成如何导出自托管实例可迁移数据的具体细节。这将需要对您运行自托管实例的机器进行终端访问。以下是快速概述：
 
-- You'll be asked to save a public key that we generate on the SaaS backend to your self-hosted machine
-- You'll then use this key to execute a command which will generate an encrypted tarball with all your data
-- Lastly, you'll be prompted to upload this tarball
+- 您将被要求将我们在SaaS后端生成的公钥保存到您的自托管机器上
+- 然后您将使用此密钥执行一个命令，该命令将生成一个包含您所有数据的加密压缩包
+- 最后，您将被提示上传此压缩包
 
-Most relocations complete in under an hour, though certain large or complex cases can take a bit longer. If you don't get an update from us within 24 hours, please [contact support](https://sentry.io/contact/enterprise/) for further assistance.
+大多数迁移在一小时内完成，尽管某些大型或复杂的情况可能需要更长时间。如果您在24小时内没有收到我们的更新，请[联系支持](https://sentry.io/contact/enterprise/)获取进一步帮助。
 
-### 4. Choose a plan
+### 4. 选择计划
 
-Once your relocation is complete, you can choose the [pricing plan](https://sentry.io/pricing/) that best suits your needs. Note that plan pricing varies based on your [Event Volume](/product/accounts/quotas/).
+迁移完成后，您可以选择最适合您需求的[定价计划](https://sentry.io/pricing/)。请注意，计划定价根据您的[事件量](/product/accounts/quotas/)而有所不同。
 
-If you're expecting higher volumes or you're interested in our Enterprise capabilities (priority support and SLAs, and single-tenant options, for example), please [contact us](https://sentry.io/contact/enterprise/) regarding our **Enterprise Plan**.
+如果您预期会有更高的量，或者您对我们的企业功能感兴趣（例如优先支持和SLA，以及单租户选项），请[联系我们](https://sentry.io/contact/enterprise/)了解我们的**企业计划**。
 
-### 5. Update your DSNs
+### 5. 更新您的DSN
 
-Though your project data has been fully relocated, the DSNs for all of your projects will have changed, as they are now located at https://sentry.io rather than your prior self-hosted domain name. This means that you'll need to update the [DSN](/product/sentry-basics/dsn-explainer/) you use in each of your SDKs for each relevant project. Once you complete this step, you'll should start to see issues and events (though hopefully not too many!) appearing as before.
+虽然您的项目数据已完全迁移，但所有项目的DSN都将已更改，因为它们现在位于https://sentry.io，而不是您之前的自托管域名。这意味着您需要更新您在每个相关项目的每个SDK中使用的[DSN](/product/sentry-basics/dsn-explainer/)。完成此步骤后，您应该开始像以前一样看到问题和事件（尽管希望不会太多！）。

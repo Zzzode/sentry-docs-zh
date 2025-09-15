@@ -1,117 +1,117 @@
 ---
-title: Manage Your Cron and Uptime Monitors
-keywords: ["cron monitors", "uptime monitors", "billing", "quota management"]
+title: 管理您的 Cron 和 Uptime 监控器
+keywords: ["cron 监控器", "uptime 监控器", "计费", "配额管理"]
 sidebar_order: 70
-description: Learn how to manage the number of cron and uptime monitors you pay for and adjust your pay-as-you-go budget.
+description: 了解如何管理您需要付费的 cron 和 uptime 监控器数量，并调整您的按量付费预算。
 ---
 
-All Sentry plans include **one cron monitor** and **one uptime monitor**. To activate additional monitors, you need to add a [**pay-as-you-go (PAYG)**](/pricing/#pricing-how-it-works) budget.
+所有 Sentry 计划都包括 **一个 cron 监控器** 和 **一个 uptime 监控器**。要激活额外的监控器，您需要添加一个[**按量付费（PAYG）**](/pricing/#pricing-how-it-works)预算。
 
 <Alert>
 
-The PAYG budget is only available on **paid plans**.
+PAYG 预算仅在**付费计划**上可用。
 
 </Alert>
 
-## Key Terms
+## 关键术语
 
-- **Reserved Quota**: The number of monitors included in your plan.
-- **Pay-As-You-Go (PAYG) Budget**: A budget you set to pay for additional monitors beyond your reserved quota.
-- **Reusable Quota**: Quota freed up by deactivating or deleting monitors within the same billing period, which can be reused for new or reactivated monitors at no additional cost.
+- **预留配额**：您的计划中包含的监控器数量。
+- **按量付费（PAYG）预算**：您设置的用于支付超出预留配额的额外监控器的预算。
+- **可重用配额**：通过在同一计费期内停用或删除监控器而释放的配额，可以无额外成本地用于新的或重新激活的监控器。
 
-## Viewing and Adjusting Your PAYG Budget
+## 查看和调整您的 PAYG 预算
 
-To check or adjust your monthly PAYG budget for cron and uptime monitors:
+要检查或调整您的 cron 和 uptime 监控器的月度 PAYG 预算：
 
-1. Go to **Organization Settings > Subscription**.
-2. Review your current PAYG budget.
-3. To change your budget, adjust the amount as needed.
+1. 转到 **组织设置 > 订阅**。  
+2. 查看您当前的 PAYG 预算。
+3. 要更改预算，请根据需要调整金额。
 
-## Activating or Reactivating Monitors
+## 激活或重新激活监控器
 
-When you add a new monitor or reactivate a previously deactivated one, Sentry will attempt to activate it based on your available quota and budget.
+当您添加新监控器或重新激活之前停用的监控器时，Sentry 将根据您可用的配额和预算尝试激活它。
 
-**Activation Process:**
+**激活过程：**
 
-1. **Check for Reusable Quota**
+1. **检查可重用配额**
 
-   - Sentry first checks if there's any **reusable quota** from monitors of the same type deactivated or deleted within the **same billing period**.
-   - If available, the monitor is activated using this quota **at no additional cost**.
+   - Sentry 首先检查是否有任何来自**同一计费期内**停用的或删除的**相同类型**监控器的**可重用配额**。
+   - 如果可用，监控器将使用此配额**无额外成本**地激活。
 
-2. **Use PAYG Budget or Reserved Quota**
+2. **使用 PAYG 预算或预留配额**
 
-   - If no reusable quota is available, Sentry uses your **reserved quota** or **PAYG budget** to activate the monitor.
-   - The cost is deducted from your PAYG budget.
+   - 如果没有可重用配额可用，Sentry 将使用您的**预留配额**或**PAYG 预算**来激活监控器。
+   - 费用将从您的 PAYG 预算中扣除。
 
 <Alert>
 
-**Important:** Quota reuse only applies **within the same billing period** and to monitors that were previously assigned and billed.
+**重要提示：** 配额重用仅适用于**同一计费期内**且之前已分配和计费过的监控器。
 
 </Alert>
 
-### Activation Across Billing Periods
+### 跨计费期的激活
 
-At the start of each new billing period:
+在每个新计费期开始时：
 
-- **Quota Reset**: All quotas reset, and any reusable quota from the previous period is no longer available.
-- **Re-evaluation of Monitors**:
+- **配额重置**：所有配额重置，上一期的任何可重用配额不再可用。
+- **监控器的重新评估**：
 
-  - If you have sufficient **reserved quota** or **PAYG budget**, monitors that were previously active will remain active.
-  - If there isn't enough budget, monitors may be automatically deactivated.
-- **Manual Deactivations or Deletions**: Monitors that were manually deactivated or deleted will remain in that state.
+  - 如果您有足够的**预留配额**或**PAYG 预算**，之前活动的监控器将保持活动状态。
+  - 如果预算不足，监控器可能会自动停用。
+- **手动停用或删除**：手动停用或删除的监控器将保持该状态。
 
-## Deactivating or Deleting Monitors
+## 停用或删除监控器
 
-You can manually deactivate or delete monitors at any time from the **Alerts** page, you can use the **Alert Type:** dropdown to filter for **Cron** or **Uptime** monitors.
+您可以随时从 **警报** 页面手动停用或删除监控器，您可以使用 **警报类型：** 下拉菜单来筛选 **Cron** 或 **Uptime** 监控器。
 
-**Effects of Deactivation or Deletion:**
+**停用或删除的影响：**
 
-- **Quota Becomes Reusable**: The quota from the deactivated or deleted monitor becomes available for reuse **within the same billing period**.
-- **Billing Impact**: Deactivated or deleted monitors will **count** towards your billing quota if they were previously active in the current billing period. Otherwise, they don't count towards your billing quota.
+- **配额变为可重用**：来自停用或删除监控器的配额在**同一计费期内**可用于重用。
+- **计费影响**：如果之前在当前计费期内处于活动状态，停用或删除的监控器将**计入**您的计费配额。否则，它们不计入您的计费配额。
 
 <Alert>
 
-- **Quota Reuse Limitations**:
+- **配额重用限制**：
 
-  - Reusable quota is only available **within the same billing period**.
-  - Applies only to monitors that were previously active and billed.
-  - **Reusable quota does not carry over to new billing periods.**
+  - 可重用配额仅在**同一计费期内**可用。
+  - 仅适用于之前已活动并计费的监控器。
+  - **可重用配额不会延续到新的计费期。**
 
 </Alert>
 
-## Example Scenario
+## 示例场景
 
-Let's illustrate how this works with an example:
+让我们用一个示例来说明这是如何工作的：
 
-1. **Starting Situation**:
+1. **起始情况**：
 
-   - You have a reserved quota of **1 monitor**.
-   - You have a PAYG budget that allows for **5 monitors**.
-   - You currently have **6 active monitors**.
+   - 您的预留配额为 **1 个监控器**。  
+   - 您的 PAYG 预算允许 **5 个监控器**。  
+   - 您当前有 **6 个活动监控器**。  
 
-2. **Deactivating or Deleting a Monitor**:
+2. **停用或删除监控器**：
 
-   - You deactivate or delete **Monitor A**.
-   - The quota from **Monitor A** becomes **reusable** within the same billing period.
+   - 您停用或删除 **监控器 A**。  
+   - **监控器 A** 的配额在同一计费期内变为**可重用**。  
 
-3. **Activating a New Monitor**:
+3. **激活新监控器**：
 
-   - You add a new **Monitor B**.
-   - Sentry checks for reusable quota and finds it from **Monitor A**.
-   - **Monitor B** is activated **at no additional cost**.
+   - 您添加新的 **监控器 B**。  
+   - Sentry 检查可重用配额并找到来自 **监控器 A** 的配额。  
+   - **监控器 B** **无额外成本**地激活。  
 
-4. **End of Billing Period**:
+4. **计费期结束**：
 
-   - All quotas reset.
-   - You need to ensure you have enough PAYG budget to cover all active monitors for the new period.
-   - You have **6 active monitors** and a **PAYG budget** for **5 monitors**.
-   - You have **1 deactivated or deleted monitor**.
-   - You only pay for the **PAYG budget** of the additional **5 monitors**.
+   - 所有配额重置。
+   - 您需要确保有足够的 PAYG 预算来支付新期间的所有活动监控器。
+   - 您有 **6 个活动监控器** 和 **5 个监控器**的 **PAYG 预算**。  
+   - 您有 **1 个停用或删除的监控器**。  
+   - 您只需为额外的 **5 个监控器**的 **PAYG 预算**付费。
 
-## Tips for Managing Your Monitors
+## 管理监控器的技巧
 
-- **Monitor Your Usage**: Regularly check your active monitors and PAYG budget to avoid unexpected deactivations.
-- **Adjust Budget as Needed**: If you plan to add more monitors, consider increasing your PAYG budget beforehand.
-- **Plan for Renewal**: Remember that quotas reset each billing period. Ensure you have sufficient budget to keep monitors active.
+- **监控您的使用情况**：定期检查您的活动监控器和 PAYG 预算，以避免意外的停用。
+- **根据需要调整预算**：如果您计划添加更多监控器，请考虑提前增加您的 PAYG 预算。
+- **为续订做计划**：记住配额在每个计费期都会重置。确保有足够的预算来保持监控器活动。
 
-By understanding how monitor activation and billing work, you can effectively manage your cron and uptime monitors and avoid interruptions in your monitoring.
+通过了解监控器激活和计费的工作原理，您可以有效地管理您的 cron 和 uptime 监控器，并避免监控中断。

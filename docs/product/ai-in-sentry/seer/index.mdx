@@ -1,78 +1,78 @@
 ---
 title: Seer
-description: "Learn about Seer, Sentry's AI agent, and managing generative AI features."
+description: "了解 Seer，Sentry 的 AI 代理，以及如何管理生成式 AI 功能。"
 sidebar_order: 20
 ---
 
-Seer is Sentry's AI debugging agent. It uses Sentry's rich context (issue details, tracing data, logs, and profiles) to help you troubleshoot and fix errors and performance issues faster.
+Seer 是 Sentry 的 AI 调试代理。它利用 Sentry 丰富的上下文（问题详情、跟踪数据、日志和性能分析）来帮助您更快地排查和修复错误以及性能问题。
 
-## Seer Capabilities
+## Seer 功能
 
-Seer provides three main capabilities to enhance your debugging:
+Seer 提供三种主要功能来增强您的调试体验：
 
-- [**Issue fix**](#issue-fix): A collaborative agent skilled at root cause analysis and solving issues
-- [**Issue scan**](#issue-scan): Automatically scans issues as they come in, feeding additional context to your alerts and automating triage
-- [**Automation**](#automation): Combines issue fix and scan into a powerful workflow: identifying actionable issues in real time and generating high quality fixes, automatically
+- [**问题修复**](#issue-fix)：一个协作代理，擅长根本原因分析和解决问题
+- [**问题扫描**](#issue-scan)：自动扫描传入的问题，为您的警报提供额外上下文并自动化分类
+- [**自动化**](#automation)：将问题修复和扫描结合成一个强大的工作流：实时识别可操作的问题并生成高质量的修复方案，完全自动化
 
-### Issue Fix
+### 问题修复
 
-Seer combines all of the relevant context from your code with Sentry's telemetry data to provide a best-in-class issue debugging experience. The workflow consists of three steps:
+Seer 将代码中的所有相关上下文与 Sentry 的遥测数据相结合，提供一流的调试体验。该工作流包含三个步骤：
 
-1. Root cause the issue using Sentry's context and your codebase
-2. Identify a solution based on the analysis
-3. Generate a code patch that implements the solution and open a PR
+1. 使用 Sentry 的上下文和您的代码库对问题进行根本原因分析
+2. 基于分析结果识别解决方案
+3. 生成实现解决方案的代码补丁并创建 PR
 
-For a full product walk-through, see [issue fix](./issue-fix/).
+如需完整的产品演示，请参阅[问题修复](./issue-fix/)。
 
 <VimeoEmbed id="1091964967?h=4f24769ccd" />
 
-### Issue Scan
+### 问题扫描
 
-Seer is able to automatically analyze issues as they are ingested by Sentry. This initial review is used to:
+Seer 能够自动分析 Sentry 摄取的问题。此初步审查用于：
 
-- Generate an "actionability" score, which indicates how likely it is that a particular issue can be fixed with a code change
-- Augment issue alerts with a helpful analysis about the problem
-- Add an initial guess for what the potential problem is to the issue details page
+- 生成"可操作性"评分，指示特定问题是否可以通过代码更改修复
+- 用有关问题的有用分析增强问题警报
+- 在问题详情页面添加对潜在问题的初步猜测
 
-The actionability score is represented in the issue feed by a Seer icon, which indicate issues that are likely straightforward fixes.
+可操作性评分在问题反馈中通过 Seer 图标表示，指示可能是简单修复的问题。
 
-### Automation
+### 自动化
 
-You can use automation to trigger issue scans and fixes. There are three automation settings you can configure:
+您可以使用自动化来触发问题扫描和修复。您可以配置三种自动化设置：
 
-1. **Automate Issue Scans**: This enables Seer's issue scan functionality
-2. **Automate Issue Fixes**: This allows you to customize the degree of automation employed by Seer. For example, setting it to "Highly Actionable and Above" will automatically trigger issue fixes for all of your highly actionable Issues.
-3. **Stopping Point for Automatic Fixes**: Seer allows you to customize how far to go with automation. By default, it stops at the solution step, but you can choose to have it go all the way to code changes or even generate PRs automatically.
+1. **自动问题扫描**：启用 Seer 的问题扫描功能
+2. **自动问题修复**：允许您自定义 Seer 采用的自动化程度。例如，将其设置为"高可操作性及以上"将自动为您所有高可操作性的问题触发问题修复。
+3. **自动修复的停止点**：Seer 允许您自定义自动化的程度。默认情况下，它在解决方案步骤停止，但您可以选择让它一直进行到代码更改，甚至自动生成 PR。
 
-## What Seer Uses
+## Seer 使用的数据
 
-Seer is a powerful debugging agent, with access to a wide variety of data sources and tools. While debugging issues, it may examine:
+Seer 是一个强大的调试代理，可以访问各种数据源和工具。在调试问题时，它可能会检查：
 
-- **Issue Context**: Error messages, stack traces, and event metadata from your [Issues](/product/issues/)
-- **Tracing Data**: Distributed [traces](/concepts/key-terms/tracing/#whats-a-trace) and span information
-- **Logs**: Structured [Logs](/product/explore/logs/) from your application (beta)
-- **Your Codebase**: Relevant code from linked GitHub repositories, with support for multiple repos for distributed services
-- **Performance Data**: Profiles and performance metrics
-- **Interactive Feedback**: Your input and guidance during the process
+- **问题上下文**：来自您[问题](/product/issues/)的错误消息、堆栈跟踪和事件元数据
+- **跟踪数据**：分布式[跟踪](/concepts/key-terms/tracing/#whats-a-trace)和跨度信息
+- **日志**：来自您应用程序的结构化[日志](/product/explore/logs/)（测试版）
+- **您的代码库**：来自链接 GitHub 仓库的相关代码，支持分布式服务的多个仓库
+- **性能数据**：性能分析和性能指标
+- **交互反馈**：您在过程中的输入和指导
 
-## Getting Started with Seer
+## 开始使用 Seer
 
-To start using Seer's capabilities:
+要开始使用 Seer 的功能：
 
-1. **Enable generative AI features**: Make sure AI features are enabled in your [organization settings](https://sentry.io/orgredirect/organizations/:orgslug/settings/#hideAiFeatures)
-2. **Set up GitHub Integration**: For issue fix capabilities, [connect your GitHub repositories](/organization/integrations/source-code-mgmt/github/)
-3. **Configure Settings**: Customize Seer's behavior in your project settings under `Seer Automation`. Seer is enabled by default using these settings:
-    - **Automatic issue scans**: Enabled
-    - **Automatic issue fixes**: Enabled for highly actionable issues and above
+1. **启用生成式 AI 功能**：确保在您的[组织设置](https://sentry.io/orgredirect/organizations/:orgslug/settings/#hideAiFeatures)中启用了 AI 功能
+2. **设置 GitHub 集成**：对于问题修复功能，[连接您的 GitHub 仓库](/organization/integrations/source-code-mgmt/github/)
+3. **配置设置**：在项目设置中的 `Seer Automation` 下自定义 Seer 的行为。Seer 默认使用这些设置启用：
+    - **自动问题扫描**：已启用
+    - **自动问题修复**：为高可操作性及以上问题启用
 
-    > **Note**: You can monitor your Seer usage in the [Stats & Usage tab](https://sentry.io/settings/stats/) and can learn more about managing your Seer budget [here](/pricing/quotas/manage-seer-budget/).
-4. **Start Using**: Look for Seer options in your issue details pages
+    > **注意**：您可以在[统计和使用情况选项卡](https://sentry.io/settings/stats/)中监控您的 Seer 使用情况，并可以在此处了解有关管理 Seer 预算的更多信息[此处](/pricing/quotas/manage-seer-budget/)。
+4. **开始使用**：在问题详情页面中查找 Seer 选项
 
-## Privacy and security
+## 隐私和安全
 
-Sentry includes strong guarantees for privacy and security of your data. At a glance:
+Sentry 为您的数据隐私和安全提供了强有力的保证。简要说明：
 
-- Sentry does not train generative AI models using your data by default and without your permission.
-- AI-generated output is shown only to you and other authorized users in your account.
+- 默认情况下，未经您的许可，Sentry 不会使用您的数据训练生成式 AI 模型。
+- AI 生成的输出仅向您和您账户中的其他授权用户显示。
 
-You can learn more about our data privacy practices [in the security and legal docs](/security-legal-pii/security/ai-ml-policy/#use-of-identifying-data-for-generative-ai-features).
+您可以在此处了解有关我们数据隐私实践的更多信息[安全和法律文档](/security-legal-pii/security/ai-ml-policy/#use-of-identifying-data-for-generative-ai-features)。

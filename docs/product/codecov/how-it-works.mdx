@@ -1,8 +1,8 @@
 ---
-title: How It Works
+title: 工作原理
 sidebar_order: 0
 ---
 
-Sentry uses code-mappings to determine the repository and default branch for the stack trace frame to query Codecov's coverage report endpoint. The endpoint gives Sentry the coverage state for each line so that it can be applied to the stack trace in the UI. This makes it possible for users to see the untested code that's causing errors, including whether it's partially or fully covered directly in the stack trace. This helps you avoid similar errors in the future.
+Sentry 使用代码映射来确定堆栈跟踪帧的仓库和默认分支，以查询 Codecov 的覆盖率报告端点。该端点为 Sentry 提供每行的覆盖率状态，以便它可以应用于 UI 中的堆栈跟踪。这使得用户能够看到导致错误的未经测试的代码，包括它是部分还是完全覆盖，直接在堆栈跟踪中。这有助于您避免将来出现类似的错误。
 
-![Codecov in Sentry](./img/codecov-read-timeout.png)
+![Sentry 中的 Codecov](./img/codecov-read-timeout.png)

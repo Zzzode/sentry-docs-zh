@@ -1,85 +1,85 @@
 ---
-title: How to Write - Configuration
+title: 如何编写 - 配置
 noindex: true
 sidebar_order: 40
 ---
 
-The Configuration section of the content covers, unsurprisingly, how customers can configure an SDK. A new framework can adopt the common content, which is stored in `/docs/platforms/<SDK>/common/configuration/` - feel free to peruse the files in that directory to help answer any questions.
+不出所料，内容的配置部分涵盖了客户如何配置SDK。新框架可以采用通用内容，这些内容存储在 `/docs/platforms/<SDK>/common/configuration/` 中 - 请随意浏览该目录中的文件以帮助回答任何问题。
 
 <Alert >
 
-Don't change the common content. That change will ripple across all guides that rely on the common content. Instead, open an issue on GitHub with questions/suggestions.
+不要更改通用内容。该更改将波及所有依赖通用内容的指南。相反，请在GitHub上提出问题并附带问题/建议。
 
 </Alert >
 
-Most of these pages are pretty self-evident, so only basic information is provided. But please ask questions if any questions arise by opening an issue on GitHub.
+这些页面中的大多数都是相当不言自明的，因此只提供基本信息。但如果有任何问题，请通过在GitHub上提出问题来询问。
 
-## Start Here
+## 从这里开始
 
-Determine if the page applies:
+确定页面是否适用：
 
-- If the content _does not apply_, add the guide to `notSupported` list in the frontmatter of the file. This will turn off the display of the content for this guide.
-- If the content _does apply_, add the `include` file to the correct directory as noted for each page. If the code sample is not provided, the page will display a big gray box requesting that customers open an issue for the missing sample.
+- 如果内容**不适用**，请将指南添加到文件的前端内容中的 `notSupported` 列表中。这将关闭此指南的内容显示。
+- 如果内容**适用**，请将 `include` 文件添加到每个页面中注明的正确目录中。如果未提供代码示例，页面将显示一个大灰框，要求客户为缺失的示例提出问题。
 
-### Basic Options
+### 基本选项
 
-This file is `options.mdx`. It explains all the configuration options.
+此文件是 `options.mdx`。它解释了所有配置选项。
 
-To develop content for this file:
+为此文件开发内容：
 
-1. Create the `configuration/config-intro/` statement, which covers how options can be set.
-2. For individual options that the guide does NOT support, add the name of the guide to the `ConfigKey` statement for that option. This will prevent that option from displaying for this SDK. For example:
+1. 创建 `configuration/config-intro/` 语句，涵盖如何设置选项。
+2. 对于指南**不支持**的单个选项，将指南名称添加到该选项的 `ConfigKey` 语句中。这将阻止该选项为此SDK显示。例如：
 
    `<ConfigKey name="debug" notSupported={["javascript.react"]}>`
 
-   Alternately, for individual options that the guide DOES support, add the name of the guide to `ConfigKey` statement for that option, which ensures the option displays. For example:
+   或者，对于指南**支持**的单个选项，将指南名称添加到该选项的 `ConfigKey` 语句中，确保选项显示。例如：
 
    `<ConfigKey name="send-default-pii" supported={["javascript.electron", "javascript.ember"]}>`
 
-3. For a grouping of options that the guide DOES support, add the name of the guide to the `PlatformSection` statement for those options, which ensures the option displays. For example:
+3. 对于指南**支持**的选项组，将指南名称添加到这些选项的 `PlatformSection` 语句中，确保选项显示。例如：
 
    `<PlatformSection supported={["javascript.react"]}>`
 
-### Releases & Health
+### 发布和健康
 
-This file is `releases.mdx`. It explains how to configure the SDK to tell Sentry about releases. Provide a code sample for this SDK to set a release, then add the code sample to this directory:
+此文件是 `releases.mdx`。它解释了如何配置SDK以告诉Sentry有关发布的信息。为此SDK提供设置发布的代码示例，然后将代码示例添加到此目录：
 
 - `/platform-includes/set-release/`
 
-A few nuances:
+一些细微差别：
 
-- If adding an SDK related to JavaScript, update the source maps-related paragraph, as appropriate, in the `PlatformSection supported` statement.
-- For SDKs that support release health, we control the display of content with a `PlatformSection supported` statement. For these SDKs, provide the following code sample: Opt out of auto session tracking, stored in `/platform-includes/configuration/auto-session-tracking`.
+- 如果添加与JavaScript相关的SDK，请根据需要更新 `PlatformSection supported` 语句中的源映射相关段落。
+- 对于支持发布健康的SDK，我们使用 `PlatformSection supported` 语句控制内容的显示。对于这些SDK，提供以下代码示例：选择退出自动会话跟踪，存储在 `/platform-includes/configuration/auto-session-tracking` 中。
 
-### Environments
+### 环境
 
-This file is `environments.mdx`. It explains how to configure the SDK to set an environment.
+此文件是 `environments.mdx`。它解释了如何配置SDK以设置环境。
 
-Add the code sample to this directory:
+将代码示例添加到此目录：
 
 - `/platform-includes/set-environment/`
 
-### Filtering Events
+### 过滤事件
 
-This file is `filtering.mdx`. It explains how to configure the SDK to filter events sent to Sentry. Add code samples to these directories:
+此文件是 `filtering.mdx`。它解释了如何配置SDK以过滤发送到Sentry的事件。将代码示例添加到这些目录：
 
 - `/platform-includes/configuration/before-send/`
 - `/platform-includes/configuration/before-send-hint/`
 
-Enable or disable the content for "Using Hints", as appropriate to the SDK, by adding it to the list of either `supported` or `notSupported`, then add code sample to these directories:
+通过将SDK添加到 `supported` 或 `notSupported` 列表中来启用或禁用"使用提示"的内容，然后将代码示例添加到这些目录：
 
 - `/platform-includes/configuration/before-send-fingerprint/`
 - `/platform-includes/configuration/decluttering/`
 
-Enable or disable the content for "Using Sampling to Filter Transaction Events" by adding the SDK to the list of either `supported` or `notSupported`, then add code sample to this directory:
+通过将SDK添加到 `supported` 或 `notSupported` 列表中来启用或禁用"使用采样过滤事务事件"的内容，然后将代码示例添加到此目录：
 
 - `/platform-includes/performance/traces-sampler-as-filter/`
 
-### Sampling Events
+### 采样事件
 
-This file is `sampling.mdx`. It explains how to set the sample rate for the SDK.
+此文件是 `sampling.mdx`。它解释了如何为SDK设置采样率。
 
-Add code samples to these directories:
+将代码示例添加到这些目录：
 
 - `/platform-includes/configuration/sample-rate/`
 - `/platform-includes/performance/uniform-sample-rate/`
@@ -89,16 +89,16 @@ Add code samples to these directories:
 - `/platform-includes/performance/always-inherit-sampling-decision`
 - `/platform-includes/performance/force-sampling-decision`
 
-### Shutdown and Draining
+### 关闭和排空
 
-This file is `draining.mdx`. Add the drain example content to this directory:
+此文件是 `draining.mdx`。将排空示例内容添加到此目录：
 
 - `/platform-includes/configuration/drain-example/`
 
-### Integrations
+### 集成
 
-This content is developed at the primary SDK/platform level. It resides in `/docs/platforms/<SDK>/integrations/` or `/docs/platforms/<SDK>/common/integrations/` and is typically composed of the following:
+此内容在主要SDK/平台级别开发。它位于 `/docs/platforms/<SDK>/integrations/` 或 `/docs/platforms/<SDK>/common/integrations/` 中，通常由以下内容组成：
 
-1. Default Integrations - `default.mdx` - system integrations are enabled by default. We document them so customers can both be aware of what they do and disable them if they cause issues.
-2. Pluggable Integrations - `plugin.mdx` - pluggable integrations are snippets of code that augment functionality for specific applications and/or frameworks. We document them so customers can see what they do and that they can be enabled.
-3. Custom Integrations - `custom.mdx` - explains how to enable a custom integration.
+1. 默认集成 - `default.mdx` - 系统集成默认启用。我们记录它们，以便客户既可以了解它们的作用，又可以在它们引起问题时禁用它们。
+2. 可插拔集成 - `plugin.mdx` - 可插拔集成是增强特定应用程序和/或框架功能的代码片段。我们记录它们，以便客户可以看到它们的作用以及它们可以被启用。
+3. 自定义集成 - `custom.mdx` - 解释如何启用自定义集成。

@@ -1,16 +1,16 @@
 ---
-title: "Endpoint Regression"
+title: "端点回归"
 sidebar_order: 41
-description: "Learn more about Endpoint Regression issues and how to diagnose and fix them."
+description: "了解更多关于端点回归问题以及如何诊断和修复它们的信息。"
 ---
 
-Endpoint Regression issues are a generic class of problems where the duration of a transaction increases over time and degrades application performance. Sentry proactively monitors common endpoints out of the box and reports any possible regressions, grouping them as Endpoint Regression issue types.
+端点回归问题是一类通用问题，其中事务持续时间随时间增加并降低应用程序性能。Sentry主动监控开箱即用的常见端点，并报告任何可能的回归，将它们分组为端点回归问题类型。
 
-## Detection Criteria
+## 检测标准
 
-The detector for performance issues periodically checks the 95th percentile transaction duration of the most common endpoints in your project. When a significant increase in the p95 value is detected and has been sustained for some time, a regression issue is created.
+性能问题的检测器会定期检查项目中最常见端点的第95百分位事务持续时间。当检测到p95值的显著增加并已持续一段时间时，会创建回归问题。
 
-To be categorized as an endpoint, the transaction operation must be one of the following:
+要被归类为端点，事务操作必须是以下之一：
 
 - `function.aws`
 - `function.aws.lambda`
@@ -19,29 +19,29 @@ To be categorized as an endpoint, the transaction operation must be one of the f
 - `asgi.server`
 - `rails.request`
 
-## Regression Evidence
+## 回归证据
 
-To find additional info, go to the Issues page and click on the Endpoint Regression issue you're interested in. In the top section of the "Details" tab, you'll find the following:
+要查找额外信息，请转到问题页面并点击您感兴趣的端点回归问题。在"详情"选项卡的顶部部分，您将找到以下内容：
 
-- **Endpoint Name:** The name of the transaction that has regressed.
-- **Change in Duration:** The value of absolute and relative change in duration.
-- **Approximate Start Time:** The approximate time when the regression occurred.
+- **端点名称：** 已回归的事务名称
+- **持续时间变化：** 持续时间的绝对和相对变化值
+- **近似开始时间：** 回归发生的大致时间
 
-## Chart
+## 图表
 
-The below chart shows the p95 transaction duration over a period of up to 14 days before and 14 days after the regression was identified.
+下图显示了在识别回归之前最多14天和之后最多14天期间的p95事务持续时间。
 
-![Endpoint Regression Issue Chart](./img/endpoint-regression-chart.png)
+![端点回归问题图表](./img/endpoint-regression-chart.png)
 
-## Potential Causes
+## 潜在原因
 
-The "Potential Causes" section shows a list of spans that may have contributed to the slowdown the most. Next to each span, you'll find the following:
+"潜在原因"部分显示了可能最导致减速的跨度列表。在每个跨度旁边，您将找到以下内容：
 
-- Span description that leads to the [Span Summary](/product/insights/overview/transaction-summary/) page where you can find more information about that specific span.
-- P95 of span self time before the regression.
-- P95 of span self time after the regression.
-- The percentage change in p95 span self time before and after the regression.
+- 跨度描述，指向[跨度摘要](/product/insights/overview/transaction-summary/)页面，您可以在其中找到有关该特定跨度的更多信息
+- 回归前跨度自身时间的p95
+- 回归后跨度自身时间的p95
+- 回归前后p95跨度自身时间的百分比变化
 
-## Compare Events
+## 比较事件
 
-The "Compare Events" section lets you compare example events from before and after the regression occurred. We call events that are close to the original P95 baseline duration "Baseline events", and events that are close to the new P95 baseline "Regressed events".
+"比较事件"部分允许您比较回归发生前后的示例事件。我们将接近原始p95基线持续时间的事件称为"基线事件"，将接近新p95基线的事件称为"回归事件"。

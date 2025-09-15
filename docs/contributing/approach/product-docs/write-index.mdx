@@ -1,76 +1,76 @@
 ---
-title: How to Write - Index Pages
+title: 如何编写 - 索引页面
 noindex: true
 sidebar_order: 10
 ---
 
-This guide to writing index pages is just that—a guide. It won’t answer every question you have about how to write a good index page, but it will help you make a good start.
+这个索引页面编写指南只是一个指南——它不会回答您关于如何编写好的索引页面的所有问题，但它会帮助您有一个好的开始。
 
 <Alert>
 
-While we use the term “index page” to refer to the top-level page about a feature in Docs, we don’t use this terminology in the actual Docs. Learn more in [Other Guidelines](#other-guidelines).
+虽然我们使用术语"索引页面"来指代Docs中某个功能的主页面，但我们不在实际Docs中使用这个术语。在 [其他指南](#其他指南) 中了解更多。
 
 </Alert>
 
-The index page:
+索引页面：
 
-- Explains WHAT the feature is
-- Describes WHY the feature benefits the customer, without veering too far into marketing language
-- Describes HOW the mechanisms of the feature help the customer achieve these benefits
-- Provides easy-to-find LINKS to child pages describing the subpages of the primary feature and/or how to do things with the feature
+- 解释功能**是什么**
+- 描述功能如何使客户受益，而不会过于偏向营销语言
+- 描述功能的机制如何帮助客户实现这些好处
+- 提供易于查找的**链接**，指向描述主要功能的子页面和/或如何使用该功能的子页面
 
-The index page does not:
+索引页面不：
 
-- Describe HOW TO do anything that can’t be described in one or two sentences; that information should be on child pages in Docs.
+- 描述无法在一句或两句话中描述的**如何操作**；这些信息应该在Docs的子页面上。
 
-## What and Why
+## 什么和为什么
 
-- The elevator pitch of this feature
-  - What the feature is and what problem it’s solving for the customer
-- Two-to-five sentences
-  - This can be longer if you need to explain the feature as a concept before you can explain what the feature provides (for example, [Releases as a feature/concept vs the Releases page of application](/product/releases/))
-- A pixel perfect overview screenshot showing the feature in action
+- 该功能的电梯推介
+  - 功能是什么以及它为客户解决什么问题
+- 两到五句话
+  - 如果您需要在解释功能提供什么之前解释功能概念，这可以更长（例如，[作为功能/概念的发布与应用程序的发布页面](/product/releases/)）
+- 一个像素完美的概览截图，展示功能的实际效果
 
-## How: Contained Features - Page Breakdown
+## 如何：包含的功能 - 页面分解
 
-Use this approach for a feature that doesn’t require much explanation and has distinct sections, like [Usage Stats](/product/stats/) - it’s good for very contained features.
+对于不需要太多解释且具有不同部分的功能使用此方法，如 [使用统计](/product/stats/) - 它非常适合非常包含的功能。
 
-- Describe each page section/element focusing on how it helps the customer achieve the WHY of this feature.
-- Add headings describing the page section/element to make each section of text stand out, if needed.
-- Describe how this feature fits in/interacts with other parts of the application, if applicable (e.g., this page has a button that takes you Discover queries).
+- 描述每个页面部分/元素，重点介绍它如何帮助客户实现此功能的"为什么"。
+- 如果需要，添加描述页面部分/元素的标题以使每个文本部分突出。
+- 描述此功能如何适应/与应用程序的其他部分交互，如果适用（例如，此页面有一个按钮，可将您带到发现查询）。
 
-## How: Wider-Ranging Features - Benefit Breakdown
+## 如何：更广泛的功能 - 好处分解
 
-Use this approach for a page that requires more explanation to break down and/or has a lot of child pages to explain its different benefits, like [Insights](/product/insights/).
+对于需要更多解释来分解和/或有很多子页面来解释其不同好处的页面使用此方法，如 [洞察](/product/insights/)。
 
-- Describe how each page section/element or child page, helps the customer achieve the WHY of this feature.
-- Include links to relevant child pages in the text.
-- Group page sections/elements or child pages as appropriate. {/*<!-- TO DO add an example here - probably the new Alerts index page -->*/}
-- Add headings that describe the benefit rather than the page section/element
-- Describe how this feature fits in/interacts with other parts of the application, if applicable (e.g., this page has a button that takes you Discover queries).
+- 描述每个页面部分/元素或子页面如何帮助客户实现此功能的"为什么"。
+- 在文本中包含指向相关子页面的链接。
+- 适当分组页面部分/元素或子页面。 {/*<!-- 待办事项在这里添加一个示例 - 可能是新的警报索引页面 -->*/}
+- 添加描述好处而不是页面部分/元素的标题
+- 描述此功能如何适应/与应用程序的其他部分交互，如果适用（例如，此页面有一个按钮，可将您带到发现查询）。
 
-If you use this approach, you may want to include a very high-level, one- or two-sentence description of what the page looks like as part of the WHAT/WHY section.
+如果您使用此方法，您可能需要在WHAT/WHY部分中包含一个非常高层次的、一两句话的页面外观描述。
 
-## Links
+## 链接
 
-- Create a section called “Learn More”
-- Use a `<PageGrid />` element to link to child pages for this feature
+- 创建一个名为"了解更多"的部分
+- 使用 `<PageGrid />` 元素链接到此功能的子页面
 
-  - This displays a bullet list of page links with their front matter page descriptions
-  - This might require that you edit the front matter descriptions of the pages displayed in the page grid
+  - 这将显示带有其前端页面描述的页面链接的项目符号列表
+  - 这可能需要您编辑页面网格中显示的页面的前端描述
 
-## Includes
+## 包含文件
 
-You might need to use an `include` file for small pieces of reusable content, such as Early Adopter notes, plan/feature notes, or short snippets of text. These are found in [`/includes/`](https://github.com/getsentry/sentry-docs/tree/master/includes).
+您可能需要使用 `include` 文件来处理可重用内容的小片段，例如早期采用者注释、计划/功能注释或文本的简短片段。这些可以在 [`/includes/`](https://github.com/getsentry/sentry-docs/tree/master/includes) 中找到。
 
-## Other Guidelines
+## 其他指南
 
-Following are some quick tips to keep in mind:
+以下是一些需要记住的快速提示：
 
-- Refer to the feature’s main page in the application as a _page_, _home page_, or even _main page_. Do not call it an _index page_ or use _homepage_ (all one word).
-- Refer to the organization as _Sentry_; refer to the UI of the application as [sentry.io](https://sentry.io) (with lower case “s” and embedded link), not _the Sentry UI_.
-- Avoid beginning sentences with [sentry.io](https://sentry.io).
-- Do not skip heading levels. Don’t use an H3 as your first sub-heading/page-level heading. The page title is considered the H1 and the next heading level that should be used after that is an H2. If you skip heading levels, the right hand sidebar menu won’t render.
-- Do not add more H1 headings to the page. The title is the H1. All other headings on the page should be H2 or lower in hierarchy (that is, higher in number).
+- 将应用程序中的功能主页面称为 _页面_、_主页_ 或甚至 _主页面_。不要称其为 _索引页面_ 或使用 _homepage_（一个单词）。
+- 将组织称为 _Sentry_；将应用程序的UI称为 [sentry.io](https://sentry.io)（小写"s"和嵌入式链接），而不是 _Sentry UI_。
+- 避免以 [sentry.io](https://sentry.io) 开头句子。
+- 不要跳过标题级别。不要将H3作为您的第一个子标题/页面级别标题。页面标题被视为H1，之后应使用的下一个标题级别是H2。如果您跳过标题级别，右侧边栏菜单将无法呈现。
+- 不要在页面上添加更多H1标题。标题是H1。页面上的所有其他标题应为H2或更低层次（即数字更高）。
 
-Internal writers, refer to the [Tips for Contributors](https://www.notion.so/sentry/Tips-for-Contributors-b1997ea7f5e84eb9a02e0770b6dcc453) page for further guidance.
+内部编写者，请参阅 [贡献者提示](https://www.notion.so/sentry/Tips-for-Contributors-b1997ea7f5e84eb9a02e0770b6dcc453) 页面以获取进一步指导。

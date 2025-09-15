@@ -1,7 +1,74 @@
 ---
-title: Network Requests
+title: 网络请求（Network Requests）
 sidebar_order: 10
-description: "Track the performance of your application's HTTP requests and drill into the domains serving them."
+description: "跟踪应用程序HTTP请求的性能，并深入了解提供这些请求的域。"
 ---
 
-<Include name="insights-requests-body.mdx" />
+<Include name="feature-limited-on-team-retention.mdx" />
+
+如果您启用了性能监控，您可以在Sentry中跟踪应用程序的HTTP请求。Sentry监控所有传出的HTTP请求，并帮助您跟踪和调查提供这些请求的域。
+
+在[**请求**页面](#请求页面)上，您可以获得为应用程序传出请求提供服务的域的概览。从那里，您可以在其[**域摘要**页面](#域摘要页面)上检查每个单独域的行为，并在[样本列表](#样本列表)中找到样本事件。
+
+<Arcade src="https://demo.arcade.software/sxHVqKO8f4jGyrahWSuD?embed&show_copy_link=true" />
+
+<br />
+
+## 先决条件和限制
+
+<Alert>
+目前不支持使用非HTTP协议（FTP、WebSocket等）的网络请求。
+</Alert>
+
+HTTP请求监控的可用性取决于您的应用程序使用的SDK。在大多数情况下，Sentry的SDK会自动启用HTTP请求跟踪。您可以检查您的SDK的<PlatformLink to="/tracing/instrumentation/automatic-instrumentation">自动检测文档</PlatformLink>，看看它是否包含HTTP请求跟踪。
+
+如果您使用的SDK没有自动检测HTTP请求，您可以设置自定义检测。以下平台提供了专门的平台文档：
+
+- [Python SDK](/platforms/python/tracing/instrumentation/custom-instrumentation/requests-module/)
+- [JavaScript SDK](/platforms/javascript/guides/node/tracing/instrumentation/custom-instrumentation/requests-module/)
+
+如果您的平台没有专门的自定义检测说明，您可以尝试从受支持的平台之一调整代码。此外，您还可以参考[请求模块SDK开发指南](https://develop.sentry.dev/sdk/performance/modules/requests/)，其中列出了所需的span属性及其预期格式。
+
+## 请求页面
+
+**请求**页面为您提供了应用程序通过HTTP访问的域的概览。您可以使用此页面查看这些域的性能表现，包括它们的平均响应持续时间和3xx、4xx、5xx HTTP响应状态码的比率。
+
+您可以通过点击侧边栏"洞察"下的"请求"来访问**请求**页面。**性能**页面还会在"最耗时的传出HTTP请求域"小组件中显示最耗时的传出HTTP请求域。从那里，您可以点击"查看全部"打开**请求**页面。
+
+在页面顶部，有三个图表总结了传出HTTP请求的整体行为：每分钟请求数（吞吐量）图表、平均持续时间图表以及显示3xx、4xx和5xx HTTP响应状态码百分比的图表。您可以直接在图表中点击并拖动来选择特定时间范围。
+
+图表下方的域表格显示了您的应用程序发出请求的域列表。域名已参数化，其中`*`表示包含该域的所有子域。每行还显示发出请求的项目、吞吐量、平均持续时间、HTTP响应代码比率和应用程序向该域发出请求所花费的总时间（花费时间）。
+
+默认情况下，表格按花费时间最多排序，这可以作为给定域相对性能影响的代理。您还可以通过点击相关列标题按吞吐量、持续时间和HTTP响应状态码比率排序。域搜索栏还允许您搜索特定域。
+
+要查看更多详细信息，请点击域名以打开其**域摘要**页面。
+
+<Alert>
+如果Sentry无法提取传出HTTP请求的域，它会将请求分组在名为"未知域"的特殊表格行中。这可能是由于URL格式不正确，或不支持相对URL的旧JavaScript SDK造成的。要在JavaScript项目中解决此问题，请升级到[7.111.0](https://github.com/getsentry/sentry-javascript/releases/tag/7.111.0)或更高版本。
+</Alert>
+
+## 域摘要页面
+
+要打开域的**域摘要**页面，请点击**请求**页面表格中的域，或点击**性能**页面中"最耗时的域"小组件中的单独行。
+
+在页面顶部，您将看到相同的吞吐量、持续时间和响应状态码图表。如果已知，您还将看到指向域状态页面的链接。
+
+下方，您将找到向该域发出请求的事务列表，按花费时间排序。
+
+如果您想调查特定事务，请点击它以打开请求样本面板。
+
+## 样本列表
+
+点击事务以打开其样本列表。样本列表侧面板显示此域在所选事务中的行为指标。您可以选择按持续时间或响应代码查看细分。
+
+### 持续时间细分
+
+持续时间细分显示所选事务中对域的请求的平均持续时间。它还查找相关样本以帮助您调查请求。Sentry尝试查找比平均值快、慢和大约相等的样本。如果可能，样本还将跨越整个所选时间范围。每个样本都绘制在持续时间图表上并表示为三角形。
+
+样本也在图表下方的表格中列出。每个样本都有指向相关跟踪的链接、响应的HTTP状态和请求的完整URL。
+
+### 响应代码细分
+
+响应代码细分图表绘制了随时间变化的前5个最常见响应状态码。您可以使用此图表诊断响应代码行为。您可以使用右上角的响应代码范围选择器缩小状态码范围。例如，如果您选择"3XX"值，细分图表将缩小到仅显示3XX HTTP状态码。您可以点击细分图表右上角的响应代码徽章来显示和隐藏相应的响应代码图表线。
+
+图表下方的表格显示了所选响应代码范围的样本span列表。每个样本都有指向相关跟踪的链接、响应的HTTP状态和请求的完整URL。

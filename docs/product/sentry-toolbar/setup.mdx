@@ -1,33 +1,33 @@
 ---
-title: "Set Up Sentry Toolbar"
+title: "设置 Sentry 工具栏"
 sidebar_order: 10
-description: "Get started with Sentry's Toolbar, bringing critical Sentry insights and tools into your web app to help your team troubleshoot more effectively."
+description: "开始使用 Sentry 工具栏，将关键的 Sentry 洞察和工具集成到您的 Web 应用中，帮助您的团队更有效地进行故障排除。"
 ---
 
 <Alert>
-  The Sentry Toolbar is currently in **beta**. Beta features are still in progress and may have bugs. Please reach out on
-  [GitHub](https://github.com/getsentry/sentry-toolbar/issues) if you have any feedback or concerns.
+  Sentry 工具栏目前处于 **测试版**。测试版功能仍在开发中，可能存在错误。如果您有任何反馈或疑虑，请在
+  [GitHub](https://github.com/getsentry/sentry-toolbar/issues) 上联系我们。
 </Alert>
 
-## Pre-Requisites
+## 前置条件
 
-For the Sentry Toolbar to work best, [enable tracing](/platforms/javascript/tracing/) in your app. With tracing enabled, the Sentry Toolbar will be able to associate issues and feedback with the current URL in the browser location.
+为了让 Sentry 工具栏发挥最佳效果，请在您的应用中[启用跟踪](/platforms/javascript/tracing/)。启用跟踪后，Sentry 工具栏将能够将问题和反馈与浏览器位置中的当前 URL 关联起来。
 
-## 1. Allow Domains
+## 1. 允许域名
 
-Since the Sentry Toolbar will be visible to users within your app, it's important to consider which environments should render it. See the [FAQ: _"In what environments should I enable the Sentry Toolbar?"_](/product/sentry-toolbar/faq/#in-what-environments-should-i-enable-the-dev-toolbar) for tips.
+由于 Sentry 工具栏将在您的应用中对用户可见，因此重要的是要考虑应在哪些环境中渲染它。请参阅 [FAQ："我应该在哪些环境中启用 Sentry 工具栏？"](/product/sentry-toolbar/faq/#in-what-environments-should-i-enable-the-dev-toolbar) 获取提示。
 
-You will need to edit the [Project Settings](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/) page to allow the Toolbar to connect to Sentry. Add any production, staging, or development domains to the list. Only add domains that you trust and control to this list.
+您需要编辑[项目设置](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/)页面，以允许工具栏连接到 Sentry。将任何生产、暂存或开发域名添加到列表中。仅将您信任并控制的域名添加到此列表中。
 
-![Sentry's Toolbar Settings Page](./img/sentry-project-settings-toolbar.png)
+![Sentry 工具栏设置页面](./img/sentry-project-settings-toolbar.png)
 
-You may also need to add your Sentry domain to the [`frame-src`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src) directive in your CSP response headers. See the [FAQ: _"Why is the Toolbar stuck saying 'Connecting to ...'?"_](/product/sentry-toolbar/faq/#why-is-the-toolbar-stuck-saying-connecting-to-) for more information.
+您可能还需要将您的 Sentry 域名添加到 CSP 响应标头中的 [`frame-src`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src) 指令中。有关更多信息，请参阅 [FAQ："为什么工具栏卡在'正在连接到...'？"](/product/sentry-toolbar/faq/#why-is-the-toolbar-stuck-saying-connecting-to-)。
 
-## 2. Install
+## 2. 安装
 
-If you are developing a React based application, it's time to add the Toolbar into your `package.json` file.
+如果您正在开发基于 React 的应用程序，现在是时候将工具栏添加到您的 `package.json` 文件中了。
 
-Or, you can skip ahead to the next step to find the CDN configuration instructions.
+或者，您可以跳到下一步查找 CDN 配置说明。
 
 ```bash {tabTitle: npm}
 npm install --save @sentry/toolbar
@@ -36,17 +36,16 @@ npm install --save @sentry/toolbar
 yarn add @sentry/toolbar
 ```
 
-## 3. Configure
+## 3. 配置
 
-Finally, whether you have a React application or are loading the Toolbar from the CDN, you need to initialize the Toolbar using JavaScript. This will prompt any visitor to login to your Sentry organization.
+最后，无论您使用的是 React 应用程序还是从 CDN 加载工具栏，您都需要使用 JavaScript 初始化工具栏。这将提示任何访问者登录到您的 Sentry 组织。
 
 ```javascript {tabTitle: React}
 import {useSentryToolbar} from '@sentry/toolbar';
 
 useSentryToolbar({
-  // Remember to conditionally enable the Toolbar.
-  // This will reduce network traffic for users
-  // who do not have credentials to login to Sentry.
+  // 记住要有条件地启用工具栏。
+  // 这将减少没有 Sentry 登录凭据的用户的网络流量。
   enabled,
 
   initProps: {
@@ -61,12 +60,11 @@ useSentryToolbar({
 <body>
     ...
     <!--
-    Put this at the bottom of your page so it doesn’t
-    block other critical JavaScript.
+    将此放在页面底部，这样它就不会
+    阻塞其他关键的 JavaScript。
 
-    Remember to conditionally include the Toolbar
-    script. This will reduce network traffic for users
-    who do not have credentials to login to Sentry.
+    记住要有条件地包含工具栏
+    脚本。这将减少没有 Sentry 登录凭据的用户的网络流量。
     -->
     <script src="https://browser.sentry-cdn.com/sentry-toolbar/latest/toolbar.min.js"></script>
     <script>
@@ -79,31 +77,31 @@ useSentryToolbar({
 </html>
 ```
 
-See the [FAQ: _"How can I conditionally initialize the Toolbar?"_](/product/sentry-toolbar/faq/#how-can-i-conditionally-initialize-the-toolbar) for help implementing conditions for different environments.
+请参阅 [FAQ："如何有条件地初始化工具栏？"](/product/sentry-toolbar/faq/#how-can-i-conditionally-initialize-the-toolbar) 获取有关为不同环境实现条件的帮助。
 
-### Init Configuration Options
+### 初始化配置选项
 
-At minimum, you must set `organizationSlug` and `projectIdOrSlug`.
+最低限度，您必须设置 `organizationSlug` 和 `projectIdOrSlug`。
 
-The complete list of options is here:
+完整的选项列表如下：
 
-| Option | Type | Description | Default Value |
-| ------ | ---- | ----------- | ------------- |
-| `organizationSlug` | `string` | The organization that users should login to. For example \'acme\' | *Required Value* |
-| `projectIdOrSlug` | `string \| number` | The project for which this website/webapp is associated. | *Required Value* |
-| `environment (optional)` | `string \| string[] \| undefined` | The environment of this deployment. Used to narrow search results in the Toolbar UI. Set to `undefined` or `""` or `[]` if you want to see results from all environments. | `undefined` |
-| `placement (optional)` | `'right-edge' \| 'bottom-right-corner'` | Where to render the Toolbar on the screen. | `'right-edge'` |
-| `theme (optional)` | `'system' \| 'dark' \| 'light'` | Whether to use dark or light mode. | `'system'` |
-| `featureFlags (optional)` | `FeatureFlagAdapter \| undefined` | See [Feature Flag Panel](/product/sentry-toolbar/setup//#feature-flag-Panel) below | `undefined` |
-| `sentryOrigin (optional)` | `string \| undefined` | The origin where Sentry can be found. Used for loading the connection to Sentry, and generating links to the website. For example: `'https://acme.sentry.io'` | `'https://sentry.io'` |
-| `domId (optional)` | `string \| undefined` | The `id` given to the \<div\> that is created to contain the Toolbar html. | `'sentry-toolbar'` |
-| `debug (optional)` | `string \| undefined` | A comma separated string of debug targets to enable. Example: `'logging,state'`. If the list contains 'all' or 'true' then all targets will be enabled. Valid targets: `'logging' 'login-success' 'settings' 'state'` | `undefined` |
-| `mountPoint (optional)` | `HTMLElement \| () => HTMLElement \| undefined` | Where to mount the Toolbar in the DOM. | `document.body` |
-| `transactionToSearchTerm (optional)` | `(transactionName: string) => string` | Hook to transform transactionName into a search term | See [transactionToSearchTerm.ts](https://github.com/getsentry/sentry-toolbar/blob/main/src/lib/utils/transactionToSearchTerm.ts) |
+| 选项 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `organizationSlug` | `string` | 用户应登录到的组织。例如 'acme' | *必需值* |
+| `projectIdOrSlug` | `string \| number` | 此网站/web 应用关联的项目。 | *必需值* |
+| `environment (可选)` | `string \| string[] \| undefined` | 此部署的环境。用于缩小工具栏 UI 中的搜索结果范围。如果您想查看所有环境的结果，请设置为 `undefined` 或 `""` 或 `[]`。 | `undefined` |
+| `placement (可选)` | `'right-edge' \| 'bottom-right-corner'` | 在屏幕上渲染工具栏的位置。 | `'right-edge'` |
+| `theme (可选)` | `'system' \| 'dark' \| 'light'` | 是否使用深色或浅色模式。 | `'system'` |
+| `featureFlags (可选)` | `FeatureFlagAdapter \| undefined` | 请参阅下面的[功能标志面板](/product/sentry-toolbar/setup/#feature-flag-Panel) | `undefined` |
+| `sentryOrigin (可选)` | `string \| undefined` | 可以找到 Sentry 的来源。用于加载与 Sentry 的连接，并生成指向网站的链接。例如：'https://acme.sentry.io' | 'https://sentry.io' |
+| `domId (可选)` | `string \| undefined` | 给予创建的包含工具栏 html 的 div 的 id。 | 'sentry-toolbar' |
+| `debug (可选)` | `string \| undefined` | 要启用的调试目标的逗号分隔字符串。示例：'logging,state'。如果列表包含 'all' 或 'true'，则将启用所有目标。有效目标：'logging' 'login-success' 'settings' 'state' | `undefined` |
+| `mountPoint (可选)` | `HTMLElement \| () => HTMLElement \| undefined` | 在 DOM 中挂载工具栏的位置。 | `document.body` |
+| `transactionToSearchTerm (可选)` | `(transactionName: string) => string` | 将 transactionName 转换为搜索词的钩子 | 请参阅 [transactionToSearchTerm.ts](https://github.com/getsentry/sentry-toolbar/blob/main/src/lib/utils/transactionToSearchTerm.ts) |
 
-### Extra React Hook Options
+### 额外的 React Hook 选项
 
-The React hook supports some other top-level options. The defaults values are:
+React hook 支持一些其他顶级选项。默认值如下：
 
 ```javascript {tabTitle:React}
 useSentryToolbar({
@@ -112,65 +110,65 @@ useSentryToolbar({
     projectIdOrSlug: 'website',
   },
 
-  // Optional:
+  // 可选：
   enabled: true,
 
-  // Optional: Either `version` or `cdn`
-  // If both are set then `cdn` will override `version`
+  // 可选：要么 version 要么 cdn
+  // 如果两者都设置，则 cdn 将覆盖 version
   version: 'latest',
   cdn: 'https://browser.sentry-cdn.com/sentry-toolbar/latest/toolbar.min.js',
 })
 ```
 
-| Options | Type | Description | Default Value |
-| ------- | ---- | ----------- | ------------- |
-| `enabled` | `boolean (optional)` | Conditionally initialize the toolbar. Set this to false to avoid requesting the toolbar code on the browser, or to safely unmount an existing toolbar instance | `true` |
-| `version` | `string (optional)` | Request a speicifc version of the toolbar from the CDN. It's recommended to use `latest` for automatic updates. See https://github.com/getsentry/sentry-toolbar/releases for a list of available release tags. | `'latest'` |
-| `cdn` | `string (optional)` | Overrides the `version` field above. Setting the CDN is useful if you want to self-host a specific version of the Toolbar. | `'https://browser.sentry-cdn.com/sentry-toolbar/latest/toolbar.min.js'` |
+| 选项 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `enabled` | `boolean (可选)` | 有条件地初始化工具栏。将其设置为 false 以避免在浏览器上请求工具栏代码，或安全地卸载现有的工具栏实例 | `true` |
+| `version` | `string (可选)` | 从 CDN 请求特定版本的工具栏。建议使用 latest 以进行自动更新。请参阅 https://github.com/getsentry/sentry-toolbar/releases 获取可用发布标签列表。 | 'latest' |
+| `cdn` | `string (可选)` | 覆盖上面的 version 字段。设置 CDN 在您想要自托管特定版本的工具栏时很有用。 | 'https://browser.sentry-cdn.com/sentry-toolbar/latest/toolbar.min.js' |
 
 
-### Unmounting the Toolbar
+### 卸载工具栏
 
-If you have called `SentryToolbar.init({...})` to render the Toolbar, but now want to manually remove or unmount it from the page, you can call the cleanup function that is returned from `init()`. This will unmount all the injected HTML and CSS. Login credentials will not be removed, so you can re-insert the toolbar and still be authenticated.
+如果您已调用 `SentryToolbar.init({...})` 来渲染工具栏，但现在想要手动从页面中删除或卸载它，您可以调用从 `init()` 返回的清理函数。这将卸载所有注入的 HTML 和 CSS。登录凭据不会被删除，因此您可以重新插入工具栏并仍然通过身份验证。
 
-If you are using the React hook, then the toolbar will unmount when the React component is unmounted. Or if you set `enabled: false`.
+如果您使用的是 React hook，则当 React 组件被卸载时，工具栏将被卸载。或者如果您设置 `enabled: false`。
 
 ```javascript
 const unmountToolbar = window.SentryToolbar.init({ ... });
 
-// sometime later...
+// 稍后...
 unmountToolbar();
 ```
 ```javascript {tabTitle:React}
 useSentryToolbar({
-  enabled: false, // The toolbar will not be mounted
+  enabled: false, // 工具栏将不会被挂载
   initProps: {
     ...
   },
 })
 ```
 
-## Feature Flag Panel
+## 功能标志面板
 
 <Alert>
-  If you're using feature flags inside your product then also setup [Feature Flag Evaluation and Change Tracking](/platforms/javascript/feature-flags/) within your SDK.
+  如果您在产品内部使用功能标志，那么还要在您的 SDK 中设置[功能标志评估和更改跟踪](/platforms/javascript/feature-flags/)。
 </Alert>
 
-In order to integrate your feature flagging platform with the Sentry Toolbar, you will need an adapter that can read flag data from your provider. It will also store and retrieve a list of overrides to apply to your local browser session.
+为了将您的功能标志平台与 Sentry 工具栏集成，您将需要一个可以从您的提供商读取标志数据的适配器。它还将存储和检索要应用于您的本地浏览器会话的覆盖列表。
 
-There is a built-in `OpenFeatureAdapter` that is compatible with the [open-feature/js-sdk-contrib](https://github.com/open-feature/js-sdk-contrib). To use it, call the `SentryToolbar.OpenFeatureAdapter` implementation.
+有一个内置的 `OpenFeatureAdapter` 与 [open-feature/js-sdk-contrib](https://github.com/open-feature/js-sdk-contrib) 兼容。要使用它，请调用 `SentryToolbar.OpenFeatureAdapter` 实现。
 
 ```html {tabTitle: CDN}
 <script>
-// Define your provider
+// 定义您的提供商
 const provider = new FlagdWebProvider({...});
 
-// Set the provider into the OpenFeature SDK
+// 将提供商设置到 OpenFeature SDK 中
 OpenFeature.setProvider(provider);
 
 window.SentryToolbar.init({
   ...
-  // Set the provider into the OpenFeatureAdapter
+  // 将提供商设置到 OpenFeatureAdapter 中
   featureFlags: window.SentryToolbar.OpenFeatureAdapter({provider})
 });
 </script>
@@ -179,52 +177,52 @@ window.SentryToolbar.init({
 import {OpenFeature} from '@openfeature/web-sdk';
 import {FlagdWebProvider} from '@openfeature/flagd-web-provider';
 
-// Define your provider
+// 定义您的提供商
 const provider = new FlagdWebProvider({...});
 
-// Set the provider into the OpenFeature SDK
+// 将提供商设置到 OpenFeature SDK 中
 OpenFeature.setProvider(provider);
 
 window.SentryToolbar.init({
   ...
-  // Set the provider into the OpenFeatureAdapter
+  // 将提供商设置到 OpenFeatureAdapter 中
   featureFlags: window.SentryToolbar.OpenFeatureAdapter({provider})
 });
 ```
 
-You can also create your own adapter by implementing the [`FeatureFlagAdapter` interface](https://github.com/getsentry/sentry-toolbar/blob/main/src/lib/types/featureFlags.ts).
+您还可以通过实现 [`FeatureFlagAdapter` 接口](https://github.com/getsentry/sentry-toolbar/blob/main/src/lib/types/featureFlags.ts) 来创建自己的适配器。
 
-The adapter interface is:
+适配器接口如下：
 ```typescript
 type FlagValue = boolean | string | number | undefined;
 type FlagMap = Record<string, FlagValue>;
 interface FeatureFlagAdapter {
   /**
-   * All known flag names and their evaluated values.
+   * 所有已知标志名称及其评估值。
    */
   getFlagMap: () => Promise<FlagMap>;
 
   /**
-   * Any overridden or manually set flags and values.
+   * 任何覆盖或手动设置的标志和值。
    */
   getOverrides: () => Promise<FlagMap>;
 
   /**
-   * Manually set a flag to be a specific value, overriding the evaluated value.
+   * 手动将标志设置为特定值，覆盖评估值。
    */
   setOverride: (name: string, override: FlagValue) => void;
 
   /**
-   * A callback to clear all overrides from this browser.
+   * 清除此浏览器中所有覆盖的回调。
    */
   clearOverrides: () => void;
 
   /**
-   * Deeplink into your external feature-flag provider and find out more about
-   * this specific flag.
+   * 深度链接到您的外部功能标志提供商，并了解更多关于
+   * 此特定标志的信息。
    */
     urlTemplate?: undefined | ((name: string) => string | URL | undefined);
 }
 ```
 
-[MockFeatureFlagAdapter.tsx](https://github.com/getsentry/sentry-toolbar/blob/main/src/env/demo/MockFeatureFlagAdapter.tsx) is an example adapter to use as a reference.
+[MockFeatureFlagAdapter.tsx](https://github.com/getsentry/sentry-toolbar/blob/main/src/env/demo/MockFeatureFlagAdapter.tsx) 是一个可用作参考的示例适配器。

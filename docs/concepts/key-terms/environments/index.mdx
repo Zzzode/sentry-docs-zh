@@ -1,53 +1,53 @@
 ---
-title: Creating and Filtering Environments
+title: 创建和过滤环境
 sidebar_order: 20
-description: "Learn how environments can help you filter issues, releases, and user feedback in Sentry."
+description: "了解环境如何帮助您在Sentry中过滤问题、发布版本和用户反馈。"
 ---
 
-`Environment` is a Sentry-supported tag that you can (and should) add to your SDK. Generally, the tag accepts any value, but it's intended to refer to your code deployments' naming convention, such as _development_, _testing_, _staging_, or _production_.
+`Environment`是Sentry支持的标签，您可以（并且应该）将其添加到您的SDK中。通常，该标签接受任何值，但其目的是指代您的代码部署命名约定，例如_development_、_testing_、_staging_或_production_。
 
-Environments help you better filter issues, releases, and user feedback in the **Issue Details** page of [sentry.io](https://sentry.io). On that page, you can view information about a specific environment, focusing on the most recent release. If you’re using a multi-staged release process, you can also select a different default environment and set conditions that match the `environment` attribute to restrict alerts to only specific release stages.
+环境可帮助您更好地在[sentry.io](https://sentry.io)的**问题详情**页面中过滤问题、发布版本和用户反馈。在该页面上，您可以查看有关特定环境的信息，重点关注最近的发布版本。如果您使用多阶段发布流程，您还可以选择不同的默认环境并设置与`environment`属性匹配的条件，以将警报限制为仅特定发布阶段。
 
-Use projects to separate different services or applications, and environments to separate different environments or release stages within each. If you've selected one or more projects in the filters of Sentry's web UI, the environment selector shows only environments associated with events from the selected projects.
+使用项目来分隔不同的服务或应用程序，使用环境来分隔每个项目中的不同环境或发布阶段。如果您在Sentry的Web UI过滤器中选择了一个或多个项目，环境选择器将仅显示与所选项目中的事件关联的环境。
 
-![All Envs dropdown](./img/sentry-env.png)
+![所有环境下拉菜单](./img/sentry-env.png)
 
-Environments are unique to each organization. Environment settings, however, are defined per project since you can hide environments per project.
+环境对于每个组织都是唯一的。但是，环境设置是按项目定义的，因为您可以按项目隐藏环境。
 
-## Creating Environments
+## 创建环境
 
-Sentry automatically creates environments when it receives an [event](/api/events/) with the environment tag. You can also create an environment when you first `init` your SDK, [as documented for each SDK](/platform-redirect/?next=/configuration/environments/).
+当Sentry接收到带有环境标签的[事件](/api/events/)时，它会自动创建环境。您还可以在首次`init`您的SDK时创建环境，[如每个SDK的文档中所述](/platform-redirect/?next=/configuration/environments/)。
 
-### Environment Naming Requirements
+### 环境命名要求
 
-When creating environments, be aware of the following requirements:
+创建环境时，请注意以下要求：
 
-- Environment names are **case-sensitive**
-- Names cannot contain **newlines, spaces, or forward slashes**
-- Names cannot be the string **"None"**
-- Names cannot exceed **64 characters**
-- You **cannot delete** environments, but you can [hide them](#hidden-environments)
+- 环境名称**区分大小写**
+- 名称不能包含**换行符、空格或正斜杠**
+- 名称不能是字符串**"None"**
+- 名称不能超过**64个字符**
+- 您**无法删除**环境，但可以[隐藏它们](#hidden-environments)
 
-## Filtering Environments
+## 过滤环境
 
-### Issues
+### 问题
 
-If an issue has events from multiple environments, the issue will appear when you select any of those environments. Sentry defines an issue as a grouping of similar events. If you tag one or more events within an issue with a specific environment, that issue will appear in your view when filtered by that environment. For example, if an issue is composed of one event tagged with `Production` and one event tagged with `Staging`, the issue will appear in your view when filtering by `Production`, as well as by `Staging`.
+如果问题有来自多个环境的事件，当您选择其中任何一个环境时，该问题都会出现。Sentry将问题定义为相似事件的分组。如果您用特定环境标记问题中的一个或多个事件，则按该环境过滤时，该问题将出现在您的视图中。例如，如果一个问题由一个标记为`Production`的事件和一个标记为`Staging`的事件组成，则按`Production`以及按`Staging`过滤时，该问题都会出现在您的视图中。
 
-Also, the environment filter affects all issue-related metrics, such as the count of users affected, times series graphs, and event count.
+此外，环境过滤器会影响所有与问题相关的指标，例如受影响的用户计数、时间序列图和事件计数。
 
-### Releases
+### 发布版本
 
-A release by itself is not associated with an environment but can be deployed to different environments. When you select an environment on the releases page, it shows releases that were deployed to that environment. For example, a release deployed to the `QA` and `Prod` environment will appear in your view when filtering by `QA`, as well as `Prod`. All issue-related metrics within a given release will be affected by the environment filter. A deploy must have an environment.
+发布版本本身不与环境关联，但可以部署到不同的环境。当您在发布页面上选择环境时，它会显示部署到该环境的发布版本。例如，部署到`QA`和`Prod`环境的发布版本将在您按`QA`以及`Prod`过滤时出现在您的视图中。给定发布版本中所有与问题相关的指标都将受到环境过滤器的影响。部署必须具有环境。
 
-For more details about configuring releases and deploys, see the [full documentation on Releases](/product/releases/).
+有关配置发布版本和部署的更多详细信息，请参阅[发布版本的完整文档](/product/releases/)。
 
-## Hidden Environments
+## 隐藏环境
 
-Since you can't delete environments, Sentry has an option to hide it from the UI. Hiding environments can be useful when you're no longer sending events from an environment, or you've accidentally created an environment you no longer want. You can hide environments from your environments dropdown by navigating to **Project Settings > Environments**, and selecting "Hide", but events sent to that environment **will still count against your quota**.
+由于您无法删除环境，Sentry提供了在UI中隐藏它的选项。当您不再从环境发送事件时，或者您意外创建了一个不再需要的环境时，隐藏环境会很有用。您可以通过导航到**项目设置 > 环境**并选择"隐藏"来从环境下拉菜单中隐藏环境，但发送到该环境的**事件仍将计入您的配额**。 
 
-If a project is hidden, you won't see that environment in the environment selector, unless another project with events from the same environment is also selected (and doesn't have it hidden in its project settings).
+如果项目被隐藏，您将不会在环境选择器中看到该环境，除非还选择了具有来自相同环境的事件的另一个项目（并且在其项目设置中没有隐藏它）。
 
-Follow along with the interactive demo below to see how to hide and unhide environments.
+请跟随下面的交互式演示，了解如何隐藏和取消隐藏环境。
 
 <Arcade src="https://demo.arcade.software/GqXUGJBjoH5fOG5AMyLt?embed" />

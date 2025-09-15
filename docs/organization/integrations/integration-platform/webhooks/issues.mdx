@@ -1,62 +1,65 @@
 ---
-title: Issues
+title: 问题
 sidebar_order: 4
-description: "Learn more about Sentry's integration platform issue webhooks."
+description: "了解有关 Sentry 集成平台问题 webhooks 的更多信息。"
 ---
 
-Sentry integrations that have subscribed to issue webhooks can receive information about an issue being created and changing state.
+已订阅问题 webhooks 的 Sentry 集成可以接收有关问题创建和状态更改的信息。
 
-## Sentry-Hook-Resource Header
+## Sentry-Hook-Resource 标头
 
 `'Sentry-Hook-Resource': 'issue'`
 
-## Attributes
+## 属性
 
 ### action
 
-- type: string
-- description: can be `created`, `resolved`, `assigned`, `archived`, or `unresolved`
+- 类型：字符串
+- 描述：可以是 `created`、`resolved`、`assigned`、`archived` 或 `unresolved`
 
 ### data['issue']
 
-- type: object
-- description: the issue
+- 类型：对象
+- 描述：问题
 
 ### data['issue']['url']
 
-- type: string
-- description: the api url for the issue
+- 类型：字符串
+- 描述：问题的 api url
 
 ### data['issue']['web_url']
 
-- type: string
-- description: the web url for the issue
+- 类型：字符串
+- 描述：问题的 web url
 
 ### data['issue']['project_url']
 
-- type: string
-- description: the api url to the project the issue is a part of
+- 类型：字符串
+- 描述：问题所属项目的 api url
 
-## Payload
+## 有效负载
 
-Payload includes additional information about the issue. Some important fields to pay attention to are:
+有效负载包括有关问题的附加信息。需要注意的一些重要字段是：
 
 ### status
-Some issue webhooks are triggered on status change of an issue. An issue status can be `resolved`, `unresolved`, or `ignored` (archived).
+
+一些问题 webhooks 是在问题状态更改时触发的。问题状态可以是 `resolved`、`unresolved` 或 `ignored`（已归档）。
 
 ### substatus
-A status can mean multiple things, so substatus gives more details about the status. For example, an issue status can change to `unresolved` because it is now `escalating` or because a resolved issue is `regressed`. Possible substatuses are: `archived_until_escalating`, `archived_until_condition_met`, `archived_forever`, `escalating`, `ongoing`, `regressed` and `new`.
+
+状态可能意味着多种事情，因此子状态提供了有关状态的更多详细信息。例如，问题状态可能更改为 `unresolved`，因为它现在是 `escalating` 或因为已解决的问题已 `regressed`。可能的子状态有：`archived_until_escalating`、`archived_until_condition_met`、`archived_forever`、`escalating`、`ongoing`、`regressed` 和 `new`。
 
 ### statusDetails
-`statusDetails` includes more detailed information about `resolved` and `archived` status changes on an issue. These details can include:
-* `inRelease`: The release that the resolution is in (for example, `latest`)
-* `inNextRelease`: `True` if the resolution will be in the next release
-* `inCommit`: Includes information about the resolution commit (such as `repository` and `commit`)
-* `ignoreCount`: Maximum number of occurences in for an archived issue before it gets escalated 
-* `ignoreWindow`: Used with `ignoreCount` indicating the number of minutes that `ignoreCount` occurences will be ignored
-* `ignoreUserCount`: Maximun number of users who are affected by an archived issue before it gets escalated
-* `ignoreUserWindow`: Used with `ignoreUserCount` indicating the number of minutes that `ignoreUserCount` affected users will be ignored 
-* `ignoreDuration`: The duration (in minutes) that an archived issue should be ignored before it gets escalated. Increase in the number of users affected or the number of occurences will not escalate before this duration has passed unless there is a spike. To learn more about how this works, see [Escalating Issues Algorithm](/product/issues/states-triage/escalating-issues/).
+
+`statusDetails` 包括有关问题的 `resolved` 和 `archived` 状态更改的更详细信息。这些详细信息可以包括：
+* `inRelease`：解决所在的版本（例如 `latest`）
+* `inNextRelease`：如果解决将在下一个版本中，则为 `True`
+* `inCommit`：包括有关解决提交的信息（如 `repository` 和 `commit`）
+* `ignoreCount`：已归档问题在被升级之前的最大出现次数
+* `ignoreWindow`：与 `ignoreCount` 一起使用，表示 `ignoreCount` 出现将被忽略的分钟数
+* `ignoreUserCount`：已归档问题在被升级之前受影响的最大用户数
+* `ignoreUserWindow`：与 `ignoreUserCount` 一起使用，表示 `ignoreUserCount` 受影响用户将被忽略的分钟数
+* `ignoreDuration`：已归档问题在被升级之前应被忽略的持续时间（以分钟为单位）。受影响用户数量或出现次数的增加不会在此持续时间过去之前升级，除非有峰值。要了解有关其工作原理的更多信息，请参见[升级问题算法](/product/issues/states-triage/escalating-issues/)。
 
 ```json
 {
@@ -99,8 +102,8 @@ A status can mean multiple things, so substatus gives more details about the sta
       "shortId": "FRONT-END-9",
       "status": "unresolved",
       "statusDetails": {},
-      "subscriptionDetails": null,
       "substatus": "escalating",
+      "subscriptionDetails": null,
       "title": "ReferenceError: blooopy is not defined",
       "type": "error",
       "userCount": 1

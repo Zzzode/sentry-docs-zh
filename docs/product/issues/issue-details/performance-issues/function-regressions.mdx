@@ -1,40 +1,40 @@
 ---
-title: "Function Regression"
+title: "函数回归"
 sidebar_order: 40
-description: "Learn more about Function Regression issues and how to diagnose and fix them."
+description: "了解更多关于函数回归问题以及如何诊断和修复它们的信息。"
 ---
 
-Function Regression issues capture a generic class of problems where the duration of a function has increased over time. This can lead to degraded performance in your application. Sentry attempts to monitor some of your most common functions out of the box and report any possible regressions under the Function Regression issue type.
+函数回归问题捕获了一类通用问题，其中函数的持续时间随时间增加。这可能导致应用程序性能下降。Sentry尝试开箱即用地监控您的一些最常见函数，并在函数回归问题类型下报告任何可能的回归。
 
-## Detection Criteria
+## 检测标准
 
-Sentry can only detect Function Regression issues on projects that have [Profiling](/product/explore/profiling) enabled. Sentry will periodically check the 95th percentile function duration of the most common application functions in your project. When a significant increase in the p95 value for function duration is detected and has been sustained for some time, a regression issue is created.
+Sentry只能在启用了[性能分析](/product/explore/profiling)的项目上检测函数回归问题。Sentry会定期检查项目中最常见应用程序函数的第95百分位函数持续时间。当检测到函数持续时间的p95值显著增加并已持续一段时间时，会创建回归问题。
 
-## Charts
+## 图表
 
-The chart shows a window of up to 14 days before and after the regression was identified. Here, you can see the p95 function duration as well as the function throughput.
+图表显示了在识别回归之前最多14天和之后最多14天的窗口。在这里，您可以看到p95函数持续时间以及函数吞吐量。
 
-A common cause of regressions is an increase in the throughput of a function. For example, when throughput increases in a code path that contains a mutex, this can cause lock contention.
+回归的常见原因是函数吞吐量的增加。例如，当包含互斥锁的代码路径中的吞吐量增加时，这可能导致锁争用。
 
-## Function Evidence
+## 函数证据
 
-To find additional information about your regressed function, go to the "Function Evidence" section which shows the following:
+要查找有关回归函数的额外信息，请转到"函数证据"部分，该部分显示以下内容：
 
-- **Function Name:** The name of the function that has regressed.
-- **Package Name:** The package of the function that has regressed.
-- **File Name:** The file name of the function that has regressed.
-- **Regression Date:** The date and time at which the regression started.
+- **函数名称：** 已回归的函数名称
+- **包名称：** 已回归函数的包
+- **文件名称：** 已回归函数的文件名
+- **回归日期：** 回归开始的日期和时间
 
-## Transactions Impacted
+## 受影响的事务
 
-The "Transactions Impacted" section shows a list of transactions where this regression shows up. Next to each transaction, you can find the following:
+"受影响的事务"部分显示了此回归出现的事务列表。在每个事务旁边，您可以找到以下内容：
 
-- The p95 function duration of the regressed function before the regression.
-- The p95 function duration of the regressed function after the regression.
-- The percentage change in p95 function duration before and after the regression.
+- 回归前回归函数的p95函数持续时间
+- 回归后回归函数的p95函数持续时间
+- 回归前后p95函数持续时间的百分比变化
 
-The before and after values also link to example profiles you can examine to identify the root cause of the regression.
+前后值还链接到您可以检查以识别回归根本原因的示例性能分析。
 
-## Example Profiles
+## 示例性能分析
 
-The "Example Profiles" section shows a list of example profiles where you can find the regressed function from before and after the regression.
+"示例性能分析"部分显示了示例性能分析列表，您可以在其中找到回归前后的回归函数。

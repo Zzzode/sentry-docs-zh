@@ -1,35 +1,35 @@
 ---
-title: Add the Sentry SDK to Your Backend Project
+title: 将 Sentry SDK 添加到您的后端项目
 sidebar_order: 4
-description: "Learn how to add the Sentry SDK to your backend codebase."
+description: "学习如何将 Sentry SDK 添加到您的后端代码库中。"
 ---
 
-This section walks you through how to import the sample application into your local development environment, add the Sentry SDK, and initialize it.
+本节将指导您如何将示例应用程序导入到本地开发环境中，添加 Sentry SDK 并进行初始化。
 
-If you're using your own source code, you can skip this section. Instead:
+如果您使用的是自己的源代码，可以跳过本节。相反：
 
-- Select your [platform](/platforms/) and follow its **Getting Started** guide to add the Sentry SDK to your code.
-- Then, skip to the [next step](/product/sentry-basics/distributed-tracing/generate-first-error/).
+- 选择您的[平台](/platforms/)并按照其**入门指南**将 Sentry SDK 添加到您的代码中。
+- 然后，跳转到[下一步](/product/sentry-basics/distributed-tracing/generate-first-error/)。
 
-## 1. Clone the Sample Application
+## 1. 克隆示例应用程序
 
-The sample application is a basic backend application using Express and Node.
+示例应用程序是一个使用 Express 和 Node 的基本后端应用程序。
 
-1. Fork the [sample application's repository](https://github.com/getsentry/tracing-tutorial-backend) on GitHub.
+1. 在 GitHub 上 fork [示例应用程序仓库](https://github.com/getsentry/tracing-tutorial-backend)。
 
-1. Clone the forked repository to your local environment:
+1. 将 fork 的仓库克隆到本地环境：
 
    ```bash
    git clone git@github.com:<your_username>/tracing-tutorial-backend.git
    ```
 
-1. Open the `tracing-tutorial-backend` project in your preferred code editor.
+1. 在您首选的代码编辑器中打开 `tracing-tutorial-backend` 项目。
 
-## 2. Add the Sentry Node SDK
+## 2. 添加 Sentry Node SDK
 
-Sentry captures data by using a platform-specific SDK that you add to your application's runtime. To use the SDK, import and configure it in your source code. This demo project uses [Sentry's Node SDK](https://github.com/getsentry/sentry-javascript/tree/master/packages/node).
+Sentry 通过使用特定于平台的 SDK 来捕获数据，您需要将其添加到应用程序的运行时中。要使用 SDK，请在源代码中导入并配置它。此演示项目使用 [Sentry 的 Node SDK](https://github.com/getsentry/sentry-javascript/tree/master/packages/node)。
 
-1. Navigate to the `tracing-tutorial-backend` project folder and install the Sentry Express SDK using NPM.
+1. 导航到 `tracing-tutorial-backend` 项目文件夹，并使用 NPM 安装 Sentry Express SDK。
 
    ```bash {tabTitle:npm}
    npm install --save @sentry/node @sentry/profiling-node
@@ -43,7 +43,7 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    pnpm add @sentry/node @sentry/profiling-node
    ```
 
-1. Create a file at the root level of your project and call it `instrument.js`. Import and initialize the SDK using the following code:
+1. 在项目根目录下创建一个名为 `instrument.js` 的文件。使用以下代码导入并初始化 SDK：
 
    ```javascript {filename:instrument.js}
    const Sentry = require("@sentry/node");
@@ -52,20 +52,20 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    Sentry.init({
      dsn: "sample_DSN_key",
      integrations: [nodeProfilingIntegration()],
-     // Tracing
-     // Capture 100% of the transactions
+     // 追踪
+     // 捕获 100% 的事务
      tracesSampleRate: 1.0,
 
-     // Set sampling rate for profiling - this is relative to tracesSampleRate
+     // 设置性能分析的采样率 - 这是相对于 tracesSampleRate 的
      profilesSampleRate: 1.0,
    });
    ```
 
-   It's important to import and initialize the SDK as early as possible in your application's lifecycle so Sentry can capture errors throughout the lifecycle.
+   重要的是要尽可能早地在应用程序生命周期中导入和初始化 SDK，这样 Sentry 就可以在整个生命周期中捕获错误。
 
-1. Add your DSN key to the Sentry SDK configuration.
+1. 将您的 DSN 密钥添加到 Sentry SDK 配置中。
 
-   Paste in the DSN key value you copied from the project created in the [previous section](/product/sentry-basics/distributed-tracing/create-new-project/). NOTE: This DSN key should be **different** from the one you used to configure Sentry on your frontend project. Your frontend and backend projects should each have a unique DSN.
+   粘贴您在[上一节](/product/sentry-basics/distributed-tracing/create-new-project/)中创建的项目中复制的 DSN 密钥值。注意：此 DSN 密钥应该与您用于配置前端项目的**不同**。您的前端和后端项目应该各自有一个唯一的 DSN。
 
    ```javascript {filename:instrument.js}
    Sentry.init({
@@ -74,22 +74,21 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    });
    ```
 
-1. Save the file.
+1. 保存文件。
 
-   The options set in `Sentry.init()` are called the SDK's configuration. The only required configuration option is the DSN. However, the SDK supports many other configuration options. Learn more in our [Configuration](/platforms/javascript/guides/react/configuration/) docs.
+   在 `Sentry.init()` 中设置的选项称为 SDK 的配置。唯一必需的配置选项是 DSN。但是，SDK 支持许多其他配置选项。在我们的[配置](/platforms/javascript/guides/react/configuration/)文档中了解更多信息。
 
-   The configuration above enables Sentry's error monitoring feature, as well as its [**Tracing**](/product/tracing/) and [**Session Replay**](/platforms/javascript/guides/react/session-replay) features.
+   上述配置启用了 Sentry 的错误监控功能，以及其[**追踪**](/product/tracing/)和[**会话重放**](/platforms/javascript/guides/react/session-replay)功能。
 
-
-1. Import `instrument.js` at the top of your `server.js` file. Then import `Sentry` and set up the error handler after all controllers and before any other middleware:
+1. 在 `server.js` 文件的顶部导入 `instrument.js`。然后导入 `Sentry` 并在所有控制器之后和任何其他中间件之前设置错误处理程序：
 
 ```javascript diff {filename:server.js}
-+    // IMPORTANT: Make sure to import `instrument.js` at the top of your file.
-+    // If you're using ECMAScript Modules (ESM) syntax, use `import "./instrument.js";`
++    // 重要：确保在文件顶部导入 `instrument.js`。
++    // 如果您使用的是 ECMAScript 模块 (ESM) 语法，请使用 `import "./instrument.js";`
 +    require("./instrument.js");
 
-+    // All other imports below
-+    // Import with `import * as Sentry from "@sentry/node"` if you are using ESM
++    // 所有其他导入在下面
++    // 如果您使用 ESM，请使用 `import * as Sentry from "@sentry/node"`
    const Sentry = require("@sentry/node");
    const express = require("express");
    const productsRoute = require('./routes/products');
@@ -109,17 +108,17 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
      throw new Error("My first Sentry error!");
    });
 
-+    // The error handler must be registered before any other error middleware and after all controllers
++    // 错误处理程序必须在任何其他错误中间件之前注册，并在所有控制器之后注册
 +    Sentry.setupExpressErrorHandler(app);
 
-+    // Optional fallthrough error handler
++    // 可选的贯穿错误处理程序
 +    app.use(function onError(err, req, res, next) {
-+        // The error id is attached to `res.sentry` to be returned
-+        // and optionally displayed to the user for support.
-+        console.log('500 error thrown!');
-+        res.statusCode = 500;
-+        res.end(res.sentry + "\n");
-+    });
++        // 错误 ID 附加到 `res.sentry` 以返回
++        // 并可选择显示给用户以获取支持。
+        console.log('500 error thrown!');
+        res.statusCode = 500;
+        res.end(res.sentry + "\n");
+    });
 
    app.use('/products', productsRoute);
 
@@ -131,34 +130,34 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
 
 ```
 
-## 3. Build and Run the Sample Application
+## 3. 构建并运行示例应用程序
 
-In the `tracing-tutorial-backend` project folder:
+在 `tracing-tutorial-backend` 项目文件夹中：
 
-1. Install project dependencies.
+1. 安装项目依赖项。
 
    ```bash
    npm install
    ```
 
-1. Start the application in develop mode:
+1. 在开发模式下启动应用程序：
 
    ```bash
    node server.js
    ```
 
-   Once the application starts, you'll see a confirmation message similar to this one in your terminal:
+   应用程序启动后，您将在终端中看到类似于此的确认消息：
 
    ```bash
    Server is running on port 3001
    ```
 
-> **Troubleshooting tip**: If the application fails to start due to syntax errors or errors for missing dependencies/modules, make sure you're using Node 18+ and install dependencies again. If you're using [nvm](https://github.com/nvm-sh/nvm), ensure you are on the right node version with `nvm use 18` and then `npm install`.
+> **故障排除提示**：如果应用程序由于语法错误或缺少依赖项/模块错误而无法启动，请确保您使用的是 Node 18+ 并重新安装依赖项。如果您使用的是 [nvm](https://github.com/nvm-sh/nvm)，请确保使用正确的节点版本 `nvm use 18`，然后 `npm install`。
 
-1. Open the sample application in your browser.
+1. 在浏览器中打开示例应用程序。
 
-   The sample app should be running at [http://localhost:3001/](http://localhost:3001/) or the URL output in your terminal in the last step.
+   示例应用程序应该在 [http://localhost:3001/](http://localhost:3001/) 或上一步中终端输出的 URL 上运行。
 
-## Next
+## 下一步
 
-Well done! You now have a sample Express backend app running with the Sentry SDK initialized. Next, [Generate your first cross-project error](/product/sentry-basics/distributed-tracing/generate-first-error/) to start using Sentry's Distributed Tracing feature.
+做得好！您现在有一个示例 Express 后端应用程序正在运行，并已初始化 Sentry SDK。接下来，[生成您的第一个跨项目错误](/product/sentry-basics/distributed-tracing/generate-first-error/)以开始使用 Sentry 的分布式追踪功能。

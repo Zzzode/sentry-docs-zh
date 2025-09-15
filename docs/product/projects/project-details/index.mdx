@@ -1,85 +1,85 @@
 ---
-title: Project Details
+title: 项目详情
 sidebar_order: 1
-description: "Get an overview of your project's health and triage the top issues."
+description: "获取项目健康状况的概览并对顶级问题进行分类。"
 ---
 
-The **Project Details** page provides a consolidated view of various project metrics for the selected time range (14 days by default).
+**项目详情**页面为选定的时间范围（默认为14天）提供各种项目指标的整合视图。
 
-The top four cards display the following:
+顶部四个卡片显示以下内容：
 
-- Crash free [sessions](/product/releases/health/#session)
-- Crash free users
-- Number of [releases](/product/releases/)
+- 无崩溃[会话](/product/releases/health/#session)
+- 无崩溃用户
+- [发布](/product/releases/)数量
 - [Apdex](/product/insights/overview/metrics/#apdex)
 
-The two graphs below the cards show the value of a specific metric over the specified time range. Click on the graph legend to show or hide an overlay of the previous time period and any releases (if set up).
+卡片下方的两个图表显示特定指标在指定时间范围内的值。点击图表图例以显示或隐藏上一时间段和任何发布（如果已设置）的叠加。
 
 <Arcade src="https://demo.arcade.software/XU3D5nw7kEDBO9KwmwuR?embed" />
 
 <br />
 
-By default, the graphs show crash free sessions and Apdex, but you can toggle the **Display** to set the view to any of the following:
+默认情况下，图表显示无崩溃会话和 Apdex，但您可以切换**显示**以将视图设置为以下任何一项：
 
-- Crash free [sessions](/product/releases/health/#session)
-- Crash free users
+- 无崩溃[会话](/product/releases/health/#session)
+- 无崩溃用户
 - [Apdex](/product/insights/overview/metrics/#apdex)
-- [Failure rate](/product/insights/overview/metrics/#failure-rate)
-- [Transactions per minute](/product/insights/overview/metrics/#throughput-total-tpm-tps)
-- Number of errors
-- Number of sessions
-- Number of transactions
+- [失败率](/product/insights/overview/metrics/#failure-rate)
+- [每分钟事务数](/product/insights/overview/metrics/#throughput-total-tpm-tps)
+- 错误数量
+- 会话数量
+- 事务数量
 
-You can also use this page to set up [alerts](/product/alerts-notifications/) or [triage an issue](#triage).
+您还可以使用此页面设置[警报](/product/alerts-notifications/)或[对问题进行分类](#triage)。
 
-## Create an Alert
+## 创建警报
 
-You can use the **Project Details** page to access Sentry's alerts feature.
+您可以使用**项目详情**页面访问 Sentry 的警报功能。
 
-Click the **Create Alert** button at the top right to set up either an [Issue Alert](/product/alerts-notifications/issue-alerts/) or a [Metric Alert](/product/alerts-notifications/metric-alerts/).
+点击右上角的**创建警报**按钮以设置[问题警报](/product/alerts-notifications/issue-alerts/)或[指标警报](/product/alerts-notifications/metric-alerts/)。
 
 <Arcade src="https://demo.arcade.software/ZEOZDNURwYhmkqdQ76ge?embed" />
 
-## View Latest Alerts
+## 查看最新警报
 
-The **Latest Alerts** section in the right sidebar shows the 3 latest triggered alerts. Click on an alert to go to the **Alert Details** page. The selected time range does not affect the displayed alerts.
+右侧边栏中的**最新警报**部分显示3个最新触发的警报。点击警报转到**警报详情**页面。选定的时间范围不影响显示的警报。
 
 <Arcade src="https://demo.arcade.software/2pJrK9pQvEwpVRseSxbz?embed" />
 
-## View Latest Releases
+## 查看最新发布
 
-You can use the **Project Details** page to assess how often you release new versions of your application:
+您可以使用**项目详情**页面评估您发布新版本应用程序的频率：
 
-- Number of releases compared to the previous period in the top card
-- Release lines overlaid on top of graphs
-- Most recent five releases in the **Latest Releases** section of the sidebar. You can click one of these to navigate to the [Release Details](/product/releases/health/release-details/) page. The selected time range does not affect the displayed releases.
+- 与上一时期相比的发布数量在顶部卡片中
+- 图表上叠加的发布线
+- 侧边栏**最新发布**部分中的最近五个发布。您可以点击其中一个导航到[发布详情](/product/releases/health/release-details/)页面。选定的时间范围不影响显示的发布。
 
-## Triage Top Issues
+## 分类顶级问题
 
-To help you triage issues, the **Project Details** page shows you the 5 most frequent unhandled issues, sorted by the number of events in the selected time range. Click on an issue to navigate to the **Issue Details** page.
+为了帮助您对问题进行分类，**项目详情**页面显示5个最频繁的未处理问题，按选定时间范围内的事件数量排序。点击问题导航到**问题详情**页面。
 
 <Arcade src="https://demo.arcade.software/zuLVkma4eOWIHuLlXbYm?embed" />
 
 <br />
 
-If you prefer another view, you can also click **Open in Issues** or **Open in Discover** to see issues sorted in the same way on those pages.
+如果您更喜欢其他视图，您也可以点击**在问题中打开**或**在发现中打开**以在这些页面上以相同方式排序查看问题。
 
-## Manage Project Teams
+## 管理项目团队
 
-See what teams are involved in this project in the **Team Access** section of the sidebar.
+在侧边栏的**团队访问**部分查看参与此项目的团队。
 
-Click the open icon to navigate to **Project Teams** page to see all the teams that have access to this project. If you are an owner or admin, you can add or remove teams from the project.
+点击打开图标导航到**项目团队**页面以查看有权访问此项目的所有团队。如果您是所有者或管理员，您可以从项目中添加或删除团队。
 
-Click on a team to see that team's members and their roles. If you are a team admin, you can also add or remove members from the team or change their role. You can also see other projects that team owns.
+点击团队以查看该团队的成员及其角色。如果您是团队管理员，您还可以从团队中添加或删除成员或更改其角色。您还可以看到该团队拥有的其他项目。
 
 <Arcade src="https://demo.arcade.software/mhgmIGjj55tZ3PVqdUnJ?embed" />
 
-## Modify Project Settings
+## 修改项目设置
 
-Use the settings icon at the top of the page to access **Project Settings**. Modify settings as appropriate for your team and organization.
+使用页面顶部的设置图标访问**项目设置**。根据您的团队和组织适当修改设置。
 
 <Arcade src="https://demo.arcade.software/wySaVXYOhND0BEFbk2uE?embed" />
 
 <br />
 
-Go to **Project Settings** to perform tasks such as deleting tags, editing ownership rules, and managing data forwarding. You can also access processing settings (including detector threshold settings for performance issues) and SDK setup configurations.
+转到**项目设置**以执行删除标签、编辑所有权规则和管理数据转发等任务。您还可以访问处理设置（包括性能问题的检测器阈值设置）和 SDK 设置配置。

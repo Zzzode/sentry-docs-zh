@@ -1,174 +1,169 @@
 ---
 title: Azure DevOps
 sidebar_order: 1
-description: "Learn more about Sentry's Azure DevOps integration and how it can track and resolve bugs faster by using data from your Azure DevOps commits."
+description: "了解更多关于Sentry的Azure DevOps集成以及它如何通过使用Azure DevOps提交数据来更快地跟踪和解决错误。"
 ---
 
-Azure DevOps was formerly known as Visual Studio Team Services (VSTS).
+Azure DevOps以前称为Visual Studio Team Services (VSTS)。
 
-## Install
+## 安装
 
-<Alert title="Note">
+<Alert title="注意">
   <p>
-  We recommend creating a dedicated service account on Azure DevOps when installing this integration rather than using a personal user account.
+  我们建议在此集成安装时创建一个专用的Azure DevOps服务账户，而不是使用个人用户账户。
   </p>
   <p>
-  Since the integration uses personal access tokens for authentication, activities such as comments and work item creation will be attributed to the Azure DevOps user who created the tokens.
+  由于集成使用个人访问令牌进行身份验证，评论和工作项创建等活动将归因于创建令牌的Azure DevOps用户。
   </p>
   <p>
-  Using a service account helps maintain proper access control, prevents disruption when team members leave, and ensures consistent attribution for all features across your organization.
+  使用服务账户有助于维护适当的访问控制，防止团队成员离开时造成中断，并确保整个组织中所有功能的一致性归因。
   </p>
   <p>
-  After creating the Azure DevOps service account, you will need to sign into Sentry with an user account that has owner, manager, or admin permissions to install the integration.
-  </p>
-</Alert>
-
-1. To install this integration, you need to have Sentry organization owner, manager, or admin permissions, as well as Azure organization owner permissions, or be a user in the Project Collections Administrators group.
-
-2. Go to your Azure Org's settings to make sure third-party access via OAuth is enabled - navigate to **Organization Settings > Security > Policies** and enable "Third-party application access via OAuth".
-
-3. In [Sentry.io](https://sentry.io/orgredirect/organizations/:orgslug/settings/organization/), navigate to **Settings > Integrations > Azure DevOps** and click "Add Installation".
-
-   ![Install Azure DevOps integration](./img/azure-devops-install.png)
-
-4. An Azure DevOps install window should pop up. Select the Azure DevOps account you'd like to link with Sentry, and press **Submit**.
-
-   ![Configure Azure DevOps](./img/azure-global-installed.png)
-
-Azure DevOps should now be enabled for all projects under your Sentry organization, but you'll need to configure the features below.
-
-## Configure
-
-Use Azure DevOps to [track commits](#commit-tracking) and [issue management](#issue-management).
-
-### Commit Tracking
-
-Commit tracking allows you to hone in on problematic commits. Uncover which commits likely caused an issue, and allow your team to resolve issues by referencing the issue number in a commit message.
-
-For more details, see the full documentation on [commit tracking and releases](/product/releases/setup/).
-
-You’ll also see that the author of the suspect commit will be listed as a suggested assignee for this issue. To assign the issue to the suggested assignee, click on their icon.
-
-### Issue Management
-
-Issue tracking allows you to create Azure DevOps issues from within Sentry, and link Sentry issues to existing Azure DevOps Issues.
-
-<Alert title="Note">
-  <p>
-    Manual issue management is available to organizations on Team, Business, and
-    Enterprise plans.
-  </p>
-  <p>
-    Automatic issue management is available to organizations that include
-    transactions in their Business and Enterprise plans.
+  创建Azure DevOps服务账户后，您需要使用具有所有者、经理或管理员权限的用户账户登录Sentry来安装集成。
   </p>
 </Alert>
 
-Issue management can be configured in two ways - automatically or manually.
+1. 要安装此集成，您需要拥有Sentry组织所有者、经理或管理员权限，以及Azure组织所有者权限，或者是项目集合管理员组中的用户。
 
-#### Automatically
+2. 转到您的Azure组织的设置，确保通过OAuth的第三方访问已启用 - 导航到**组织设置 > 安全 > 策略**并启用"通过OAuth的第三方应用程序访问"。
 
-To configure issue management automatically, create an [**Issue Alert**](/product/alerts-notifications/issue-alerts/). When selecting the [**action**](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions), choose **Create a new Azure DevOps work item**.
+3. 在[Sentry.io](https://sentry.io/orgredirect/organizations/:orgslug/settings/organization/)中，导航到**设置 > 集成 > Azure DevOps**并点击"添加安装"。
 
-![Create Azure DevOps work item as alert rule action](./img/azure-ticket-rule.png)
+   ![安装Azure DevOps集成](./img/azure-devops-install.png)
 
-An Azure DevOps work item will be created automatically when the alert has been triggered.
+4. 应该会弹出一个Azure DevOps安装窗口。选择您想要与Sentry链接的Azure DevOps账户，然后点击**提交**。
 
-#### Manually
+   ![配置Azure DevOps](./img/azure-global-installed.png)
 
-Once you’ve navigated to a specific issue, you’ll find the **Linked Issues** section on the right hand panel. Here, you’ll be able to create or link Azure DevOps issues.
+Azure DevOps现在应该为您的Sentry组织下的所有项目启用，但您需要配置以下功能。
 
-![Link Azure DevOps work item to Sentry issue](./img/azure-global-link-issue.png)
+## 配置
 
-### Issue Sync
+使用Azure DevOps进行[提交跟踪](#提交跟踪)和[问题管理](#问题管理)。
 
-Sync comments, assignees, and status updates for issues in Sentry to Azure DevOps, to minimize duplication. When you delegate an issue to an assignee or update a status on Azure DevOps, the updates will also populate in Sentry. When you resolve an issue in Sentry, the issue status will automatically update in Azure DevOps.
+### 提交跟踪
 
-<Alert title="Note">
-  Issue sync is available for organizations on the Team, Business, and
-  Enterprise plans.
+提交跟踪允许您精确定位有问题的提交。发现哪些提交可能导致问题，并允许您的团队通过在提交消息中引用问题编号来解决这些问题。
+
+有关更多详细信息，请参阅[提交跟踪和发布](/product/releases/setup/)的完整文档。
+
+您还会看到可疑提交的作者将被列为该问题的建议受让人。要将问题分配给建议的受让人，请点击他们的图标。
+
+### 问题管理
+
+问题跟踪允许您从Sentry内部创建Azure DevOps问题，并将Sentry问题链接到现有的Azure DevOps问题。
+
+<Alert title="注意">
+  <p>
+    手动问题管理适用于团队、商业和企业计划的组织。
+  </p>
+  <p>
+    自动问题管理适用于在其商业和企业计划中包含事务的组织。
+  </p>
 </Alert>
 
-To configure Issue sync, navigate to ** Organization Settings > Integrations**, and click "Configure" next to your Azure DevOps instance. On the following page, you’ll see options of what information you’d like synced between Sentry and Azure DevOps.
+问题管理可以通过两种方式配置 - 自动或手动。
 
-![Sync issue status](./img/azure-global-issue-sync.png)
+#### 自动
 
-### Resolve in Commit
+要自动配置问题管理，请创建一个[**问题警报**](/product/alerts-notifications/issue-alerts/)。选择[**操作**](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions)时，选择**创建新的Azure DevOps工作项**。
 
-Once you send commit data, you can start resolving issues by including `fixes <SENTRY-SHORT-ID>` in your commit messages. For example, a commit message might look like:
+![创建Azure DevOps工作项作为警报规则操作](./img/azure-ticket-rule.png)
+
+当警报被触发时，将自动创建Azure DevOps工作项。
+
+#### 手动
+
+一旦您导航到特定问题，您会在右侧面板中找到**链接问题**部分。在这里，您将能够创建或链接Azure DevOps问题。
+
+![将Azure DevOps工作项链接到Sentry问题](./img/azure-global-link-issue.png)
+
+### 问题同步
+
+同步Sentry中的问题的评论、受让人和状态更新到Azure DevOps，以最小化重复。当您将问题委托给受让人或在Azure DevOps上更新状态时，更新也会填充到Sentry中。当您在Sentry中解决问题时，问题状态将自动在Azure DevOps中更新。
+
+<Alert title="注意">
+  问题同步适用于团队、商业和企业计划的组织。
+</Alert>
+
+要配置问题同步，导航到**组织设置 > 集成**，然后点击您的Azure DevOps实例旁边的"配置"。在下一页上，您会看到您希望在Sentry和Azure DevOps之间同步的信息选项。
+
+![同步问题状态](./img/azure-global-issue-sync.png)
+
+### 在提交中解决
+
+一旦您发送提交数据，您就可以通过包含`fixes <SENTRY-SHORT-ID>`在提交消息中开始解决问题。例如，提交消息可能如下所示：
 
 ```
-Prevent empty queries on users
+防止用户上的空查询
 
-Fixes MYAPP-317
+修复MYAPP-317
 ```
 
-When Sentry sees this, we’ll automatically annotate the matching issue with reference to the commit, and later, when that commit is part of a release, we’ll mark the issue as resolved. The commit must be associated with a release. Otherwise, if the commit is squashed, Sentry won’t know when the commit has been released, and the issue may never be marked as a regression.
+当Sentry看到这一点时，我们将自动用对提交的引用注释匹配的问题，稍后，当该提交是发布的一部分时，我们将问题标记为已解决。提交必须与发布相关联。否则，如果提交被压缩，Sentry将不知道何时发布了提交，问题可能永远不会被标记为回归。
 
-### Stack Trace Linking
+### 堆栈跟踪链接
 
-Stack trace linking takes you from a file in your Sentry stack trace to that same file in your source code. If you have commit tracking set up in Sentry, we can take you to the exact version (using the commit associated with the event) of the source code when the error occurred. Otherwise we'll link you to the current state of the source code (using the default branch).
+堆栈跟踪链接将您从Sentry堆栈跟踪中的文件带到源代码中的同一文件。如果您在Sentry中设置了提交跟踪，我们可以带您到源代码的确切版本（使用与事件相关联的提交）。否则，我们将链接到源代码的当前状态（使用默认分支）。
 
-1. Navigate to **Settings > Integrations > Azure DevOps > Configurations**.
+1. 导航到**设置 > 集成 > Azure DevOps > 配置**。
 
-1. Click "Configure" (the gear icon) next to your Azure DevOps Instance.
+1. 点击您的Azure DevOps实例旁边的"配置"（齿轮图标）。
 
-1. Click the "Code Mappings" tab.
+1. 点击"代码映射"选项卡。
 
-1. Set up a code mapping for each project you want to have stack trace linking. To create a new code mapping, click "Add Mapping".
+1. 为您想要进行堆栈跟踪链接的每个项目设置代码映射。要创建新的代码映射，请点击"添加映射"。
 
-1. Fill out the form, then click "Save Changes". Each form field is described below:
+1. 填写表单，然后点击"保存更改"。每个表单字段描述如下：
 
-   - **Project** (required): This is the Sentry project.
-   - **Repo** (required): This is the Azure DevOps project associated with the Sentry project above. If you have more than one Azure DevOps project being used per Sentry project, you'll need multiple code mappings.
-   - **Branch** (required): This is the default branch of your code we fall back to if you do not have commit tracking set up.
-   - **Stack Trace Root** and **Source Code Root** (optional): See below for information on determining these values.
+   - **项目**（必需）：这是Sentry项目。
+   - **仓库**（必需）：这是与上述Sentry项目关联的Azure DevOps项目。如果您每个Sentry项目使用多个Azure DevOps项目，您将需要多个代码映射。
+   - **分支**（必需）：这是您的代码的默认分支，如果您没有设置提交跟踪，我们将回退到此分支。
+   - **堆栈跟踪根目录**和**源代码根目录**（可选）：有关确定这些值的信息，请参见下文。
 
-#### Stack Trace Root and Source Code Root
+#### 堆栈跟踪根目录和源代码根目录
 
 <Alert>
 
-The following information is only valid for platforms which use traditional file paths. Platforms with package names require additional steps. For **Java**, read more in the [page on source context](/platforms/java/source-context#setting-up-code-mappings).
+以下信息仅对使用传统文件路径的平台有效。具有包名的平台需要额外步骤。对于**Java**，请阅读[源代码上下文页面](/platforms/java/source-context#setting-up-code-mappings)中的更多信息。
 
 </Alert>
 
-First, navigate to a stack trace that you wish to map. Find an **In App** frame, which is denoted by a bubble on the right side of the frame. The filename will be shown as the first piece of text at the left hand side of the frame header. In this example, it is `src/main.py`.
+首先，导航到您希望映射的堆栈跟踪。找到一个**应用程序内**框架，该框架在框架右侧用气泡表示。文件名将显示为框架标题左侧的第一段文本。在此示例中，它是`src/main.py`。
 
 <Include name="common-imgs/code-mappings-stacktrace" />
 
-For certain native platforms, the stack trace will look different. In cases like these, you can find the absolute path by hovering over the filename.
+对于某些原生平台，堆栈跟踪看起来会有所不同。在这种情况下，您可以通过将鼠标悬停在文件名上来找到绝对路径。
 
-![Highlighting where in the UI to find the file path for native stack traces](./img/code-mappings-stacktrace-native.png)
+![突出显示在UI中查找原生堆栈跟踪文件路径的位置](./img/code-mappings-stacktrace-native.png)
 
-If you aren’t sure, you can look at the event JSON by clicking on the `{}` button in the event header. Find the text in the frame's `filename` or `abs_path`.
+如果您不确定，可以通过点击事件标题中的`{}`按钮查看事件JSON。在框架的`filename`或`abs_path`中找到文本。
 
 <Include name="common-imgs/code-mappings-event-json" />
 
-Next, locate the file seen in the stack trace with your source code provider (e.g. GitHub). In this example, the path is `flask/src/main.py` (`empower` is ignored since it is the name of the repo).
+接下来，在您的源代码提供程序（例如GitHub）中找到堆栈跟踪中看到的文件。在此示例中，路径是`flask/src/main.py`（`empower`被忽略，因为它是仓库的名称）。
 
 <Include name="common-imgs/code-mappings-source-file" />
 
-Compare the file path from the stack trace with the path found in your source repository. In this example, the `src/` folder in the stack trace matches the `flask/src` folder in the source code. Using that information, set the **Stack Trace Root** to `src/` and the **Source Code Root** to `flask/src/`. This tells Sentry to replace all file paths beginning in `src/` with `flask/src/` when searching for the source code.
+将堆栈跟踪中的文件路径与源代码库中找到的路径进行比较。在此示例中，堆栈跟踪中的`src/`文件夹与源代码中的`flask/src`文件夹匹配。使用该信息，将**堆栈跟踪根目录**设置为`src/`，将**源代码根目录**设置为`flask/src/`。这告诉Sentry在搜索源代码时将所有以`src/`开头的文件路径替换为`flask/src/`。
 
-For best results, we recommend always providing a non-empty value for the **Stack Trace Root** when possible.
+为获得最佳结果，我们建议尽可能始终为**堆栈跟踪根目录**提供非空值。
 
 <Include name="common-imgs/code-mappings-configure-modal" />
 
-## Troubleshooting
+## 故障排除
 
-### No accounts during installation
+### 安装期间没有账户
 
 ![](./img/azure-add-account-no-accounts.png)
 
-If you reach the account selection page during the Azure Devops installation process (step 4 in the instructions above) and see that there are no accounts available to select, please check the following possibilities:
+如果您在Azure DevOps安装过程（上述步骤4）中到达账户选择页面，并看到没有可用的账户可以选择，请检查以下可能性：
 
-- Ensure you are logged into the account connected to your Azure DevOps organization.
-- Double-check that your account is a Microsoft Account (MSA).
-- For single sign-on, see [Azure Active Directory SSO](/organization/authentication/sso/azure-sso/).
-- If you have multiple accounts in Azure DevOps, open [this link to Azure DevOps](https://aex.dev.azure.com) in another tab, select the correct account, then reinstall.
+- 确保您已登录到与您的Azure DevOps组织连接的账户。
+- 仔细检查您的账户是否为Microsoft账户(MSA)。
+- 对于单点登录，请参见[Azure Active Directory SSO](/organization/authentication/sso/azure-sso/)。
+- 如果您在Azure DevOps中有多个账户，请在另一个标签页中打开[此链接到Azure DevOps](https://aex.dev.azure.com)，选择正确的账户，然后重新安装。
 
 <Alert>
-  If reinstallation solves the problem, please upvote [that solution in
-  GitHub](https://github.com/getsentry/sentry/issues/14357), which is where
-  we're tracking this improvement.
+  如果重新安装解决了问题，请在[GitHub上的该解决方案](https://github.com/getsentry/sentry/issues/14357)上点赞，这是我们跟踪此改进的地方。
 </Alert>

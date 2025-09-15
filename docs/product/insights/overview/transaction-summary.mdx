@@ -1,152 +1,152 @@
 ---
-title: "Transaction Summary"
+title: "事务摘要"
 sidebar_order: 40
-description: "Learn more about the transaction summary, which helps you evaluate the transaction's overall health. This view includes graphs, instances of these events, stats, facet maps, and related errors."
+description: "了解更多关于事务摘要的信息，它帮助您评估事务的整体健康状况。此视图包括图表、这些事件的实例、统计信息、方面图和相关错误。"
 ---
 
-Every transaction has a summary view that gives you a better understanding of its overall health. With this view, you'll find graphs, instances of these events, stats, facet maps, related errors, and more.
+每个事务都有一个摘要视图，让您更好地了解其整体健康状况。在此视图中，您将找到图表、这些事件的实例、统计信息、方面图、相关错误等。
 
-![Example of Transaction Summary](./img/perf-transaction-summary.png)
+![事务摘要示例](./img/perf-transaction-summary.png)
 
-## What Is a Transaction?
+## 什么是事务？
 
-A transaction represents a single instance of an activity you want to measure or track, like a page load, page navigation, or an asynchronous task. Having transaction information lets you monitor the overall performance of your application beyond when it crashes or generates an error. Without transactions, you can only know when things in your application have actually gone wrong, which is important, but not the whole picture.
+事务表示您想要测量或跟踪的活动的单个实例，如页面加载、页面导航或异步任务。拥有事务信息可以让您监控应用程序的整体性能，而不仅仅是当它崩溃或生成错误时。没有事务，您只能知道应用程序中何时实际出现问题，这很重要，但不是全貌。
 
-Transactions on the **Insights Overview** page are grouped by the transaction names, such as endpoint paths for backend request transactions (like `/store/checkout/` or `api/v2/users/<user_id>/`) or URLs/routes for page load transactions (like `https://docs.sentry.io/product/insights/`). When you click a transaction on the **Insights Overview** page, it takes you to the **Transaction Summary**, where you can see a list of transaction events: that is, the individual instances of that specific transaction.
-
-<Alert>
-
-Learn more about setting transaction names in our [SDK documentation](/platform-redirect/?next=/enriching-events/transaction-name/).
-
-</Alert>
-
-Learn about how to control the type and amount of transactions you send to Sentry, in [Manage Your Transaction Quota](/pricing/quotas/manage-transaction-quota/). For a more in-depth explanation of what’s in a transaction as it relates to traces, check out our [full tracing documentation](/product/sentry-basics/tracing/).
-
-## Overview
-
-### Filter and Search
-
-While you can use the search field to narrow down your events, you can also filter by http, db, browser, and resource by toggling between operations in the "Filter" menu. This filtering is reflected in the rest of the page, which provides you with more targeted drill-downs.
-
-### Graphs
-
-- **Duration Breakdown:** By graphing [P50](/product/insights/overview/metrics/#p50-threshold), [P75](/product/insights/overview/metrics/#p75-threshold), [P95](/product/insights/overview/metrics/#p95-threshold), [P99](/product/insights/overview/metrics/#p99-threshold), and P100 durations distinctly, you can utilize this display to see their transaction performance over time. Toggle the display of each segment by clicking on the legend (including Releases). Also, zoom in on specific slices to investigate spikes or possible performance regressions from a release.
-
-- **Duration Percentiles:** This graph shows the [average transaction duration](/product/insights/overview/metrics/#average-transaction-duration) across distinct percentiles. For example, see how different the P50 and P99 response time durations are for a given transaction and understand the rate of increase between segments.
-
-- **Duration Distribution:** This graph shows the volume of transactions per median duration. This view helps you understand the spread of the transaction durations in order to determine the likelihood of different outcomes. For example, what transaction duration is the most likely for a user.
-
-- **Trends:** This graph uses a modified version of [ASAP](https://arxiv.org/pdf/1703.00983.pdf) smoothing. The Trends graph shows the unsmoothed data of the Display data, along with a smoothed version of that data.
-
-- **Web Vitals:** This graph displays the [P75 threshold](/product/insights/overview/metrics/#p75-threshold) of [First Paint](/product/insights/web-vitals/web-vitals-concepts/#first-paint-fp), [First Contentful Paint](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp), [Largest Contentful Paint](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp), and [First Input Delay](/product/insights/web-vitals/web-vitals-concepts/#first-input-delay-fid) over time. This view helps you understand how the Web Vitals associated with the transaction are performing over time.
-
-- **User Misery:** This graph displays the [User Misery](/product/insights/overview/metrics/#user-misery) score for the transaction. User Misery is a score that represents the number of unique users who have experienced load times four times the project's configured threshold.
-
-### Transaction Table
-
-On initial load, the table displays slow occurrences of the transaction along with the Event ID, User, Operations Duration, Total Transaction Duration, and Timestamp of the event. Click on the Event ID or the Trace ID to open the [Trace View](/concepts/key-terms/tracing/trace-view/#product-walkthrough-trace-details-page) page. Other sets of transactions you can browse through are below.
-
-- Fastest Transactions
-- Slow Transactions (p95)
-- Outlier Transactions (p100)
-- Recent Transactions
-
-The table also updates dynamically if you change any of the project, environment, or date range filters or when you drill in on a latency segment (applicable when viewing the Latency Histogram).
-
-When viewing transactions, you may want to create more curated views. Click "Open in Discover" above the table to create a custom query to investigate further. For more details, see the full documentation for the Discover [Query Builder](/product/explore/discover-queries/query-builder/).
+**洞察概览**页面上的事务按事务名称分组，例如后端请求事务的端点路径（如`/store/checkout/`或`api/v2/users/<user_id>/`）或页面加载事务的URL/路由（如`https://docs.sentry.io/product/insights/`）。当您点击**洞察概览**页面上的事务时，它会带您到**事务摘要**，您可以在其中看到事务事件的列表：即该特定事务的单个实例。
 
 <Alert>
 
-Currently, only transaction data — the transaction name and any attributes the transaction inherits from its root span — is searchable. Data contained in spans other than the root span is not indexed and therefore cannot be searched.
+在我们的[SDK文档](/platform-redirect/?next=/enriching-events/transaction-name/)中了解更多关于设置事务名称的信息。
 
 </Alert>
 
-### Suspect Spans
+了解如何控制您发送到Sentry的事务类型和数量，在[管理您的事务配额](/pricing/quotas/manage-transaction-quota/)中。有关事务与跟踪相关的更深入解释，请查看我们的[完整跟踪文档](/product/sentry-basics/tracing/)。
 
-The transaction summary includes a list of suspect spans that correspond to where most of the time in a transaction is spent. By default, we sort spans by the total self time. When you click the "Example Transaction" event, it takes you directly to the span in question.
+## 概览
 
-### Suspect Tags
+### 筛选和搜索
 
-The transaction summary includes a list of suspect tags that often correspond to slower transactions. By default, we sort tags by the total time lost. The list includes additional information:
+虽然您可以使用搜索字段缩小事件范围，但您还可以通过在"筛选"菜单中的操作之间切换来按http、db、browser和resource进行筛选。此筛选反映在页面的其余部分，为您提供更有针对性的深入分析。
 
-- **Tag Key**: The tag category (for example, device, geo)
-- **Tag Value**: The specific tag value (for example, Android, South America)
-- **Avg (Tag) Duration**: Provides the average duration for a transaction with this tag
-- **Comparison to Avg**: Indicates how much slower or faster this tag is than the average duration of this transaction
-- **Total Time Lost**: Calculates how much total time you've lost in the selected time range when comparing the average tag duration to the average transaction duration
+### 图表
 
-To investigate why these tags are affecting performance, click on the tag value to filter the transaction summary further.
+- **持续时间分解：**通过分别绘制[P50](/product/insights/overview/metrics/#p50-threshold)、[P75](/product/insights/overview/metrics/#p75-threshold)、[P95](/product/insights/overview/metrics/#p95-threshold)、[P99](/product/insights/overview/metrics/#p99-threshold)和P100持续时间，您可以利用此显示来查看它们的事务性能随时间的变化。通过点击图例（包括版本）来切换每个段的显示。此外，放大特定切片以调查峰值或来自版本的潜在性能回归。
 
-### Related Issues
+- **持续时间百分位数：**此图表显示不同百分位数的[平均事务持续时间](/product/insights/overview/metrics/#average-transaction-duration)。例如，查看给定事务的P50和P99响应时间持续时间有何不同，并了解段之间的增长率。
 
-This table will show you all related issues. In other words, any errors that are associated with this transaction. Click "Open in Issues" to see the full list.
+- **持续时间分布：**此图表显示每个中位数持续时间的事务量。此视图帮助您了解事务持续时间的分布，以确定不同结果的可能性。例如，用户最可能的事务持续时间。
 
-### Sidebar
+- **趋势：**此图表使用[ASAP](https://arxiv.org/pdf/1703.00983.pdf)平滑的修改版本。趋势图显示显示数据的未平滑数据，以及该数据的平滑版本。
 
-The sidebar contains helpful supplementary information about this transaction's [User Misery](/product/insights/overview/metrics/#user-misery), [Apdex](/product/insights/overview/metrics/#apdex), [Throughput](/product/insights/overview/metrics/#throughput-total-tpm-tps), [Latency](/product/insights/overview/metrics/#latency), and more. You'll also find a Tag Summary (facet map) for a list of common tags related to this transaction.
+- **Web Vitals：**此图表显示[首次绘制](/product/insights/web-vitals/web-vitals-concepts/#first-paint-fp)、[首次内容绘制](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp)、[最大内容绘制](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp)和[首次输入延迟](/product/insights/web-vitals/web-vitals-concepts/#first-input-delay-fid)的[P75阈值](/product/insights/overview/metrics/#p75-threshold)随时间的变化。此视图帮助您了解与事务关联的Web Vitals随时间的表现。
 
-## Tags
+- **用户痛苦：**此图表显示事务的[用户痛苦](/product/insights/overview/metrics/#user-misery)分数。用户痛苦是一个分数，表示经历了项目配置阈值的四倍加载时间的唯一用户数。
 
-The **Tags** tab displays a list of suspect tag keys that often correspond to slower transactions. Toggle through them to have the corresponding tag values reflected in the heat map. Similar to a histogram, events are distributed by duration. Click on any purple box to view a list of events or continue to filter down the events by adding values to the filter in the table below the heat map. Use the "X-Axis" dropdown to aggregate the events by transaction duration or by Largest Contentful Paint (LCP).
+### 事务表
 
-![Example of Tags Tab](./img/tags-tab.png)
+初始加载时，表格显示事务的缓慢发生以及事件的事件ID、用户、操作持续时间、总事务持续时间和事件时间戳。点击事件ID或跟踪ID以打开[跟踪视图](/concepts/key-terms/tracing/trace-view/#product-walkthrough-trace-details-page)页面。您可以浏览的其他事务集如下。
 
-## All Events
+- 最快事务
+- 缓慢事务（p95）
+- 异常事务（p100）
+- 最近事务
 
-The table in **All Events** tab offers a full list of transactions broken down similar to the abbreviated table in the overview. Filters are carried across from other views. You can also narrow the events down by percentile.
+如果您更改任何项目、环境或日期范围筛选器，或者当您深入延迟段时（适用于查看延迟直方图时），表格也会动态更新。
 
-## Spans
-
-The "Spans" tab displays a list of suspect spans that correspond to where most of the time in a transaction is being spent, and it can help you find spans where performance problems lie.
-
-Choose from one of several [metrics](#metrics) to sort spans and identify different types of problems. Filter spans to only see the span operation type you're interested in.
-
-### Span Summary
-
-Clicking on a span will take you to its summary page which will give you more details about this specific span [group](#grouping). On the page, you can see the performance of the span over time and see a list of transaction events that contain the span.
+查看事务时，您可能想要创建更精心策划的视图。点击表格上方的"在Discover中打开"以创建自定义查询以进一步调查。有关更多详细信息，请参阅Discover[查询构建器](/product/explore/discover-queries/query-builder/)的完整文档。
 
 <Alert>
 
-This span distribution feature is available only if you're in the Early Adopter program. Features available to Early Adopters are still in-progress and may have bugs. We recognize the irony. If you’re interested in being an Early Adopter, you can turn your organization’s Early Adopter status on/off in General Settings. This will affect all users in your organization and can be turned back off just as easily.
+目前，只有事务数据——事务名称和事务从其根span继承的任何属性——是可搜索的。根span以外的span中包含的数据未被索引，因此无法搜索。
 
 </Alert>
 
-If you're in the Early Adopter program, you can also see the distribution of the span self time using the (added) "Display" dropdown. This histogram can help you identify systemic performance issues across the entire dataset by showing how self time for every span instance is distributed.
+### 可疑Span
 
-You can also select a subset of the dataset by zooming into the distribution histogram. The stats and transaction events table will reflect that change and will only include spans with self time that are within the bounds of your subset. This allows you to focus on the best or worse performing spans so you can troubleshoot performance issues more easily.
+事务摘要包括对应于事务中花费最多时间的可疑span列表。默认情况下，我们按总自时间对span进行排序。当您点击"示例事务"事件时，它会直接带您到相关span。
 
-### Self Time
+### 可疑标签
 
-Suspect spans are determined using a span's self time rather than its duration. To calculate a span's self time, take the interval of the span and subtract the intervals of any child spans. The duration of the remaining interval is the span's self time.
+事务摘要包括对应于较慢事务的可疑标签列表。默认情况下，我们按总时间损失对标签进行排序。列表包括其他信息：
 
-In the example below, the self time of each span is highlighted by the darker areas. For example, the `http.server` has a self time of 10ms + 15ms = 25ms.
+- **标签键**：标签类别（例如，设备、地理位置）
+- **标签值**：特定标签值（例如，Android、南美洲）
+- **平均（标签）持续时间**：提供具有此标签的事务的平均持续时间
+- **与平均值的比较**：指示此标签比此事务的平均持续时间慢或快多少
+- **总时间损失**：计算在选定时间范围内比较平均标签持续时间与平均事务持续时间时损失的总时间
 
-![Span Self Time](./img/exclusive-time.png)
+要调查这些标签为何影响性能，请点击标签值以进一步筛选事务摘要。
 
-### Metrics
+### 相关问题
 
-- **Total Self Time**: The sum of the [self time](#self-time) for a span. This metric is useful to identify the span where the majority of the time is being spent.
-- **Average Count**: The average number of times a span appears in a transaction. This metric is useful to identify redundant work being done within a transaction. It is often indicative of an n + 1 problem.
-- **Total Count**: The total number of times a span appears across all transactions. This metric is useful to identify spans that appear most frequently.
-- **p50 Self Time**: The 50th percentile of the [self time](#self-time) for a span. This metric is useful to identify spans that take a long time individually.
-- **p75 Self Time**: The 75th percentile of the [self time](#self-time) for a span. This metric is useful to identify spans that take a long time individually.
-- **p95 Self Time**: The 95th percentile of the [self time](#self-time) for a span. This metric is useful to identify spans that take a long time individually.
-- **p99 Self Time**: The 99th percentile of the [self time](#self-time) for a span. This metric is useful to identify spans that take a long time individually.
+此表格将向您显示所有相关问题。换句话说，与此事务关联的任何错误。点击"在问题中打开"以查看完整列表。
 
-### Grouping
+### 侧边栏
 
-Spans with the same operation and description are grouped together into a single span group. Some processing is done to group similar spans together. If you find that the span grouping is not ideal, you can change this by making sure the spans you want grouped together have the same operation and description.
+侧边栏包含有关此事务的[用户痛苦](/product/insights/overview/metrics/#user-misery)、[Apdex](/product/insights/overview/metrics/#apdex)、[吞吐量](/product/insights/overview/metrics/#throughput-total-tpm-tps)、[延迟](/product/insights/overview/metrics/#latency)等的补充信息。您还将找到标签摘要（方面图），用于与此事务相关的常见标签列表。
 
-### Replays
+## 标签
 
-The Replays tab displays a list of replays where the transaction you’re viewing had occurred. Go directly to [Replay Details](/product/explore/session-replay/web/replay-details/) for any replay and see how a slow transaction impacted the user experience. Note: you must have [Session Replay](/product/explore/session-replay/) enabled to see this tab.
+**标签**选项卡显示对应于较慢事务的可疑标签键列表。在它们之间切换以在热图中反映相应的标签值。类似于直方图，事件按持续时间分布。点击任何紫色框以查看事件列表，或通过将值添加到热图下方表格中的筛选器来继续筛选事件。使用"X轴"下拉菜单按事务持续时间或最大内容绘制（LCP）聚合事件。
 
-## Additional Actions
+![标签选项卡示例](./img/tags-tab.png)
 
-### Starring Important Transactions
+## 所有事件
 
-If you find an important transaction you want to return to, click "Star for Team" in the upper right corner to mark it as a key transaction for any of your teams. This will be saved so you can view this from your [Insights Overview Homepage](/product/insights/overview/). The transactions you star will be shared with members of the same team and each team can have up to 100 starred transactions.
+**所有事件**选项卡中的表格提供了类似于概览中缩写表格的事务的完整列表。筛选器从其他视图继承。您还可以按百分位数缩小事件范围。
 
-### Creating Alerts
+## Span
 
-To create a metric alert rule for this transaction, click [Create Alert](/product/alerts-notifications/metric-alerts/) at the top of the page.
+"Span"选项卡显示对应于事务中花费最多时间的可疑span列表，它可以帮助您找到存在性能问题的span。
+
+从几个[指标](#metrics)中选择一个来对span进行排序并识别不同类型的问题。筛选span以仅查看您感兴趣的span操作类型。
+
+### Span摘要
+
+点击span将带您到其摘要页面，该页面将为您提供有关此特定span[组](#grouping)的更多详细信息。在页面上，您可以看到span随时间的性能以及包含span的事务事件列表。
+
+<Alert>
+
+此span分布功能仅在您是早期采用者计划成员时才可用。早期采用者可用的功能仍在进行中，可能存在错误。我们认识到其中的讽刺。如果您有兴趣成为早期采用者，您可以在常规设置中打开/关闭组织的早期采用者状态。这将影响您组织中的所有用户，并且可以同样轻松地关闭。
+
+</Alert>
+
+如果您是早期采用者计划成员，您还可以使用（添加的）"显示"下拉菜单查看span自时间的分布。此直方图可以通过显示每个span实例的自时间如何分布来帮助您识别整个数据集中的系统性性能问题。
+
+您还可以通过放大分布直方图来选择数据集的子集。统计信息和事务事件表将反映该更改，并且仅包括自时间在子集范围内的span。这使您能够专注于最佳或最差性能的span，以便更轻松地排查性能问题。
+
+### 自时间
+
+可疑span是使用span的自时间而不是其持续时间来确定的。要计算span的自时间，请取span的间隔并减去任何子span的间隔。剩余间隔的持续时间就是span的自时间。
+
+在下面的示例中，每个span的自时间由较暗的区域突出显示。例如，`http.server`的自时间为10ms + 15ms = 25ms。
+
+![Span自时间](./img/exclusive-time.png)
+
+### 指标
+
+- **总自时间**：span的[自时间](#self-time)的总和。此指标有助于识别花费大部分时间的span。
+- **平均计数**：span在事务中出现的平均次数。此指标有助于识别事务中正在完成的冗余工作。它通常是n + 1问题的指示。
+- **总计数**：span在所有事务中出现的总次数。此指标有助于识别出现最频繁的span。
+- **p50自时间**：span的[自时间](#self-time)的第50百分位数。此指标有助于识别单独花费很长时间的span。
+- **p75自时间**：span的[自时间](#self-time)的第75百分位数。此指标有助于识别单独花费很长时间的span。
+- **p95自时间**：span的[自时间](#self-time)的第95百分位数。此指标有助于识别单独花费很长时间的span。
+- **p99自时间**：span的[自时间](#self-time)的第99百分位数。此指标有助于识别单独花费很长时间的span。
+
+### 分组
+
+具有相同操作和描述的span被分组到单个span组中。进行了一些处理以将相似的span分组在一起。如果您发现span分组不理想，您可以通过确保要分组的span具有相同的操作和描述来更改此设置。
+
+### 重播
+
+重播选项卡显示您正在查看的事务发生的重播列表。直接进入任何重播的[重播详细信息](/product/explore/session-replay/web/replay-details/)，并查看缓慢事务如何影响用户体验。注意：您必须启用了[会话重播](/product/explore/session-replay/)才能看到此选项卡。
+
+## 其他操作
+
+### 标记重要事务
+
+如果您找到想要返回的重要事务，请点击右上角的"为团队标记"以将其标记为您任何团队的关键事务。这将保存，以便您可以从[洞察概览主页](/product/insights/overview/)查看此内容。您标记的事务将与同一团队的成员共享，每个团队最多可以有100个标记的事务。
+
+### 创建警报
+
+要为该事务创建指标警报规则，请点击页面顶部的[创建警报](/product/alerts-notifications/metric-alerts/)。

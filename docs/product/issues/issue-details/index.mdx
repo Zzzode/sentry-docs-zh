@@ -1,158 +1,158 @@
 ---
-title: Issue Details
+title: 问题详情
 sidebar_order: 10
-description: "Learn how to navigate the Issue Details page to help you efficiently triage an issue."
+description: "了解如何导航问题详情页面以帮助您有效地分类问题。"
 ---
 
-The **Issue Details** page helps you gain further insight into the source of the issue and the impact it has on your application's users.
+**问题详情** 页面可帮助您深入了解问题的来源及其对应用程序用户的影响。
 
-![Issue Details breakdown](./img/issue-details-breakdown.png)
+![问题详情分解](./img/issue-details-breakdown.png)
 
-The header contains high-level information about the issue such as the error message, total counts of how often it has been seen, and how many users it has affected. Actions such as assigning, resolving, sharing, and archiving are also here.
+标题包含有关问题的高级信息，例如错误消息、它出现的总次数以及它影响了多少用户。分配、解决、共享和归档等操作也在这里。
 
-To share an issue, click the "Share Issue" button in the header.
+要共享问题，请点击标题中的"共享问题"按钮。
 
-![Share Issue](./img/issue-details-share-issue.png)
+![共享问题](./img/issue-details-share-issue.png)
 
-From there, you can choose what kind of link you want to share such as including the event ID or copying the link as Markdown.
+从那里，您可以选择要共享的链接类型，例如包含事件 ID 或将链接复制为 Markdown。
 
-![Issue Link Options](./img/issue-details-share-modal.png)
+![问题链接选项](./img/issue-details-share-modal.png)
 
-Beneath the header is the event graph, showing a distribution of events and errors. You can use the search bar to filter which events are shown. Tags are shown and can be opened from here too.
+标题下方是事件图表，显示事件和错误的分布。您可以使用搜索栏过滤显示的事件。标签也会显示，可以从此处打开。
 
-The sidebar shows more about the issue and includes information such as the last time and the first time the issue was seen, if the issue is linked to any GitHub or Jira issues, issue activity and comments, participants and viewers, and Sentry AI features.
+侧边栏显示有关问题的更多信息，包括问题最后一次和第一次出现的时间、问题是否链接到任何 GitHub 或 Jira 问题、问题活动和评论、参与者和查看者以及 Sentry AI 功能。
 
-The main area of the page displays information about a specific event that's part of an issue, including the stack trace, breadcrumbs, tags, and more. You can also see information about replays, attachments, and feedback related to the issue here.
+页面的主要区域显示有关作为问题一部分的特定事件的信息，包括堆栈跟踪、面包屑、标签等。您还可以在此处查看与问题相关的重放、附件和反馈信息。
 
-## Event Search
+## 事件搜索
 
-The embedded search bar allows you to search for events using any of the [event properties](/concepts/search/searchable-properties/events). Environment and time period can also be changed. Once the search is updated, the counts and graph below will be updated. Event navigations such as recommended, first, and last, and All Events will also be updated to only show matching events.
+嵌入式搜索栏允许您使用任何 [事件属性](/concepts/search/searchable-properties/events) 搜索事件。环境和时间段也可以更改。一旦搜索更新，下面的计数和图表将更新。事件导航，如推荐、第一个和最后一个，以及所有事件也将更新为仅显示匹配的事件。
 
-## Trends & Aggregates
+## 趋势和聚合
 
-The event and user counts represent the counts given the search, environments, or time period selected above. This is different from the counts in the header which are the total counts across the lifetime of the issue.
+事件和用户计数表示给定搜索、环境或上面选择的时间段内的计数。这与标题中的计数不同，标题中的计数是整个问题生命周期内的总计数。
 
-The graph is similarly affected by any search and can be toggled between user and event counts by the selection on the left. Releases and feature flag data can be hidden by clicking on the field in the upper right corner.
+图表同样受任何搜索的影响，可以通过左侧的选择在用户和事件计数之间切换。版本和功能标志数据可以通过点击右上角的字段隐藏。
 
-A few tags are shown as a preview on the page, but to see more, you can either click into any preview tag to see more details or click "All Tags" to see all tags for an issue. Tags are not affected by the search filters above.
+页面上显示几个标签作为预览，但要查看更多，您可以点击任何预览标签查看更多详细信息，或点击"所有标签"查看问题的所有标签。标签不受上面搜索过滤器的影响。
 
-## Sidebar
+## 侧边栏
 
-The first and last time the issue has been seen will be displayed here. These values will depend on your environment selection and will be updated if you change the environments. If you have releases set up, the first and last release where the issue was seen will be shown
+问题最后一次和第一次出现的时间将显示在这里。这些值将取决于您的环境选择，如果您更改环境，它们将更新。如果您设置了发布，将显示问题第一次和最后一次出现的发布。
 
-The **Seer** section contains features from [Sentry Seer](/product/issues/issue-details/sentry-seer/) that help you understand and fix issues.
+**Seer** 部分包含来自 [Sentry Seer](/product/issues/issue-details/sentry-seer/) 的功能，可帮助您理解和修复问题。
 
-If you have [issue tracking](/organization/integrations/issue-tracking/) set up, integrations or linked issues will appear.
+如果您设置了 [问题跟踪](/organization/integrations/issue-tracking/)，集成或链接的问题将出现。
 
-The activity section shows a chronological lifetime of the issue. Information including assignments, regressions, escalations, and more can be found here. Any comments users leave on an issue will also appear here.
+活动部分显示问题的按时间顺序的生命周期。可以找到包括分配、回归、升级等的信息。用户在问题上留下的任何评论也将显示在这里。
 
-Participants and viewers of an issue will be shown along with the time that users viewed the issue, which can be found if you hover over a user or see all viewers.
+问题的参与者和查看者将显示，以及用户查看问题的时间，如果您悬停在用户上或查看所有查看者，可以找到。
 
-Similar and merged issues allow you to learn more about and control [grouped issues](/product/issues/grouping-and-fingerprints/). Similar Issues can be used to find any other issues in your project that are similar to the one you are viewing. Merged issues shows any issues that have been merged into the issue you are viewing.
+相似和合并的问题允许您了解和控制 [分组问题](/product/issues/grouping-and-fingerprints/)。相似问题可用于查找项目中与您正在查看的问题相似的其他问题。合并问题显示已合并到您正在查看的问题中的任何问题。
 
-## Issue Content
+## 问题内容
 
-In addition to events, information about replays, attachments, and feedback can be found from the page.
+除了事件外，还可以从页面找到有关重放、附件和反馈的信息。
 
-- **Replays** – A list of [replays](/product/explore/session-replay/) tied to error events included in the issue.
-- **User Feedback** - Any feedback collected from users through the <PlatformLink to="/user-feedback/">SDK's user feedback</PlatformLink>.
-- **<PlatformLink to="/enriching-events/attachments/">Attachments</PlatformLink>** - Any additional files stored, such as config, log, or screenshot files that are related to the error event.
+- **重放** – 与包含在问题中的错误事件相关的 [重放](/product/explore/session-replay/) 列表。
+- **用户反馈** - 通过 <PlatformLink to="/user-feedback/">SDK 的用户反馈</PlatformLink> 从用户收集的任何反馈。
+- **<PlatformLink to="/enriching-events/attachments/">附件</PlatformLink>** - 存储的任何附加文件，如配置、日志或与错误事件相关的屏幕截图文件。
 
-While attachments are affected by the search filters on the page, replays and user feedback are not.
+虽然附件受页面上搜索过滤器的影响，但重放和用户反馈不受。
 
-## Event Navigation
+## 事件导航
 
-By default, the **Issue Details** page displays the "Recommended" event with the most context to help you solve the issue. Sentry uses the following criteria in determining the recommended event:
+默认情况下，**问题详情** 页面显示具有最多上下文的"推荐"事件，以帮助您解决问题。Sentry 使用以下标准确定推荐事件：
 
-- **Recency**: The recommended event is never more than 7 days older than the latest event.
-- **Relevance**: The recommended event takes into account what terms you've searched for on your way to the issue.
-- **Content**: The recommended event prioritizes events that contain debugging tools such as replays, profiles, and traces.
+- **最近性**：推荐事件永远不会比最新事件早 7 天以上。
+- **相关性**：推荐事件会考虑您在前往问题的途中搜索的术语。
+- **内容**：推荐事件优先考虑包含调试工具（如重放、性能分析和追踪）的事件。
 
-To view other events, you can use the dropdown to skip to the latest or oldest event, or view the full list of events. You can change the default event in your [User Settings](https://sentry.io/settings/account/details/#defaultIssueEvent).
+要查看其他事件，您可以使用下拉菜单跳转到最新或最旧的事件，或查看事件的完整列表。您可以在 [用户设置](https://sentry.io/settings/account/details/#defaultIssueEvent) 中更改默认事件。
 
-In addition, you can scroll between events chronologically or view all events. All event navigations will respect any search filter on the page, including search queries, environments, or date filters.
+此外，您可以按时间顺序滚动事件或查看所有事件。所有事件导航都将尊重页面上的任何搜索过滤器，包括搜索查询、环境或日期过滤器。
 
-## Event Actions
+## 事件操作
 
-Relevant actions for specific events can be found here including copying the event ID or viewing the JSON of the event.
+特定事件的相关操作可以在这里找到，包括复制事件 ID 或查看事件的 JSON。
 
-## Event Details
+## 事件详情
 
-Depending on the issue category and available event data, the Issue Details page displays some combination of the following sections:
+根据问题类别和可用事件数据，问题详情页面显示以下部分的某种组合：
 
-### Event Highlights
+### 事件亮点
 
-![Event Highlights](./img/issue-highlights.png)
+![事件亮点](./img/issue-highlights.png)
 
-_Event Highlights_ are specific [tags](#tags) and [context](#contexts) items that have been promoted to the top of the page for quicker debugging. If you miss tags being at the top of the page, click "View All" to go to their new location under the stack trace.
+_事件亮点_ 是已提升到页面顶部的特定 [标签](#tags) 和 [上下文](#contexts) 项，以便更快地调试。如果您错过了页面顶部的标签，请点击"查看全部"转到它们在堆栈跟踪下的新位置。
 
-By default, Sentry will surface a few common tags and context values based on your project's platform. However, these highlights are intended to be customized to best fit your needs. Project Admins can click on the "Edit" button to add or remove any highlights they see fit and apply those changes across the project.
+默认情况下，Sentry 将根据您项目的平台显示几个常见标签和上下文值。但是，这些亮点旨在根据您的需求进行自定义。项目管理员可以点击"编辑"按钮添加或删除他们认为合适的任何亮点，并将这些更改应用于整个项目。
 
-![Editing Event Highlights](./img/issue-highlights-edit.png)
+![编辑事件亮点](./img/issue-highlights-edit.png)
 
-### Stack Trace
+### 堆栈跟踪
 
-The Stack Trace section of the page shows you the line of code that the event errored on.
+页面的堆栈跟踪部分向您显示事件出错的代码行。
 
-![Exception](./img/issue-exception.png)
+![异常](./img/issue-exception.png)
 
-It's the most important piece of information that the Sentry grouping algorithm uses to group events into one issue. You can also customize how events are grouped. Learn more about customized grouping in [Issue Grouping](/concepts/data-management/event-grouping/).
+这是 Sentry 分组算法用于将事件分组为一个问题的最重要信息。您还可以自定义事件的分组方式。在 [问题分组](/concepts/data-management/event-grouping/) 中了解有关自定义分组的更多信息。
 
-### Suspect Commits
+### 可疑提交
 
-![Suspect Commit](./img/suspect-commit.png)
+![可疑提交](./img/suspect-commit.png)
 
-A _suspect commit_ is a commit that's been identified as potentially having caused the error event. If you've configured [suspect commits](/product/issues/suspect-commits/), these are displayed. This allows you to immediately investigate commits that are likely to have generated the issue. The author of the suspect commit is also suggested as an assignee for the issue.
+_可疑提交_ 是已被识别为可能导致错误事件的提交。如果您已配置 [可疑提交](/product/issues/suspect-commits/)，这些将显示。这使您可以立即调查可能已生成问题的提交。可疑提交的作者也被建议作为问题的受让人。
 
-### Breadcrumbs
+### 面包屑
 
-![Breadcrumbs](./img/issue-breadcrumbs.png)
+![面包屑](./img/issue-breadcrumbs.png)
 
-[Breadcrumbs](/product/issues/issue-details/breadcrumbs/) provide a history and timeline leading up to the error event. These can include things like HTTP requests, log statements from the console or server, and DOM (document object model) events in JavaScript.
+[面包屑](/product/issues/issue-details/breadcrumbs/) 提供导致错误事件的历史和时间线。这些可以包括 HTTP 请求、来自控制台或服务器的日志语句以及 JavaScript 中的 DOM（文档对象模型）事件等内容。
 
-You can set your own <PlatformLink to="/enriching-events/breadcrumbs/">breadcrumbs</PlatformLink> to make them more useful for debugging
+您可以设置自己的 <PlatformLink to="/enriching-events/breadcrumbs/">面包屑</PlatformLink> 以使它们对调试更有用
 
-### Trace Preview
+### 追踪预览
 
-An abbreviated view of the related [trace](/product/sentry-basics/tracing/distributed-tracing) for the current transaction.
+相关 [追踪](/product/sentry-basics/tracing/distributed-tracing) 的当前事务的缩写视图。
 
-![Trace Related Issue](./img/trace_related_issue.png)
+![追踪相关问题](./img/trace_related_issue.png)
 
-Sometimes the trace will be supplemented by a Trace-related Issue. A Trace-related Issue is a different issue that occurred during the same trace as the event in view. This is useful for understanding the context of the current issue and may help you identify its root cause. A Trace-related Issue allows the developer to quickly navigate between the two related events.
+有时追踪将由追踪相关问题补充。追踪相关问题是与视图中事件相同的追踪期间发生的不同问题。这对于理解当前问题的上下文很有用，可能有助于您识别其根本原因。追踪相关问题允许开发人员在两个相关事件之间快速导航。
 
-### Session Replay
+### 会话重放
 
-If you’ve enabled [Session Replay](/product/explore/session-replay/), you’ll have access to a replay preview on the page (if there’s one associated with the event). Replays can be associated with both frontend and [backend errors](/product/explore/session-replay/getting-started#replays-for-backend-errors), as long as distributed tracing is set up. From here you can navigate to the rest of the replays recorded for this issue, or inspect this replay on the [Replay Details](/product/explore/session-replay/web/replay-details/) page.
+如果您启用了 [会话重放](/product/explore/session-replay/)，您将可以访问页面上的重放预览（如果有与事件关联的重放）。重放可以与前端和 [后端错误](/product/explore/session-replay/getting-started#replays-for-backend-errors) 相关联，只要设置了分布式追踪。从这里，您可以导航到为此问题记录的其余重放，或在 [重放详情](/product/explore/session-replay/web/replay-details/) 页面上检查此重放。
 
-### HTTP Request
+### HTTP 请求
 
-Information from the HTTP request including the query string, cookies, and headers.
+来自 HTTP 请求的信息，包括查询字符串、cookie 和标头。
 
-### Packages
+### 包
 
-Packages used in your application and their versions.
+应用程序中使用的包及其版本。
 
-### Additional data
+### 附加数据
 
-Any additional data sent from the SDK.
+从 SDK 发送的任何附加数据。
 
-### Span Evidence
+### 跨度证据
 
-Information about the performance problem in the context of the current event.
+有关当前事件上下文中性能问题的信息。
 
-### Tags
+### 标签
 
 <Include name="common-imgs/tags" />
 
-[Tags](/concepts/search/) are key/value string pairs that are both indexed and searchable. For example, a tag provides you with information such as the browser, device, or user associated with the event. Tags are the diagnostic information sent by the SDK for the individual event.
+[标签](/concepts/search/) 是可索引和可搜索的键/值字符串对。例如，标签为您提供诸如与事件关联的浏览器、设备或用户等信息。标签是 SDK 为单个事件发送的诊断信息。
 
-You can use the tag tabs to filter these event tags by category ("All", "Custom", "Application", "Other"). If you hover over a tag and then click "...", you can choose to view more events or issues with that tag value (and sometimes other information associated with that tag, such as the release itself). Sentry will display tags containing '`.`' characters as a tree structure to make things a bit more readable, but searching should always use the full tag name (for example, `organization.slug` instead of `slug`).
+您可以使用标签选项卡按类别（"全部"、"自定义"、"应用程序"、"其他"）过滤这些事件标签。如果您悬停在标签上，然后点击"..."，您可以选择查看具有该标签值的更多事件或问题（有时还包括与该标签关联的其他信息，如发布本身）。Sentry 将包含 '.' 字符的标签显示为树结构，以使内容更具可读性，但搜索应始终使用完整的标签名称（例如，`organization.slug` 而不是 `slug`）。
 
-The tags displayed in the main section of the page are specific to the event that you're viewing. The tags displayed in the right-hand sidebar are a summary of all tag values for all events included in the issue. You can set your own tags to make them more useful for debugging as described in <PlatformLink to="/enriching-events/tags/">Customize Tags</PlatformLink>.
+页面上主要部分显示的标签特定于您正在查看的事件。右侧边栏中显示的标签是所有包含在问题中的事件的所有标签值的摘要。您可以设置自己的标签，以使它们对调试更有用，如 <PlatformLink to="/enriching-events/tags/">自定义标签</PlatformLink> 中所述。
 
-### Screenshot
+### 屏幕截图
 
-Sentry provides the ability to take a screenshot and include it as an attachment when a user experiences an error, an exception, or a crash. Screenshot attachments sent as part of an event are displayed in this section. This feature only applies to SDKs with a user interface. It's supported for the following SDKs:
+Sentry 提供了在用户体验错误、异常或崩溃时截取屏幕截图并将其作为附件包含在内的功能。作为事件一部分发送的屏幕截图附件将在此部分中显示。此功能仅适用于具有用户界面的 SDK。它支持以下 SDK：
 
 - [.NET Xamarin](/platforms/dotnet/guides/xamarin/#attachscreenshots)
 - [.NET MAUI](/platforms/dotnet/guides/maui/configuration/options/#attach-screenshot)
@@ -166,36 +166,36 @@ Sentry provides the ability to take a screenshot and include it as an attachment
 - [Unity](/platforms/unity/enriching-events/screenshots/)
 - [Unreal Engine](/platforms/unreal/enriching-events/screenshots/)
 
-### Contexts
+### 上下文
 
-![Contexts Section](./img/issue-contexts-section.png)
+![上下文部分](./img/issue-contexts-section.png)
 
-The Contexts section contains related key/value items (not just strings) that you've set manually in your application, or have been automatically added by Sentry. Contexts are meant to provide you with related sets of data to help with your debugging.
+上下文部分包含您在应用程序中手动设置或由 Sentry 自动添加的相关键/值项（不仅仅是字符串）。上下文旨在为您提供相关数据集，以帮助您进行调试。
 
-The issue details page only displays context for the individual event, and context cannot be searched. If you require searching for your data, use [Tags](#tags) instead.
+问题详情页面仅显示单个事件的上下文，上下文无法搜索。如果您需要搜索数据，请改用 [标签](#tags)。
 
-You can set up your own context items to collect useful debugging information in your next event, as described in <PlatformLink to="/enriching-events/context/">Structured Context</PlatformLink>.
+您可以设置自己的上下文项，以在下一个事件中收集有用的调试信息，如 <PlatformLink to="/enriching-events/context/">结构化上下文</PlatformLink> 中所述。
 
-### Feature Flags
+### 功能标志
 
-<Alert title="Currently in Beta">
+<Alert title="当前处于测试版">
 
-Feature flag change tracking and feature flag evaluation tracking is currently in open beta.
+功能标志更改跟踪和功能标志评估跟踪当前处于开放测试版。
 
 </Alert>
 
-Enabling one or more of our [evaluation tracking integrations](/product/explore/feature-flags/#evaluation-tracking) will reveal the feature flag evaluation table. Here you can see an ordered list (in order of evaluation) of all the flags evaluated and their evaluation results prior to the error event.
+启用我们的一个或多个 [评估跟踪集成](/product/explore/feature-flags/#evaluation-tracking) 将显示功能标志评估表。在这里，您可以看到按评估顺序排列的所有已评估标志及其评估结果的列表。
 
-![Feature Flag Table](./img/ff-table.png)
+![功能标志表](./img/ff-table.png)
 
-Setting up evaluation tracking also allows you to use Issues Search in conjunction with feature flags. On Issues Search, using the `flags` keyword will allow you to filter for issues containing errors where the feature flag evaluated value is true or false. This allows you to quickly find all errors where a specific flag evaluation and its value of interest are present. See [searchable properties](/concepts/search/searchable-properties/issues/#flags) for more details about the search syntax.
+设置评估跟踪还允许您将问题搜索与功能标志结合使用。在问题搜索中，使用 `flags` 关键字将允许您过滤包含错误的问题，其中功能标志评估值为 true 或 false。这使您可以快速找到特定标志评估及其感兴趣值存在的所有错误。有关搜索语法的更多详细信息，请参见 [可搜索属性](/concepts/search/searchable-properties/issues/#flags)。
 
-Enabling a [change tracking integration](/product/explore/feature-flags/#change-tracking) will enable annotations on the event volume chart. These lines mark feature flag changes and can help identify regressions caused by a feature flag definition change.
+启用 [更改跟踪集成](/product/explore/feature-flags/#change-tracking) 将在事件量图表上启用注释。这些线条标记功能标志更改，可以帮助识别由功能标志定义更改引起的回归。
 
-![Feature Flag Release Chart](./img/ff-release.png)
+![功能标志发布图表](./img/ff-release.png)
 
-Enabling both a change tracking integration and a evaluation tracking integration will enable suspect feature flag detection. Sentry will attempt to identify feature flags which might have caused an error event and highlight them for review.
+同时启用更改跟踪集成和评估跟踪集成将启用可疑功能标志检测。Sentry 将尝试识别可能导致错误事件的功能标志，并突出显示它们以供审查。
 
-### Event Grouping Information
+### 事件分组信息
 
-Provides details of how Sentry fingerprinted the event into the group.
+提供 Sentry 如何将事件分组到组中的详细信息。

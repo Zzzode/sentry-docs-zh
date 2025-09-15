@@ -1,40 +1,40 @@
 ---
-title: Lambda Layer Modifications
-description: "Understand how the Sentry AWS Lambda integration works under the hood."
+title: Lambda 层修改
+description: "了解 Sentry AWS Lambda 集成在底层如何工作。"
 ---
 
 ## Node
 
-When Sentry is added to a Lambda function, the following modifications are made to your Lambda functions:
+当 Sentry 添加到 Lambda 函数时，会对您的 Lambda 函数进行以下修改：
 
-- The layer for Sentry is added to your Lambdas. Any existing layers are honored and the Sentry layer is appended to the end.
+- Sentry 的层被添加到您的 Lambda 中。任何现有层都会被保留，Sentry 层会被追加到末尾。
 
   ![](./img/layer.png)
 
-- Sentry adds the following environment variables
+- Sentry 添加以下环境变量
 
-  - `NODE_OPTIONS`: This is to preload the `awslambda-auto` module which will automatically initialize Sentry
-  - `SENTRY_DSN`: This is set to the [DSN](/product/sentry-basics/dsn-explainer/) of your project
-  - `SENTRY_TRACES_SAMPLE_RATE`: This sets the [sampling rate](/platforms/javascript/guides/node/configuration/sampling/#sampling-transaction-events) for transactions. You can manually edit your environment variables if you want a different sampling rate.
+  - `NODE_OPTIONS`：这是为了预加载 `awslambda-auto` 模块，它将自动初始化 Sentry
+  - `SENTRY_DSN`：这被设置为您的项目的 [DSN](/product/sentry-basics/dsn-explainer/)
+  - `SENTRY_TRACES_SAMPLE_RATE`：这为事务设置[采样率](/platforms/javascript/guides/node/configuration/sampling/#sampling-transaction-events)。如果您想要不同的采样率，可以手动编辑环境变量。
 
   ![](./img/env_variables.png)
 
 ## Python
 
-When Sentry is added to a Lambda function, the following modifications are made to your Lambda functions:
+当 Sentry 添加到 Lambda 函数时，会对您的 Lambda 函数进行以下修改：
 
-- The layer for Sentry is added to your Lambdas. Any existing layers are honored and the Sentry layer is appended to the end.
+- Sentry 的层被添加到您的 Lambda 中。任何现有层都会被保留，Sentry 层会被追加到末尾。
 
   ![](./img/layer_python.png)
 
-  And your Runtime handler will point to Sentry's handler that will initialize the SDK for you, and then call your Runtime handler to invoke your function
+  并且您的运行时处理程序将指向 Sentry 的处理程序，该处理程序将为您初始化 SDK，然后调用您的运行时处理程序来调用您的函数
 
   ![](./img/handler_python.png)
 
-- Sentry adds the following environment variables
+- Sentry 添加以下环境变量
 
-  - `SENTRY_INITIAL_HANDLER`: This stores the value of your Runtime handler. If you choose to disable the Sentry layer, this value will be used to set the Runtime handler.
-  - `SENTRY_DSN`: This is set to the [DSN](/product/sentry-basics/dsn-explainer/) of your project
-  - `SENTRY_TRACES_SAMPLE_RATE`: This sets the [sampling rate](/platforms/python/configuration/sampling/#sampling-transaction-events) for transactions. You can manually edit your environment variables if you want a different sampling rate.
+  - `SENTRY_INITIAL_HANDLER`：这存储您的运行时处理程序的值。如果您选择禁用 Sentry 层，将使用此值来设置运行时处理程序。
+  - `SENTRY_DSN`：这被设置为您的项目的 [DSN](/product/sentry-basics/dsn-explainer/)
+  - `SENTRY_TRACES_SAMPLE_RATE`：这为事务设置[采样率](/platforms/python/configuration/sampling/#sampling-transaction-events)。如果您想要不同的采样率，可以手动编辑环境变量。
 
   ![](./img/env_variables_python.png)

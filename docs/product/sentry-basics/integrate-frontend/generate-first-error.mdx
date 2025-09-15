@@ -1,70 +1,70 @@
 ---
-title: Capture Your First Error
+title: 捕获您的第一个错误
 sidebar_order: 3
-description: "Learn how to capture your first error and view it in Sentry."
+description: "学习如何捕获您的第一个错误并在 Sentry 中查看它。"
 ---
 
-Now that the sample app is up and running on your local environment integrated with the Sentry SDK, you're ready to generate the first error.
+现在示例应用程序已在您的本地环境中运行并与 Sentry SDK 集成，您已准备好生成第一个错误。
 
-## 1. Trigger an Error
+## 1. 触发错误
 
-To start using Sentry's error monitoring feature, you need some errors first. Let's add in an obvious error that will be easy to see in Sentry.
+为了开始使用 Sentry 的错误监控功能，您首先需要一些错误。让我们添加一个明显的错误，这样在 Sentry 中很容易看到。
 
-If you're using your own source code, skip this step. Instead, select your [platform](/platforms/) and follow its **Verify** step inside the **Getting Started** guide to introduce an error.
+如果您使用的是自己的源代码，请跳过此步骤。相反，选择您的[平台](/platforms/)并按照其**入门指南**中的**验证**步骤引入错误。
 
-1. Open `src/components/App.js` and uncomment line 97.
+1. 打开 `src/components/App.js` 并取消第 97 行的注释。
 
    ```javascript {filename:src/components/App.js}
    this.myCodeIsPerfect();
    ```
 
-   The function `myCodeIsPerfect()` isn't defined, so this will throw an error.
+   函数 `myCodeIsPerfect()` 未定义，因此这将抛出一个错误。
 
-1. Save the file.
+1. 保存文件。
 
-1. Refresh your browser and open the browser developer console.
+1. 刷新浏览器并打开浏览器开发者控制台。
 
-   The app is running in develop mode, so the change to your app should work after a refresh. You shouldn't see any errors in the console yet.
+   应用程序在开发模式下运行，因此对应用程序的更改应在刷新后生效。您暂时不会在控制台中看到任何错误。
 
-1. Click on any of the "Buy!"" buttons to add products to your shopping cart.
+1. 点击任何"购买！"按钮将产品添加到购物车。
 
-1. Click the "Checkout" button on the right panel to generate an error.
+1. 点击右侧面板上的"结账"按钮以生成错误。
 
    <Arcade src="https://demo.arcade.software/fEC5K0E8owyg5R45ePEo?embed" />
 
-   Notice that:
+   请注意：
 
-   - An error message "Something went wrong" displays in the app.
-   - The error appears in the browser console.
+   - 应用程序中显示错误消息"出了点问题"。
+   - 错误出现在浏览器控制台中。
 
-     ![Import and Configure SDK](./img/generate-first-error-01.png)
+     ![导入和配置 SDK](./img/generate-first-error-01.png)
 
-   - An alert is sent to your email address configured on Sentry notifying you about an error that occurred in your app.
+   - 向您在 Sentry 上配置的电子邮件地址发送警报，通知您应用程序中发生的错误。
 
-     ![Alert Email](./img/new_issue_email.png)
+     ![警报邮件](./img/new_issue_email.png)
 
-## 2. View the Error in Sentry
+## 2. 在 Sentry 中查看错误
 
-Now that you've triggered an error, let's see what it looks like in Sentry.
+现在您已经触发了错误，让我们看看它在 Sentry 中的样子。
 
-1. Open the **Issues** page in [Sentry.io](https://sentry.io/). Make sure your project is selected in the projects dropdown.
+1. 在 [Sentry.io](https://sentry.io/) 中打开**问题**页面。确保在项目中选择了您的项目。
 
-2. Select the error from the issues list to to view the full details and context of this error.
+2. 从问题列表中选择错误以查看此错误的完整详细信息和上下文。
 
-   Note that Sentry aggregates similar errors (events) into one [Issue](/product/issues/). If you trigger this error multiple times, you won't see more issues appear. Instead, you'll see the number of events for that issue increase.
+   请注意，Sentry 将类似的错误（事件）聚合为一个[问题](/product/issues/)。如果您多次触发此错误，您不会看到更多问题出现。相反，您会看到该问题的事件数量增加。
 
-3. On the [Issue Details](/product/issues/issue-details/) page, scroll down to the stack trace.
+3. 在[问题详情](/product/issues/issue-details/)页面上，向下滚动到堆栈跟踪。
 
-   Notice that the stack trace is _minified_. JavaScript is typically minified to reduce to the size of the source code. This means you can't see the actual lines of code from your app in the stack trace.
+   请注意，堆栈跟踪是_压缩的_。JavaScript 通常被压缩以减小源代码的大小。这意味着您无法在堆栈跟踪中看到来自应用程序的实际代码行。
 
-   With a little configuration, Sentry can unminify your code back to its readable form and display your source code in each stack frame. You'll set this up in the next section.
+   通过一些配置，Sentry 可以将您的代码解压缩回其可读形式，并在每个堆栈帧中显示您的源代码。您将在下一部分中设置此功能。
 
-### UI Walkthrough
+### UI 操作演示
 
-The interactive demo below walks through how to view error details in Sentry.
+下面的交互式演示展示了如何在 Sentry 中查看错误详细信息。
 
 <Arcade src="https://demo.arcade.software/nTTSJdR4TyqHATbVMOzA?embed" />
 
-## Next
+## 下一步
 
-At this point, you've verified that Sentry is monitoring errors for your app. So you know there's an issue, but where do you go to fix it? In the next section, you'll learn how to [Enable Readable Stack Traces in Your Errors](/product/sentry-basics/integrate-frontend/upload-source-maps/) so Sentry can show you exactly which line in which file is causing the issue.
+此时，您已验证 Sentry 正在监控您应用程序的错误。因此您知道存在问题，但您去哪里修复它？在下一部分中，您将学习如何[在错误中启用可读堆栈跟踪](/product/sentry-basics/integrate-frontend/upload-source-maps/)，以便 Sentry 可以向您显示哪个文件中的哪一行导致问题。

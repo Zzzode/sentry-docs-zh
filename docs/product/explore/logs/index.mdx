@@ -1,60 +1,60 @@
 ---
-title: "Logs"
+title: "日志"
 sidebar_order: 70
-description: "Structured logs allow you to send, view and query logs and parameters sent from your applications within Sentry."
+description: "结构化日志允许您在 Sentry 中发送、查看和查询来自应用程序的日志和参数。"
 ---
 
 
-## Overview
+## 概述
 
-With Structured Logs, users can send text-based log information from their applications, whether frontend or backend, to Sentry. Once in Sentry, these logs can be viewed alongside relevant errors, searched by text-string, or searched using their individual parameters.
+通过结构化日志，用户可以从其应用程序（无论是前端还是后端）向 Sentry 发送基于文本的日志信息。一旦进入 Sentry，这些日志可以与相关错误一起查看，通过文本字符串搜索，或使用其各个参数进行搜索。
 
 <Arcade src="https://demo.arcade.software/PalOCHofpcO3DqvA4Rzr?embed" />
 
-Not everything that you want to track in your application generates an error event. You might want to arbitrarily track information happening in your application for many reasons, such as:
+并非您想要在应用程序中跟踪的所有内容都会生成错误事件。您可能出于多种原因想要任意跟踪应用程序中发生的信息，例如：
 
-- Debugging information like navigation actions, page interactions, or query results
-- User specific events
-- Configuration items that users or an application are receiving
+- 调试信息，如导航操作、页面交互或查询结果
+- 用户特定事件
+- 用户或应用程序正在接收的配置项
 
-## Set up Logs
+## 设置日志
 
-To get started with Logs, navigate to the [Getting Started](/product/explore/logs/getting-started/) and select your SDK from the list.
+要开始使用日志，请导航到[入门指南](/product/explore/logs/getting-started/)并从列表中选择您的 SDK。
 
-## Viewing and Searching Logs
+## 查看和搜索日志
 
-Raw text search is case sensitive and allows you to search for specific strings within log entries.
+原始文本搜索区分大小写，允许您在日志条目中搜索特定字符串。
 
-![Raw Text Logs Search](./img/LogSearchRawText.png)
+![原始文本日志搜索](./img/LogSearchRawText.png)
 
-You can also search using the default properties (like `severity`) or additional custom properties that you've added to your log entries.
+您还可以使用默认属性（如 `severity`）或您添加到日志条目中的其他自定义属性进行搜索。
 
-![Property Logs Search](./img/LogSearchTags.png)
+![属性日志搜索](./img/LogSearchTags.png)
 
-Log entries can be expanded to view all properties of logs entry. Individual properties can be added as columns to the results view, allowing you to quickly view properties that matter specifically to you alongside your search results.
+可以展开日志条目以查看日志条目的所有属性。各个属性可以作为列添加到结果视图中，允许您快速查看对您特别重要的属性以及搜索结果。
 
-![Expanded Logs View](./img/LogsExpanded.png)
+![展开的日志视图](./img/LogsExpanded.png)
 
-You can also enable auto refreshing of the logs view to see your latest logs as they come in.
+您还可以启用日志视图的自动刷新功能，以便在日志到达时查看最新日志。
 
-![Auto Refresh Logs](./img/AutoRefresh.png)
+![自动刷新日志](./img/AutoRefresh.png)
 
-Conditions in which auto-refresh is disabled:
+禁用自动刷新的条件：
 
-- Auto-refresh is only supported when sorting by time in descending order.
-- Auto-refresh is only supported when using a relative time period, like "Last 15 minutes" or "Last 7 days", not absolute dates like "2025-07-23".
-- Auto-refresh is disabled due to high data volume (100 logs per second). Try adding a filter to reduce the number of logs.
-- Auto-refresh wil be disabled due to reaching a max auto-refresh time of 10 minutes.
-- Auto-refresh will be disabled if there is an error fetching logs.
-- Auto-refresh is not available in the aggregates view.
+- 仅当按时间降序排序时才支持自动刷新。
+- 仅当使用相对时间段（如"过去15分钟"或"过去7天"）时才支持自动刷新，不支持绝对日期（如"2025-07-23"）。
+- 由于数据量过大（每秒100个日志）而禁用自动刷新。尝试添加过滤器以减少日志数量。
+- 由于达到最长自动刷新时间10分钟而禁用自动刷新。
+- 如果获取日志时出现错误，将禁用自动刷新。
+- 聚合视图中不提供自动刷新。
 
-## Log based Alerts and Dashboard widgets
+## 基于日志的警报和仪表板小组件
 
-You can create Alert rules and dashboard widgets based on your log queries.
+您可以根据日志查询创建警报规则和仪表板小组件。
 
-![Log Queries](./img/LogQueries.png)
+![日志查询](./img/LogQueries.png)
 
 
-## Video - Getting Started with Sentry Logs
+## 视频 - Sentry 日志入门
 
 <VimeoEmbed id="1081149414?h=4094d6e14f" />

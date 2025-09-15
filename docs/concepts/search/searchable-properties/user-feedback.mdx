@@ -1,143 +1,143 @@
 ---
-title: User Feedback Properties
-description: "Learn more about searchable user feedback properties."
+title: 用户反馈属性
+description: "了解可搜索的用户反馈属性。"
 sidebar_order: 40
 ---
 
-[User Feedback](/product/user-feedback/) allows your users to create bug reports so they can let you know about sneaky issues right away. Every report will automatically include related replays, tags, and errors, making fixing the issue dead simple.
+[用户反馈](/product/user-feedback/) 允许您的用户创建错误报告，以便他们可以立即让您了解隐藏的问题。每个报告都会自动包含相关的重放、标记和错误，使修复问题变得非常简单。
 
-You can search by user feedback properties on the **User Feedback** page.
+您可以在**用户反馈**页面中按用户反馈属性进行搜索。
 
-## Searchable Properties
+## 可搜索属性
 
-Below is a list of keys and tokens that can be used in the user feedback search.
+以下是可用于用户反馈搜索的键和标记列表。
 
 <DefinitionList>
 
 ### `assigned`
 
-Returns user feedback submissions assigned to the defined user(s) or team(s). Values can be a user ID (your email address), `me` for yourself, `none` for no assignee, `my_teams` or `#team-name` for teams you belong to.
+返回分配给定义用户或团队的用户反馈提交。值可以是用户 ID（您的电子邮件地址）、`me` 表示您自己、`none` 表示无受让人、`my_teams` 或 `#team-name` 表示您所属的团队的。
 
-- **Type:** team or org user
+- **类型：** 团队或组织用户
 
 ### `browser.name`
 
-Name of the browser.
+浏览器的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.brand`
 
-Brand of the device.
+设备品牌。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.family`
 
-Family of the device. Typically, the common part of a model name across generations. For example, iPhone, Samsung Galaxy.
+设备系列。通常是跨代型号名称的共同部分。例如，iPhone、Samsung Galaxy。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.model_id`
 
-Internal hardware revision to identify the device exactly.
+内部硬件版本以精确识别设备。
 
-- **Type:** n/a
+- **类型：** 不适用
 
 ### `device.name`
 
-Name of the device.
+设备名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `dist`
 
-Distinguishes build or deployment variants of the same release of an application. For example, the dist can be the build number of an Xcode build or the version code of an Android build.
+区分同一版本应用程序的构建或部署变体。例如，dist 可以是 Xcode 构建的构建号或 Android 构建的版本代码。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `environment`
 
-The environment that the event was first seen in.
+事件首次出现的环境。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `id`
 
-The feedback ID.
+反馈 ID。
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `is`
 
-The properties of a user feedback submission. Values can be: `unresolved`, `resolved`, `assigned`, `unassigned`, `linked`, or `unlinked`. The `linked` and `unlinked` values return user feedback submissions based on whether they are linked to an external issue tracker or not.
+用户反馈提交的属性。值可以是：`unresolved`、`resolved`、`assigned`、`unassigned`、`linked` 或 `unlinked`。`linked` 和 `unlinked` 值根据它们是否链接到外部问题跟踪器返回用户反馈提交。
 
-- **Type:** status
+- **类型：** 状态
 
 ### `level`
 
-The severity of the user feedback submissions. If the feedback came in through the crash-report modal then the level is tied to the error experienced by the end-user. For feedback from the user feedback widget, the level is `info`.
+用户反馈提交的严重性。如果反馈是通过崩溃报告模态框传入的，则级别与最终用户遇到的错误相关联。对于来自用户反馈小组件的反馈，级别为 `info`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `os.name`
 
-The name of the operating system.
+操作系统的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `sdk.name`
 
-Name of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `sdk.version`
 
-Version of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的版本。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `timestamp`
 
-The finish timestamp of the transaction. Returns events with matching datetime.
+事务的完成时间戳。返回与匹配日期时间的事件。
 
-- **Type:** datetime
+- **类型：** 日期时间
 
 ### `transaction`
 
-The error or transaction name identifier.
+错误或事务名称标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `url`
 
-The URL of the page that the feedback is triggered on.
+触发反馈的页面的 URL。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.email`
 
-The user's email address exists only if Sentry received it from the `Sentry.setUser` SDK option as a tag. This property does not apply to emails entered inside the user feedback widget, which are not searchable.
+用户的电子邮件地址仅在 Sentry 从 `Sentry.setUser` SDK 选项中作为标记接收时才存在。此属性不适用于在用户反馈小组件中输入的电子邮件，这些电子邮件不可搜索。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.id`
 
-Application-specific internal identifier for the user.
+用户的应用程序特定内部标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.ip`
 
-User's IP address. Sentry uses the IP address as a unique identifier for unauthenticated users.
+用户的 IP 地址。Sentry 使用 IP 地址作为未验证用户的唯一标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.username`
 
-Username, which is typically a better label than the `user.id`.
+用户名，通常比 `user.id` 更好的标签。
 
-- **Type:** string
+- **类型：** 字符串
 
 </DefinitionList>

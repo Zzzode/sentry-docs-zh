@@ -1,225 +1,225 @@
 ---
-title: Span Properties
-description: "Learn more about searchable span properties."
+title: 跨度属性
+description: "了解可搜索的跨度属性。"
 sidebar_order: 21
 ---
 
-Spans are the underlying data element captured in Sentry SDKs that together make up a trace.
+跨度是 Sentry SDK 中捕获的底层数据元素，它们共同构成一个跟踪。
 
-You can search by span properties in the following [Sentry](https://sentry.io) pages:
+您可以在以下 [Sentry](https://sentry.io) 页面中按跨度属性进行搜索：
 
-- [Traces](/product/explore/traces/) - when searching for a trace containing spans with matching properties
+- [跟踪](/product/explore/traces/) - 当搜索包含具有匹配属性的跨度的跟踪时
 
-When you search for span properties within the **Traces** page, the search will return any trace that contains _one or more spans_ that match your span properties filter.
+当您在**跟踪**页面中搜索跨度属性时，搜索将返回包含_一个或多个匹配跨度_的任何跟踪。
 
-## Searchable Properties
+## 可搜索属性
 
-Below is a list of keys and tokens that can be used in the span search:
+以下是可用于跨度搜索的键和标记列表：
 
 <DefinitionList>
 
 ### `action`
 
-The type of span action, for example, `SELECT` for a SQL span or `POST` for an HTTP span.
+跨度操作的类型，例如，SQL 跨度的 `SELECT` 或 HTTP 跨度的 `POST`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `browser.name`
 
-The name of the browser that generated the span.
+生成跨度的浏览器名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `cache.hit`
 
-Whether a cache read has hit or missed the queried cache key. Values are `'true'` or `'false'`.
+缓存读取是否命中或错过了查询的缓存键。值为 `'true'` 或 `'false'`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `description`
 
-Parameterized and scrubbed description of the span.
+跨度的参数化和清理描述。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.class`
 
-Device class is a synthesized field that's calculated by using device info found in context such as model (for iOS devices), and device specs like `processor_frequency` (for Android devices).
+设备类别是一个合成字段，通过使用上下文中找到的设备信息（如 iOS 设备的型号）和设备规格（如 Android 设备的 `processor_frequency`）来计算。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `domain`
 
-General scope of the span’s action, for example, the tables involved in a `db` span or the host name in an `http` span.
+跨度操作的通用范围，例如，`db` 跨度中涉及的表或 `http` 跨度中的主机名。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `duration`
 
-The total time taken by the span.
+跨度所花费的总时间。
 
-- **Type:** duration
+- **类型：** 持续时间
 
 ### `environment`
 
-Refers to your code deployment naming convention. For example, `development`, `testing`, `staging` and so on. [Learn more](/product/sentry-basics/environments/). In some pages of [Sentry](https://sentry.io/), you filter on environment using a dropdown.
+指您的代码部署命名约定。例如，`development`、`testing`、`staging` 等。[了解更多](/product/sentry-basics/environments/)。在 [Sentry](https://sentry.io/) 的某些页面中，您可以使用下拉菜单按环境过滤。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `file_extension`
 
-The file extension of a resource span.
+资源跨度的文件扩展名。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `group`
 
-Unique hash of the span’s description.
+跨度描述的唯一哈希。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `http.decoded_response_content_length`
 
-The [decoded body size](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/decodedBodySize) of the resource.
+资源的[解码主体大小](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/decodedBodySize)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `http.response_content_length`
 
-The [encoded body size](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/encodedBodySize) of the resource.
+资源的[编码主体大小](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/encodedBodySize)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `http.response_transfer_size`
 
-The [total transfer size](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize) of the resource.
+资源的[总传输大小](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `messaging.destination.name`
 
-The queue name or topic that the message is written or published to. The consumer also reads from this queue.
+消息写入或发布到的队列名称或主题。消费者也从该队列读取。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `messaging.message.id`
 
-The unique ID of a message from the queue or messaging system.
+来自队列或消息系统的消息的唯一 ID。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `module`
 
-The Insights module that the span is associated with, for example, `cache`, `db`, `http`, and so on.
+跨度关联的洞察模块，例如，`cache`、`db`、`http` 等。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `op`
 
-The operation of the span, for example, `http.client`, `middleware`.
+跨度的操作，例如，`http.client`、`middleware`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `os.name`
 
-Name of the operating system.
+操作系统的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `platform`
 
-Name of the platform. This defaults to `other` and is only a property for platforms from this list:
-`as3`, `c`, `cfml`, `cocoa`, `csharp`, `elixir`, `go`, `groovy`, `haskell`, `java`, `javascript`, `native`, `node`, `objc`, `other`, `perl`, `php`, `python`, `ruby`
+平台名称。这默认为 `other`，仅适用于此列表中的平台：
+`as3`、`c`、`cfml`、`cocoa`、`csharp`、`elixir`、`go`、`groovy`、`haskell`、`java`、`javascript`、`native`、`node`、`objc`、`other`、`perl`、`php`、`python`、`ruby`
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `release`
 
-A release is a version of your code deployed to an environment. You can create a token that matches a release exactly, or pick the most recent release by using `release:latest`. [Learn more](/product/releases/usage/sorting-filtering/#latest-release).
+发布是部署到环境的代码版本。您可以创建与发布完全匹配的标记，或使用 `release:latest` 选择最近的发布。[了解更多](/product/releases/usage/sorting-filtering/#latest-release)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `resource.render_blocking_status`
 
-The [render blocking status](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/renderBlockingStatus) of the resource.
+资源的[渲染阻塞状态](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/renderBlockingStatus)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `sdk.name`
 
-Name of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `sdk.version`
 
-Version of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的版本。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `self_time`
 
-The duration of the span excluding the duration of its child spans.
+跨度的持续时间，不包括其子跨度的持续时间。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `status`
 
-Status of the operation the span represents.
+跨度所代表操作的状态。
 
 ### `status_code`
 
-The HTTP response status code.
+HTTP 响应状态代码。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `system`
 
-Database system (e.g., `postgresql` or `mysql`).
+数据库系统（例如，`postgresql` 或 `mysql`）。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `trace.status`
 
-The span trace's success or failure status.
+跨度跟踪的成功或失败状态。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `transaction`
 
-Name of the containing transaction.
+包含事务的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 
 ### `transaction.method`
 
-HTTP method of the containing transaction.
+包含事务的 HTTP 方法。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `transaction.op`
 
-Operation of the containing transaction.
+包含事务的操作。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.email`
 
-An alternative or addition to the username. Sentry is aware of email addresses and can therefore display things such as Gravatars and unlock messaging capabilities.
+用户名的替代或补充。Sentry 了解电子邮件地址，因此可以显示 Gravatars 等功能并解锁消息传递功能。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.id`
 
-Application-specific internal identifier for the user.
+用户的应用程序特定内部标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.username`
 
-Username, which is typically a better label than `user.id`.
+用户名，通常比 `user.id` 更好的标签。
 
-- **Type:** string
+- **类型：** 字符串
 
 </DefinitionList>

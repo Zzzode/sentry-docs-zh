@@ -1,43 +1,43 @@
 ---
-title: UI Components
+title: UI 组件
 sidebar_order: 4
-description: "Learn more about Sentry's integration platform User Interface (UI) components."
+description: "了解有关 Sentry 集成平台用户界面 (UI) 组件的更多信息。"
 ---
 
 <Alert>
 
-We've built an [example application](https://github.com/getsentry/integration-platform-example) to help you get started with building on Sentry's integration platform! Check it out for useful code snippets for adding these features in Python and TypeScript. See the [docs](/organization/integrations/integration-platform/#example-app) for more information.
+我们构建了一个[示例应用](https://github.com/getsentry/integration-platform-example)来帮助您开始在 Sentry 的集成平台上构建！查看它以获取在 Python 和 TypeScript 中添加这些功能的有用代码片段。有关更多信息，请参见[文档](/organization/integrations/integration-platform/#example-app)。
 
 </Alert>
 
-The Sentry integration platform provides developers with the ability to define components to render within specific parts of [sentry.io](https://sentry.io), through a JSON-based schema.
+Sentry 集成平台为开发者提供了通过基于 JSON 的架构在 [sentry.io](https://sentry.io) 的特定部分中定义要渲染的组件的能力。
 
-You can define the following components:
+您可以定义以下组件：
 
-- [Issue Link](/organization/integrations/integration-platform/ui-components/issue-link) (uses [FormField](/organization/integrations/integration-platform/ui-components/formfield) components)
-- [Alert Rule Actions](/organization/integrations/integration-platform/ui-components/alert-rule-action) (uses [FormField](/organization/integrations/integration-platform/ui-components/formfield) components)
-- [Stack Trace Link](/organization/integrations/integration-platform/ui-components/stacktrace-link)
+- [问题链接](/organization/integrations/integration-platform/ui-components/issue-link)（使用 [表单字段](/organization/integrations/integration-platform/ui-components/formfield) 组件）
+- [警报规则操作](/organization/integrations/integration-platform/ui-components/alert-rule-action)（使用 [表单字段](/organization/integrations/integration-platform/ui-components/formfield) 组件）
+- [堆栈跟踪链接](/organization/integrations/integration-platform/ui-components/stacktrace-link)
 
-## Schema
+## 架构
 
-The UI components are specified in the schema section of the integration details. The required form of this schema is:
+UI 组件在集成详情的架构部分中指定。此架构的必需形式是：
 
 ```json {filename: schema.json}
 {
   "elements": [
-    // Component schemas to be used by the integration
-    // e.g. { "type": "alert-rule-action", ... }
+    // 集成要使用的组件架构
+    // 例如 { "type": "alert-rule-action", ... }
   ]
 }
 ```
 
-### URI Guidelines
+### URI 指南
 
-The `uri` keys in your schema elements describe the URI path that will receive a request from that UI component. Sentry will append the path in the `uri` field onto the host of your integration's _webhook URL_.
-For example, if the webhook URL is `https://example.com/webhook/`, and your schema's `uri` attribute is `/alerts/`, then the integration will receive requests to `https://example.com/alerts/`.
+架构元素中的 `uri` 键描述了将接收来自该 UI 组件请求的 URI 路径。Sentry 会将架构的 `uri` 字段中的路径附加到集成的 _webhook URL_ 的主机上。
+例如，如果 webhook URL 是 `https://example.com/webhook/`，而您的架构的 `uri` 属性是 `/alerts/`，那么集成将接收对 `https://example.com/alerts/` 的请求。
 
-## Error Handling
+## 错误处理
 
-Component rendering either 100% works or shows nothing. To protect the integration from looking chaotic due to errors we have no control over, if any part of the third-party component rendering fails, nothing will render.
+组件渲染要么 100% 工作，要么什么都不显示。为了保护集成免受我们无法控制的错误导致的外观混乱，如果第三方组件渲染的任何部分失败，将不会渲染任何内容。
 
-If there is an error in an issue linking component, the link will be disabled.
+如果问题链接组件中存在错误，链接将被禁用。

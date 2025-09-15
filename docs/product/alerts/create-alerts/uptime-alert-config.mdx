@@ -1,56 +1,56 @@
 ---
-title: Uptime Alert Configuration
+title: 正常运行时间告警配置
 sidebar_order: 30
-description: "Learn more about the options for configuring an uptime alert."
+description: "了解有关配置正常运行时间告警的更多信息。"
 ---
 
-Sentry provides several configuration options for creating an uptime alert based on your organization's needs as explained below.
+Sentry 为您的组织需求提供了多种配置选项来创建正常运行时间告警，如下所述。
 
-## 1. Environment
+## 1. 环境
 
-First, specify which <PlatformLink to="/configuration/environments/">environment</PlatformLink> this alert rule belongs to. Any [uptime issues](/product/issues/issue-details/uptime-issues/) that will be created from this alert rule will then be set to your specified environment.
+首先，指定此告警规则所属的<PlatformLink to="/configuration/environments/">环境</PlatformLink>。从此告警规则创建的任何[正常运行时间问题](/product/issues/issue-details/uptime-issues/)都将设置为您的指定环境。
 
-The “Environment” dropdown lists the same environments available in your project, excluding hidden ones.
+"环境"下拉列表显示项目中可用的相同环境，不包括隐藏的环境。
 
-## 2. Project
+## 2. 项目
 
-Specify the project associated with your alert rule. Any [uptime issues](/product/issues/issue-details/uptime-issues/) created will appear under this project.
+指定与您的告警规则关联的项目。创建的任何[正常运行时间问题](/product/issues/issue-details/uptime-issues/)将出现在此项目下。
 
-## 3. Request Configuration
+## 3. 请求配置
 
-![Uptime alert request configuration](./img/uptime-alert-request-config.png)
+![正常运行时间告警请求配置](./img/uptime-alert-request-config.png)
 
-Configure how Sentry performs HTTP uptime checks by setting the following options:
+通过设置以下选项来配置 Sentry 如何执行 HTTP 正常运行时间检查：
 
-- **Interval**: The time between each uptime check. Options: `1 minute`, `5 minutes`, `10 minutes`, `20 minutes`, `30 minutes`, and `1 hour`.
-- **Timeout**: The maximum time Sentry waits for a response before considering the request a failure (up to 30 seconds).
-- **URL**: The target URL for the uptime check.
-- **Method**: The HTTP method used (`GET`, `POST`, `HEAD`, `PUT`, `DELETE`, `PATCH`, or `OPTIONS`).
-- **Headers**: Custom headers included in the request.
-- **Body**: The request payload, available for `POST`, `PUT`, and `PATCH` methods.
-- **Allow Sampling**: Enables span sampling for requests via the Sentry SDK. See [distributed tracing with uptime](/product/uptime-monitoring/uptime-tracing/) for details.
+- **间隔**：每次正常运行时间检查之间的时间。选项：`1 分钟`、`5 分钟`、`10 分钟`、`20 分钟`、`30 分钟` 和 `1 小时`。
+- **超时**：Sentry 在将请求视为失败之前等待响应的最长时间（最多30秒）。
+- **URL**：正常运行时间检查的目标 URL。
+- **方法**：使用的 HTTP 方法（`GET`、`POST`、`HEAD`、`PUT`、`DELETE`、`PATCH` 或 `OPTIONS`）。
+- **标头**：请求中包含的自定义标头。
+- **正文**：请求有效负载，适用于 `POST`、`PUT` 和 `PATCH` 方法。
+- **允许采样**：通过 Sentry SDK 启用请求的跨度采样。有关详细信息，请参阅[正常运行时间的分布式跟踪](/product/uptime-monitoring/uptime-tracing/)。
 
 <Alert level="warning">
 
-When adding HTTP headers, be cautious of including sensitive data, such as API tokens or personal information, to prevent unintended exposure or storage.
+添加 HTTP 标头时，请小心不要包含敏感数据，例如 API 令牌或个人信息，以防止意外暴露或存储。
 
 </Alert>
 
-![Uptime alert expected request](./img/uptime-alert-expected-check-request.png)
+![正常运行时间告警预期请求](./img/uptime-alert-expected-check-request.png)
 
-Below the request configuration, you'll find an example of the expected request that Sentry will send to the specified URL, including the method, headers, and body. Sentry automatically adds `User-Agent` and `Sentry-Trace` headers.
+在请求配置下方，您将找到 Sentry 将向指定 URL 发送的预期请求示例，包括方法、标头和正文。Sentry 会自动添加 `User-Agent` 和 `Sentry-Trace` 标头。
 
-Additional notes:
+其他注意事项：
 
-- Include a `Content-Type` header if required by the target URL. For example, a JSON payload should have `Content-Type: application/json`.
-- The selected interval affects downtime detection speed. Sentry triggers an uptime issue after three consecutive failures. For instance, with a 5-minute interval, downtime is detected at least 15 minutes after the first failure. Learn more about the [uptime check criteria](/product/uptime-monitoring/#uptime-check-criteria).
-- In case the specified URL is behind a firewall, make sure Sentry's Uptime Bot can execute requests to it. Learn more about [firewall configuration with uptime monitoring](/product/uptime-monitoring/troubleshooting/#verify-firewall-configuration).
-- Sentry Uptime Tracing automatically appends a sentry-trace header to outgoing requests for distributed tracing. [Learn more](/product/uptime-monitoring/uptime-tracing/).
+- 如果目标 URL 需要，请包含 `Content-Type` 标头。例如，JSON 有效负载应具有 `Content-Type: application/json`。
+- 选定的间隔会影响停机检测速度。Sentry 在三次连续失败后触发正常运行时间问题。例如，使用5分钟间隔，停机至少在首次失败后15分钟被检测到。了解更多关于[正常运行时间检查标准](/product/uptime-monitoring/#uptime-check-criteria)的信息。
+- 如果指定的 URL 位于防火墙后面，请确保 Sentry 的正常运行时间机器人可以对其执行请求。了解更多关于[正常运行时间监控的防火墙配置](/product/uptime-monitoring/troubleshooting/#verify-firewall-configuration)的信息。
+- Sentry 正常运行时间跟踪会自动将 sentry-trace 标头附加到传出请求以进行分布式跟踪。[了解更多](/product/uptime-monitoring/uptime-tracing/)。
 
-## 4. Alert Name
+## 4. 告警名称
 
-Give your alert a descriptive name, for example, "Landing Page" or "Contact Page".
+为您的告警提供一个描述性名称，例如"着陆页"或"联系页面"。
 
-## 5. Ownership
+## 5. 所有权
 
-Assign a team or team member to manage the alert. If no team is assigned, any user can modify the alert. [Uptime issues](/product/issues/issue-details/uptime-issues/) created from this alert rule will be set to the specified team or team member.
+分配一个团队或团队成员来管理告警。如果未分配团队，任何用户都可以修改告警。从此告警规则创建的[正常运行时间问题](/product/issues/issue-details/uptime-issues/)将设置为指定的团队或团队成员。

@@ -1,82 +1,82 @@
 ---
-title: "Performance Monitoring"
+title: "性能监控"
 sidebar_order: 1
-description: "Understand and monitor how your application performs in production. Track key metrics, analyze bottlenecks, and resolve performance issues with distributed tracing, detailed transaction data, and automated issue detection."
+description: "了解和监控您的应用程序在生产环境中的性能。跟踪关键指标，分析瓶颈，并通过分布式追踪、详细的事务数据和自动问题检测来解决性能问题。"
 ---
 
-In many tools, Performance Monitoring is just about tracking a few key metrics on your web pages. Sentry takes a different approach. By setting up [Tracing](/concepts/key-terms/tracing/), Sentry captures detailed performance data for every transaction in your entire application stack and automatically presents it in a variety of easy-to-use but powerful features so you can rapidly identify and resolve performance issues as they happen - all in one place.
+在许多工具中，性能监控只是关于跟踪网页上的几个关键指标。Sentry 采用了不同的方法。通过设置[追踪](/concepts/key-terms/tracing/)，Sentry 捕获整个应用程序堆栈中每个事务的详细性能数据，并自动将其呈现在各种易于使用但功能强大的功能中，以便您可以快速识别和解决性能问题——所有这些都集中在一个地方。
 
 <Alert>
 
-Set up [Distributed Tracing](/product/sentry-basics/tracing/) to enable Performance Monitoring.
+设置[分布式追踪](/product/sentry-basics/tracing/)以启用性能监控。
 
 </Alert>
 
-## Ways to Monitor Performance in Sentry
+## 在 Sentry 中监控性能的方法
 
-Sentry has multiple tools for monitoring performance which are useful for different aspects of your monitoring & debugging needs:
+Sentry 具有多种用于监控性能的工具，这些工具对您的监控和调试需求的不同方面很有用：
 
-### 1: Insights: Opinionated views of performance data for each layer of your stack
+### 1：洞察：对堆栈每一层性能数据的有主见的视图
 
-After turning on Distributed Tracing, you'll automatically see a set of [Insights](/product/insights/) pages that give you a high-level view of performance data for each layer of your stack. This is extremely useful for quickly seeing any major performance outliers that need optimization, or tracking potential regressions across time, environments, releases, etc.
+启用分布式追踪后，您将自动看到一组[洞察](/product/insights/)页面，这些页面为您堆栈的每一层提供性能数据的高级视图。这对于快速查看需要优化的任何主要性能异常值或跟踪跨时间、环境、发布等的潜在回归非常有用。
 
-- [**Frontend Insights**](/product/insights/frontend) gives you an easy but powerful way to drill into common frontend performance issues with things like Core Web Vitals, as well as transaction performance with things like duration, and error rate.
-- [**Backend Insights**](/product/insights/backend/) show your backend transaction performance, across things like database queries, external API calls, caches, queues, crons, and more.
-- [**Mobile Insights**](/product/insights/mobile/) track vital performance metrics for your mobile apps, including your cold & warm app start times, TTID & TTFD, and time to load or render key screens throughout your app.
-- [**AI Insights**](/product/insights/ai/) give you a view of your LLM performance. This is currently in beta and only available for certain integrations.
+- [**前端洞察**](/product/insights/frontend)为您提供了一种简单但强大的方式来深入研究常见的前端性能问题，如核心 Web 指标，以及事务性能，如持续时间和错误率。
+- [**后端洞察**](/product/insights/backend/)显示您的后端事务性能，包括数据库查询、外部 API 调用、缓存、队列、定时任务等。
+- [**移动洞察**](/product/insights/mobile/)跟踪您的移动应用程序的关键性能指标，包括冷启动和热启动时间、TTID 和 TTFD，以及整个应用程序中关键屏幕的加载或渲染时间。
+- [**AI 洞察**](/product/insights/ai/)为您提供 LLM 性能的视图。这目前处于测试阶段，仅适用于某些集成。
 
-See the demo video below for a quick tour of the Insights pages:
+请参见下面的演示视频，快速了解洞察页面：
 
 <Arcade src="https://demo.arcade.software/BTvUjriSDjaHiVqPvIFP?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true" /><br />
 
-All accounts have access to the top level insights pages. Upgrading to the [Team plan](https://sentry.io/signup/?original_referrer=https%3A%2F%2Fwww.google.com%2F&period=annual&plan=am1_team_auf&trial) or higher gets you access to more dedicated insights pages for common monitoring use cases.
+所有账户都可以访问顶级洞察页面。升级到[团队计划](https://sentry.io/signup/?original_referrer=https%3A%2F%2Fwww.google.com%2F&period=annual&plan=am1_team_auf&trial)或更高版本可让您访问更多用于常见监控用例的专用洞察页面。
 
-### 2: Performance Issues: Automatically identify full-stack bottlenecks
+### 2：性能问题：自动识别全栈瓶颈
 
-Alongside typical [error issues](/product/issues/issue-details/error-issues/), Sentry will automatically detect common performance issues and group them into [performance issues](/product/issues/issue-details/performance-issues/). For instance:
-- N+1 Query & API call issues that indicate unnecessary round-trips to your backend
-- Consecutive DB Queries or HTTP Requests that could be batched for better performance
-- Database queries or File I/O running on the main thread, which can block the UI thread and cause performance issues
-- And many more documented [here](/product/issues/performance-issues/)
+除了典型的[错误问题](/product/issues/issue-details/error-issues/)之外，Sentry 还将自动检测常见的性能问题并将其分组为[性能问题](/product/issues/issue-details/performance-issues/)。例如：
+- 指示对后端进行不必要往返的 N+1 查询和 API 调用问题
+- 可以批处理以获得更好性能的连续数据库查询或 HTTP 请求
+- 在主线程上运行的数据库查询或文件 I/O，这可能会阻塞 UI 线程并导致性能问题
+- 以及更多记录在[此处](/product/issues/performance-issues/)的问题
 
 
 <Arcade src="https://demo.arcade.software/t8kZ9OeigLNrH3fLynIu?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true" /> <br />
 
-### 3: Trace Explorer: Find root causes & common patterns for performance issues
+### 3：追踪浏览器：查找性能问题的根本原因和常见模式
 
-While Performance Issues and Insights give you a high-level view of performance data, the [Trace Explorer](/product/explore/traces/) lets you slice and dice all your performance data by any attribute. This is an extremely powerful tool for finding root causes and common patterns for performance regressions or potential optimizations. For instance, you can find the p95 duration of all spans on the `GET /users/:id` endpoint, or find all pages slowing down because of a particular middleware routing.
+虽然性能问题和洞察为您提供了性能数据的高级视图，但[追踪浏览器](/product/explore/traces/)允许您按任何属性对您的所有性能数据进行切片和切块。这是查找性能回归或潜在优化的根本原因和常见模式的极其强大的工具。例如，您可以找到 `GET /users/:id` 端点上所有跨度的 p95 持续时间，或者找到由于特定中间件路由而变慢的所有页面。
 
-The newest version of the Trace Explorer also lets you quickly calculate metrics based on your span data, like p50, p95, and p99 durations, and then group them by any attribute. This lets you quickly see if there's specific endpoints, versions, user groups, etc. that are performing poorly. For a more thorough dive into how you can use the new Trace Explorer and Span Metrics, take a look at our most recent [blog post](https://blog.sentry.io/find-and-fix-performance-bottlenecks-with-sentrys-trace-explorer/).
+最新版本的追踪浏览器还允许您快速计算基于跨度数据的指标，如 p50、p95 和 p99 持续时间，然后按任何属性对它们进行分组。这使您可以快速查看是否有特定的端点、版本、用户组等表现不佳。要更深入地了解如何使用新的追踪浏览器和跨度指标，请查看我们最近的[博客文章](https://blog.sentry.io/find-and-fix-performance-bottlenecks-with-sentrys-trace-explorer/)。
 
 <Alert>
 
-This demo shows a [new version](/product/explore/new-trace-explorer/) of the Trace Explorer that is available for all self-serve orgs in the Early Adopter program. Enable the EA flag in your [organization settings](https://sentry.io/orgredirect/settings/:orgslug/) to gain access to Span Metrics, Group By, Create Widgets and Alerts.
+此演示显示了追踪浏览器的[新版本](/product/explore/new-trace-explorer/)，该版本适用于早期采用者计划中的所有自助服务组织。在您的[组织设置](https://sentry.io/orgredirect/settings/:orgslug/)中启用 EA 标志以获得对跨度指标、分组、创建小组件和警报的访问权限。
 
 </Alert>
 
 
 <Arcade src="https://demo.arcade.software/E04YSJpq1w8bpk18Q5Kp" /> <br />
 
-### 4: Metrics, Alerts, and Dashboards: Build custom views of performance data
+### 4：指标、警报和仪表板：构建性能数据的自定义视图
 
-By default, Sentry automatically tracks a set of [performance metrics](/platforms/javascript/tracing/span-metrics/) for every trace. These are used to populate the Insights dashboards, but you can also use them to build custom [dashboards](/product/dashboards/) and [alerts](/product/alerts/).
+默认情况下，Sentry 自动跟踪每个追踪的一组[性能指标](/platforms/javascript/tracing/span-metrics/)。这些用于填充洞察仪表板，但您也可以使用它们来构建自定义[仪表板](/product/dashboards/)和[警报](/product/alerts/)。
 
-Opting into the [Early Adopter](https://sentry.io/orgredirect/settings/:orgslug/) program for the Trace Explorer also gives you access to the new [Span Metrics](/product/explore/new-trace-explorer/#span-metrics/) feature, which lets you calculate custom metrics based on your span data. This is extremely useful for building dashboards and alerts that are underpinned by real performance tracing data, so you can quickly debug performance issues.
+选择加入追踪浏览器的[早期采用者](https://sentry.io/orgredirect/settings/:orgslug/)计划还可以让您访问新的[跨度指标](/product/explore/new-trace-explorer/#span-metrics/)功能，该功能允许您根据跨度数据计算自定义指标。这对于构建由真实性能追踪数据支持的仪表板和警报非常有用，因此您可以快速调试性能问题。
 
-## How to set up Performance Monitoring
+## 如何设置性能监控
 
-For basic frontend or backend performance monitoring, just turn on Tracing in your relevant SDK. This will automatically trace every network request and give you a basic set of performance metrics. However, to make sure Sentry is capturing accurate and complete performance data, you need to set up [Distributed Tracing](/product/sentry-basics/distributed-tracing/). NextJS, Laravel, Ruby on Rails and a few others have strong out-of-the-box support for distributed tracing, but for more complex or multi-language applications, you'll need to configure this manually. Learn more about trace propagation [here](/platforms/javascript/tracing/distributed-tracing/).
+对于基本的前端或后端性能监控，只需在相关 SDK 中打开追踪即可。这将自动追踪每个网络请求并为您提供一组基本的性能指标。但是，为了确保 Sentry 捕获准确和完整的性能数据，您需要设置[分布式追踪](/product/sentry-basics/distributed-tracing/)。NextJS、Laravel、Ruby on Rails 和其他一些框架对分布式追踪有很强的开箱即用支持，但对于更复杂或多语言的应用程序，您需要手动配置此功能。在[此处](/platforms/javascript/tracing/distributed-tracing/)了解有关追踪传播的更多信息。
 
-## How Performance Monitoring works under the hood
+## 性能监控在底层如何工作
 
-Instead of instrumenting page loads with specific metrics at certain set intervals, like `onLoad`, `onUnload`, `onError`, etc., Sentry makes an effort to automatically instrument the libraries you rely on, providing detailed telemetry for Web Vitals, file I/O, network requests, and more. This lets you see the performance impact of every request, and any errors that occur during that request.
+Sentry 不是像在 `onLoad`、`onUnload`、`onError` 等特定时间间隔用特定指标检测页面加载，而是努力自动检测您依赖的库，为 Web 指标、文件 I/O、网络请求等提供详细的遥测。这使您可以看到每个请求的性能影响以及该请求期间发生的任何错误。
 
-This differs substantially from other performance monitoring tools that only capture *predefined* metrics with much less granularity. All your holistic metrics in Sentry are backed up by the raw tracing data, so you can drill into any specific request or operation to get a detailed view of its performance.
+这与其他性能监控工具有很大不同，后者仅捕获具有更粗粒度的*预定义*指标。Sentry 中的所有整体指标都由原始追踪数据支持，因此您可以深入了解任何特定请求或操作以获得其性能的详细视图。
 
-These performance metrics are sent by the Sentry SDK as part of each [Span](/concepts/key-terms/tracing/#whats-a-span), which is the smallest unit of work in a [Trace](/concepts/key-terms/tracing/). Traces are assembled in Sentry's backend, and then extrapolated to populate all the tools we have for monitoring performance.
+这些性能指标由 Sentry SDK 作为每个[跨度](/concepts/key-terms/tracing/#whats-a-span)的一部分发送，跨度是[追踪](/concepts/key-terms/tracing/)中的最小工作单位。追踪在 Sentry 的后端组装，然后推断以填充我们用于监控性能的所有工具。
 
-This differs substantially from other performance monitoring tools that only capture metrics at specific points in your application. Instead, all your holistic metrics are backed up by the raw tracing data, so you can drill into any specific request or operation to get a detailed view of its performance.
+这与其他性能监控工具有很大不同，后者仅在应用程序的特定点捕获指标。相反，您的所有整体指标都由原始追踪数据支持，因此您可以深入了解任何特定请求或操作以获得其性能的详细视图。
 
-## Learn More
+## 了解更多
 
 <PageGrid />

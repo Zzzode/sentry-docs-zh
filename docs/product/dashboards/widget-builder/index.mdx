@@ -1,149 +1,146 @@
 ---
-title: Widget Builder
+title: 小部件构建器
 sidebar_order: 15
-description: "Learn how to create widgets for your dashboards or edit existing ones."
+description: "了解如何为您的小部件创建仪表板或编辑现有小部件。"
 ---
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-When adding a widget or editing an existing one, a side panel opens up where you can see the dashboard widget builder:
+添加小部件或编辑现有小部件时，会打开一个侧面板，您可以在其中看到仪表板小部件构建器：
 
-![Widget Builder overview.](./img/widget-builder-overview.png)
+![小部件构建器概览。](./img/widget-builder-overview.png)
 
-The widget builder has several configuration options that you can use to shape data and add information to your dashboard. These options are presented as steps in the widget builder, but you don't have to do them in the order they're presented in.
+小部件构建器有几个配置选项，您可以使用这些选项来塑造数据并向仪表板添加信息。这些选项以小部件构建器中的步骤形式呈现，但您不必按照它们呈现的顺序进行操作。
 
-Some of these options are standard and displayed for all widgets, but others are only displayed if you make specific selections. Below is a list of all the options that can be displayed when configuring your widget.
+其中一些选项是标准的，并为所有小部件显示，但其他选项仅在您进行特定选择时显示。以下是配置小部件时可能显示的所有选项列表。
 
-## Dataset
+## 数据集
 
-In the dataset selection step, choose which type of data you would like to use in your widget. This data is classified into four different datasets: [errors](#error), [transactions](#transactions), [issues](#issues), and [releases](#releases).
+在数据集选择步骤中，选择您希望在小部件中使用哪种类型的数据。此数据分为四种不同的数据集：[错误](#error)、[事务](#transactions)、[问题](#issues)和[发布](#releases)。
 
-### Errors
-Choosing "Errors" allows you to query and aggregate error events in the same way you would for a [Discover Query](/product/explore/discover-queries/). This data is comprised of errors that occur in your application, which Sentry will use to group into issues, for example:
+### 错误
+选择"错误"允许您以与[Discover 查询](/product/explore/discover-queries/)相同的方式查询和聚合错误事件。此数据由应用程序中发生的错误组成，Sentry 将使用这些错误分组为问题，例如：
 
-- Users most affected by errors
+- 受错误影响最多的用户
 
-### Transactions
+### 事务
+选择"事务"允许您以与[Discover 查询](/product/explore/discover-queries/)相同的方式查询和聚合事务事件。此数据由跟踪应用程序操作性能的事件组成。一些小部件示例包括：
 
-Choosing "Transactions" allows you to query and aggregate transaction events in the same way you would for a [Discover Query](/product/explore/discover-queries/). This data is comprised of events that track the performance of operations in your application. Some widget examples include:
+- 跟踪端点的性能
+- 按国家/地区的吞吐量
 
-- Tracking performance of an endpoint
-- Throughput by country
+### 问题
+选择"问题（状态、分配、时间等）"允许您查询问题属性，例如 `is:unresolved` 或事件属性（例如 `error.handled:0`），并按问题字段（例如 `First Seen`）排序。在事件属性上搜索时，搜索将返回具有一个或多个与提供的事件过滤器匹配的事件的任何问题。
+如果您想在仪表板上自定义问题列表，请选择此数据集。一些小部件示例包括：
 
-### Issues
+- 分配给您的团队的问题
+- 最频繁发生的问题
+- "问题"数据集仅适用于表格可视化小部件，如果您选择了其他可视化，它将被禁用。
 
-Choosing "Issues (States, Assignment, Time, etc.)" allows you to query issue properties, such as `is:unresolved` or event properties such as `error.handled:0`, and to sort by issue fields such as `First Seen`. When searching on event properties, the search will return any issue that has one or more events matching the supplied event filters.
-Choose this dataset if you want to customize a list of issues on your dashboard. Some widget examples include:
+### 发布
+选择"发布（会话、崩溃率）"允许您查询应用程序特定版本的属性，主要是会话数据。如果您想在仪表板上显示发布的健康、错误和崩溃会话以及崩溃率，请选择此数据集。使用此数据集的一些示例小部件包括：
 
-- Issues assigned to your team
-- Most frequently occurring issues
-- The "Issues" dataset is only available in table visualization widgets and its disabled if you have other visualizations selected.
+- 最新版本的崩溃率
+- 跨版本的会话计数
 
-### Releases
+## 可视化类型
 
-Choosing "Releases (sessions, crash rates)" allows you to query properties specific to a release of your application, primarily session data. Choose this dataset if you want to display healthy, errored, and crashed sessions and crash rates for your releases or projects on your dashboard. Some example widgets using this dataset include:
+在此步骤中，您可以从四种不同的可视化类型中进行选择：
 
-- Crash rates for your latest release
-- Session count across releases
+- [面积图/条形图/折线图](#area-chart--bar-chart--line-chart)
+- [表格](#table)
+- [大数字](#big-number)
 
-## Visualization Type
+### 面积图/条形图/折线图
 
-In this step, you can choose from four different visualization types:
+面积、条形和折线图可视化允许您将一个或多个聚合函数绘制为时间序列。
 
-- [Area Chart / Bar Chart / Line Chart](#area-chart--bar-chart--line-chart)
-- [Table](#table)
-- [Big Number](#big-number)
+![时间序列可视化。](./img/widget-builder-time-series-visualizations.png)
 
-### Area Chart / Bar Chart / Line Chart
+每种图表类型都允许您解决不同的问题：
 
-Area, bar, and line chart visualizations allow you to plot one or more aggregate functions as a time series.
+- 面积图非常适合显示累积结果或您想要显示分解的结果。一个例子是"每个主要浏览器的错误计数"。
+- 条形图将按天对结果进行分组，使其非常适合每日汇总或作为"大图"摘要。一个例子是"每天的错误计数"。
+- 折线图是通用可视化。如果您添加多个数据系列，请确保 Y 轴单位匹配。混合计数和持续时间不会产生有用的结果。
 
-![Time-series visualizations.](./img/widget-builder-time-series-visualizations.png)
+### 表格
 
-Each chart type allows you to solve different problems:
+表格图表显示[Discover 查询](/product/explore/discover-queries/)的结果。此可视化非常适合显示关键字段和相关聚合。例如"最常访问的事务名称的持续时间百分位数"。您还可以选择使用[数据集选择器](/product/dashboards/widget-builder/#choose-your-dataset)在表格可视化中显示[问题](/product/issues/)数据。
 
-- Area charts are ideal for showing results that are cumulative or where you want to show a breakdown. An example would be “count of errors for each major browser”.
-- Bar charts will group results by day, making them good for daily roll-ups or as “big picture” summaries. An example would be “count of errors per day”.
-- Line charts are a general-purpose visualization. Make sure the Y-Axis units match if you add multiple data series. Mixing count with duration will not yield useful results.
+### 大数字
 
-### Table
+大数字可视化显示单个函数或[方程](/product/explore/discover-queries/query-builder/query-equations/)的当前值。此可视化非常适合高级聚合。一个示例场景是"所有事务的 p95"。
 
-Table charts display the results of a [Discover Query](/product/explore/discover-queries/). This visualization is well suited to showing key fields and related aggregates. For example “duration percentiles for the most frequently visited transaction names”. You can also choose to display [issues](/product/issues/) data in a table visualization using the [dataset selector](/product/dashboards/widget-builder/#choose-your-dataset).
+## 列
 
-### Big Number
+设置列的选项仅适用于[表格可视化](/product/dashboards/widget-builder/#table)。
 
-A big number visualization displays the current value of a single function or [equation](/product/explore/discover-queries/query-builder/query-equations/). This visualization is well suited for high-level aggregates. An example scenario would be “p95 of all transactions”.
+默认情况下，第一列已为您配置，但您可以更新它。要添加更多列（这些列会堆叠事件），请添加可以接收参数的[函数](/product/explore/discover-queries/query-builder/#stacking-functions) (`f(x)`)。[字段和标签列](/concepts/search/searchable-properties/#event-properties)将帮助您查看有关事件的更多详细信息（例如，`title` 查看问题的描述或 `users` 查看它影响了多少用户）。
 
-## Columns
+您还可以使用表格列作为方程变量将方程添加到查询中，结果将显示在查询结果表中。在[添加查询方程](/product/explore/discover-queries/query-builder/query-equations/)中了解更多信息。
 
-The option to set columns is only available for [table visualizations](/product/dashboards/widget-builder/#table).
+在每列和方程旁边，您可以选择设置一个别名，该别名将替换表格标题中的列名称。
 
-By default, the first column is already configured for you, but you can update it. To add more columns, which stacks events, add [functions](/product/explore/discover-queries/query-builder/#stacking-functions) (`f(x)`) that can take in parameters. [Field and tag columns](/concepts/search/searchable-properties/#event-properties) will help you view more details about the events (for example, `title` to see the description of an issue or `users` to see how many users it's affecting).
+如果添加了两列或更多列，您可以通过单击并拖动它们来更改它们在表格中显示的顺序：
 
-You can also add equations to your query using the table columns as equation variables, and the results will be displayed in the query results table. Learn more in [Adding Query Equations](/product/explore/discover-queries/query-builder/query-equations/).
+![拖放列。](./img/widget-builder-drag-and-drop-column.png)
 
-Next to each column and equation, you have the option to set an alias that will replace the column name in the table header.
+## 可视化
 
-If two or more columns are added, you can change the order in which they're displayed in the table by clicking and dragging them:
+设置聚合进行可视化的选项适用于除[表格](/product/dashboards/widget-builder/#table)之外的所有可视化。在[时间序列可视化](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart)的情况下，您将能够绘制最多三个可以是函数或方程的值。如果您选择的单位冲突，则图表的 y 轴将使用第一个选择的单位进行标记。
 
-![Drag and drop column.](./img/widget-builder-drag-and-drop-column.png)
+您还可以通过单击"添加方程"来选择构造方程。这样做会显示一个文本框，您可以在其中输入方程。您在此步骤中先前添加的函数将出现在自动完成中，但您也可以添加其他函数。
 
-## Visualize
+## 过滤
 
-The option to set aggregates for visualizing is available on all visualizations except [table](/product/dashboards/widget-builder/#table). In the case of [time-series visualizations](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart), you'll be able to plot up to three values that can be functions or equations. If the units of your selections conflict, then the y-axis of the chart will be labeled using the units of the first selection.
+使用此字段按[数据集选择](/product/dashboards/widget-builder/#choose-your-dataset)的可搜索属性过滤结果。有关适用于每个数据集的属性的更多信息，请查看我们的[完整可搜索属性文档](/concepts/search/searchable-properties/#properties-table)。
 
-You can also choose to construct an equation by clicking “Add Equation”. Doing this displays a text box where you can enter your equation. Functions that you've added previously in this step will appear for autocompletion, but you can add other functions as well.
+在[时间序列可视化](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart)上，您最多可以添加三个查询来过滤结果，每个查询都有自己的搜索条件，以比较结果。每个查询都会在图表中为每个 y 轴生成一个新系列。为了在图例和工具提示中更容易区分它们，您可以添加一个图例别名，该别名将作为前缀添加到标签中，如下例所示：
 
-## Filter
+![过滤结果。](./img/widget-builder-filter-your-results-example.png)
 
-Use this field to filter your results by the searchable properties of your [dataset selection](/product/dashboards/widget-builder/#choose-your-dataset). For more information on which properties apply to each dataset, check out our [full Searchable Properties documentation](/concepts/search/searchable-properties/#properties-table).
+## 分组
 
-On [time-series visualizations](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart) you can add up to three queries to filter your results, each with their own search conditions, to compare results. Each query will generate a new series in your chart for each y-axis. To make it easier to differentiate between them in the legend and tooltip, you can add a legend alias that will be added as a prefix to the labels, as in the example below:
+分组结果的选项仅适用于[时间序列可视化](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart)。您可以按不同字段或标签（例如项目、环境或事务）对时间序列结果进行分组。您最多可以选择 20 个字段来对数据进行分组。
 
-![Filter your results.](./img/widget-builder-filter-your-results-example.png)
+如果添加了两个或更多组，将显示一个可拖动元素，您可以使用它对字段进行排序，但排序不会影响数据在可视化中的显示方式：
 
-## Group by
+![拖放分组。](./img/widget-builder-drag-and-drop-group-by.png)
 
-The option to group results is only available for [time-series visualizations](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart). You can group your time series results by different fields or tags such as project, environment, or transaction. You can select up to 20 fields to group your data.
+## 排序
 
-If two or more groups are added, a draggable element will be displayed that you can use to sort the fields, but the sort does not impact how your data is displayed in the visualization:
+按列排序的选项仅适用于[表格可视化](/product/dashboards/widget-builder/#table)。选择表格的一列进行排序，并设置您是要从高到低还是从低到高排序。
 
-![Drag and drop group by.](./img/widget-builder-drag-and-drop-group-by.png)
+在时间序列图表中排序的选项仅当您已将分组应用于数据时（在["分组"](/product/dashboards/widget-builder/#group-by)中）可用。排序适用于结果中的基础组，因此会影响图表中出现的系列。您可以选择用于分组的字段，选择在 y 轴中定义的方程，构造任何类似于您如何选择函数进行绘图的函数，或构造自定义方程。
 
-## Sort by
+如果您选择"自定义方程"，则会出现一个额外字段，您可以在其中输入您选择的方程，该方程将应用于查询：
 
-The option to sort by a column is only available for [table visualizations](/product/dashboards/widget-builder/#table). Choose one of the columns of your table to sort by, and set whether you want to sort high-to-low or low-to-high.
+![自定义方程字段。](./img/widget-builder-custom-equation-field.png)
 
-The option to sort in timeseries charts is only available if you've applied a grouping to your data (in [“Group by”](/product/dashboards/widget-builder/#group-by)). The sorting applies to the underlying groups in your results and thus affects the series that appear in your chart. You can select fields that you used for grouping, select equations defined in the y-axes, construct any function similar to how you would select a function for plotting, or construct a custom equation.
+## 限制
 
-If you select “Custom Equation”, an extra field appears where you can enter an equation of your choice that will be applied to the query:
+限制结果的选项仅适用于您已应用分组的[时间序列可视化](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart)。根据您的配置（例如，多个 y 轴、多个查询），您的图表结果可能变得难以管理，因此会施加限制。您可以通过在下拉列表中选择它来更改此限制。我们打算在选择了多个 y 轴或查询时最多显示 10 个系列（即折线图中的线或条形图中的条形）。
 
-![Custom equation field.](./img/widget-builder-custom-equation-field.png)
+## 设置阈值
 
-## Limit
-
-The option to limit your results is only available for [time-series visualizations](/product/dashboards/widget-builder/#area-chart--bar-chart--line-chart) where you've applied a grouping. Depending on your configuration (for example, multiple y-axes, multiple queries), your chart results could become unmanageable, so a limit is imposed. You can change this limit by selecting it in the dropdown. We intend to show at most 10 series (that is, lines in a line chart or bars in a bar chart) when multiple y-axes or queries are selected.
-
-## Set Thresholds
-
-The option for setting thresholds is only available for [big number visualizations](/product/dashboards/widget-builder/#big-number). Thresholds help identify problematic widgets with colored indicators. Hovering over the colored indicators at the dashboard level displays the thresholds associated with a widget. Units can be attached to thresholds for duration or rate metric types. An example metric with units would be “p95 of all transactions”.
+设置阈值的选项仅适用于[大数字可视化](/product/dashboards/widget-builder/#big-number)。阈值有助于使用彩色指示器识别有问题的小部件。将鼠标悬停在仪表板级别的彩色指示器上会显示与小部件关联的阈值。单位可以附加到持续时间或速率指标类型的阈值。带单位的示例指标是"所有事务的 p95"。
 
 
-![Set Thresholds Step](./img/widget-builder-thresholds.png)
-![Widget Coloured Indicator Hover](./img/widget-builder-thresholds-hover.png)
+![设置阈值步骤](./img/widget-builder-thresholds.png)
+![小部件彩色指示器悬停](./img/widget-builder-thresholds-hover.png)
 
-## Widget Title
+## 小部件标题
 
-By default, all new widgets are titled “Custom Widget”, but you can edit the title by clicking on the text. We recommend you update the title.
+默认情况下，所有新小部件都标题为"自定义小部件"，但您可以通过单击文本编辑标题。我们建议您更新标题。
 
-## Extracted metrics
+## 提取的指标
 
 <Include name="feature-available-for-user-group-early-adopter.mdx" />
 
-If you are building a widget with transaction data, and would like to use event-like filters (eg. `transaction.duration:>100ms`) or custom tags that you set on your transactions, we will routinely collect metrics to show you accurate counts and rates.
+如果您正在使用事务数据构建小部件，并且想要使用类似事件的过滤器（例如 `transaction.duration:>100ms`）或您在事务上设置的自定义标签，我们将定期收集指标以向您显示准确的计数和速率。
 
-![Extracted Metrics Tooltip](/product/dashboards/widget-builder/widget-builder-extracted-metrics-tooltip.png)
+![提取的指标工具提示](/product/dashboards/widget-builder/widget-builder-extracted-metrics-tooltip.png)
 
-Not all widgets are compatible with metrics extraction. The following cases will cause your widget to continue using event-backed data:
-- Equations — Using equations will show you event data instead of metrics.
-- Widgets that display data from errors and transactions simultaneously — Extraction only happens for transaction data. You need to use the `event.type:transaction` filter along with your custom tags in order to get extracted metrics.
+并非所有小部件都与指标提取兼容。以下情况将导致您的小部件继续使用事件支持的数据：
+- 方程 — 使用方程将向您显示事件数据而不是指标。
+- 同时显示错误和事务数据的小部件 — 提取仅针对事务数据发生。您需要使用 `event.type:transaction` 过滤器以及自定义标签来获取提取的指标。

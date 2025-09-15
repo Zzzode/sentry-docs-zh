@@ -1,145 +1,146 @@
 ---
-title: Suspect Commits
+title: 可疑提交
 sidebar_order: 32
-description: "With suspect commits, you can see the most recent commit to your code in the stack trace. Learn more about how integrations enable suspect commits here."
+description: "通过可疑提交，您可以在堆栈跟踪中看到代码的最新提交。了解集成如何在此处启用可疑提交。"
 ---
 
 <Include name="only-error-issues-note.mdx" />
 
-Suspect commits show you the most recent commit to the code in your [stack trace](https://sentry.io/features/stacktrace/). In the suspect commit information, we include the author of the commit and the pull request in which the commit was made.
+可疑提交向您显示[堆栈跟踪](https://sentry.io/features/stacktrace/)中代码的最新提交。在可疑提交信息中，我们包括提交的作者和提交所在的拉取请求。
 
-When you've enabled suspect commits, we can tie together issues with the commits made in your code repository, including the following information:
+当您启用可疑提交时，我们可以将问题与代码存储库中的提交联系起来，包括以下信息：
 
-- Files observed in the stack trace
-- Files touched by those commits
-- Authors of those files
+- 堆栈跟踪中观察到的文件
+- 这些提交触及的文件
+- 这些文件的作者
 
-Suspect commits and suggested assignees are then displayed on the **Issue Details** page in [sentry.io](https://sentry.io), as shown below.
+然后在[sentry.io](https://sentry.io)的**问题详情**页面上显示可疑提交和建议的受让人，如下所示。
 
 <Arcade src="https://demo.arcade.software/XIrI8grPiEtHHSfCpCOt?embed" />
 
-## Enable Suspect Commits
+## 启用可疑提交
 
-In order to see suspect commits, you have to first upload source maps, (or your platform-specific files for mapping transformed source code to the original source). Check out the docs for your [specific platform](/platforms/)) to learn more. Be aware that Sentry will not display suspect commits for issues that were created before your integration was set up.
+为了看到可疑提交，您必须首先上传源映射（或平台特定的文件，用于将转换后的源代码映射到原始源代码）。查看您的[特定平台](/platforms/)的文档以了解更多信息。请注意，Sentry不会显示在设置集成之前创建的问题的可疑提交。
 
-### Connect a Repository Using Integrations
+### 使用集成连接存储库
 
-Suspect commits can be enabled using the following integrations:
+可疑提交可以使用以下集成启用：
 
 - [GitHub](/organization/integrations/source-code-mgmt/github/)
 - [GitLab](/organization/integrations/source-code-mgmt/gitlab/)
 
-In [sentry.io](https://sentry.io):
+在[sentry.io](https://sentry.io)中：
 
-1. Go to **Settings > Integrations**.
-1. Click the integration you’d like to use.
-1. Configure the integration if you haven’t already.
-1. Add the repository you'd like to use.
+1. 转到**设置 > 集成**。
+1. 点击您要使用的集成。
+1. 如果尚未配置，请配置集成。
+1. 添加您要使用的存储库。
 
-### Set Up Code Mappings
-
-<Alert>
-
-Sentry will automatically try to set up code mappings on C#, Go, JavaScript, Node.js, PHP, Python, and Ruby projects for organizations with the GitHub integration installed. However, you can still manually add code mappings if you choose to do so. Support for other languages and other source code integrations are planned.
-
-</Alert>
-
-1. Go to **Settings > Integrations > [Integration] > Configurations**.
-1. Click the "Configure" button.
-1. Click the "Code Mappings" tab.
-1. Set up a code mapping for each project for which you want to enable suspect commits. To create a new code mapping, click **Add Mapping**.
-1. Fill out the form, then click **Save Changes**. Each form field is described below.
-
-#### Code Mapping Form Fields
-
-- **Project** (required) - The Sentry project.
-- **Repo** (required) - The GitHub or GitLab repository associated with the Sentry project above. If you have more than one repository being used per Sentry project, you'll need multiple code mappings.
-- **Branch** (required) - The default branch of your code we fall back to if you don't have commit tracking set up.
-- **Stack Trace Root** and **Source Code Root** (optional) - See below for information on determining these values.
-
-#### Stack Trace Root and Source Code Root
+### 设置代码映射
 
 <Alert>
 
-The following information is only valid for platforms that use traditional file paths. Platforms with package names require additional steps. For **Java**, read more on the [page on source context](/platforms/java/source-context#setting-up-code-mappings).
+对于安装了GitHub集成的组织，Sentry将自动尝试为C#、Go、JavaScript、Node.js、PHP、Python和Ruby项目设置代码映射。但是，如果您选择这样做，您仍然可以手动添加代码映射。计划支持其他语言和其他源代码集成。
 
 </Alert>
 
-First, navigate to a stack trace that you wish to map. Find an **In App** frame, which is denoted by a bubble on the right side of the frame. The filename will be shown as the first piece of text at the left-hand side of the frame header. In this example, it is `src/main.py`.
+1. 转到**设置 > 集成 > [集成] > 配置**。
+1. 点击"配置"按钮。
+1. 点击"代码映射"选项卡。
+1. 为您要启用可疑提交的每个项目设置代码映射。要创建新的代码映射，请点击**添加映射**。
+1. 填写表单，然后点击**保存更改**。每个表单字段描述如下。
+
+#### 代码映射表单字段
+
+- **项目**（必需）- Sentry项目。
+- **存储库**（必需）- 与上述Sentry项目关联的GitHub或GitLab存储库。如果您每个Sentry项目使用多个存储库，您将需要多个代码映射。
+- **分支**（必需）- 如果您没有设置提交跟踪，我们回退到的代码的默认分支。
+- **堆栈跟踪根**和**源代码根**（可选）- 有关确定这些值的信息，请参见下文。
+
+#### 堆栈跟踪根和源代码根
+
+<Alert>
+
+以下信息仅对使用传统文件路径的平台有效。具有包名的平台需要额外的步骤。对于**Java**，请阅读有关[源代码上下文](/platforms/java/source-context#setting-up-code-mappings)的页面。
+
+</Alert>
+
+首先，导航到您希望映射的堆栈跟踪。找到**In App**帧，该帧在帧右侧用气泡表示。文件名将显示为帧标题左侧的第一个文本。在此示例中，它是`src/main.py`。
 
 <Include name="common-imgs/code-mappings-stacktrace" />
 
-For certain native platforms, the stack trace will look different. In cases like these, you can find the absolute path by hovering over the filename.
+对于某些原生平台，堆栈跟踪看起来不同。在这种情况下，您可以通过将鼠标悬停在文件名上来找到绝对路径。
 
-![Highlighting where in the UI to find the file path for native stack traces](./img/code-mappings-stacktrace-native.png)
+![突出显示在UI中查找原生堆栈跟踪文件路径的位置](./img/code-mappings-stacktrace-native.png)
 
-If you aren’t sure, you can look at the event JSON by clicking on the `{}` button in the event header. Find the text in the frame's `filename` or `abs_path`.
+如果您不确定，您可以通过点击事件标题中的`{}`按钮查看事件JSON。在帧的`filename`或`abs_path`中找到文本。
 
 <Include name="common-imgs/code-mappings-event-json" />
 
-Next, locate the file seen in the stack trace with your source code provider (e.g. GitHub). In this example, the path is `flask/src/main.py` (`empower` is ignored since it is the name of the repo).
+接下来，在源代码提供程序（例如GitHub）中找到堆栈跟踪中看到的文件。在此示例中，路径是`flask/src/main.py`（`empower`被忽略，因为它是存储库的名称）。
 
 <Include name="common-imgs/code-mappings-source-file" />
 
-Compare the file path from the stack trace with the path found in your source repository. In this example, the `src/` folder in the stack trace matches the `flask/src/` folder in the source code. Using that information, set the **Stack Trace Root** to `src/` and the **Source Code Root** to `flask/src/`. This tells Sentry to replace all file paths beginning in `src/` with `flask/src/` when searching for the source code.
+将堆栈跟踪中的文件路径与源代码存储库中找到的路径进行比较。在此示例中，堆栈跟踪中的`src/`文件夹与源代码中的`flask/src/`文件夹匹配。使用这些信息，将**堆栈跟踪根**设置为`src/`，将**源代码根**设置为`flask/src/`。这告诉Sentry在搜索源代码时将所有以`src/`开头的文件路径替换为`flask/src/`。
 
-For best results, we recommend always providing a non-empty value for the **Stack Trace Root** when possible.
+为获得最佳结果，我们建议尽可能始终为**堆栈跟踪根**提供非空值。
 
 <Include name="common-imgs/code-mappings-configure-modal" />
 
-The first frame in the stack trace is considered suspect when looking at them top-down. If the first frame is not in-app, the next frame is considered suspect.
+从上到下查看堆栈跟踪时，第一个帧被视为可疑。如果第一个帧不在应用程序中，则下一个帧被视为可疑。
 
-### UI Walkthrough
+### UI演练
 
-Follow along with the interactive demo below to see how to integrate your GitHub account and repository.
+跟随下面的交互式演示，了解如何集成您的GitHub帐户和存储库。
 
 <Arcade src="https://demo.arcade.software/OlEYtzImezSBwsV8SVc8?embed" />
 
-## How It Works
+## 工作原理
 
-When you have a GitHub/GitLab integration and valid [code mappings](https://blog.sentry.io/code-mappings-and-why-they-matter/), Sentry will look at the stack trace of an issue and collect all in-app frames. For each in-app frame, Sentry checks the blame info for the exact file and line number. If the most recent commit is less than 1 year old, we consider it a suspect commit.
+当您拥有GitHub/GitLab集成和有效的[代码映射](https://blog.sentry.io/code-mappings-and-why-they-matter/)时，Sentry将查看问题的堆栈跟踪并收集所有in-app帧。对于每个in-app帧，Sentry检查确切文件和行号的责备信息。如果最新提交少于1年，我们将其视为可疑提交。
 
-## Suspect Commits Without Integrations
+## 没有集成的可疑提交
 
-You can send us your commit data [manually](/product/releases/associate-commits/) if:
+如果：
 
-- You don’t want Sentry to connect to your repository.
-- Your organization doesn't have a GitHub or Gitlab integration.
-- Your integration has gotten disconnected.
+- 您不希望Sentry连接到您的存储库。
+- 您的组织没有GitHub或Gitlab集成。
+- 您的集成已断开连接。
 
-Sentry will attempt to find suspect commits via your GitHub or GitLab integration by default. If this fails and you've set up the manual process, Sentry will fall back to using the release commit data to find suspect commits.
+您可以[手动](/product/releases/associate-commits/)向我们发送您的提交数据。
 
-## Missing Suspect Commits
+Sentry将默认尝试通过您的GitHub或GitLab集成找到可疑提交。如果失败且您已设置手动流程，Sentry将回退到使用发布提交数据来查找可疑提交。
 
-There are a few reasons why an issue might not have suspect commits:
+## 缺少可疑提交
 
-- The issue doesn't have a stack trace or doesn't have any in-app frames.
-- The stack trace doesn't have any in-app frames that match the code mappings.
-- The stack trace doesn't have any in-app frames with recent commits (less than 1 year old).
-- The code mappings for the project are incorrect.
-- The issue was created before the integration was set up.
+问题可能没有可疑提交的原因有几个：
 
+- 问题没有堆栈跟踪或没有任何in-app帧。
+- 堆栈跟踪没有任何与代码映射匹配的in-app帧。
+- 堆栈跟踪没有任何具有最近提交（少于1年）的in-app帧。
+- 项目的代码映射不正确。
+- 问题是在设置集成之前创建的。
 
-## Where It's Applied
+## 应用位置
 
-Once suspect commit authors are identified, they're applied in the following ways:
+一旦识别出可疑提交作者，它们将以以下方式应用：
 
-### Suggested Assignees
+### 建议的受让人
 
-On the **Issue Details** page, you'll see suggested assignees based on [ownership rules](/product/issues/ownership-rules/) matching the event, and suspect commits. You can manually assign the issue to a suggested assignee by selecting one from the dropdown.
+在**问题详情**页面上，您将看到基于[所有权规则](/product/issues/ownership-rules/)匹配事件和可疑提交的建议受让人。您可以通过从下拉菜单中选择一个来手动将问题分配给建议的受让人。
 
-![Avatar icons of suggested assignees and ability to click on them for assignment.](./img/suggested_assignees.png)
+![建议受让人的头像图标和点击它们进行分配的能力。](./img/suggested_assignees.png)
 
-### Auto-Assignment
+### 自动分配
 
-You can automatically assign issues to their suspect commit authors by enabling the "Auto-assign to suspect commits" setting in **[Project] > Settings > Ownership Rules**.
+您可以通过在**[项目] > 设置 > 所有权规则**中启用"自动分配给可疑提交"设置来自动将问题分配给其可疑提交作者。
 
-![Select from dropdown to automatically assign issues to their suspect commit authors.](./img/auto-assign-suspect-commits.png)
+![从下拉菜单中选择以自动将问题分配给其可疑提交作者。](./img/auto-assign-suspect-commits.png)
 
-If an issue has already been assigned manually, new events will not change the current assignee. If an issue has not been assigned and a suspect commit is found, Sentry assigns it to the commit author.
+如果问题已手动分配，新事件将不会更改当前受让人。如果问题尚未分配且找到可疑提交，Sentry将其分配给提交作者。
 
-## Limitations
+## 限制
 
-- If auto-assignment is enabled but the suspect commit author is not in your Sentry organization, we will not be able to auto-assign the issue to them.
+- 如果启用了自动分配但可疑提交作者不在您的Sentry组织中，我们将无法自动将问题分配给他们。
 
-- Auto-assignment may be skipped if a project is creating too many new issues at a given time due to rate limits. We'll try to auto-assign it the next time an event comes in for those skipped issues. If you are encountering this limit with non-recurring issues, you may want to take a look at [issue grouping](/concepts/data-management/event-grouping/) strategies.
+- 由于速率限制，如果项目在给定时间创建太多新问题，可能会跳过自动分配。我们将尝试在下次为这些跳过的问题传入事件时自动分配它们。如果您遇到此限制且问题不重复，您可能需要查看[问题分组](/concepts/data-management/event-grouping/)策略。

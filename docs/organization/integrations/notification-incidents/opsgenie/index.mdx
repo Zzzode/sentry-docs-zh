@@ -1,57 +1,57 @@
 ---
-title: "Opsgenie Integration"
+title: "Opsgenie 集成"
 sidebar_order: 1
-description: "Learn more about Sentry's Opsgenie integration, which allows you to send issue and metric alerts to Opsgenie teams."
+description: "了解 Sentry 的 Opsgenie 集成，它允许您将问题和指标警报发送到 Opsgenie 团队。"
 ---
 
-The Opsgenie integration allows you to connect your Sentry organization with one or more Opsgenie accounts. Once your accounts have been connected, you'll be able to configure issue and metric alerts in Sentry to be sent to the Opsgenie teams of your choice.
+Opsgenie 集成允许您将 Sentry 组织与一个或多个 Opsgenie 账户连接。连接账户后，您将能够在 Sentry 中配置问题和指标警报，以发送到您选择的 Opsgenie 团队。
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-## Install
+## 安装
 
 <Alert>
 
-You'll need Sentry owner, manager, or admin-level permissions to be able to install this integration.
+您需要 Sentry 所有者、管理员或拥有者级别的权限才能安装此集成。
 
 </Alert>
 
-1. To get started, go to **Settings > Integrations > Opsgenie (Integration)** and click "Add Installation".
+1. 首先，转到 **设置 > 集成 > Opsgenie（集成）** 并点击"添加安装"。
 
-   ![Install Opsgenie integration](./img/opsgenie-install.png)
+   ![安装 Opsgenie 集成](./img/opsgenie-install.png)
 
-2. Select your base Opsgenie URL and type in your Opsgenie account name. If you like, you can also add your integration key at this time. After you click 'Submit', you'll be directed to the configuration page for your connected Opsgenie integration.
+2. 选择您的基本 Opsgenie URL 并输入您的 Opsgenie 账户名称。如果您愿意，也可以此时添加您的集成密钥。点击"提交"后，您将被定向到已连接的 Opsgenie 集成的配置页面。
 
-   ![Opsgenie installation form](./img/opsgenie-form.png)
+   ![Opsgenie 安装表单](./img/opsgenie-form.png)
 
-## Configure
+## 配置
 
-The Opsgenie integration should now be installed. Go to the configuration page to manually add and update integration keys. (Keys have to be associated with a 'Sentry' integration in Opsgenie.) You can create a 'Sentry' integration by going to **Integrations > Add integration** for your team in Opsgenie.
+Opsgenie 集成现在应该已安装。转到配置页面以手动添加和更新集成密钥。（密钥必须与 Opsgenie 中的'Sentry'集成相关联。）您可以通过在 Opsgenie 中转到 **集成 > 添加集成** 为您的团队创建'Sentry'集成。
 
-If you added an integration key during installation, it'll appear on the configuration page with the label 'my-first-key'. You can change this label at any time.
+如果您在安装期间添加了集成密钥，它将出现在配置页面上，标签为'my-first-key'。您可以随时更改此标签。
 
 <Alert>
 
-If you choose to create a key via the Opsgenie API, you will need to set "allowConfigurationAccess" to true. Integration keys are validated via the Opsgenie authentication endpoint, which requires a key to have configuration access.
+如果您选择通过 Opsgenie API 创建密钥，您需要将"allowConfigurationAccess"设置为 true。集成密钥通过 Opsgenie 身份验证端点进行验证，这要求密钥具有配置访问权限。
 
 </Alert>
 
-![Opsgenie configuration page](./img/opsgenie-config.png)
+![Opsgenie 配置页面](./img/opsgenie-config.png)
 
-### Set Up Alerts
+### 设置警报
 
-You can set up a new alert rule via the Opsgenie integration configuration page by clicking on the **Add Alert Rule** button in the **Project Configuration** section, or by going to the **Alerts** page in Sentry.
+您可以通过点击 **项目配置** 部分中的 **添加警报规则** 按钮，或通过转到 Sentry 中的 **警报** 页面，通过 Opsgenie 集成配置页面设置新的警报规则。
 
-To create an [issue alert](/product/alerts/alert-types/#issue-alerts) in Sentry, go to the **Alerts** page and click "Create Alert". After you've decided what you want to be alerted about, you'll be able to choose to "Send an Opsgenie notification" from the "Add action" dropdown. You can then choose your account, team, and priority for the alert.
+要在 Sentry 中创建[问题警报](/product/alerts/alert-types/#issue-alerts)，请转到 **警报** 页面并点击"创建警报"。在决定您想要收到什么警报后，您将能够从"添加操作"下拉菜单中选择"发送 Opsgenie 通知"。然后您可以选择您的账户、团队和警报优先级。
 
-![Opsgenie issue alert rule action](./img/opsgenie-issue-alert-rule.png)
+![Opsgenie 问题警报规则操作](./img/opsgenie-issue-alert-rule.png)
 
-Here is what a sample issue alert looks like in Opsgenie:
+以下是 Opsgenie 中示例问题警报的样子：
 
-![Opsgenie sample alert](./img/opsgenie-sample-alert.png)
+![Opsgenie 示例警报](./img/opsgenie-sample-alert.png)
 
-If you'd rather be alerted when a specific metric crosses a threshold, you can set a [metric alert](/product/alerts/alert-types/#metric-alerts) by following the same steps as above. Once you've chosen the metric you want to be alerted about, click "Add Action", then select Opsgenie from the notification types dropdown. You can also select a custom priority for the alert, or leave it blank to use the default severity level that Sentry provides for incident statuses ("P1" for critical status and "P2" for warning status)
+如果您更愿意在特定指标超过阈值时收到警报，您可以按照与上述相同的步骤设置[指标警报](/product/alerts/alert-types/#metric-alerts)。选择您想要收到警报的指标后，点击"添加操作"，然后从通知类型下拉菜单中选择 Opsgenie。您还可以为警报选择自定义优先级，或留空以使用 Sentry 为事件状态提供的默认严重性级别（关键状态为"P1"，警告状态为"P2"）
 
-![Opsgenie metric alert rule action](./img/opsgenie-metric-alert-rule.png)
+![Opsgenie 指标警报规则操作](./img/opsgenie-metric-alert-rule.png)
 
-Alerts that get resolved in Sentry will be automatically acknowledged in Opsgenie.
+在 Sentry 中解决的警报将在 Opsgenie 中自动确认。

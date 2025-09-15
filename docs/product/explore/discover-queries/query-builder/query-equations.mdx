@@ -1,64 +1,64 @@
 ---
-title: "Adding Query Equations"
+title: "添加查询方程"
 sidebar_order: 10
-description: "Learn how to write query equations that perform operations using your query columns."
+description: "了解如何编写使用查询列执行操作的查询方程。"
 ---
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-In **Discover**, you can add equations based on your query columns. Each column acts like a variable since it represents the numeric result of the query, and this number is used in the equation.
+在**Discover**中，您可以基于查询列添加方程。每列就像一个变量，因为它代表查询的数值结果，这个数值在方程中使用。
 
-For example, let's take an equation that calculates the ratio of a transaction's first contentful paint (`measurements.fcp`) to the transaction's largest contentful paint (`measurements.lcp`):
+例如，让我们看一个计算事务首次内容绘制（`measurements.fcp`）与事务最大内容绘制（`measurements.lcp`）比率的方程：
 
-equation = `measurements.fcp / measurements.lcp`
+方程 = `measurements.fcp / measurements.lcp`
 
-The equation will use the result of each of those query columns to calculate the ratio. In this case, the results of those query columns are:
+方程将使用这些查询列的结果来计算比率。在这种情况下，这些查询列的结果是：
 
 - measurements.fcp = 50
 - measurements.lcp = 100
 
-The equation becomes:
+方程变为：
 
 `50 / 100`
 
-The result of the equation is then displayed in the updated table as shown in the recording below:
+方程的结果然后显示在更新的表格中，如下面的录制所示：
 
-![Adding an equation in discover](./img/add_equation.gif)
+![在 discover 中添加方程](./img/add_equation.gif)
 
-These equations can help you calculate things like:
+这些方程可以帮助您计算以下内容：
 
-- [The percentage of transactions that completed within a threshold](#calculate-the-percentage-of-transactions-completed)
-- [A custom Apdex score](#calculate-a-custom-apdex)
-- [The largest average non-database times](#find-largest-average-non-database-times)
+- [在阈值内完成的事务百分比](#calculate-the-percentage-of-transactions-completed)
+- [自定义 Apdex 分数](#calculate-a-custom-apdex)
+- [最大的平均非数据库时间](#find-largest-average-non-database-times)
 
-## Add an Equation
+## 添加方程
 
-To add an equation to a query
+要向查询添加方程
 
-1. Click the "Columns" button to open the column editor.
-2. If they aren't already included in your query, add the columns you need for your equation.
-3. Click "Add an Equation".
-4. Enter your equation by selecting columns, entering numbers (if needed), and adding operators.
-5. Click "Apply".
+1. 点击"列"按钮打开列编辑器。
+2. 如果它们尚未包含在您的查询中，请添加方程所需的列。
+3. 点击"添加方程"。
+4. 通过选择列、输入数字（如果需要）和添加运算符来输入您的方程。
+5. 点击"应用"。
 
-## Guidelines for Equations
+## 方程指南
 
-Equations must:
+方程必须：
 
-- Contain at least one field or function
-- Contain at least one operator
-- Have explicit operators. For example, `a(a+b)` is invalid; instead, you should enter `a * (a + b)`
+- 包含至少一个字段或函数
+- 包含至少一个运算符
+- 具有显式运算符。例如，`a(a+b)` 无效；相反，您应该输入 `a * (a + b)`
 
-Equations cannot:
+方程不能：
 
-- Contain a mix of fields and functions
-- Contain exponents, which aren't supported
+- 包含字段和函数的混合
+- 包含不支持的指数
 
-Equations will follow expected order of operations, resolving brackets first, division and multiplication next followed by addition and subtraction. Equations can also include negative numbers.
+方程将遵循预期的运算顺序，首先解析括号，然后是除法和乘法，接着是加法和减法。方程还可以包括负数。
 
-Equations can only operate on numeric columns and functions, which includes:
+方程只能在数值列和函数上操作，包括：
 
-- Functions:
+- 函数：
   - count
   - count_unique
   - count_if
@@ -66,11 +66,11 @@ Equations can only operate on numeric columns and functions, which includes:
   - failure_count
   - avg
   - sum
-  - percentiles (p50, p75 etc.)
+  - 百分位数（p50、p75 等）
   - apdex
   - user_misery
-  - eps() and epm()
-- Fields
+  - eps() 和 epm()
+- 字段
   - transaction.duration
   - measurements.fp
   - measurements.fcp
@@ -83,57 +83,57 @@ Equations can only operate on numeric columns and functions, which includes:
   - spans.db
   - spans.resource
 
-## Example Equations
+## 方程示例
 
-### Calculate the percentage of transactions completed
+### 计算完成的事务百分比
 
-Get the percentage of transactions that completed within a threshold
+获取在阈值内完成的事务的百分比
 
-1. Create a new query with the following three columns:
-   - Column 1:
-     - Function `count_if`
-     - Field `transaction.duration`
-     - Condition `is less than or equal to`
-     - Set final parameter to a threshold (like 300)
-   - Column 2:
-     - Function `count`
-   - Column 3:
-     - Field `transaction`
-2. Add an equation and enter `count_if(transaction.duration,lessOrEquals,300) / count() * 100` in the equation field.
+1. 创建具有以下三列的新查询：
+   - 列 1：
+     - 函数 `count_if`
+     - 字段 `transaction.duration`
+     - 条件 `小于或等于`
+     - 将最终参数设置为阈值（如 300）
+   - 列 2：
+     - 函数 `count`
+   - 列 3：
+     - 字段 `transaction`
+2. 添加方程并在方程字段中输入 `count_if(transaction.duration,lessOrEquals,300) / count() * 100`。
 
-### Calculate a custom Apdex
+### 计算自定义 Apdex
 
-[Apdex](/product/insights/overview/metrics/#apdex) is defined as `(satisfied + tolerable*0.5 + frustrated*0)/total`. If you wanted to change the weight of tolerable to 0.2, you would create the following query and equation.
+[Apdex](/product/insights/overview/metrics/#apdex) 定义为 `(满意 + 可容忍*0.5 + 令人沮丧*0)/总数`。如果您想将可容忍的权重更改为 0.2，您将创建以下查询和方程。
 
-1. Create a new query with the following four columns:
-   - Column 1:
-     - Function `count_if`
-     - Field `transaction.duration`
-     - Condition `is less than or equal to`
-     - Set the final parameter to a Satisfied threshold (like 300)
-   - Column 2:
-     - Function `count_if`
-     - Field `transaction.duration`
-     - Condition `is less than or equal to`
-     - Set the final parameter to a Tolerable threshold (like 1200)
-   - Column 3:
-     - Function `Count()`
-   - Column 4:
-     - Field `transaction`
-2. Add an equation and enter the following in the equation field:
+1. 创建具有以下四列的新查询：
+   - 列 1：
+     - 函数 `count_if`
+     - 字段 `transaction.duration`
+     - 条件 `小于或等于`
+     - 将最终参数设置为满意阈值（如 300）
+   - 列 2：
+     - 函数 `count_if`
+     - 字段 `transaction.duration`
+     - 条件 `小于或等于`
+     - 将最终参数设置为可容忍阈值（如 1200）
+   - 列 3：
+     - 函数 `Count()`
+   - 列 4：
+     - 字段 `transaction`
+2. 添加方程并在方程字段中输入以下内容：
 
    `(count_if(transaction.duration,lessOrEquals,300) + (count_if(transaction.duration,lessOrEquals,1200) - count_if(transaction.duration,lessOrEquals,300)) * 0.2)/count()`
 
-### Find largest average non-database times
+### 查找最大的平均非数据库时间
 
-Find the transactions that have the largest time that weren't from database calls.
+查找事务中不是来自数据库调用的最大时间。
 
-1. Create a new query with the following two columns:
-   - Column 1:
-     - Function `avg`
-     - Field `transaction.duration`
-   - Column 2:
-     - Function `avg`
-     - Field `spans.db`
-2. Add an equation and enter `avg(transaction.duration) - avg(spans.db)` in the equation field.
-3. Sort by this new equation.
+1. 创建具有以下两列的新查询：
+   - 列 1：
+     - 函数 `avg`
+     - 字段 `transaction.duration`
+   - 列 2：
+     - 函数 `avg`
+     - 字段 `spans.db`
+2. 添加方程并在方程字段中输入 `avg(transaction.duration) - avg(spans.db)`。
+3. 按此新方程排序。

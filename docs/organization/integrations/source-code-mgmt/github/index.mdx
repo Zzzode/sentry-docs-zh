@@ -1,22 +1,22 @@
 ---
 title: GitHub
 sidebar_order: 1
-description: "Learn more about Sentry's GitHub integration and how it can track and resolve bugs faster by using data from your GitHub commits, and streamline your triaging process by creating a GitHub issue directly from Sentry."
+description: "了解 Sentry 的 GitHub 集成的更多信息，以及它如何使用来自 GitHub 提交的数据更快地跟踪和解决错误，并通过直接从 Sentry 创建 GitHub 问题来简化您的分流过程。"
 ---
 
-There are two types of GitHub integrations, so make sure you're choosing the correct one:
-- [GitHub](#installing-github) - For individual GitHub users/organizations (as well as most GitHub Enterprise Cloud customers), so long as they are hosted on `github.com`. Follow the '[Installing GitHub](#installing-github)' instructions, **Please begin the installation from Sentry**.
+有两种类型的 GitHub 集成，因此请确保您选择了正确的一种：
+- [GitHub](#安装-github) - 适用于个人 GitHub 用户/组织（以及大多数 GitHub Enterprise Cloud 客户），只要它们托管在 `github.com` 上。请遵循"[安装 GitHub](#安装-github)"说明，**请从 Sentry 开始安装**。
 
-- [GitHub Enterprise](#installing-github-enterprise) - For GitHub Enterprise instances that **cannot be accessed from `github.com`**. Usually these will have a custom domain, for example:
+- [GitHub Enterprise](#安装-github-enterprise) - 适用于**无法从 `github.com` 访问**的 GitHub Enterprise 实例。通常这些将具有自定义域，例如：
   - `https://github.example.com`
   - `https://ghe.example.com/`
 
-  For these accounts, follow the '[Installing GitHub Enterprise](#installing-github-enterprise)' instructions.
+  对于这些账户，请遵循"[安装 GitHub Enterprise](#安装-github-enterprise)"说明。
 
 
-### Check Your Domain
+### 检查您的域
 
-To determine which integration to use, enter your GitHub domain below:
+要确定使用哪个集成，请在下方输入您的 GitHub 域：
 
 <GitHubDomainChecker />
 
@@ -24,88 +24,88 @@ To determine which integration to use, enter your GitHub domain below:
 
 <Alert>
 
-Sentry owner, manager, or admin permissions, and GitHub owner permissions are required to install this integration.
+需要 Sentry 所有者、管理员或管理员权限以及 GitHub 所有者权限才能安装此集成。
 
 </Alert>
 
-## Installing GitHub
+## 安装 GitHub
 
 
-1. In Sentry, navigate to **Settings > Integrations > [GitHub](https://sentry.io/orgredirect/organizations/:orgslug/settings/integrations/github)**.
+1. 在 Sentry 中，导航到**设置 > 集成 > [GitHub](https://sentry.io/orgredirect/organizations/:orgslug/settings/integrations/github)**。
 
-   ![Install GitHub integration](./img/github-install-page.png)
+   ![安装 GitHub 集成](./img/github-install-page.png)
 
-2. If you have the legacy GitHub integration installed, use the button next to GitHub to **Upgrade**. If you don't have the legacy GitHub integration installed, use the button to **Install**.
+2. 如果您已安装旧版 GitHub 集成，请使用 GitHub 旁边的按钮**升级**。如果您没有安装旧版 GitHub 集成，请使用按钮**安装**。
 
-3. In the resulting modal, click "Add Installation".
+3. 在结果模态框中，点击"添加安装"。
 
-4. A GitHub install window should pop up. Click "Install".
-5. Select which repositories Sentry should have access to (or select all repositories).
-6. You should then be redirected back to the Sentry Integrations page.
-7. On your new GitHub instance in Sentry, click "Configure".
-8. All of your repositories will be added by default, you just have to refresh your screen. To only add select repositories, choose them from the dropdown list. _Make sure you have given Sentry access to these repositories in GitHub in the previous steps._
+4. 应该会弹出一个 GitHub 安装窗口。点击"安装"。
+5. 选择 Sentry 应该有权访问的存储库（或选择所有存储库）。
+6. 然后您应该被重定向回 Sentry 集成页面。
+7. 在 Sentry 中的新 GitHub 实例上，点击"配置"。
+8. 默认情况下将添加您的所有存储库，您只需刷新屏幕即可。要仅添加选定的存储库，请从下拉列表中选择它们。_请确保您在前面的步骤中已在 GitHub 中授予 Sentry 对这些存储库的访问权限。_
 
-   ![Add repository](./img/github-global-add-repo.png)
+   ![添加存储库](./img/github-global-add-repo.png)
 
-9. You can now [configure](#configure) the integration.
+9. 您现在可以[配置](#配置)集成。
 
-The GitHub integration is available for all projects under your Sentry organization. You can connect multiple GitHub organizations to one Sentry organization. Connecting a GitHub organisation to multiple Sentry organisations is supported on Sentry organisations on a Business or Enterprise plans (not supported for GitHub Enterprise Server).
+GitHub 集成适用于您 Sentry 组织下的所有项目。您可以将多个 GitHub 组织连接到一个 Sentry 组织，但您**不能**将单个 GitHub 组织连接到多个 Sentry 组织。
 
-While you can install the GitHub integration from [GitHub](https://github.com/apps/sentry-io), we recommend installing it from Sentry for a more streamlined process.
+虽然您可以从 [GitHub](https://github.com/apps/sentry-io) 安装 GitHub 集成，但我们建议从 Sentry 安装以获得更简化的过程。
 
-### GitHub Permissions
+### GitHub 权限
 
-The following permissions are required for the GitHub integration to work correctly. You must fully opt in to these permissions to use the app. All permissions listed are repo-level permissions, unless otherwise indicated.
+以下权限是 GitHub 集成正常工作所必需的。您必须完全选择加入这些权限才能使用该应用。除非另有说明，否则列出的所有权限都是存储库级别的权限。
 
-| Permission Category | Access Level   | Why Sentry Needs It |
+| 权限类别 | 访问级别 | Sentry 需要它的原因 |
 |--------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| Administration     | Read-only     | To respect branch protection rules, determine default branches, and enhance automation.                                            |
-| Checks             | Read & Write  | To show detailed pass/fail results (e.g. test coverage, release health) as GitHub Checks on PRs or commits.                        |
-| Commit Statuses    | Read & Write  | To post status checks (e.g. test analytics data) to commits in GitHub and integrate with branch protection rules.                  |
-| Contents           | Read-only     | To fetch source files, commits, and blame data for Suspect Commits, tracking files in Releases.                                            |
-| Issues             | Read & Write  | To create GitHub issues from Sentry events and update linked issues.                                                               |
-| <span>Members<br/><em>_[Org-level]_</em></span>          | Read-only     | To map organization users to GitHub identities for improved issue attribution and collaboration.                                   |
-| Metadata           | Read-only     | To identify repository structure, names, default branches, and visibility.                                                        |
-| Pull Requests      | Read & Write  | To write comments on pull requests for (1) issues caused by the pull request and (2) to highlight existing issues in the code diff.|
-| Webhooks           | Read & Write  | To subscribe to real-time updates like push events, PRs, and issues.
+| 管理 | 只读 | 尊重分支保护规则、确定默认分支并增强自动化。 |
+| 检查 | 读取和写入 | 在 PR 或提交上显示详细的通过/失败结果（例如测试覆盖率、发布运行状况）作为 GitHub 检查。 |
+| 提交状态 | 读取和写入 | 向 GitHub 中的提交发布状态检查（例如测试分析数据）并与分支保护规则集成。 |
+| 内容 | 只读 | 获取用于可疑提交、跟踪发布中的文件的源文件、提交和责备数据。 |
+| 问题 | 读取和写入 | 从 Sentry 事件创建 GitHub 问题并更新链接的问题。 |
+| <span>成员<br/><em>_[组织级别]_</em></span> | 只读 | 将组织用户映射到 GitHub 身份以改进问题归因和协作。 |
+| 元数据 | 只读 | 识别存储库结构、名称、默认分支和可见性。 |
+| 拉取请求 | 读取和写入 | 在拉取请求上写评论（1）由拉取请求引起的问题和（2）突出显示代码差异中的现有问题。|
+| Webhooks | 读取和写入 | 订阅推送事件、PR 和问题的实时更新。
 
-Occasionally, Sentry will request additional permissions to your GitHub account as new features are introduced. Denying or ignoring the request to update will not affect your current Sentry usage, but may prevent access to future features.
+偶尔，Sentry 会在引入新功能时请求对您的 GitHub 帐户的额外权限。拒绝或忽略更新请求不会影响您当前的 Sentry 使用，但可能会阻止访问未来功能。
 
-## Installing GitHub Enterprise
+## 安装 GitHub Enterprise
 
-### Add new GitHub App
+### 添加新的 GitHub 应用
 
-1. Confirm [Sentry's IP ranges](/security-legal-pii/security/ip-ranges/) are allowed for your GitHub Enterprise instance.
-2. In your GitHub Enterprise organization, navigate to Settings > Developer Settings > **GitHub Apps** and click to add a new **New GitHub App**.
+1. 确认 [Sentry 的 IP 范围](/security-legal-pii/security/ip-ranges/) 已允许用于您的 GitHub Enterprise 实例。
+2. 在您的 GitHub Enterprise 组织中，导航到设置 > 开发者设置 > **GitHub 应用** 并点击添加新的 **新 GitHub 应用**。
 
-   ![Create GitHub Enterprise app](./img/github-e-new-app.png)
+   ![创建 GitHub Enterprise 应用](./img/github-e-new-app.png)
 
-### Register new GitHub App
+### 注册新的 GitHub 应用
 
-1. First, you'll need to generate a webhook secret. For example, in terminal:
+1. 首先，您需要生成一个 webhook 密钥。例如，在终端中：
 
    ```
    openssl rand -base64 500 | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1
    ```
 
-2. Then in GitHub, fill out the form as follows and click "Create GitHub App".
+2. 然后在 GitHub 中，按如下方式填写表单并点击"创建 GitHub 应用"。
 
    <table>
     <tbody>
       <tr>
-        <th>GitHub App Name </th>
+        <th>GitHub 应用名称 </th>
         <td>sentry-app </td>
       </tr>
       <tr>
-        <th>Homepage URL </th>
+        <th>主页 URL </th>
         <td>https://sentry.io </td>
       </tr>
       <tr>
-        <th>User authorization callback URL </th>
+        <th>用户授权回调 URL </th>
         <td>https://sentry.io/extensions/github-enterprise/setup/ </td>
       </tr>
       <tr>
-        <th>Setup URL </th>
+        <th>设置 URL </th>
         <td>https://sentry.io/extensions/github-enterprise/setup/ </td>
       </tr>
       <tr>
@@ -113,294 +113,294 @@ Occasionally, Sentry will request additional permissions to your GitHub account 
         <td>https://sentry.io/extensions/github-enterprise/webhook/ </td>
       </tr>
       <tr>
-        <th>Webhook secret </th>
-        <td>`Input your secret from the previous step` </td>
+        <th>Webhook 密钥 </th>
+        <td>`输入您上一步的密钥` </td>
       </tr>
       <tr>
-        <th>Repository Administration </th>
-        <td>Read-only </td>
+        <th>存储库管理 </th>
+        <td>只读 </td>
       </tr>
       <tr>
-        <th>Commit Statuses </th>
-        <td>No Access </td>
+        <th>提交状态 </th>
+        <td>无访问权限 </td>
       </tr>
       <tr>
-        <th>Deployments </th>
-        <td>No Access </td>
+        <th>部署 </th>
+        <td>无访问权限 </td>
       </tr>
       <tr>
-        <th>Issues </th>
-        <td>Read & Write </td>
+        <th>问题 </th>
+        <td>读取和写入 </td>
       </tr>
       <tr>
-        <th>Pages </th>
-        <td>No Access </td>
+        <th>页面 </th>
+        <td>无访问权限 </td>
       </tr>
       <tr>
-        <th>Pull Requests </th>
-        <td>Read & Write </td>
+        <th>拉取请求 </th>
+        <td>读取和写入 </td>
       </tr>
       <tr>
-        <th>Repository Contents </th>
-        <td>Read & Write </td>
+        <th>存储库内容 </th>
+        <td>读取和写入 </td>
       </tr>
       <tr>
-        <th>Single File </th>
-        <td>No Access </td>
+        <th>单个文件 </th>
+        <td>无访问权限 </td>
       </tr>
       <tr>
-        <th>Repository Projects </th>
-        <td>No Access </td>
+        <th>存储库项目 </th>
+        <td>无访问权限 </td>
       </tr>
       <tr>
-        <th>Organization members </th>
-        <td>Read-only </td>
+        <th>组织成员 </th>
+        <td>只读 </td>
       </tr>
       <tr>
-        <th>Organization projects </th>
-        <td>No Access </td>
+        <th>组织项目 </th>
+        <td>无访问权限 </td>
       </tr>
      </tbody>
    </table>
 
-   **Subscribe to Events**
+   **订阅事件**
 
    <table>
     <tbody>
       <tr>
-        <th>Pull Request </th>
-        <td>Yes </td>
+        <th>拉取请求 </th>
+        <td>是 </td>
       </tr>
       <tr>
-        <th>Push </th>
-        <td>Yes </td>
+        <th>推送 </th>
+        <td>是 </td>
       </tr>
     </tbody>
    </table>
 
-### Install your GitHub App
+### 安装您的 GitHub 应用
 
-1. In Sentry, navigate to Organization Settings > **Integrations**.
-2. Next to GitHub Enterprise, click "Install".
+1. 在 Sentry 中，导航到组织设置 > **集成**。
+2. 在 GitHub Enterprise 旁边，点击"安装"。
 
-   ![Install GitHub Enterprise integration](./img/github-e-install.png)
+   ![安装 GitHub Enterprise 集成](./img/github-e-install.png)
 
-3. Click "Add Installation".
+3. 点击"添加安装"。
 
-   ![Add Installation](./img/github-e-add-installation.png)
+   ![添加安装](./img/github-e-add-installation.png)
 
-4. Fill out the following form with information from your GitHub apps configuration page. The installation URL must be resolvable over the Internet.
+4. 使用来自您的 GitHub 应用配置页面的信息填写以下表单。安装 URL 必须能够通过互联网解析。
 
-   ![GitHub Enterprise configuration form](./img/github-e-form.png)
+   ![GitHub Enterprise 配置表单](./img/github-e-form.png)
 
-   You'll need to generate a private key on your GitHub apps configuration page, and paste the entire contents into the **GitHub App Private Key** field.
+   您需要在您的 GitHub 应用配置页面上生成一个私钥，并将整个内容粘贴到 **GitHub 应用私钥** 字段中。
 
-   ![Generate private key](./img/github-e-generate-private-key.png)
+   ![生成私钥](./img/github-e-generate-private-key.png)
 
-   For example, in terminal:
+   例如，在终端中：
 
    ```
-   cat <YOUR_PRIVATE_KEY_FILE> | pbcopy
+   cat <您的私钥文件> | pbcopy
    ```
 
-5. Click "Configure" and then a GitHub install window will pop up. Select which repositories Sentry should have access to (or select all repositories) and click "Install".
+5. 点击"配置"，然后会弹出一个 GitHub 安装窗口。选择 Sentry 应该有权访问的存储库（或选择所有存储库）并点击"安装"。
 
-   ![Install GitHub Enterprise confirmation modal](./img/github-e-repo-access.png)
+   ![安装 GitHub Enterprise 确认模态框](./img/github-e-repo-access.png)
 
-6. You will then be redirected back to Sentry. On your new GitHub Enterprise instance, click "Configure".
+6. 然后您将被重定向回 Sentry。在您的新 GitHub Enterprise 实例上，点击"配置"。
 
-   ![Configure GitHub enterprise](./img/github-e-configure.png)
+   ![配置 GitHub enterprise](./img/github-e-configure.png)
 
-7. Add any repositories that you want to collect commit data from. _Make sure you have given Sentry access to these repositories in GitHub in the previous steps._
-   ![Add GitHub Enterprise repository](./img/github-e-add-repo.png)
+7. 添加您想要收集提交数据的任何存储库。_请确保您在前面的步骤中已在 GitHub 中授予 Sentry 对这些存储库的访问权限。_
+   ![添加 GitHub Enterprise 存储库](./img/github-e-add-repo.png)
 
-GitHub Enterprise should now be enabled for all projects under your Sentry organization.
+GitHub Enterprise 现在应该已为您 Sentry 组织下的所有项目启用。
 
-## Configure
+## 配置
 
-Use GitHub to [track commits](#commit-tracking), identify [suspect commits](#suspect-commits-and-suggested-assignees), [resolve via commit or PR](#resolve-via-commit-or-pull-request) and [manage issues](#issue-management).
+使用 GitHub 来[跟踪提交](#提交跟踪)、识别[可疑提交](#可疑提交和建议的受让人)、[通过提交或 PR 解决](#通过提交或拉取请求解决)和[管理问题](#问题管理)。
 
-### Commit Tracking
+### 提交跟踪
 
-Commit tracking allows you to hone in on problematic commits. Learn more about [commit tracking](/product/releases/setup/release-automation/).
+提交跟踪允许您专注于有问题的提交。了解有关[提交跟踪](/product/releases/setup/release-automation/)的更多信息。
 
-### Suspect Commits and Suggested Assignees
+### 可疑提交和建议的受让人
 
-Once you set up commit tracking, you'll be able to see the most recent changes to files found in the issue's stack trace with suspect commits.
+一旦您设置了提交跟踪，您将能够看到问题堆栈跟踪中找到的文件的最最近更改，这些更改来自可疑提交。
 
-For issues where the files in the stack trace match files included in commits sent to Sentry, you'll see the suspect commit, with a link to the commit itself.
+对于堆栈跟踪中的文件与发送到 Sentry 的提交中包含的文件匹配的问题，您将看到可疑提交，并带有指向提交本身的链接。
 
-![Suspect commits](./img/github-global-suspect-commits.png)
+![可疑提交](./img/github-global-suspect-commits.png)
 
-You'll also see that the author of the suspect commit will be listed as a suggested assignee for this issue. To assign the issue to the suggested assignee, click on their icon.
+您还将看到可疑提交的作者被列为该问题的建议受让人。要将问题分配给建议的受让人，请点击他们的图标。
 
-### Issue Management
+### 问题管理
 
-Issue tracking allows you to create GitHub issues from within Sentry, and link
-Sentry issues to existing GitHub Issues.
+问题跟踪允许您从 Sentry 内创建 GitHub 问题，并将
+Sentry 问题链接到现有的 GitHub 问题。
 
-<Alert title="Note" level="info">
+<Alert title="注意" level="info">
   <p>
-    Manual issue management is available to organizations on Team, Business, or
-    Enterprise plans.
+    手动问题管理适用于团队、商业或
+    企业计划的组织。
   </p>
   <p>
-    Automatic issue management is available to organizations on Business or Enterprise plans.
+    自动问题管理适用于商业或企业计划的组织。
   </p>
 </Alert>
 
-Issue management can be configured in two ways - automatically or manually.
+问题管理可以通过两种方式配置 - 自动或手动。
 
-#### Automatically
+#### 自动
 
-To configure issue management automatically, create an [**Issue Alert**](/product/alerts-notifications/issue-alerts/). When selecting the [**action**](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions), choose **Create a new GitHub issue**.
+要自动配置问题管理，请创建[**问题警报**](/product/alerts-notifications/issue-alerts/)。在选择[**操作**](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions)时，选择**创建新的 GitHub 问题**。
 
-![Create GitHub Issue alert rule action](./img/github-ticket-rule.png)
+![创建 GitHub 问题警报规则操作](./img/github-ticket-rule.png)
 
-A GitHub issue will be created automatically when the alert has been triggered.
+当警报被触发时将自动创建 GitHub 问题。
 
-#### Manually
+#### 手动
 
-To configure issue management manually, once you've navigated to a specific Sentry issue, you'll find the **Linked Issues** section on the right hand panel.
+要手动配置问题管理，一旦您导航到特定的 Sentry 问题，您将在右侧面板中找到**链接问题**部分。
 
-![Link GitHub issue from Sentry issue](./img/github-global-link-issue.png)
+![从 Sentry 问题链接 GitHub 问题](./img/github-global-link-issue.png)
 
-Here, you'll be able to create or link GitHub issues.
+在这里，您将能够创建或链接 GitHub 问题。
 
-![Create GitHub issue form](./img/github-create-issue.png)
+![创建 GitHub 问题表单](./img/github-create-issue.png)
 
-### Resolve via Commit or Pull Request
+### 通过提交或拉取请求解决
 
-Once you are sending commit data, you can start resolving issues by including `fixes <SENTRY-SHORT-ID>` in your commit messages. For example, a commit message might look like:
+一旦您正在发送提交数据，您就可以开始通过在提交消息中包含 `fixes <SENTRY-SHORT-ID>` 来解决问题了。例如，提交消息可能如下所示：
 
 ```
-Prevent empty queries on users
+防止用户上的空查询
 
-Fixes MYAPP-317
+修复 MYAPP-317
 ```
 
-You can also resolve issues with pull requests by including `fixes <SENTRY-SHORT-ID>` in the title or description.
+您还可以通过在标题或描述中包含 `fixes <SENTRY-SHORT-ID>` 来使用拉取请求解决问题。
 
-When Sentry sees this, we'll automatically annotate the matching issue with a reference to the commit or pull request, and, later, when that commit or pull request is part of a release, we'll mark the issue as resolved. The commit must be associated with a release. Otherwise, if the commit is squashed, Sentry won't know when the commit has been released, and the issue may never be marked as a regression. With GitHub, we recommend using `fixes <SENTRY-SHORT-ID>` in the body of your pull request that is going to be merged to your main branch.
+当 Sentry 看到这一点时，我们将自动用对提交或拉取请求的引用来注释匹配的问题，并且稍后，当该提交或拉取请求是发布的一部分时，我们将问题标记为已解决。提交必须与发布相关联。否则，如果提交被压缩，Sentry 将不知道何时发布了提交，问题可能永远不会被标记为回归。使用 GitHub，我们建议在我们将要合并到您的主分支的拉取请求的正文中使用 `fixes <SENTRY-SHORT-ID>`。
 
-### Get Sentry Comments on Pull Requests
+### 在拉取请求上获取 Sentry 评论
 
-Sentry can comment on merged and open pull requests. These features are automatically enabled once your GitHub integration has been set up. To disable it, go to **Settings > Integrations > GitHub** and toggle it off.
+Sentry 可以对已合并和开放的拉取请求发表评论。这些功能在您的 GitHub 集成设置完成后会自动启用。要禁用它，请转到**设置 > 集成 > GitHub** 并将其关闭。
 
-![How to disable Sentry comments on GitHub pull requests](./img/github-org-settings.png)
+![如何禁用 Sentry 对 GitHub 拉取请求的评论](./img/github-org-settings.png)
 
-#### Merged Pull Request Comments
+#### 已合并的拉取请求评论
 
-If a recently merged pull request is suspected of causing an issue, Sentry will comment on it to surface the issue, as shown in the example below.
+如果最近合并的拉取请求被怀疑引起了问题，Sentry 将对其进行评论以显示问题，如下例所示。
 
-![Sentry comment on suspect pull request in GitHub](./img/sentry-github-pr-comment.png)
+![Sentry 对 GitHub 中可疑拉取请求的评论](./img/sentry-github-pr-comment.png)
 
-Sentry will only comment on pull requests less than two weeks old that are associated with suspect commits. The comment will continuously be updated with up to five issues the pull request is suspected to have caused.
+Sentry 只会对小于两周且与可疑提交相关联的拉取请求发表评论。该评论将不断更新，最多包含拉取请求被怀疑引起的五个问题。
 
-#### Open Pull Request Comments
+#### 开放的拉取请求评论
 
-When a pull request is opened, Sentry will parse the filenames and function names modified in the pull request from the PR diff to find recent unhandled, unresolved issues associated with your pull request.
+当打开拉取请求时，Sentry 将从 PR 差异中解析拉取请求中修改的文件名和函数名，以查找与您的拉取请求相关联的最近的未处理、未解决的问题。
 
-![Sentry comment on open pull request in GitHub](./img/sentry-github-open-pr-comment.png)
+![Sentry 对 GitHub 中开放拉取请求的评论](./img/sentry-github-open-pr-comment.png)
 
-Sentry will comment on the pull request with up to five issues per file that were first seen within the past 90 days and were last seen within the past 14 days.
+Sentry 将使用每个文件最多五个问题对拉取请求发表评论，这些问题在过去 90 天内首次出现，并在过去 14 天内最后一次出现。
 
-This feature requires [code mappings](/product/issues/suspect-commits/#2-set-up-code-mappings) and is currently only supported for Python, JavaScript/TypeScript, PHP, and Ruby files. If you're using a different language, [let us know on this GitHub ticket](https://github.com/getsentry/sentry/issues/69824). For JavaScript/TypeScript, please ensure that you've unminified your code by [setting up source maps](/platforms/javascript/sourcemaps/).
+此功能需要[代码映射](/product/issues/suspect-commits/#2-set-up-code-mappings)，目前仅支持 Python、JavaScript/TypeScript、PHP 和 Ruby 文件。如果您使用不同的语言，[请在此 GitHub 工单上告知我们](https://github.com/getsentry/sentry/issues/69824)。对于 JavaScript/TypeScript，请确保您已通过[设置源映射](/platforms/javascript/sourcemaps/)取消压缩了代码。
 
-### Missing Member Detection
+### 缺失成员检测
 
-If there are users committing to GitHub repositories linked to Sentry and they're not members of your organization, Sentry detects them as missing members. Once a month, Sentry sends organization owners and managers an email reminding them to invite those users to join their org. Sentry also shows a banner to invite missing members in the **Settings > Members** page.
+如果有用户向链接到 Sentry 的 GitHub 存储库提交代码，但他们不是您组织的成员，Sentry 会将其检测为缺失成员。每月一次，Sentry 会向组织所有者和管理员发送电子邮件，提醒他们邀请这些用户加入他们的组织。Sentry 还会在**设置 > 成员**页面中显示邀请缺失成员的横幅。
 
-![GitHub missing members invite banner](./img/github-missing-members-banner.png)
+![GitHub 缺失成员邀请横幅](./img/github-missing-members-banner.png)
 
-The banner shows the 5 most active contributors that are not yet in the organization. To see all missing members (up to 50), click "View All" in the banner. To snooze the banner, click the ellipsis, then select "Hide Missing Members".
+该横幅显示尚未加入组织的 5 个最活跃的贡献者。要查看所有缺失成员（最多 50 个），请点击横幅中的"查看全部"。要暂停横幅，请点击省略号，然后选择"隐藏缺失成员"。
 
-Clicking "View All" on the invite banner will display the invite modal. From here, you can select multiple users and assign roles and teams before inviting them.
+点击邀请横幅上的"查看全部"将显示邀请模态框。从这里，您可以选择多个用户并在邀请他们之前分配角色和团队。
 
-![GitHub missing members invite modal](./img/github-missing-members-modal.png)
+![GitHub 缺失成员邀请模态框](./img/github-missing-members-modal.png)
 
-By default, this feature is automatically enabled once your GitHub integration has been set up. To disable it, go to **Settings > Integrations > GitHub** and toggle it off.
+默认情况下，此功能在您的 GitHub 集成设置完成后会自动启用。要禁用它，请转到**设置 > 集成 > GitHub** 并将其关闭。
 
-![How to disable missing member detection](./img/github-org-settings.png)
+![如何禁用缺失成员检测](./img/github-org-settings.png)
 
-### Stack Trace Linking
+### 堆栈跟踪链接
 
 <Alert>
 
-Sentry will automatically try to set up code mappings on C#, Clojure, Go, Groovy, Java, JavaScript, PHP, Python, Ruby, and Scala for organizations with the GitHub integration installed. If your project uses a different SDK, you can add code mappings manually.
+Sentry 将自动尝试为安装了 GitHub 集成的组织在 C#、Clojure、Go、Groovy、Java、JavaScript、PHP、Python、Ruby 和 Scala 上设置代码映射。如果您的项目使用不同的 SDK，您可以手动添加代码映射。
 
 </Alert>
 
-Stack trace linking takes you from a file in your Sentry stack trace to that same file in your source code. If you have commit tracking set up in Sentry, we can take you to the exact version (using the commit associated with the event) of the source code when the error occurred. Otherwise we'll link you to the current state of the source code (using the default **branch**).
+堆栈跟踪链接将您从 Sentry 堆栈跟踪中的文件带到源代码中的同一文件。如果您在 Sentry 中设置了提交跟踪，我们可以带您到源代码的确切版本（使用与事件关联的提交）。否则，我们将链接到源代码的当前状态（使用默认**分支**）。
 
-1. Navigate to **Settings > Integrations > GitHub > Configurations**.
+1. 导航到**设置 > 集成 > GitHub > 配置**。
 
-1. Click the "Configure" button next to your GitHub Instance.
+1. 点击您的 GitHub 实例旁边的"配置"按钮。
 
-1. Click the **Code Mappings** tab.
+1. 点击**代码映射**选项卡。
 
-1. Set up a code mapping for each project for which you want to enable stack trace linking. To create a new code mapping, click **Add Mapping**.
+1. 为您想要启用堆栈跟踪链接的每个项目设置代码映射。要创建新的代码映射，请点击**添加映射**。
 
-1. Fill out the form, then click **Save Changes**. Each form field is described below:
+1. 填写表单，然后点击**保存更改**。每个表单字段描述如下：
 
-   - **Project** (required): This is the Sentry project.
-   - **Repo** (required): This is the GitHub repository associated with the Sentry project above. If you have more than one GitHub repository being used per Sentry project, you'll need multiple code mappings.
-   - **Branch** (required): This is the default branch of your code we fall back to if you do not have commit tracking set up.
-   - **Stack Trace Root** and **Source Code Root** (optional): See below for information on determining these values.
+   - **项目**（必需）：这是 Sentry 项目。
+   - **存储库**（必需）：这是与上述 Sentry 项目关联的 GitHub 存储库。如果您每个 Sentry 项目使用多个 GitHub 存储库，您将需要多个代码映射。
+   - **分支**（必需）：这是我们在没有设置提交跟踪时回退到的代码的默认分支。
+   - **堆栈跟踪根**和**源代码根**（可选）：有关确定这些值的信息，请参见下文。
 
-#### Stack Trace Root and Source Code Root
+#### 堆栈跟踪根和源代码根
 
 <Alert>
 
-The following information is only valid for platforms which use traditional file paths. Platforms with package names require additional steps. For **Java**, read more in the [page on source context](/platforms/java/source-context#setting-up-code-mappings).
+以下信息仅对使用传统文件路径的平台有效。具有包名称的平台需要额外的步骤。对于**Java**，请在[源上下文页面](/platforms/java/source-context#setting-up-code-mappings)中阅读更多信息。
 
 </Alert>
 
-First, navigate to a stack trace that you wish to map. Find an **In App** frame, which is denoted by a bubble on the right side of the frame. The filename will be shown as the first piece of text at the left hand side of the frame header. In this example, it is `src/main.py`.
+首先，导航到您希望映射的堆栈跟踪。找到一个**应用内**框架，该框架在框架右侧用气泡表示。文件名将显示为框架标题左侧的第一个文本。在此示例中，它是 `src/main.py`。
 
 <Include name="common-imgs/code-mappings-stacktrace" />
 
-For certain native platforms, the stack trace will look different. In cases like these, you can find the absolute path by hovering over the filename.
+对于某些原生平台，堆栈跟踪看起来会有所不同。在这种情况下，您可以通过将鼠标悬停在文件名上来找到绝对路径。
 
-![Highlighting where in the UI to find the file path for native stack traces](./img/code-mappings-stacktrace-native.png)
+![突出显示在 UI 中查找原生堆栈跟踪文件路径的位置](./img/code-mappings-stacktrace-native.png)
 
-If you aren't sure, you can look at the event JSON by clicking on the `{}` button in the event header. Find the text in the frame's `filename` or `abs_path`.
+如果您不确定，您可以通过点击事件标题中的 `{}` 按钮来查看事件 JSON。在框架的 `filename` 或 `abs_path` 中找到文本。
 
 <Include name="common-imgs/code-mappings-event-json" />
 
-Next, locate the file seen in the stack trace with your source code provider (e.g. GitHub). In this example, the path is `flask/src/main.py` (`empower` is ignored since it is the name of the repo).
+接下来，在您的源代码提供商（例如 GitHub）中找到堆栈跟踪中看到的文件。在此示例中，路径是 `flask/src/main.py`（`empower` 被忽略，因为它是存储库的名称）。
 
 <Include name="common-imgs/code-mappings-source-file" />
 
-Compare the file path from the stack trace with the path found in your source repository. In this example, the `src/` folder in the stack trace matches the `flask/src` folder in the source code. Using that information, set the **Stack Trace Root** to `src/` and the **Source Code Root** to `flask/src/`. This tells Sentry to replace all file paths beginning in `src/` with `flask/src/` when searching for the source code.
+将堆栈跟踪中的文件路径与源代码中的路径进行比较。在此示例中，堆栈跟踪中的 `src/` 文件夹与源代码中的 `flask/src` 文件夹匹配。使用该信息，将**堆栈跟踪根**设置为 `src/`，将**源代码根**设置为 `flask/src/`。这告诉 Sentry 在搜索源代码时将所有以 `src/` 开头的文件路径替换为 `flask/src/`。
 
-For best results, we recommend always providing a non-empty value for the **Stack Trace Root** when possible.
+为了获得最佳结果，我们建议尽可能始终为**堆栈跟踪根**提供非空值。
 
 <Include name="common-imgs/code-mappings-configure-modal" />
 
-### Code Owners
+### 代码所有者
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-Import your existing GitHub CODEOWNERS files to automatically assign Sentry issues and route alerts to the responsible individuals and teams.
+导入您现有的 GitHub CODEOWNERS 文件，以自动分配 Sentry 问题并将警报路由到负责的个人和团队。
 
-For more details, see the full documentation for [Code Owners](/product/issues/ownership-rules/#code-owners).
+有关更多详细信息，请参见[代码所有者](/product/issues/ownership-rules/#code-owners)的完整文档。
 
-### GitHub Single Sign-On
+### GitHub 单点登录
 
-Single sign-on (or SSO) allows you to manage your organization's entire membership via a third-party provider.
+单点登录（或 SSO）允许您通过第三方提供商管理组织的整个成员资格。
 
-For more details, see the full documentation for [Single Sign-on](/organization/authentication/sso/).
+有关更多详细信息，请参见[单点登录](/organization/authentication/sso/)的完整文档。
 
-## Troubleshooting
+## 故障排除
 
-If you're having issues adding a GitHub repository:
+如果您在添加 GitHub 存储库时遇到问题：
 
-- Make sure you are the Owner of your GitHub organization.
-- [Disconnect](https://sentry.io/account/settings/identities/), and then [reconnect](https://sentry.io/account/settings/social/associate/github/) your GitHub Identity.
+- 确保您是 GitHub 组织的所有者。
+- [断开连接](https://sentry.io/account/settings/identities/)，然后[重新连接](https://sentry.io/account/settings/social/associate/github/)您的 GitHub 身份。
 
-If you're having trouble setting up Sentry with your on-premises integration, verify the following:
+如果您在设置 Sentry 与您的本地集成时遇到问题，请验证以下内容：
 
-- The provided installation URL is a fully qualified domain name (FQDN), which is resolvable on the internet.
-- The IP addresses Sentry uses to make outbound requests are [allowed](/security-legal-pii/security/ip-ranges/).
-- Sentry's access to your installation URL is not path restricted.
+- 提供的安装 URL 是完全限定域名 (FQDN)，可在互联网上解析。
+- Sentry 用于发出出站请求的 IP 地址是[允许的](/security-legal-pii/security/ip-ranges/)。
+- Sentry 对您的安装 URL 的访问不受路径限制。

@@ -1,76 +1,75 @@
 ---
-title: Associate Commits
+title: 关联提交
 sidebar_order: 2
-description: "Learn how to associate commits with a release."
+description: "了解如何将提交与发布关联。"
 ---
 
 <Include name="only-error-issues-note.mdx" />
 
-In your release process, you can add a step to create a release in Sentry and associate it with commits from your linked repository. When you've done this, you'll be able to see the commits associated with a release in the **Release Details** page.
+在您的发布过程中，您可以添加一个步骤在Sentry中创建发布并将其与链接仓库中的提交关联。完成此操作后，您将能够在**发布详情**页面中看到与发布关联的提交。
 
-If you're using one of our [release automation](/product/releases/setup/release-automation/) options, this step should be done automatically.
+如果您使用我们的[发布自动化](/product/releases/setup/release-automation/)选项之一，此步骤应该自动完成。
 
-However, if you don't have a repository integration installed, you can send Sentry your raw commit metadata using the [Sentry CLI](#using-the-cli) or [our API](#using-the-api).
+但是，如果您没有安装仓库集成，您可以使用[Sentry CLI](#using-the-cli)或[我们的API](#using-the-api)向Sentry发送原始提交元数据。
 
-## Associate Commits With a Release
+## 将提交与发布关联
 
-When you've associated commits, we can tie together the commits in the release, including:
+当您关联提交后，我们可以将发布中的提交联系在一起，包括：
 
-- Files touched by those commits
-- Files observed in the stack trace
-- Authors of those files
-- Issues resolved by those commits
+- 这些提交触及的文件
+- 堆栈跟踪中观察到的文件
+- 这些文件的作者
+- 这些提交解决的问题
 
-### Using the CLI
+### 使用CLI
 
-In this CLI example:
+在此CLI示例中：
 
-- Environment variables configure the CLI (see [Working with Projects](/cli/configuration/#sentry-cli-working-with-projects) for alternatives)
-- The `propose-version` sub-command determines a release ID automatically
-- A release tagged `VERSION` is created for the organization `my-org` for projects `project1` and `project2`
-- Because of the `--auto` flag, the repository name is determined automatically, and commits between the previous release’s head commit and the current head commit are associated with the release.
+- 环境变量配置CLI（有关替代方案，请参见[使用项目](/cli/configuration/#sentry-cli-working-with-projects)）
+- `propose-version`子命令自动确定发布ID
+- 为组织`my-org`的项目`project1`和`project2`创建标记为`VERSION`的发布
+- 由于`--auto`标志，仓库名称自动确定，并且将前一个发布的头提交与当前头提交之间的提交与发布关联。
 
 <OrgAuthTokenNote />
 
 ```bash
-# Assumes you're in a git repository
+# 假设您在git仓库中
 export SENTRY_AUTH_TOKEN=___ORG_AUTH_TOKEN___
 export SENTRY_ORG=___ORG_SLUG___
 VERSION=$(sentry-cli releases propose-version)
 
-# Create a release
+# 创建发布
 sentry-cli releases new -p project1 -p project2 $VERSION
 
-# Associate commits with the release
+# 将提交与发布关联
 sentry-cli releases set-commits --auto $VERSION
 ```
 
-If you don't have a repo-based integration associated with your Sentry organization, then the `--auto` flag will automatically use the git tree of your local repo, and associate commits between the previous release's head commit and the current head commit with the release. If this is the first release, Sentry will use the latest 10 - 20 commits, depending on the integration. This behavior is configurable with the `--initial-depth` flag.
+如果您没有与Sentry组织关联的基于仓库的集成，则`--auto`标志将自动使用本地仓库的git树，并将前一个发布的头提交与当前头提交之间的提交与发布关联。如果这是第一个发布，Sentry将使用最新的10-20个提交，具体取决于集成。此行为可使用`--initial-depth`标志配置。
 
-Alternatively, you can use the `--local` flag to enable this behavior by default:
+或者，您可以使用`--local`标志默认启用此行为：
 
 ```bash
 sentry-cli releases set-commits --local $VERSION
 ```
 
-For more control over which commits to associate, or if you're unable to execute the command inside the repository, you can manually specify a repository and range.
+为了更好地控制要关联的提交，或者如果您无法在仓库内执行命令，您可以手动指定仓库和范围。
 
-The following example associates commits (or refs) between `from` and `to` with the current release, where `from` is the previous release’s commit. The `from` commit is optional; we’ll use the previous release’s commit as the baseline if it is excluded:
+以下示例将`from`和`to`之间的提交（或引用）与当前发布关联，其中`from`是前一个发布的提交。`from`提交是可选的；如果省略，我们将使用前一个发布的提交作为基线：
 
 ```bash
 sentry-cli releases set-commits --commit "my-repo@from..to" $VERSION
 ```
 
 <Alert>
-  The repository name `my-repo` should match the name you entered when linking
-  the repo, and should be in the form `owner-name/repo-name`.
+  仓库名称`my-repo`应该与您链接仓库时输入的名称匹配，并且应采用`owner-name/repo-name`的形式。
 </Alert>
 
-### Using the API
+### 使用API
 
-To send Sentry your commit metadata using the API, use the [create release endpoint](/api/releases/create-a-new-release-for-an-organization/).
+要使用API向Sentry发送提交元数据，请使用[创建发布端点](/api/releases/create-a-new-release-for-an-organization/)。
 
-Use the following format for your commits:
+对您的提交使用以下格式：
 
 ```json
 {
@@ -82,10 +81,10 @@ Use the following format for your commits:
         { "path": "path/to/deleted-file.html", "type": "D" }
       ],
       "repository": "owner-name/repo-name",
-      "author_name": "Author Name",
+      "author_name": "作者姓名",
       "author_email": "author_email@example.com",
       "timestamp": "2018-09-20T11:50:22+03:00",
-      "message": "This is the commit message.",
+      "message": "这是提交消息。",
       "id": "8371445ab8a9facd271df17038ff295a48accae7"
     }
   ]
@@ -94,48 +93,48 @@ Use the following format for your commits:
 
 `patch_set`
 
-A list of the files that have been changed in the commit. Specifying the `patch_set` is necessary to power suspect commits and suggested assignees. It consists of two parts:
+提交中已更改文件的列表。指定`patch_set`对于支持可疑提交和建议受让人是必要的。它由两部分组成：
 
     `path`
-    : The path to the file. Both forward and backward slashes (`'/' '\\'`) are supported.
+    : 文件的路径。支持正斜杠和反斜杠（`'/' '\'`）。
 
     `type`
-    : The types of changes that happened in that commit. The options are:
-        - `Add (A)`
-        - `Modify (M)`
-        - `Delete (D)`
+    : 在该提交中发生的更改类型。选项包括：
+        - `添加 (A)`
+        - `修改 (M)`
+        - `删除 (D)`
 
 `repository`
 
-The full name of the repository the commit belongs to. If this field is not given Sentry will generate a name in the form: `u'organization-<organization_id>'` (i.e. if the organization id is `123`, then the generated repository name will be `u'organization-123`).
+提交所属的仓库的完整名称。如果未提供此字段，Sentry将生成以下形式的名称：`u'organization-<organization_id>'`（即，如果组织ID是`123`，则生成的仓库名称将是`u'organization-123'`）。
 
 `author_email`
 
-The commit author's email is required to enable the suggested assignee feature.
+提交作者的电子邮件是启用建议受让人功能所必需的。
 
 `author_name`
 
-The commit author's name may also be included.
+也可以包括提交作者的姓名。
 
 `timestamp`
 
-The commit timestamp is used to sort the commits given. If a timestamp is not included, the commits will remain sorted in the order given.
+提交时间戳用于对给定提交进行排序。如果未包含时间戳，提交将保持给定顺序。
 
 `message`
 
-The commit message.
+提交消息。
 
 `id`
 
-The commit ID.
+提交ID。
 
-#### Create the Release with Patch Data
+#### 使用补丁数据创建发布
 
-Here is an example of a request using patch data:
+以下是使用补丁数据的请求示例：
 
 <Alert>
 
-Confirm you’re using [Auth Tokens](/api/auth/#auth-tokens), **not** [API Keys](/api/auth/#api-keys), which are deprecated.
+确认您使用的是[身份验证令牌](/api/auth/#auth-tokens)，**而不是**[API密钥](/api/auth/#api-keys)，后者已弃用。
 
 </Alert>
 
@@ -156,10 +155,10 @@ curl https://sentry.io/api/0/organizations/your-organization-name/releases/ \
             {"path": "path/to/deleted-file.html", "type": "D"}
         ],
         "repository": "owner-name/repo-name",
-        "author_name": "Author Name",
+        "author_name": "作者姓名",
         "author_email": "author_email@example.com",
         "timestamp": "2018-09-20T11:50:22+03:00",
-        "message": "This is the commit message.",
+        "message": "这是提交消息。",
         "id": "8371445ab8a9facd271df17038ff295a48accae7"
     }
  ]
@@ -167,7 +166,7 @@ curl https://sentry.io/api/0/organizations/your-organization-name/releases/ \
  '
 ```
 
-If you’d like to have more control over what order the commits appear in, you can send us a list of all commits. That might look like this:
+如果您想更好地控制提交出现的顺序，您可以向我们发送所有提交的列表。这可能如下所示：
 
 ```python
 import subprocess
@@ -201,30 +200,30 @@ res = requests.post(
 )
 ```
 
-For more information, see the [API reference](/api/releases/create-a-new-release-for-an-organization/).
+有关更多信息，请参见[API参考](/api/releases/create-a-new-release-for-an-organization/)。
 
 <Alert>
 
-If you receive an "Unable to Fetch Commits" email, take a look at our [help center article](https://sentry.zendesk.com/hc/en-us/articles/23968845267739-Why-am-I-receiving-the-email-Unable-to-Fetch-Commits).
+如果您收到"无法获取提交"电子邮件，请查看我们的[帮助中心文章](https://sentry.zendesk.com/hc/en-us/articles/23968845267739-Why-am-I-receiving-the-email-Unable-to-Fetch-Commits)。
 
 </Alert>
 
-## Resolve Issues by Commit
+## 通过提交解决问题
 
-Additionally, when you've started associating commits with a release, you'll be able to resolve issues by including the issue ID in your commit message. You can find the issue ID at the top of the **Issue Details** page, next to the assignee dropdown.
+此外，当您开始将提交与发布关联时，您将能够通过在提交消息中包含问题ID来解决问题。您可以在**问题详情**页面顶部的受让人下拉菜单旁边找到问题ID。
 
-A commit message might look like this, for example:
+提交消息可能如下所示：
 
 ```bash
-Prevent empty queries on users
+防止用户上的空查询
 
-Fixes SENTRY-317
+修复 SENTRY-317
 ```
 
-When Sentry sees this commit, we’ll reference the commit in the issue, and when you create a release in Sentry, we’ll mark the issue as resolved in that release. You can also resolve issues with pull requests by including `fixes <SENTRY-SHORT-ID>` in the title or description.
+当Sentry看到此提交时，我们将在问题中引用该提交，当您在Sentry中创建发布时，我们将将该问题标记为在该发布中已解决。您还可以通过在标题或描述中包含`fixes <SENTRY-SHORT-ID>`来使用拉取请求解决问题。
 
 <Alert>
 
-If you’re using GitHub, you may have a privacy setting enabled that prevents Sentry from identifying the user’s actual email address. To use the suggested owners feature, uncheck “Keep my email address private” in GitHub’s [account settings](https://github.com/settings/emails).
+如果您使用GitHub，您可能启用了阻止Sentry识别用户实际电子邮件地址的隐私设置。要使用建议的所有者功能，请在GitHub的[账户设置](https://github.com/settings/emails)中取消选中"保持我的电子邮件地址私密"。
 
 </Alert>

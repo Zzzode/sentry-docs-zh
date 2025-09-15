@@ -1,143 +1,143 @@
 ---
-title: Search
-description: "Learn more about how to search in Sentry, including the correct query syntax, searchable properties, and custom tags."
+title: 搜索
+description: "了解更多关于如何在Sentry中搜索的信息，包括正确的查询语法、可搜索属性和自定义标签。"
 sidebar_order: 50
 ---
 
-Search is available on several features throughout [sentry.io](https://sentry.io), such as **Issues**, **Discover** and **Dashboards**.
+搜索在[sentry.io](https://sentry.io)的多个功能中都可用，例如**问题**、**发现**和**仪表板**。
 
-## Query Syntax
+## 查询语法
 
 <Alert>
-You'll only need to use query syntax if you're using a Sentry [API](/api/). You'll get pre-populated suggestions once you start typing in your search terms when using the search bar anywhere in [Sentry.io](https://sentry.sentry.io/).
+您只需要在使用Sentry [API](/api/)时才需要使用查询语法。当您在[Sentry.io](https://sentry.sentry.io/)的任何地方使用搜索栏时，一旦开始输入搜索词，就会获得预填充的建议。
 </Alert>
 
-Search queries are constructed using a `key:value` pattern, with an optional raw search at the end. Each `key:value` pair is a `token` and the optional raw search is itself a single `token`. The `key:value` pair `tokens` are treated as issue or event properties. The optional raw search is treated as a single `token` and searches event titles/messages.
+搜索查询使用`key:value`模式构建，末尾可选原始搜索。每个`key:value`对是一个`token`，可选的原始搜索本身也是一个`token`。`key:value`对的`tokens`被视为问题或事件属性。可选的原始搜索被视为单个`token`并搜索事件标题/消息。
 
-For example:
+例如：
 
 ```
 is:resolved user.username:"Jane Doe" server:web-8 example error
 ```
 
-In the example above, there are three keys (`is:`, `user.username:`, `server:`), but four tokens:
+在上面的例子中，有三个键（`is:`、`user.username:`、`server:`），但有四个tokens：
 
 - `is:resolved`
 - `user.username:"Jane Doe"`
 - `server:web-8`
 - `example error`
 
-The tokens `is:resolved` and `user.username:"Jane Doe"` are standard search tokens because both use reserved keywords. See [Issue Properties](/concepts/search/searchable-properties/#issue-properties) and [Event Properties](/concepts/search/searchable-properties/#event-properties) for appropriate keyword usage. The token `server:web-8` is pointing to a custom tag sent by the Sentry SDK. See [Custom Tags](/concepts/search/searchable-properties/#custom-tags) for more information on how to set tags.
+tokens `is:resolved`和`user.username:"Jane Doe"`是标准搜索tokens，因为两者都使用保留关键字。有关适当关键字用法，请参见[问题属性](/concepts/search/searchable-properties/#issue-properties)和[事件属性](/concepts/search/searchable-properties/#event-properties)。token `server:web-8`指向由Sentry SDK发送的自定义标签。有关如何设置标签的更多信息，请参见[自定义标签](/concepts/search/searchable-properties/#custom-tags)。
 
-The token `example error` is utilizing the optional raw search and is passed as part of the issue search query (which uses a CONTAINS match similar to SQL). When using the optional raw search, you can provide _one_ string, and the query uses that entire string.
+token `example error`使用可选原始搜索，并作为问题搜索查询的一部分传递（使用类似于SQL的CONTAINS匹配）。使用可选原始搜索时，您可以提供_一个_字符串，查询使用该整个字符串。
 
-Search terms should auto-complete, and when they don't, that means your term is incompatible with the dataset. If you complete the term and tap the Return/Enter key, an error message is displayed.
+搜索词应该自动完成，当它们不自动完成时，意味着您的术语与数据集不兼容。如果您完成术语并按Return/Enter键，会显示错误消息。
 
-### Comparison Operators
+### 比较运算符
 
-Sentry search supports the use of comparison operators:
+Sentry搜索支持使用比较运算符：
 
-- greater than (**`>`**)
-- less than (**`<`**)
-- greater than or equal to (**`>=`**)
-- less than or equal to (**`<=`**)
+- 大于（**`>`**）
+- 小于（**`<`**）
+- 大于或等于（**`>=`**）
+- 小于或等于（**`<=`**）
 
-Typically, when you search using properties that are numbers or durations, you should use comparison operators rather than just a colon (`:`) to find exact matches, since an exact match isn't likely to exist.
+通常，当您使用数字或持续时间属性进行搜索时，应该使用比较运算符而不是仅使用冒号（`:`）来查找精确匹配，因为精确匹配不太可能存在。
 
-Here are some examples of valid comparison operator searches:
+以下是一些有效比较运算符搜索的示例：
 
 - `event.timestamp:>2023-09-28T00:00:00-07:00`
 - `count_dead_clicks:<=10`
 - `transaction.duration:>5s`
 
-### Using `OR` and `AND`
+### 使用`OR`和`AND`
 
 <Alert>
 
-`OR` and `AND` search conditions are only available for [Discover](/product/explore/discover-queries/), [Insights Overview](/product/insights/overview/), and [Metric Alerts](/product/alerts-notifications/metric-alerts/).
+`OR`和`AND`搜索条件仅适用于[发现](/product/explore/discover-queries/)、[洞察概览](/product/insights/overview/)和[指标告警](/product/alerts-notifications/metric-alerts/)。
 
 </Alert>
 
-Use `OR` and `AND` between tokens, and use parentheses `()` to group conditions. `AND` can also be used between non-aggregates and aggregates. However, `OR` cannot.
+在tokens之间使用`OR`和`AND`，并使用括号`()`来分组条件。`AND`也可以在非聚合和聚合之间使用。但是，`OR`不能。
 
-- Non-aggregates filter data based on specific tags or attributes. For example, `user.username:jane` is a non-aggregate field.
+- 非聚合基于特定标签或属性过滤数据。例如，`user.username:jane`是非聚合字段。
 
-- Aggregates filter data on numerical scales. For example, `count()` is an aggregate function and `count():>100` is an aggregate filter.
+- 聚合基于数值尺度过滤数据。例如，`count()`是聚合函数，`count():>100`是聚合过滤器。
 
-Some examples of using the `OR` condition:
+使用`OR`条件的一些示例：
 
 ```
-# a valid `OR` query
+# 有效的`OR`查询
 browser:Chrome OR browser:Opera
 
-# an invalid `OR` query
+# 无效的`OR`查询
 user.username:janedoe OR count():>100
 ```
 
-Also, the queries prioritize `AND` before `OR`. For example, "x `AND` y `OR` z" is the same as "(x `AND` y) `OR` z". Parentheses can be used to change the grouping. For example, "x `AND` (y `OR` z)".
+此外，查询优先处理`AND`然后`OR`。例如，"x `AND` y `OR` z"与"(x `AND` y) `OR` z"相同。括号可用于更改分组。例如，"x `AND` (y `OR` z)"。
 
-### Multiple Values on the Same Key
+### 同一键的多个值
 
-You can search multiple values for the same key by putting the values in a list. For example, "x:[value1, value2]" will find the same results as "x:value1 `OR` x:value2". When you do this, the search returns issues/events that match any search term.
+您可以通过将值放入列表中来搜索同一键的多个值。例如，"x:[value1, value2]"将找到与"x:value1 `OR` x:value2"相同的结果。当您这样做时，搜索返回匹配任何搜索词的问题/事件。
 
-An example of searching on the same key with a list of values:
+搜索同一键的值列表示例：
 
 ```
 release:[12.0, 13.0]
 ```
 
-Currently, you can't use this type of search on the keyword `is` and you can't use wildcards with this type of search.
+目前，您不能在关键字`is`上使用这种类型的搜索，也不能在这种类型的搜索中使用通配符。
 
-### Explicit Tag Syntax
+### 显式标签语法
 
-We recommend you never use reserved keywords (such as `project_id`) as tags. But if you do, you must use the following syntax to search for it:
+我们建议您永远不要使用保留关键字（如`project_id`）作为标签。但如果您这样做了，您必须使用以下语法来搜索它：
 
 ```
 tags[project_id]:tag_value
 ```
 
-### Advanced
+### 高级
 
-Sentry also offers the following advanced search options:
+Sentry还提供以下高级搜索选项：
 
-#### Exclusion
+#### 排除
 
-By default, search terms use the `AND` operator; that is, they return the intersection of issues/events that match all search terms.
+默认情况下，搜索词使用`AND`运算符；也就是说，它们返回匹配所有搜索词的问题/事件的交集。
 
-To change this, you can use the negation operator `!` to _exclude_ a search parameter.
+要更改此设置，您可以使用否定运算符`!`来_排除_搜索参数。
 
 ```
 is:unresolved !user.email:example@customer.com
 ```
 
-In the example above, the search query returns all Issues that are unresolved _and_ have not affected the user with the email address `example@customer.com`.
+在上面的例子中，搜索查询返回所有未解决_且_未影响电子邮件地址为`example@customer.com`用户的问题。
 
-#### Wildcards
+#### 通配符
 
-Search supports the wildcard operator `*` as a placeholder for specific characters and strings.
+搜索支持通配符运算符`*`作为特定字符和字符串的占位符。
 
 ```
 browser:"Safari 11*"
 ```
 
-In the example above, the search query will match on `browser` values like `"Safari 11.0.2"`, `"Safari 11.0.3"`, etc.
+在上面的例子中，搜索查询将匹配`browser`值如`"Safari 11.0.2"`、`"Safari 11.0.3"`等。
 
-You may also combine operators like so:
+您还可以像这样组合运算符：
 
 ```
 !message:"*Timeout"
 ```
 
-In the above example, the search query returns results which do not have message values like `ConnectionTimeout`, `ReadTimeout`, etc.
+在上面的例子中，搜索查询返回不具有`ConnectionTimeout`、`ReadTimeout`等消息值的结果。
 
-## Page Filters
+## 页面过滤器
 
-Page filters allow you to narrow down the results shown on a page by selecting specific projects, environments, and date ranges. After you've set your filters, they'll persist as you navigate across pages in Sentry.
+页面过滤器允许您通过选择特定项目、环境和日期范围来缩小页面上显示的结果范围。设置过滤器后，它们将在您在Sentry中导航页面时保持。
 
-![Project selector](./img/project-selector.png)
+![项目选择器](./img/project-selector.png)
 
-If you want to see data for all your projects, click "Clear" in the project selector to clear any project filters.
+如果您想查看所有项目的数据，请在项目选择器中点击"清除"以清除任何项目过滤器。
 
-## Learn more
+## 了解更多
 
 <PageGrid />

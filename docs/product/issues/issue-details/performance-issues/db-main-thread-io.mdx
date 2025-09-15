@@ -1,27 +1,27 @@
 ---
-title: "Database on Main Thread"
+title: "主线程数据库操作"
 sidebar_order: 20
-description: "Learn more about Database on Main Thread issues and how to diagnose and fix them."
+description: "了解更多关于主线程数据库操作问题以及如何诊断和修复它们的信息。"
 ---
 
-The main UI thread in a mobile application handles user interface events such as button presses and page scrolls. To prevent App Hangs and Application Not Responding errors, the main UI thread shouldn't be used for performing long-running operations like database queries. These kinds of operations block the whole UI until they finish running and get in the way of the user interacting with the app.
+移动应用程序中的主UI线程处理用户界面事件，如按钮按下和页面滚动。为了防止应用程序挂起和应用程序无响应错误，主UI线程不应用于执行长时间运行的操作，如数据库查询。这类操作会阻塞整个UI，直到它们完成运行，并妨碍用户与应用程序交互。
 
-## Detection Criteria
+## 检测标准
 
-The detector for this performance issue looks at the total non-overlapping duration for database spans on the main thread. If it exceeds 16ms, a Performance Issue is created.
+此性能问题的检测器会查看主线程上数据库跨度的总非重叠持续时间。如果超过16ms，则会创建性能问题。
 
-You can configure detector thresholds for Database on Main Thread issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置主线程数据库操作问题的检测器阈值：
 
-![Database on Main Thread detector threshold settings](./img/db-on-main-thread-detector-settings.png)
+![主线程数据库操作检测器阈值设置](./img/db-on-main-thread-detector-settings.png)
 
-## Span Evidence
+## 跨度证据
 
-Span evidence identifies the root cause of the Database on Main Thread problem by showing you three main aspects:
+跨度证据通过向您显示三个主要方面来识别主线程数据库操作问题的根本原因：
 
-- **Transaction name**
-- **Parent Span:** Where the database spans occurred
-- **Offending Span:** The actual spans that are performing database queries in the main thread
+- **事务名称**
+- **父跨度：** 数据库跨度发生的位置
+- **违规跨度：** 在主线程中执行数据库查询的实际跨度
 
-![Database Span Evidence](./img/db-io.png)
+![数据库跨度证据](./img/db-io.png)
 
-View it by going to the **Issues** page in Sentry, selecting your Android project, clicking on the database error you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+通过转到Sentry中的**问题**页面，选择您的Android项目，点击您要检查的数据库错误，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看它。

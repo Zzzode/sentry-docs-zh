@@ -1,20 +1,20 @@
 ---
-title: Mobile App Profiling
+title: 移动应用性能分析
 sidebar_order: 50
-description: "Get started with Mobile App Profiling, which allows you to see code-level profiling information for your mobile apps."
+description: "开始使用移动应用性能分析，它允许您查看移动应用的代码级性能分析信息。"
 ---
 
-The typical approach to measuring mobile app performance involves setting up automated performance tests for various user flows that run during continuous integration (CI), or manually profiling hot paths in your app using tools like Apple Instruments or Android Profiler. These are excellent tools, but they have numerous drawbacks:
+测量移动应用性能的典型方法涉及为各种用户流程设置自动化性能测试，这些测试在持续集成（CI）期间运行，或使用 Apple Instruments 或 Android Profiler 等工具手动分析应用程序中的热点路径。这些都是优秀的工具，但它们有诸多缺点：
 
-- **The environment is near-optimal and highly controlled.** Developers often use the latest, most powerful devices, and are testing apps on excellent network conditions. These conditions do not always reflect real world performance scenarios — users may be running your app on low-end hardware, older operating system versions, or poor network conditions. These conditions can be simulated to some extent, but the complete matrix of variables is too large to be able to test every case on a regular basis.
-- **Only a subset of user flows are being tested.** Performance tests are typically set up for the most common user flows, but it's impractical to build and maintain tests for every possible way someone might be using your app.
-- **Metrics are calculated based on a small number of samples.** Performance metrics are often calculated by aggregating the results from a small number of runs. While this can be sufficient in some cases, it may not be enough data to give you an accurate, statistically significant measurement, especially if you need to account for different hardware, thermal conditions, and so on.
-- **The process is difficult and time consuming.** Manually conducting extensive performance tests on your app before every release is time consuming. Building and maintaining automated performance tests is also time consuming. Interpreting the results can be difficult and frustrating for someone who's not a performance specialist and is unfamiliar with the tools or the process.
+- **环境接近最优且高度受控。**开发人员通常使用最新、最强大的设备，并在优秀的网络条件下测试应用程序。这些条件并不总是反映真实世界的性能场景——用户可能在低端硬件、旧操作系统版本或网络条件差的情况下运行您的应用程序。这些条件可以在一定程度上模拟，但变量的完整矩阵太大，无法定期测试每种情况。
+- **仅测试用户流程的子集。**性能测试通常针对最常见的用户流程设置，但为某人可能使用您的应用程序的每种可能方式构建和维护测试是不切实际的。
+- **基于少量样本计算指标。**性能指标通常通过聚合少量运行的结果来计算。虽然在某些情况下这可能足够，但可能没有足够的数据为您提供准确的、统计上显著的测量，特别是如果您需要考虑不同的硬件、热条件等。
+- **过程困难且耗时。**在每次发布前手动对您的应用程序进行广泛的性能测试是耗时的。构建和维护自动化性能测试也很耗时。对于不熟悉工具或流程的非性能专家来说，解释结果可能很困难且令人沮丧。
 
-Profiling is designed to address all of these issues:
+性能分析旨在解决所有这些问题：
 
-- **The environments are diverse and reflect real world conditions.** We collect performance data automatically from every environment that your app is running on in the real world, accounting for different device hardware, OS versions, app versions, network conditions, and more.
-- **We cover the widest possible set of user flows.** Since the data is collected from actual users using your app as they normally would, we can capture all kinds of usage patterns that you may not have thought about when building your own performance tests.
-- **Metrics are calculated using a large number of samples.** We can collect data from up to 100% of your user population in production, allowing us to compute more accurate metrics.
-- **The process is simple.** Integrate the Sentry SDK, enable profiling, ship your app, and let us worry about analyzing performance and detecting regressions between versions. We encourage _testing in production_, which improves developer velocity and reduces the overhead of having to maintain your own tests and tooling. Our dashboard is designed to be approachable to all engineers, and not just people who have a performance engineering background.
-- **The overhead is minimal.** Depending on the platform, the overhead can be lower than 1% of your app’s CPU time.
+- **环境多样且反映真实世界条件。**我们自动从您的应用程序在真实世界中运行的每个环境收集性能数据，考虑不同的设备硬件、操作系统版本、应用程序版本、网络条件等。
+- **我们覆盖最广泛的用户流程集。**由于数据是从实际用户正常使用您的应用程序时收集的，我们可以捕获您在自己构建性能测试时可能没有想到的各种使用模式。
+- **使用大量样本计算指标。**我们可以从生产环境中的多达 100% 的用户群体中收集数据，使我们能够计算更准确的指标。
+- **过程简单。**集成 Sentry SDK，启用性能分析，发布您的应用程序，让我们担心分析性能和检测版本之间的回归。我们鼓励*在生产环境中测试*，这提高了开发人员速度，减少了维护您自己的测试和工具的开销。我们的仪表板设计为所有工程师都可以使用，而不仅仅是具有性能工程背景的人。
+- **开销最小。**根据平台的不同，开销可能低于您应用程序 CPU 时间的 1%。

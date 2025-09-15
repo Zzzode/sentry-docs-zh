@@ -1,73 +1,73 @@
 ---
-title: Issue Alerts
+title: 问题警报
 sidebar_order: 2
-description: "Learn more about Sentry's integration platform issue alert webhooks."
+description: "了解有关 Sentry 集成平台问题警报 webhooks 的更多信息。"
 ---
 
-Sentry integrations which have been made available as [alert rule actions](/organization/integrations/integration-platform/#alerts) can receive issue alert webhooks.
+已作为[警报规则操作](/organization/integrations/integration-platform/#alerts)提供的 Sentry 集成可以接收问题警报 webhooks。
 
-The interactive demo below shows how to set up an internal integration that can receive issue alerts.
+下面的交互式演示展示了如何设置可以接收问题警报的内部集成。
 
 <Arcade src="https://demo.arcade.software/v7uhzmdV6Q5PDzoVPAE6?embed&show_copy_link=true" />
 
-## Sentry-Hook-Resource Header
+## Sentry-Hook-Resource 标头
 
 `'Sentry-Hook-Resource': 'event_alert'`
 
-## Attributes
+## 属性
 
 ### action
 
-- type: string
-- description: will always be `triggered`
+- 类型：字符串
+- 描述：将始终是 `triggered`
 
 ### data['event']
 
-- type: object
-- description: the event that triggered the alert rule
+- 类型：对象
+- 描述：触发警报规则的事件
 
 ### data['event']['url']
 
-- type: string
-- description: the API URL for the event
+- 类型：字符串
+- 描述：事件的 API URL
 
 ### data['event']['web_url']
 
-- type: string
-- description: the web url for the event
+- 类型：字符串
+- 描述：事件的 web url
 
 ### data['event']['issue_url']
 
-- type: string
-- description: the API URL for the associated issue
+- 类型：字符串
+- 描述：关联问题的 API URL
 
 ### data['event']['issue_id']
 
-- type: string
-- description: the id of the issue
+- 类型：字符串
+- 描述：问题的 id
 
 ### data['triggered_rule']
 
-- type: string
-- description: the label of the rule that was triggered
+- 类型：字符串
+- 描述：被触发规则的标签
 
 <Alert>
 
-The following two fields are for [alert rule action UI components](/organization/integrations/integration-platform/ui-components/alert-rule-action) only.
+以下两个字段仅用于[警报规则操作 UI 组件](/organization/integrations/integration-platform/ui-components/alert-rule-action)。
 
 </Alert>
 
 ### data['issue_alert']['title']
 
-- type: string
-- description: the label of the rule that was triggered
+- 类型：字符串
+- 描述：被触发规则的标签
 
 ### data['issue_alert']['settings']
 
-- type: object
-- description: the saved configurations for routing the alert within the external service
+- 类型：对象
+- 描述：在外部服务中路由警报的已保存配置
 
-## Payload
+## 有效负载
 
 ```json
 {

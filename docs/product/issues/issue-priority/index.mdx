@@ -1,47 +1,47 @@
 ---
-title: Issue Priority
+title: 问题优先级
 sidebar_order: 31
-description: "Learn how Sentry prioritizes issue actionability."
+description: "了解Sentry如何优先考虑问题的可操作性。"
 ---
 
-Issue priority sorts the issues Sentry receives into **High**, **Medium** and **Low** priority buckets. This helps you identify and address critical, high-priority errors that may be impacting your application's functionality and user experience first.
+问题优先级将Sentry接收到的问题排序为**高**、**中**和**低**优先级桶。这有助于您首先识别和处理可能影响应用程序功能和用户体验的关键、高优先级错误。
 
-## How Priority Works
+## 优先级如何工作
 
-When Sentry receives an event, it assigns a priority to the issue based on the event's **log level** (for error issues) or **actionability** (for non-error issues like performance).
+当Sentry接收到事件时，它会根据事件的**日志级别**（对于错误问题）或**可操作性**（对于非错误问题，如性能问题）为问题分配优先级。
 
-There are three discrete priority levels for issues in Sentry:
+Sentry中有三个离散的问题优先级：
 
-- **High**: Issues that are likely to be actionable and require immediate attention, such as `ERROR` and `FATAL` events.
-- **Medium**: Issues that are likely to be actionable and require attention in the near future, including `WARNING` events.
-- **Low**: Issues that don't require immediate attention, including `DEBUG` and `INFO` events.
+- **高**：可能需要立即关注且可操作的问题，如`ERROR`和`FATAL`事件。
+- **中**：可能需要近期关注且可操作的问题，包括`WARNING`事件。
+- **低**：不需要立即关注的问题，包括`DEBUG`和`INFO`事件。
 
-### Enhanced Issue Priority
+### 增强问题优先级
 
 <Alert>
 
-This feature is available only if your organization is on either a [Business](https://sentry.io/pricing/) or [Trial](/pricing/#product-trials) Plan.
+此功能仅在您的组织使用[商业](https://sentry.io/pricing/)或[试用](/pricing/#product-trials)计划时才可用。
 
 </Alert>
 
-In addition to the log level or actionability, the enhanced priority calculations will consider factors such as the error message, whether or not the error is handled, and historical actions taken on similar issues, when determining the priority of an issue for Python or JavaScript projects.
+除了日志级别或可操作性外，增强的优先级计算还将考虑错误消息、错误是否已处理以及类似问题上的历史操作等因素，在为Python或JavaScript项目确定问题优先级时。
 
-### Automatic Priority Updates
+### 自动优先级更新
 
-Sentry continuously monitors the volume of events for each issue. If there's a surge of events for a particular issue (it escalates), its priority level will be automatically bumped up. See the [escalating issues algorithm](/product/issues/states-triage/escalating-issues/) for more information on how escalations are identified. When an issue de-escalates, its priority will go back down to the previous level.
+Sentry持续监控每个问题的事件量。如果特定问题的事件量激增（它升级），其优先级将自动提升。有关如何识别升级的更多信息，请参见[升级问题算法](/product/issues/states-triage/escalating-issues/)。当问题降级时，其优先级将回到之前的水平。
 
-### Manual Priority Updates
+### 手动优先级更新
 
-You can update issue priority manually at any time, either from the issue details page or from the issue stream. But once an issue's priority has been changed manually, it will no longer be automatically adjusted if the event volume escalates.
+您可以随时从问题详情页面或问题流手动更新问题优先级。但是一旦问题的优先级被手动更改，如果事件量升级，它将不再自动调整。
 
-## Priority in the Issue Stream
+## 问题流中的优先级
 
-The default view on the **Issues** page is the "Prioritized" view, which shows high and medium priority issues. But all views can be filtered to include, for example, only low priority issues by adding the query `issue.priority:low` to the search bar and saving the view.
+**问题**页面上的默认视图是"优先"视图，显示高和中优先级问题。但所有视图都可以通过向搜索栏添加查询`issue.priority:low`并保存视图来过滤，例如仅包含低优先级问题。
 
-You can also update the priority level of an issue directly from the issue stream by clicking on the priority dropdown within an issue.
+您还可以通过点击问题内的优先级下拉菜单直接从问题流更新问题的优先级级别。
 
-![Issue Priority Dropdown](/product/issues/issue-priority/issue-priority-dropdown.png)
+![问题优先级下拉菜单](/product/issues/issue-priority/issue-priority-dropdown.png)
 
-You may also update the priority level of multiple issues at once by selecting them and using the bulk action dropdown.
+您还可以通过选择多个问题并使用批量操作下拉菜单来一次更新多个问题的优先级级别。
 
-![Issue Priority Bulk Update](/product/issues/issue-priority/issue-priority-bulk-edit.png)
+![问题优先级批量更新](/product/issues/issue-priority/issue-priority-bulk-edit.png)

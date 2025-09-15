@@ -1,33 +1,33 @@
 ---
-title: FAQ
+title: 常见问题
 sidebar_order: 30
-description: "Frequently asked questions about the Sentry Toolbar."
+description: "关于 Sentry 工具栏的常见问题。"
 ---
 
-<Expandable permalink title="In what environments should I enable the Toolbar?">
+<Expandable permalink title="我应该在哪些环境中启用工具栏？">
 
-Since the Sentry Toolbar will be visible to users within your app, it's important to consider which environments should render it.
+由于 Sentry 工具栏将对用户可见，因此重要的是要考虑应在哪些环境中渲染它。
 
-If your web application requires authentication to access:
-- In development and staging, always initialize the Sentry Toolbar.
-- In production, conditionally initialize the Sentry Toolbar when an employee is logged in.
+如果您的 Web 应用程序需要身份验证才能访问：
+- 在开发和暂存环境中，始终初始化 Sentry 工具栏。
+- 在生产环境中，仅当员工登录时才初始化 Sentry 工具栏。
 
-If you web application does not require authenticaion:
-- In development and staging environments, initialize the Toolbar at all times.
-- In production environments, do not initialize the Toolbar.
+如果您的 Web 应用程序不需要身份验证：
+- 在开发和暂存环境中，始终初始化工具栏。
+- 在生产环境中，不要初始化工具栏。
 
-Initializing the Sentry Toolbar allows all developers and testers to quickly go from the page they're looking at, back to Sentry for further debugging.
-In production it can make it easier for developers to reproduce issues, but it should not be initialized for all users of the site -- only when an employee/engineer/etc visits.
+初始化 Sentry 工具栏允许所有开发人员和测试人员快速从他们正在查看的页面返回到 Sentry 进行进一步调试。
+在生产环境中，它可以使开发人员更容易重现问题，但不应为网站的所有用户初始化 - 仅在员工/工程师等访问时初始化。
 
-Once you decide where and when you want the Toolbar to appear, you'll write those conditions into your codebase. The specific implementation is something you'll need to write based on how your app works and how your team is set up.
+一旦您决定在哪里以及何时希望工具栏出现，您就需要将这些条件写入您的代码库。具体实现需要您根据应用程序的工作方式和团队的设置来编写。
 
 </Expandable>
 
-<Expandable permalink title="How can I conditionally initialize the Toolbar?">
+<Expandable permalink title="如何有条件地初始化工具栏？">
 
-Implementing the specific conditions for initializing the Toolbar will vary from app to app and whichever framework or template library is in use.
+实现初始化工具栏的特定条件会因应用程序和使用的框架或模板库而异。
 
-For example, the conditions to show the Toolbar in development and staging might look like this, if written in JavaScript:
+例如，如果在开发和暂存中显示工具栏的条件，如果用 JavaScript 编写，可能如下所示：
 
 ```html {tabTitle:CDN}
 <script>
@@ -52,26 +52,25 @@ useSentryToolbar({
 ```
 </Expandable>
 
-<Expandable permalink title="Why is the Toolbar stuck saying 'Connecting to ...'?">
+<Expandable permalink title="为什么工具栏卡在"正在连接到..."？">
 
-If you're seeing the message "Connecting to ...' in the Toolbar, it means that the Toolbar is unable to connect to the Sentry server. This can happen for a few reasons:
+如果您在工具栏中看到消息"正在连接到..."，这意味着工具栏无法连接到 Sentry 服务器。这可能由于几个原因发生：
 
-1. Check your browser console for a message like `Refused to frame 'https://my-org.sentry.io/toolbar/sentry/javascript/iframe/' because it violates the following Content Security Policy directive: "frame-src 'self'".` This means your site is not allowing the toolbar's iframe to load. To fix this you can add your sentry domain into the [`frame-src`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src) directive in your CSP. The result would be a response header that says `Content-Security-Policy: frame-src my-org.sentry.io;`
+1. 检查您的浏览器控制台是否有类似 `Refused to frame 'https://my-org.sentry.io/toolbar/sentry/javascript/iframe/' because it violates the following Content Security Policy directive: "frame-src 'self'".` 的消息。这意味着您的网站不允许工具栏的 iframe 加载。要解决此问题，您可以将您的 sentry 域添加到 CSP 的 [`frame-src`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src) 指令中。结果将是一个响应头，显示 `Content-Security-Policy: frame-src my-org.sentry.io;`
 
-2. The Sentry server is down or unreachable. If this is the case check the following:
-    - Check the [Sentry status page](https://status.sentry.io/) to see if there are any issues.
-    - If the Sentry server is down, you can try again later.
-    - If the Sentry server is unreachable, you can try again later.
+2. Sentry 服务器已关闭或无法访问。如果发生这种情况，请检查以下内容：
+    - 检查 [Sentry 状态页面](https://status.sentry.io/) 查看是否有任何问题。
+    - 如果 Sentry 服务器已关闭，您可以稍后再试。
+    - 如果 Sentry 服务器无法访问，您可以稍后再试。
 </Expandable>
 
-<Expandable permalink title="Are there plans to include the Toolbar in the JavaScript SDK?">
+<Expandable permalink title="有计划将工具栏包含在 JavaScript SDK 中吗？">
 
-The [Sentry Toolbar](https://github.com/getsentry/sentry-toolbar) and the [JavaScript SDK](https://github.com/getsentry/sentry-javascript) are distinct features that we intentionally keep separated.
+[Sentry 工具栏](https://github.com/getsentry/sentry-toolbar)和 [JavaScript SDK](https://github.com/getsentry/sentry-javascript) 是我们有意保持分离的不同功能。
 
-Some of the differences between the two include:
-  - The Toolbar is a UI product focused on making it easier to find and take action on existing data, while the SDK functions as infrastructure to collect and send data to the server.
-  - The Toolbar has a different set of [dependencies](https://github.com/getsentry/sentry-toolbar/blob/main/package.json) and uses different browser APIs that the JavaScript SDK does not use. For example: the Toolbar will interact with things like cookies and local storage. By keeping these pieces of code separate, it's easier to audit the [SDK code on GitHub](https://github.com/getsentry/sentry-javascript) to verify that it is not persisting information inside end-users' browsers.
-  - The setup and deploy instruction are very different. The SDK is best deployed on staging and production environments, and can be configured easily with environment variables. The Sentry Toolbar requires special considerations to deploy it into production, usually by creating a condition so that it's only included for members of your own Sentry organization.
+两者之间的一些差异包括：
+  - 工具栏是一个 UI 产品，专注于更容易查找和采取行动处理现有数据，而 SDK 则作为收集和发送数据到服务器的基础设施。
+  - 工具栏具有不同的[依赖项](https://github.com/getsentry/sentry-toolbar/blob/main/package.json)集，并使用 JavaScript SDK 不使用的不同浏览器 API。例如：工具栏将与 cookie 和本地存储等事物交互。通过保持这些代码片段分离，更容易审计 [GitHub 上的 SDK 代码](https://github.com/getsentry/sentry-javascript) 以验证它不会在最终用户的浏览器中持久化信息。
+  - 设置和部署说明非常不同。SDK 最好部署在暂存和生产环境中，并且可以使用环境变量轻松配置。Sentry 工具栏需要特殊考虑才能部署到生产中，通常通过创建条件，使其仅包含在您自己 Sentry 组织的成员中。
 
 </Expandable>
-

@@ -1,227 +1,227 @@
 ---
 title: GitLab
 sidebar_order: 1
-description: "Learn more about Sentry’s GitLab integration and how it helps you track and resolve bugs faster by using data from your GitLab commits."
+description: "了解更多关于Sentry的GitLab集成以及它如何通过使用GitLab提交中的数据帮助您更快地跟踪和解决错误。"
 ---
 
-## Install
+## 安装
 
 <p>
-Sentry owner, manager, or admin permissions and GitLab owner or maintainer permissions are required to install this integration.
+需要Sentry所有者、管理员或管理员权限以及GitLab所有者或维护者权限才能安装此集成。
 </p>
 
-<Alert title="Note">
+<Alert title="注意">
   <p>
-  We recommend creating a dedicated service account on GitLab when installing this integration rather than using a personal user account. The service account should have owner or maintainer permissions in GitLab.
+  我们建议在为GitLab安装此集成时创建一个专用的服务帐户，而不是使用个人用户帐户。服务帐户应在GitLab中具有所有者或维护者权限。
   </p>
   <p>
-  Since the integration uses personal access tokens for authentication, activities such as comments and work item creation will be attributed to the GitLab user who created the tokens.
+  由于集成使用个人访问令牌进行身份验证，诸如评论和工作项创建等活动将归因于创建令牌的GitLab用户。
   </p>
   <p>
-  Using a service account helps maintain proper access control, prevents disruption when team members leave, and ensures consistent attribution for all features across your organization.
+  使用服务帐户有助于维护适当的访问控制，防止团队成员离开时中断，并确保整个组织中所有功能的一致归因。
   </p>
   <p>
-  After creating the GitLab service account, you will need to sign into Sentry with an user account that has owner, manager, or admin permissions to install the integration.
+  创建GitLab服务帐户后，您需要使用具有所有者、管理员或管理员权限的用户帐户登录Sentry以安装集成。
   </p>
 </Alert>
 
-1. Navigate to **Settings > Integrations > GitLab**.
+1. 导航到**设置 > 集成 > GitLab**。
 
-   ![Install GitLab integration](./img/gitlab-overview.png)
+   ![安装GitLab集成](./img/gitlab-overview.png)
 
-1. In the resulting modal, click "Add Installation".
+1. 在结果模态框中，点击"添加安装"。
 
-   ![Connect Sentry to a GitLab instance](./img/add-installation.png)
+   ![将Sentry连接到GitLab实例](./img/add-installation.png)
 
-1. In the pop-up window, complete the instructions to create a Sentry app within GitLab. Once you’re finished, click "Next".
+1. 在弹出窗口中，完成在GitLab中创建Sentry应用程序的说明。完成后，点击"下一步"。
 
-   ![Configuration modal and Sentry app within GitLab](./img/configuration-modal.png)
+   ![配置模态框和GitLab中的Sentry应用程序](./img/configuration-modal.png)
 
-1. Fill out the resulting GitLab Configuration form with the following information:
+1. 使用以下信息填写生成的GitLab配置表单：
 
-   1. The GitLab URL is the base URL for your GitLab instance. If using gitlab.com, enter https://gitlab.com/.
+   1. GitLab URL是您的GitLab实例的基本URL。如果使用gitlab.com，请输入https://gitlab.com/。
 
-   2. Find the GitLab Group Path in your group’s GitLab page. Groups might contain subgroups and projects. You should not specify the URL to any specific project, just to a group or subgroup.
+   2. 在您的组的GitLab页面中找到GitLab组路径。组可能包含子组和项目。您不应指定任何特定项目的URL，只需指定到组或子组。
 
-      ![GitLab page showing group path](./img/gitlab-groups.png)
+      ![显示组路径的GitLab页面](./img/gitlab-groups.png)
 
-   3. Find the GitLab Application ID and Secret in the Sentry app within GitLab.
+   3. 在GitLab中的Sentry应用程序中找到GitLab应用程序ID和密钥。
 
-      ![GitLab application id and secret](./img/gitlab-app-id.png)
+      ![GitLab应用程序ID和密钥](./img/gitlab-app-id.png)
 
-   4. Use this information to fill out the GitLab Configuration and click "Submit".
+   4. 使用此信息填写GitLab配置并点击"提交"。
 
-      ![GitLab configuration form](./img/gitlab-configuration.png)
+      ![GitLab配置表单](./img/gitlab-configuration.png)
 
-1. In the resulting panel, click "Authorize".
+1. 在结果面板中，点击"授权"。
 
-1. In Sentry, return to Organization Settings > **Integrations**. You’ll see a new instance of GitLab underneath the list of integrations.
+1. 在Sentry中，返回组织设置 > **集成**。您将在集成列表下方看到一个新的GitLab实例。
 
-1. Next to your GitLab Instance, click "Configure". _It’s important to configure to receive the full benefits of commit tracking._
+1. 在您的GitLab实例旁边，点击"配置"。_配置以接收提交跟踪的完整好处非常重要。_
 
-   ![GitLab instance with connected group and highlighted configure button](./img/configure-button.png)
+   ![带有连接组和突出显示配置按钮的GitLab实例](./img/configure-button.png)
 
-1. On the resulting page, click "Add Repository" to select which repositories in which you’d like to begin tracking commits.
+1. 在结果页面上，点击"添加仓库"以选择您希望开始跟踪提交的仓库。
 
-   ![Add repository](./img/add-repo.png)
+   ![添加仓库](./img/add-repo.png)
 
-## Configure
+## 配置
 
-Use GitLab to [track commits](#commit-tracking), identify [suspect commits](#suspect-commits), [resolve via commit or PR](#resolve-via-commit-or-pull-request) and [manage issues](#issue-management).
+使用GitLab来[跟踪提交](#commit-tracking)，识别[可疑提交](#suspect-commits)，[通过提交或PR解决](#resolve-via-commit-or-pull-request)和[管理问题](#issue-management)。
 
-### Issue Management
+### 问题管理
 
-Issue tracking allows you to create GitLab issues from within Sentry and link Sentry issues to existing GitLab issues.
+问题跟踪允许您从Sentry内创建GitLab问题并将Sentry问题链接到现有GitLab问题。
 
-1. Select your issue
+1. 选择您的问题
 
-   ![List of unresolved issues](./img/sentry-unresolved-issues.png)
+   ![未解决问题列表](./img/sentry-unresolved-issues.png)
 
-1. Navigate to Linked Issues on the right panel of the issue's page and click "Link GitLab Issue".
+1. 导航到问题页面右侧面板上的链接问题，然后点击"链接GitLab问题"。
 
-   ![GitLab logo with Link GitLab Issue text](./img/link-gitlab-issue.png)
+   ![带有链接GitLab问题文本的GitLab徽标](./img/link-gitlab-issue.png)
 
-1. You have two options to complete the issue link:
+1. 您有两个选项来完成问题链接：
 
-   1. In the pop-up, you can fill out the appropriate details in the _Create_ tab, and then click "Create Issue".
+   1. 在弹出窗口中，您可以在_创建_选项卡中填写适当的详细信息，然后点击"创建问题"。
 
-      ![pop-up modal to create issue](./img/gitlab-create-issue.png)
+      ![创建问题的弹出模态框](./img/gitlab-create-issue.png)
 
-   1. Or, in the pop-up, you can click the Link tab, search the issue by name, and then click "Link Issue". _Issues aren't currently searchable by number._
+   1. 或者，在弹出窗口中，您可以点击链接选项卡，按名称搜索问题，然后点击"链接问题"。_问题目前无法按编号搜索。_
 
-      ![pop-up modal to search issue name](./img/link-issue-by-name.png)
+      ![按名称搜索问题的弹出模态框](./img/link-issue-by-name.png)
 
-1. To unlink an issue, click on the "X" next to its name under Linked Issues.
+1. 要取消链接问题，请点击链接问题下其名称旁边的"X"。
 
-   ![GitLab logo and project next to an X icon](./img/unlink-issue.png)
+   ![GitLab徽标和项目旁边带有X图标](./img/unlink-issue.png)
 
-### Commit Tracking
+### 提交跟踪
 
-Commit tracking allows you to hone in on problematic commits. With commit tracking, you can better isolate what might be problematic by leveraging information from releases like tags and metadata.
+提交跟踪允许您专注于有问题的提交。通过提交跟踪，您可以通过利用版本中的信息（如标签和元数据）更好地隔离可能的问题。
 
-Once you've configured both [release and commit tracking](/product/releases/), you'll be able to see more thorough information about a release: who made commits, which issues were newly introduced by this release, and which deploys were impacted.
+一旦您配置了[版本和提交跟踪](/product/releases/)，您将能够看到关于版本的更详细信息：谁进行了提交，此版本新引入了哪些问题，以及哪些部署受到影响。
 
-![Dashboard with last commit highlighted](./img/last-commit-in-releases.png)
+![突出显示最后提交的仪表板](./img/last-commit-in-releases.png)
 
-When you investigate deeper into that commit, you can leverage information from metadata like tags.
+当您深入调查该提交时，您可以利用来自元数据（如标签）的信息。
 
-![Issue detail highlighting tags](./img/highlighting-tags.png)
+![突出显示标签的问题详细信息](./img/highlighting-tags.png)
 
-Broadly, this lets you isolate problems in order to see which commits might be problematic.
+总的来说，这使您能够隔离问题，以查看哪些提交可能有问题。
 
-Learn more about [release and commit tracking](/product/releases/).
+了解更多关于[版本和提交跟踪](/product/releases/)的信息。
 
-### Resolve via Commit or Pull Request
+### 通过提交或拉取请求解决
 
-Once you've added a repository (see configuration step 8), you can start resolving issues by including `fixes <SHORT-ID>` in your commit messages. You might want to type something in the commit like: "this fixes MyApp-AB12" or "Fixes MyApp-317". The keyword to include is **fixes**. You can also resolve issues with pull requests by including `fixes <SHORT-ID>` in the title or description. This will automatically resolve the issue in the next release.
+一旦您添加了仓库（参见配置步骤8），您可以通过在提交消息中包含`fixes <SHORT-ID>`开始解决问题。您可能想在提交中输入类似"这修复了MyApp-AB12"或"修复了MyApp-317"的内容。要包含的关键字是**fixes**。您还可以通过在标题或描述中包含`fixes <SHORT-ID>`通过拉取请求解决问题。这将在下一个版本中自动解决问题。
 
-A `<SHORT-ID>` may look something like 'BACKEND-C' in the image below.
+`<SHORT-ID>`可能看起来类似于下图中的'BACKEND-C'。
 
-![Issue detail highlighting suspect commits](./img/short-id.png)
+![突出显示可疑提交的问题详细信息](./img/short-id.png)
 
-### Stack Trace Linking
+### 堆栈跟踪链接
 
-Stack trace linking takes you from a file in your Sentry stack trace to that same file in your source code. If you have commit tracking set up in Sentry, we can take you to the exact version (using the commit associated with the event) of the source code when the error occurred. Otherwise we'll link you to the current state of the source code (using the default **branch**).
+堆栈跟踪链接将您从Sentry堆栈跟踪中的文件带到源代码中的同一文件。如果您在Sentry中设置了提交跟踪，我们可以带您到源代码的确切版本（使用与事件关联的提交）。否则我们将链接到源代码的当前状态（使用默认**分支**）。
 
-1. Navigate to **Settings > Integrations > GitLab > Configurations**.
+1. 导航到**设置 > 集成 > GitLab > 配置**。
 
-1. Click the "Configure" button next to your GitLab Instance.
+1. 点击GitLab实例旁边的"配置"按钮。
 
-1. Click the **Code Mappings** tab.
+1. 点击**代码映射**选项卡。
 
-1. Set up a code mapping for each project for which you want to enable stack trace linking. To create a new code mapping, click **Add Mapping**.
+1. 为您希望启用堆栈跟踪链接的每个项目设置代码映射。要创建新的代码映射，点击**添加映射**。
 
-1. Fill out the form, then click **Save Changes**. Each form field is described below:
+1. 填写表单，然后点击**保存更改**。每个表单字段描述如下：
 
-   - **Project** (required): This is the Sentry project.
-   - **Repo** (required): This is the GitLab project associated with the Sentry project above. If you have more than one GitLab project being used per Sentry project, you'll need multiple code mappings.
-   - **Branch** (required): This is the default branch of your code we fall back to if you do not have commit tracking set up.
-   - **Stack Trace Root** and **Source Code Root** (optional): See below for information on determining these values.
+   - **项目**（必需）：这是Sentry项目。
+   - **仓库**（必需）：这是与上述Sentry项目关联的GitLab项目。如果您每个Sentry项目使用多个GitLab项目，您将需要多个代码映射。
+   - **分支**（必需）：这是您的代码的默认分支，如果您没有设置提交跟踪，我们将回退到此分支。
+   - **堆栈跟踪根**和**源代码根**（可选）：有关确定这些值的信息，请参见下文。
 
-#### Stack Trace Root and Source Code Root
+#### 堆栈跟踪根和源代码根
 
 <Alert>
 
-The following information is only valid for platforms which use traditional file paths. Platforms with package names (such as **Java**, **Cocoa**, and **Flutter**) require additional steps.
+以下信息仅对使用传统文件路径的平台有效。具有包名称的平台（如**Java**、**Cocoa**和**Flutter**）需要额外步骤。
 
 </Alert>
 
-First, navigate to a stack trace that you wish to map. Find an **In App** frame, which is denoted by a bubble on the right side of the frame. The filename will be shown as the first piece of text at the left hand side of the frame header. In this example, it is `src/main.py`.
+首先，导航到您希望映射的堆栈跟踪。找到一个**应用程序内**框架，该框架在框架右侧用气泡表示。文件名将显示为框架标题左侧的第一个文本。在此示例中，它是`src/main.py`。
 
 <Include name="common-imgs/code-mappings-stacktrace" />
 
-For certain native platforms, the stack trace will look different. In cases like these, you can find the absolute path by hovering over the filename.
+对于某些原生平台，堆栈跟踪看起来会有所不同。在这种情况下，您可以通过将鼠标悬停在文件名上来找到绝对路径。
 
-![Highlighting where in the UI to find the file path for native stack traces](./img/code-mappings-stacktrace-native.png)
+![突出显示原生堆栈跟踪的文件路径UI位置](./img/code-mappings-stacktrace-native.png)
 
-If you aren’t sure, you can look at the event JSON by clicking on the `{}` button in the event header. Find the text in the frame's `filename` or `abs_path`.
+如果您不确定，您可以通过点击事件标题中的`{}`按钮查看事件JSON。在框架的`filename`或`abs_path`中找到文本。
 
 <Include name="common-imgs/code-mappings-event-json" />
 
-Next, locate the file seen in the stack trace with your source code provider (e.g. GitHub). In this example, the path is `flask/src/main.py` (`empower` is ignored since it is the name of the repo).
+接下来，在您的源代码提供商（例如GitHub）中找到堆栈跟踪中看到的文件。在此示例中，路径是`flask/src/main.py`（`empower`被忽略，因为它是仓库的名称）。
 
 <Include name="common-imgs/code-mappings-source-file" />
 
-Compare the file path from the stack trace with the path found in your source repository. In this example, the `src/` folder in the stack trace matches the `flask/src` folder in the source code. Using that information, set the **Stack Trace Root** to `src/` and the **Source Code Root** to `flask/src/`. This tells Sentry to replace all file paths beginning in `src/` with `flask/src/` when searching for the source code.
+比较堆栈跟踪中的文件路径与源代码中找到的路径。在此示例中，堆栈跟踪中的`src/`文件夹与源代码中的`flask/src`文件夹匹配。使用该信息，将**堆栈跟踪根**设置为`src/`，将**源代码根**设置为`flask/src/`。这告诉Sentry在搜索源代码时将所有以`src/`开头的文件路径替换为`flask/src/`。
 
-For best results, we recommend always providing a non-empty value for the **Stack Trace Root** when possible.
+为获得最佳结果，我们建议尽可能始终为**堆栈跟踪根**提供非空值。
 
 <Include name="common-imgs/code-mappings-configure-modal" />
 
-### Suspect Commits
+### 可疑提交
 
-Once you've set up stack trace linking, Sentry can use information from your source code provider to suggest the commit that likely introduced the error. The first frame in the stack trace is considered suspect when looking at them top-down. If the first frame is not in-app, the next frame is considered suspect.
+一旦您设置了堆栈跟踪链接，Sentry可以使用来自您的源代码提供商的信息来建议可能引入错误的提交。堆栈跟踪中的第一帧在从上到下查看时被视为可疑。如果第一帧不在应用程序内，则下一帧被视为可疑。
 
-After pinpointing the suspect commit, you can also identify the developer who made the commit and assign them the task of fixing the error.
+在确定可疑提交后，您还可以识别进行提交的开发者，并分配给他们修复错误的任务。
 
-![Issue detail highlighting suspect commits](./img/highlighting-suspect-commits.png)
+![突出显示可疑提交的问题详细信息](./img/highlighting-suspect-commits.png)
 
-Learn about setting up this functionality in [Suspect Commits](/product/issues/suspect-commits/).
+了解如何在[可疑提交](/product/issues/suspect-commits/)中设置此功能。
 
-### Code Owners
+### 代码所有者
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-Import your existing GitLab CODEOWNERS files to automatically assign Sentry issues and route alerts to the responsible individuals and teams.
+导入您现有的GitLab CODEOWNERS文件，以自动分配Sentry问题并将警报路由到负责的个人和团队。
 
-For more details, see the full documentation for [Code Owners](/product/issues/ownership-rules/#code-owners).
+有关更多详细信息，请查看[代码所有者](/product/issues/ownership-rules/#code-owners)的完整文档。
 
-## Troubleshooting
+## 故障排除
 
-- I'm using GitLab on-premises. Do I need to allow Sentry's IP addresses?
+- 我使用的是本地GitLab。我需要允许Sentry的IP地址吗？
 
-  - Yes. You can find our IP ranges [ here ](/security-legal-pii/security/ip-ranges/).
-  - Verify the provided installation URL is a fully qualified domain name (FQDN), which is resolvable on the internet.
-  - Make sure that Sentry's access to your installation URL is not path restricted.
-  - To add the GitLab repo, navigate to ** GitLab > Admin area > Settings > Network > Outbound requests > Allow requests to the local network from hooks and services ** and enable the option.
+  - 是的。您可以在[这里](/security-legal-pii/security/ip-ranges/)找到我们的IP范围。
+  - 验证提供的安装URL是完全限定域名（FQDN），可在互联网上解析。
+  - 确保Sentry对您的安装URL的访问不受路径限制。
+  - 要添加GitLab仓库，导航到**GitLab > 管理区域 > 设置 > 网络 > 出站请求 > 允许来自钩子和服务的本地网络请求**并启用该选项。
 
-- I'm using both GitLab on-premises and self-hosted Sentry, and I get an error `Error Communicating with GitLab (HTTP 422): unknown error` when I try to use the integration. How can I fix this?
+- 我同时使用本地GitLab和自托管Sentry，当我尝试使用集成时收到错误`与GitLab通信错误（HTTP 422）：未知错误`。我该如何修复？
 
-  - By default, GitLab does not allow Hooks to communicate with the local private network, which prevents the integration with Sentry from working. To enable local network communication in GitLab, enable "Allow requests to the local network from hooks and services" on the **Admin > Settings > Network** page.
+  - 默认情况下，GitLab不允许钩子与本地专用网络通信，这阻止了与Sentry的集成工作。要在GitLab中启用本地网络通信，请在**管理 > 设置 > 网络**页面上启用"允许来自钩子和服务对本地网络的请求"。
 
-- Do you support subgroups?
+- 您支持子组吗？
 
-  - Currently, we only support subgroups for users using GitLab 11.6 or higher.
+  - 目前，我们仅支持使用GitLab 11.6或更高版本的用户的子组。
 
-- My repositories are hosted under my user account, not a group account. Can I still use this integration?
+- 我的仓库托管在我的用户帐户下，而不是组帐户下。我仍然可以使用此集成吗？
 
-  - Unfortunately, not. The GitLab integration only works for repositories that are hosted under group accounts.
+  - 不幸的是，不行。GitLab集成仅适用于托管在组帐户下的仓库。
 
-- Are there pricing restrictions?
+- 有定价限制吗？
 
-  - This integration is available for organizations on the [Team, Business, or Enterprise plan](https://sentry.io/pricing/).
+  - 此集成适用于[团队、商业或企业方案](https://sentry.io/pricing/)上的组织。
 
-- Who has permission to install this?
+- 谁有权限安装？
 
-  - You must have both owner/manager/admin permissions in Sentry and owner permissions in GitLab to successfully install this integration.
+  - 您必须在Sentry和GitLab中都拥有所有者/管理员/管理员权限才能成功安装此集成。
 
-- Why am I getting a `500` response during installation or configuration?
+- 为什么我在安装或配置期间收到`500`响应？
 
-  - First, make sure you’ve allowed our IPs, which can be found [here](/security-legal-pii/security/ip-ranges/). The 500 response is coming from GitLab, so you may need to try again or double-check that your settings and permissions are correct in GitLab. You must have both owner/manager/admin permissions in Sentry as well as owner permissions in GitLab to successfully install this integration.
+  - 首先，确保您已允许我们的IP，可以在[这里](/security-legal-pii/security/ip-ranges/)找到。500响应来自GitLab，因此您可能需要重试或仔细检查您的设置和权限在GitLab中是否正确。您必须在Sentry中拥有所有者/管理员/管理员权限以及在GitLab中拥有所有者权限才能成功安装此集成。
 
-- Why am I seeing an "Invalid Repository Names" error?
+- 为什么我收到"无效仓库名称"错误？
 
-  - GitLab takes into account the whitespace before and after the `/` . On the Repositories page (Organization Settings > Repositories), you’ll notice a space (for example, "Owner / Repo" as opposed to "Owner/Repo"), which will need to be included in any command you’re running. If you are using GitLab’s [environment variables](https://docs.gitlab.com/ee/ci/variables/#debug-tracing) to pass the repository as `CI_PROJECT_PATH` in a cURL request for example, it may not include the spaces and you’ll need to hardcode the name in order for it to work.
+  - GitLab会考虑`/`前后的空格。在仓库页面上（组织设置 > 仓库），您会注意到一个空格（例如"所有者 / 仓库"而不是"所有者/仓库"），这需要在您运行的任何命令中包含。如果您使用GitLab的[环境变量](https://docs.gitlab.com/ee/ci/variables/#debug-tracing)将仓库作为`CI_PROJECT_PATH`在cURL请求中传递，它可能不包含空格，您需要硬编码名称才能使其工作。
 
-- Why am I always the reporter?
-  - When using the GitLab integration to create issues, the “reporter” field is populated as the person who set up the integration by default — this is not configurable.
+- 为什么我总是报告者？
+  - 使用GitLab集成创建问题时，"报告者"字段默认设置为设置集成的人 - 这是不可配置的。

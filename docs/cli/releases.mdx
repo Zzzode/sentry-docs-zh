@@ -1,206 +1,206 @@
 ---
-title: "Release Management"
+title: "发布管理"
 sidebar_order: 2
-description: "Sentry's command line interface can be used for release management. The CLI allows you to create, edit and delete releases as well as upload release artifacts."
+description: "Sentry 的命令行界面可用于发布管理。CLI 允许您创建、编辑和删除发布以及上传发布工件。"
 ---
 
-The `sentry-cli` tool can be used for release management on Sentry. It allows you to create, edit and delete releases as well as upload release artifacts for them. Note that releases are global per organization. If you want the releases in different projects to be treated as separate entities, make the version name unique across the organization. For example, if you have projectA and projectB that share version numbers, you can name the releases `projectA-1.0` and `projectB-1.0` respectively.
+`sentry-cli` 工具可用于 Sentry 上的发布管理。它允许您创建、编辑和删除发布以及为它们上传发布工件。请注意，发布是按组织全局的。如果您希望不同项目中的发布被视为单独的实体，请在组织中使版本名称唯一。例如，如果您有 projectA 和 projectB 共享版本号，您可以分别将发布命名为 `projectA-1.0` 和 `projectB-1.0`。
 
 <Alert>
 
-Because releases work on projects you will need to specify the organization and project you are working with. For more information about this refer to [Working with Projects](/cli/configuration/#sentry-cli-working-with-projects).
+因为发布在项目级别工作，您需要指定您正在处理的组织和项目。有关此的更多信息，请参阅[使用项目](/cli/configuration/#sentry-cli-working-with-projects)。
 
 </Alert>
 
-## Creating Releases
+## 创建发布
 
-Releases are created with the `sentry-cli releases new` command. It takes at the very least a version identifier that uniquely identifies the releases. There are a few restrictions -- the release name cannot:
+使用 `sentry-cli releases new` 命令创建发布。它至少需要一个唯一标识发布的版本标识符。有一些限制 - 发布名称不能：
 
-- contain newlines, tabulator characters, forward slashes(/), or back slashes(\\)
-- be (in their entirety) period (.), double period (..), or space ( )
-- exceed 200 characters
+- 包含换行符、制表符、正斜杠(/) 或反斜杠(\\)
+- 完全是句点(.)、双句点(..) 或空格( )
+- 超过 200 个字符
 
-The value can be arbitrary, but for certain platforms, recommendations exist:
+该值可以是任意的，但对于某些平台，存在建议：
 
-- for mobile devices use `package-name@version-number` or `package-name@version-number+build-number`. **Do not** use `VERSION_NUMBER (BUILD_NUMBER)` as the parenthesis are used for display purposes (foo@1.0+2 becomes 1.0 (2)), so invoking them will cause an error.
-- if you use a DVCS we recommend using the identifying hash (eg: the commit SHA, `da39a3ee5e6b4b0d3255bfef95601890afd80709`). You can let sentry-cli automatically determine this hash for supported version control systems with `sentry-cli releases propose-version`.
-- if you tag releases we recommend using the release tag prefixed with a product or package name (for example, `my-project-name@2.3.12`).
+- 对于移动设备使用 `package-name@version-number` 或 `package-name@version-number+build-number`。**不要**使用 `VERSION_NUMBER (BUILD_NUMBER)`，因为括号用于显示目的（foo@1.0+2 变为 1.0 (2)），所以调用它们将导致错误。
+- 如果您使用 DVCS，我们建议使用标识哈希（例如：提交 SHA，`da39a3ee5e6b4b0d3255bfef95601890afd80709`）。您可以让 sentry-cli 自动为支持的版本控制系统确定此哈希，使用 `sentry-cli releases propose-version`。
+- 如果您标记发布，我们建议使用产品或包名称前缀的发布标签（例如，`my-project-name@2.3.12`）。
 
 ```bash
 #!/bin/sh
 sentry-cli releases new "$VERSION"
 ```
 
-Releases can also be auto created by different systems. For instance upon uploading a source map a release is automatically created. Likewise releases are created by some clients when an event for a release comes in.
+发布也可以由不同的系统自动创建。例如，在上传源映射时，发布会自动创建。同样，当某个发布的事件进入时，某些客户端会创建发布。
 
-## Finalizing Releases
+## 完成发布
 
-By default a release is created “unreleased”. Finalizing a release means that we populate a second timestamp on the release record, which is prioritized over `date_created` when sorting releases in [sentry.io](https://sentry.io). Release finalization (and the timestamp) also affects:
+默认情况下，发布是"未发布"创建的。完成发布意味着我们在发布记录上填充第二个时间戳，这在 [sentry.io](https://sentry.io) 中对发布进行排序时优先于 `date_created`。发布完成（和时间戳）也影响：
 
-- What counts as "the next release" for resolving issues
-- What release is used as the base for associating commits if you use `--auto`
+- 什么算作"下一个发布"以解决问题
+- 如果您使用 `--auto`，什么发布用作关联提交的基础
 
-In addition, it creates an entry in the **Activity** stream.
+此外，它在**活动**流中创建一个条目。
 
-You can change this by passing either `--finalize` to the `new` command, which will immediately finalize the release, or by separately calling `sentry-cli releases finalize VERSION` later on, which is useful if you are managing releases as part of a build process. For example:
+您可以通过向 `new` 命令传递 `--finalize` 来更改此设置，这将立即完成发布，或者稍后单独调用 `sentry-cli releases finalize VERSION`，如果您将发布管理作为构建过程的一部分，这很有用。例如：
 
 ```bash
 #!/bin/sh
 sentry-cli releases new "$VERSION"
-# do your build steps here
-# once you are done, finalize
+# 在此处执行您的构建步骤
+# 完成后，完成发布
 sentry-cli releases finalize "$VERSION"
 ```
 
-You can also choose to finalize the release when you've made the release live (when you've deployed to your machines, enabled in the App store, etc.).
+您还可以选择在发布上线时完成发布（当您部署到您的机器、在 App Store 中启用等时）。
 
-If you are using git you can ask Sentry to determine `$VERSION`:
+如果您使用 git，您可以要求 Sentry 确定 `$VERSION`：
 
 ```bash
 #!/bin/sh
 VERSION=`sentry-cli releases propose-version`
 ```
 
-## Commit Integration
+## 提交集成
 
-If you have [repositories configured](/product/releases/setup/release-automation/) within your Sentry organization, you can associate commits with your release automatically or manually. If you don't have a source code integration installed, you can still send Sentry commit information. See [Alternatively: Without a Repository Integration](#alternatively-without-a-repository-integration) to associate commits using the git tree of your local repo.
+如果您在 Sentry 组织内[配置了存储库](/product/releases/setup/release-automation/)，您可以自动或手动将提交与发布关联。如果您没有安装源代码集成，您仍然可以发送 Sentry 提交信息。请参阅[替代方案：没有存储库集成](#alternatively-without-a-repository-integration)以使用本地仓库的 git 树关联提交。
 
-To integrate commits automatically, you need to deploy from a git repository that sentry-cli can discover from your current working directory and set commits with the `--auto` flag:
+要自动集成提交，您需要从 sentry-cli 可以从当前工作目录发现的 git 仓库部署，并使用 `--auto` 标志设置提交：
 
 ```bash
 sentry-cli releases set-commits "$VERSION" --auto
 ```
 
-In case you are deploying without access to the git repository, you can manually specify the commits instead. To do this, pass the `--commit` parameter to the `set-commits` command in the format `REPO_NAME@REVISION`. You can repeat this for as many repositories as you have:
+如果您在没有访问 git 仓库的情况下部署，您可以改为手动指定提交。为此，以 `REPO_NAME@REVISION` 格式将 `--commit` 参数传递给 `set-commits` 命令。您可以为您拥有的任意数量的存储库重复此操作：
 
-```bash {tabTitle:bash (one repo)}
+```bash {tabTitle:bash (一个仓库)}
 sentry-cli releases set-commits "$VERSION" --commit "repo-owner/repo-name@deadbeef"
 ```
 
-```bash {tabTitle:bash (many repos)}
+```bash {tabTitle:bash (多个仓库)}
 sentry-cli releases set-commits "$VERSION" --commit "repo-owner/repo-name@deadbeef" --commit "repo-owner/repo-name@deadbeef2" --commit "repo-owner/repo-name@deadbeef3"
 ```
 
-To see which repos are available for the organization, you can run `sentry-cli repos list` which will return a list of configured repositories.
+要查看组织中可用的存储库，您可以运行 `sentry-cli repos list`，它将返回已配置存储库的列表。
 
-Note that you need to refer to releases you need to use the actual full commit SHA. If you want to refer to tags or references (like _HEAD_), the repository needs to be checked out and reachable from the path where you invoke _sentry-cli_.
+请注意，您需要使用实际完整的提交 SHA 来引用发布。如果您想引用标签或引用（如 _HEAD_），则存储库需要被检出，并且可以从调用 _sentry-cli_ 的路径访问。
 
-If you also want to set a previous commit instead of letting the server use the previous release as the base point you can do that by setting a commit range. Replace `<commit_of_previous_release>` and `<commit_of_current_release>` with the last commit of the previous release and the release you are creating, respectively.
+如果您还想设置先前的提交而不是让服务器使用先前的发布作为基点，您可以通过设置提交范围来执行此操作。将 `<commit_of_previous_release>` 和 `<commit_of_current_release>` 分别替换为先前发布的最后一次提交和您正在创建的发布。
 
 ```bash
 sentry-cli releases set-commits "$VERSION" --commit "repo-owner/repo-name@<commit_of_previous_release>..<commit_of_current_release>"
 ```
 
-### Alternatively: Without a Repository Integration
+### 替代方案：没有存储库集成
 
-You can still use the `--auto` flag, and the CLI will automatically use the git tree of your local repo, and associate commits between the previous release's commit and the current head commit with the release. If this is the first release, Sentry will use the latest 20 commits. This behavior is configurable with the `--initial-depth` flag.
+您仍然可以使用 `--auto` 标志，CLI 将自动使用本地仓库的 git 树，并将先前发布的提交与当前头提交之间的提交与发布关联。如果这是第一个发布，Sentry 将使用最新的 20 个提交。此行为可使用 `--initial-depth` 标志配置。
 
-You can use the `--local` flag to enable this behavior by default.
+您可以使用 `--local` 标志默认启用此行为。
 
 ```bash
 sentry-cli releases set-commits "$VERSION" --local
 ```
 
-If you receive an "Unable to Fetch Commits" email, take a look at our [help center article](https://sentry.zendesk.com/hc/en-us/articles/23968845267739-Why-am-I-receiving-the-email-Unable-to-Fetch-Commits).
+如果您收到"无法获取提交"电子邮件，请查看我们的[帮助中心文章](https://sentry.zendesk.com/hc/en-us/articles/23968845267739-Why-am-I-receiving-the-email-Unable-to-Fetch-Commits)。
 
-### Dealing With Missing Commits
+### 处理缺失的提交
 
-There are scenarios in which your repositories may be missing commits previously used in the release.
-This can happen whenever you modify the commit in question by, for example, amending it, rebasing, or squashing multiple commits together.
-In this case, Sentry CLI will be unable to find it, and will throw an error that the commit cannot be found.
+在某些情况下，您的存储库可能缺少先前在发布中使用的提交。
+当您通过修改相关提交（例如，修改它、变基或将多个提交压缩在一起）时，可能会发生这种情况。
+在这种情况下，Sentry CLI 将无法找到它，并会抛出无法找到提交的错误。
 
-When this happens, you can pass an additional `--ignore-missing` flag. This will allow the command to fall back to the default behavior,
-which is creating a release with a specified number of commits (see the section above).
+发生这种情况时，您可以传递额外的 `--ignore-missing` 标志。这将允许命令回退到默认行为，
+即创建具有指定数量提交的发布（参见上面的部分）。
 
 ```bash
 sentry-cli releases set-commits "$VERSION" --auto --ignore-missing
 ```
 
-## Upload Source Maps
+## 上传源映射
 
-You can upload sourcemaps via the `sentry-cli sourcemaps upload` command:
+您可以通过 `sentry-cli sourcemaps upload` 命令上传源映射：
 
 ```bash
 sentry-cli sourcemaps upload /path/to/sourcemaps
 ```
 
-This command provides several options and attempts as much auto detection as possible. By default, it will scan the provided path for files and upload them named by their path with a `~/` prefix. It will also attempt to figure out references between minified files and source maps based on the filename. So if you have a file named `foo.min.js` which is a minified JavaScript file and a source map named `foo.min.map` for example, it will send a long a `Sourcemap` header to associate them. This works for files the system can detect a relationship of.
+此命令提供了几个选项，并尝试尽可能多的自动检测。默认情况下，它将扫描提供的路径以查找文件，并按其路径以 `~/` 前缀上传它们。它还将尝试根据文件名找出缩小文件和源映射之间的引用。因此，如果您有一个名为 `foo.min.js` 的文件，它是一个缩小的 JavaScript 文件，以及一个名为 `foo.min.map` 的源映射，它将发送一个 `Sourcemap` 标头来关联它们。这对于系统可以检测到关系的文件有效。
 
-By default, `sentry-cli` rewrites source maps before upload:
+默认情况下，`sentry-cli` 在上传前重写源映射：
 
-1.  It flattens out indexed source maps. This has the advantage that it can compress source maps sometimes which might improve your processing times and can work with tools that embed local paths for source map references which would not work on the server. This is useful when working with source maps for development purposes in particular.
-2.  Local file references in source maps for source contents are inlined. This works particularly well with React Native projects which might reference thousands of files you probably do not want to upload separately.
-3.  It automatically validates source maps before upload very accurately which can spot errors you would not find otherwise until an event comes in. This is an improved version of what `--validate` does otherwise.
+1. 它展平索引源映射。这具有有时可以压缩源映射的优势，这可能会改善您的处理时间，并且可以与嵌入源映射引用的本地路径的工具一起使用，这些路径在服务器上将无法工作。这在为开发目的处理源映射时特别有用。
+2. 源映射中源内容的本地文件引用被内联。这对于 React Native 项目特别有效，这些项目可能引用您可能不想单独上传的数千个文件。
+3. 它在非常准确地上传前自动验证源映射，可以发现您否则不会发现的错误，直到事件进入。这是 `--validate` 否则所做的改进版本。
 
-The following options exist to change the behavior of the upload command:
+以下选项可用于更改上传命令的行为：
 
 `--dist`
 
-Sets the distribution identifier for uploaded files. This identifier is used to make a distinction between multiple files of the same name within a single release. `dist` can be used to disambiguate build or deployment variants. For example, `dist` can be the build number of an Xcode build or the version code of an Android build.
+为上传的文件设置分发标识符。此标识符用于区分单个发布中的多个同名文件。`dist` 可用于消除构建或部署变体的歧义。例如，`dist` 可以是 Xcode 构建的构建号或 Android 构建的版本代码。
 
 `--no-sourcemap-reference`
 
-This prevents the automatic detection of source map references. It’s not recommended to use this option since the system falls back to not emitting a reference anyways. It is however useful if you are manually adding `sourceMapURL` comments to the minified files and you know that they are more correct than the autodetection.
+这可以防止源映射引用的自动检测。不建议使用此选项，因为系统无论如何都会回退到不发出引用。但是，如果您手动向缩小文件添加 `sourceMapURL` 注释，并且您知道它们比自动检测更准确，那么它很有用。
 
 `--no-rewrite`
 
-Disables rewriting of matching source maps. By default, the tool will rewrite sources, so that indexed maps are flattened and missing sources are inlined if possible. This fundamentally changes the upload process to be based on source maps and minified files exclusively and comes in handy for setups like react-native that generate source maps that would otherwise not work for Sentry.
+禁用匹配源映射的重写。默认情况下，该工具将重写源，以便索引映射被展平，并且尽可能内联缺失的源。这从根本上改变了上传过程，使其仅基于源映射和缩小文件，并且对于像 react-native 这样的设置很有用，这些设置生成的源映射否则将无法用于 Sentry。
 
 `--strip-prefix` / `--strip-common-prefix`
 
-Unless `--no-rewrite` is specified, this will chop-off a prefix from all sources references inside uploaded source maps. For instance, you can use this to remove a path that is build machine specific. The common prefix version will attempt to automatically guess what the common prefix is and chop that one off automatically.
-This will not modify the uploaded sources paths. To do that, point the `sourcemaps upload` command to a more precise directory instead.
+除非指定了 `--no-rewrite`，否则这将从上传的源映射中的所有源引用中删除前缀。例如，您可以使用它来删除特定于构建机器的路径。公共前缀版本将尝试自动猜测公共前缀是什么，并自动删除它。
+这不会修改上传的源路径。为此，请将 `sourcemaps upload` 命令指向更精确的目录。
 
 `--validate`
 
-This attempts source map validation before upload when rewriting is not enabled. It will spot a variety of issues with source maps and cancel the upload if any are found. This is not the default as this can cause false positives.
+这尝试在禁用重写时在上传前验证源映射。它将发现各种源映射问题，如果发现任何问题，则取消上传。这不是默认值，因为这可能导致误报。
 
 `--url-prefix`
 
-This sets an URL prefix in front of all files. This defaults to `~/` but you might want to set this to the full URL. This is also useful if your files are stored in a sub folder. eg: `--url-prefix '~/static/js'`
+这在所有文件前面设置 URL 前缀。这默认为 `~/`，但您可能希望将其设置为完整的 URL。如果您的文件存储在子文件夹中，这也很有用。例如：`--url-prefix '~/static/js'`
 
 `--ext`
 
-Overrides the list of file extensions to upload. By default, the following file extensions are processed: `js`, `map`, `jsbundle` and `bundle`. The tool will automatically detect the type of the file by the file contents (eg: sources, minified sources, and source maps) and act appropriately. For multiple extensions you need to repeat the option, e.g.: `--ext js --ext map`.
+覆盖要上传的文件扩展名列表。默认情况下，处理以下文件扩展名：`js`、`map`、`jsbundle` 和 `bundle`。该工具将通过文件内容自动检测文件类型（例如：源、缩小源和源映射）并相应地进行操作。对于多个扩展名，您需要重复该选项，例如：`--ext js --ext map`。
 
 `--ignore`
 
-Specifies one or more patterns of ignored files and folders. Overrides patterns specified in the ignore file. See `--ignore-file` for more information. Note that unlike `--ignore-file`, this argument is interpreted relative to the specified path argument.
+指定一个或多个被忽略文件和文件夹的模式。覆盖忽略文件中指定的模式。有关更多信息，请参阅 `--ignore-file`。请注意，与 `--ignore-file` 不同，此参数是相对于指定的路径参数解释的。
 
 `--ignore-file`
 
-Specifies a file containing patterns of files and folders to ignore during the scan. Ignore patterns follow the [gitignore](https://git-scm.com/docs/gitignore#_pattern_format) rules and are evaluated relative to the location of the ignore file. The file is assumed in the current working directory or any of its parent directories.
+指定一个文件，其中包含在扫描期间要忽略的文件和文件夹的模式。忽略模式遵循 [gitignore](https://git-scm.com/docs/gitignore#_pattern_format) 规则，并相对于忽略文件的位置进行评估。该文件假定在当前工作目录或其任何父目录中。
 
 `--strict`
 
-Fail with a non-zero exit code if there are no sourcemaps to upload in the provided directory. Without this argument, the command succeeds if there are no sourcemaps to upload.
+如果在提供的目录中没有源映射可上传，则以非零退出代码失败。如果没有此参数，如果没有源映射可上传，则命令成功。
 
-Some example usages:
+一些使用示例：
 
 ```bash
-# Rewrite and upload all sourcemaps in /path/to/sourcemaps
+# 重写并上传 /path/to/sourcemaps 中的所有源映射
 sentry-cli sourcemaps upload /path/to/sourcemaps
 
-# Prefix all paths with ~/static/js to match where the sources are hosted online
+# 使用 ~/static/js 前缀所有路径以匹配在线托管源的位置
 sentry-cli sourcemaps upload /path/to/sourcemaps --url-prefix '~/static/js'
 
-# Remove a common prefix if all source maps are located in a subdirectory
+# 如果所有源映射都位于子目录中，则删除公共前缀
 sentry-cli sourcemaps upload /path/to/sourcemaps --url-prefix '~/static/js' \
   --strip-common-prefix
 
-# Omit all files specified in .sentryignore
+# 省略 .sentryignore 中指定的所有文件
 sentry-cli sourcemaps upload /path/to/sourcemaps --ignore-file .sentryignore
 ```
 
-## Creating Deploys
+## 创建部署
 
-You can also associate deploys with releases. To create a deploy you first create a release and then a deploy for it. At the very least, you should supply the “environment” the deploy goes to (production, staging etc.). You can freely define this:
+您还可以将部署与发布关联。要创建部署，您首先创建一个发布，然后为其创建一个部署。至少，您应该提供部署到的"环境"（生产、暂存等）。您可以自由定义此环境：
 
 ```bash
 sentry-cli deploys new --release "$VERSION" -e ENVIRONMENT
 ```
 
-Optionally, you can also define how long the deploy took:
+可选地，您还可以定义部署所需的时间：
 
 ```bash
 start=$(date +%s)
@@ -209,7 +209,7 @@ now=$(date +%s)
 sentry-cli deploys new --release "$VERSION" -e ENVIRONMENT -t $((now-start))
 ```
 
-Deploys can be listed too (however they cannot be deleted):
+部署也可以列出（但它们不能被删除）：
 
 ```bash
 sentry-cli deploys list --release "$VERSION"

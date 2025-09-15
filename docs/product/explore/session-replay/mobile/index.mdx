@@ -1,56 +1,56 @@
 ---
-title: "Session Replay for Mobile"
+title: "移动端会话重放"
 sidebar_order: 20
-description: "Use Session Replay for Mobile to get reproductions of user sessions. You'll be able to repro issues faster and get a better understanding of user impact."
+description: "使用移动端会话重放获取用户会话的重现，您将能够更快地重现问题并更好地了解用户影响。"
 ---
 
-Session Replay allows you to see reproductions of user sessions, which can help you understand what happened before, during, and after an error or performance issue occurred. As you play back each session, you'll be able to see every user interaction in relation to network requests, frontend and backend errors, backend spans, and more.
+会话重放允许您查看用户会话的重现，这可以帮助您了解错误发生之前、期间和之后发生了什么。当您回放每个会话时，您将能够看到每个用户交互与网络请求、前端和后端错误、后端跨度等的关系。
 
-Replays help you see exactly how the user experience is impacted by errors. Because they're integrated with our Issues product, you'll be able to see session replays connected to error events on the [Issue Details](/product/issues/issue-details/) page in Sentry. To make sure backend errors are also included in the replay, see our [backend set up instructions](/product/explore/session-replay/web/getting-started/#replays-for-backend-errors).
+重放帮助您准确了解用户如何受到错误的影响。因为它们与我们的问题产品集成，您将能够在 Sentry 的[问题详情](/product/issues/issue-details/)页面上看到连接到错误事件的会话重放。为确保后端错误也包含在重放中，请参见我们的[后端设置说明](/product/explore/session-replay/web/getting-started/#replays-for-backend-errors)。
 
-![Session Replay User Interface](./img/session-replay.png)
+![会话重放用户界面](./img/session-replay.png)
 
-## What is Session Replay?
+## 什么是会话重放？
 
-Session Replay for Mobile works by taking snapshots of the view hierarchy as well as a screenshot within the same frame, at the rate of one per second. These screenshots are then compressed into a video file representing a segment of the user’s session. All these small segments are then streamed into Sentry with additional trace identifiers, breadcrumbs, and other useful debugging information to compose the full user session.
+移动端会话重放通过每秒拍摄一次视图层次结构快照以及同一帧内的屏幕截图来工作。这些屏幕截图被压缩成代表用户会话片段的视频文件。所有这些小段然后与额外的追踪标识符、面包屑和其他有用的调试信息一起流式传输到 Sentry，以组成完整的用户会话。
 
-The user session (replay) lasts until the user closes the app, the app crashes, the user puts the app in the background for over 30 seconds, or the session reaches 60 minutes in duration. The result is a video playback that can help you reproduce bugs in your mobile app, including hard-to-debug issues related to backend APIs and microservices.
+用户会话（重放）持续到用户关闭应用程序、应用程序崩溃、用户将应用程序置于后台超过 30 秒，或会话达到 60 分钟持续时间。结果是视频回放，可以帮助您重现移动应用程序中的错误，包括与后端 API 和微服务相关的难以调试的问题。
 
-To redact anything potentially sensitive and preserve maximum user privacy, the view hierarchy is used to find the position of controls such as text boxes, images, labels, and buttons. Redaction is done with a block that's drawn over these controls, using the most predominant color of the control.
+为了编辑任何潜在的敏感内容并保护最大用户隐私，视图层次结构用于查找控件（如文本框、图像、标签和按钮）的位置。编辑使用块完成，该块使用控件的最主要颜色绘制在这些控件上。
 
-![Session Replay Redacted](./img/session-replay-redacted.png)
+![会话重放编辑](./img/session-replay-redacted.png)
 
-## Replay Details
+## 重放详情
 
-Every replay has a detailed view that contains the embedded video player and rich debugging context. Playing back the video will allow you to see every user interaction in relation to network requests, frontend and backend errors, backend spans, and more.  Almost every component on this page is connected through timestamps.
+每个重放都有一个包含嵌入式视频播放器和丰富调试上下文的详细视图。回放视频将允许您看到每个用户交互与网络请求、前端和后端错误、后端跨度等的关系。此页面上的几乎每个组件都通过时间戳连接。
 
-The below list shows the breakdown of each component and why it’s valuable:
+以下列表显示了每个组件的细分及其价值：
 
-- **Breadcrumbs:** The replay breadcrumbs show when key user interactions took place, specifically: user taps with the relevant component, navigations, when the user put the app in background or foreground, and [custom breadcrumbs](/product/sentry-basics/integrate-backend/configuration-options/#breadcrumbs) set by your organization. Breadcrumbs also provide insight into the device of a given user session at particular timestamps:
-      - `device battery` (when battery level or charging status changes)
-      - `orientation` (when the user rotates the device)
-      - `connectivity` (when this status changes between wifi, cellular, and offline).
+- **面包屑：** 重放面包屑显示关键用户交互发生的时间，具体包括：用户点击相关组件、导航、用户将应用程序置于后台或前台的时间，以及您的组织设置的[自定义面包屑](/product/sentry-basics/integrate-backend/configuration-options/#breadcrumbs)。面包屑还提供对特定时间戳给定用户会话设备的洞察：
+      - `设备电池`（当电池电量或充电状态改变时）
+      - `方向`（当用户旋转设备时）
+      - `连接`（当此状态在 wifi、蜂窝和离线之间改变时）。
 
-These breadcrumbs are synced with the replay player and will auto-scroll as the video plays. Some [breadcrumb types](/product/issues/issue-details/breadcrumbs/) visible in Issue Details are not 1:1 to the replay breadcrumbs list. On the Replay Details page, the trail of events typically seen in the Issue Details page are instead displayed in the Network and Console components.
+这些面包屑与重放播放器同步，并将在视频播放时自动滚动。[问题详情](/product/issues/issue-details/breadcrumbs/)中可见的某些[面包屑类型](/product/issues/issue-details/breadcrumbs/)不是重放面包屑列表的 1:1。在重放详情页面上，通常在问题详情页面中看到的事件轨迹改为显示在网络和控制台组件中。
 
 
-- **Timeline:** This is the section at the bottom of the Replay Details page that illustrates where significant events (such as errors, device battery, and user interactions) happen over the course of the replay. This allows users to easily scrub to key events by dragging across the timeline. It also visually conveys the amount of time that took place between events and has a zoom functionality so you can easily zoom-in to distinguish between events that happened close together.
+- **时间线：** 这是重放详情页面底部的部分，说明重要事件（如错误、设备电池和用户交互）在重放过程中的发生位置。这允许用户通过拖动时间线轻松擦除到关键事件。它还直观地传达了事件之间经过的时间量，并具有缩放功能，因此您可以轻松放大以区分紧密发生的事件。
 
-- **Network:** This is a list of all network requests that were initiated by the app while the replay recording was active. As the video plays, there’s a visual indicator that tracks through the table of network requests, highlighting which requests happened prior to, or next to this point in the video. When a request fails, it is highlighted in red. You can also click the timestamp on the far right of each request to bring yourself to that point in the replay player.
+- **网络：** 这是应用程序在重放录制处于活动状态时发起的所有网络请求的列表。当视频播放时，有一个视觉指示器跟踪网络请求表，突出显示在此点之前或之后发生的请求。当请求失败时，它以红色突出显示。您还可以点击每个请求最右侧的时间戳，将您带到重放播放器中的该点。
 
-- **Console:** Some debugging messages that don't belong in the breadcrumb list will show up here. For example, a custom `console.log` in React Native. Logs from [Logcat](/platforms/android/integrations/logcat/) and [Timber](/platforms/android/integrations/timber/) are also supported and will show up here.
+- **控制台：** 一些不属于面包屑列表的调试消息将显示在这里。例如，React Native 中的自定义 `console.log`。[Logcat](/platforms/android/integrations/logcat/) 和 [Timber](/platforms/android/integrations/timber/) 的日志也得到支持，并将显示在这里。
 
-- **Errors:** All the errors that occurred in the replay (including in your backend), with links to the corresponding events and [issue(s)](/product/issues/issue-details/error-issues/), as well as the impact these issues have had holistically across all users on your application, seen when you hover over the issue ID.
+- **错误：** 重放中发生的所有错误（包括您的后端），带有到相应事件和[问题](/product/issues/issue-details/error-issues/)的链接，以及当您悬停在问题 ID 上时，这些问题对您的应用程序所有用户的整体影响。
 
-- **Tags:** A complete list of built-in fields and custom tags associated with a replay, such as operating system version and name, device specs, release, and user details.
+- **标签：** 与重放关联的内置字段和自定义标签的完整列表，如操作系统版本和名称、设备规格、发布和用户详细信息。
 
-- **Trace:** A view that connects all the [trace(s)](/product/sentry-basics/tracing/distributed-tracing/#traces-transactions-and-spans) that happened during the replay.
+- **追踪：** 连接重放期间发生的所有[追踪](/product/sentry-basics/tracing/distributed-tracing/#traces-transactions-and-spans)的视图。
 
-## Supported SDKs
+## 支持的 SDK
 
-Session Replay for mobile is currently available for Android and iOS on both native SDKs, as well as for React Native and Flutter.
+移动端会话重放目前可用于 Android 和 iOS 的原生 SDK，以及 React Native 和 Flutter。
 
-We recommend updating to the latest version, but the minimum versions supported are:
+我们建议您更新到最新版本，但支持的最低版本是：
 
 - [iOS](/platforms/apple/guides/ios/session-replay/), [8.43.0](https://github.com/getsentry/sentry-cocoa/releases)
 - [Android](/platforms/android/session-replay/), [7.20.0](https://github.com/getsentry/sentry-java/releases)
@@ -59,7 +59,7 @@ We recommend updating to the latest version, but the minimum versions supported 
 
 <Include name="session-replay-for-backend-errors.mdx" />
 
-Make sure you've set up [trace propagation](/product/sentry-basics/concepts/tracing/#trace-propagation) in your backend projects. For example:
+确保您已在后端项目中设置[追踪传播](/product/sentry-basics/concepts/tracing/#trace-propagation)。例如：
 
 ```swift {tabTitle:Swift}
 import Sentry
@@ -107,31 +107,31 @@ Sentry.init({
 
 <Include name="session-replay-for-backend-support.mdx" />
 
-## Frequently Asked Questions
+## 常见问题
 
-**How do you protect user data?**
+**您如何保护用户数据？**
 
-Sentry is privacy-focused so protecting user data is always top of mind. That’s why by default, our privacy configuration is very aggressive and redacts all text and images to ensure no sensitive user information is collected. We also provide server-side scrubbing on debugging context to additionally filter on the server as an added precaution.
+Sentry 以隐私为重点，因此保护用户数据始终是首要考虑。这就是为什么默认情况下，我们的隐私配置非常激进，并编辑所有文本和图像以确保不收集敏感用户信息。我们还提供服务器端清理调试上下文，以在服务器上额外过滤作为额外预防措施。
 
-Additionally, we offer a self-serve deletion capability of individual replays in the UI.
+此外，我们在 UI 中提供自助删除单个重放的功能。
 
-**What is the performance overhead of the Replay package?**
+**重放包的性能开销是多少？**
 
-For most mobile applications, the performance overhead of our client SDK will be imperceptible to end-users. In our own testing, the overhead was not noticeable by end-users. However, this testing was not exhaustive and you may discover the recording overhead may negatively impact your mobile application performance depending on your application complexity.
+对于大多数移动应用程序，我们的客户端 SDK 的性能开销对最终用户来说是不可察觉的。在我们自己的测试中，开销对最终用户来说并不明显。但是，此测试并不详尽，您可能会发现录制开销可能会对您的移动应用程序性能产生负面影响，具体取决于您的应用程序复杂性。
 
-To reduce the performance overhead, we only take screenshots when something changes on the screen. Our default frame rate is 1 frame per second.
-If you experience any performance degradations after installing Session Replay, please open an issue on GitHub for your respective SDK: [Android](https://github.com/getsentry/sentry-java/issues/new/choose), [iOS](https://github.com/getsentry/sentry-cocoa/issues/new/choose), [React Native](https://github.com/getsentry/sentry-react-native/issues/new/choose), and [Flutter](https://github.com/getsentry/sentry-dart/issues/new/choose).
+为了减少性能开销，我们只在屏幕上发生变化时拍摄屏幕截图。我们的默认帧率为每秒 1 帧。
+如果您在安装会话重放后遇到任何性能下降，请在 GitHub 上为您的相应 SDK 打开一个问题：[Android](https://github.com/getsentry/sentry-java/issues/new/choose)、[iOS](https://github.com/getsentry/sentry-cocoa/issues/new/choose)、[React Native](https://github.com/getsentry/sentry-react-native/issues/new/choose) 和 [Flutter](https://github.com/getsentry/sentry-dart/issues/new/choose)。
 
-**How much does it cost to use Session Replay for mobile?**
+**使用移动端会话重放的费用是多少？**
 
-Session Replay for Mobile is currently available for all plans. Check out our [pricing page](https://sentry.io/pricing/) for details.
+移动端会话重放目前可用于所有计划。查看我们的[定价页面](https://sentry.io/pricing/)了解详情。
 
-**Are unhandled exceptions (for example, crashes) available as part of Session Replay for mobile?**
+**未处理的异常（例如崩溃）是否作为移动端会话重放的一部分可用？**
 
-Yes, Session Replay for Mobile covers handled and unhandled exceptions as well as ANRs/App Hangs and native (NDK) crashes. Make sure to use the latest SDK version as mentioned in [SDKs Supported](#sdks-supported).
+是的，移动端会话重放涵盖处理过的和未处理的异常以及 ANR/应用程序挂起和原生（NDK）崩溃。确保使用最新 SDK 版本，如[支持的 SDK](#sdks-supported)中所述。
 
-**How does Session Replay for mobile work if my app is offline?**
+**如果我的应用程序离线，移动端会话重放如何工作？**
 
-Session Replay for Mobile currently supports offline mode only when `onErrorSampleRate` is specified. When an error happens, the SDK will capture the segment it recorded until that time (up to 30 seconds) and store it to disk. When the application comes back online, that segment will be sent to Sentry together with the error.
+移动端会话重放目前仅在指定 `onErrorSampleRate` 时支持离线模式。当发生错误时，SDK 将捕获它录制到该时间的段（最多 30 秒）并将其存储到磁盘。当应用程序重新上线时，该段将与错误一起发送到 Sentry。
 
-Currently `sessionSampleRate` is not supported in offline mode. Please subscribe to this [GitHub issue](https://github.com/getsentry/sentry/issues/68287) for updates.
+目前 `sessionSampleRate` 在离线模式下不受支持。请订阅此 [GitHub 问题](https://github.com/getsentry/sentry/issues/68287)以获取更新。

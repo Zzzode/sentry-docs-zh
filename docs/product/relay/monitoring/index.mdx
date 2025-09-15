@@ -1,46 +1,43 @@
 ---
-title: Monitoring
-description: "Configure logging, metrics, and error reporting for your Relay installation."
+title: 监控
+description: "为您的 Relay 安装配置日志记录、指标和错误报告。"
 sidebar_order: 3
 ---
 
-## Logging
+## 日志记录
 
-Relay produces logs to the standard error stream (`stderr`), with `INFO` logging level by default.
-For example, after starting Relay you may see output such as this:
+Relay 将日志输出到标准错误流 (`stderr`)，默认情况下为 `INFO` 日志级别。
+例如，启动 Relay 后，您可能会看到如下输出：
 
 ```
-INFO  relay::setup > launching relay from config folder .relay
-INFO  relay::setup >   relay mode: managed
+INFO  relay::setup > 从配置文件夹 .relay 启动 relay
+INFO  relay::setup >   relay 模式: managed
 INFO  relay::setup >   relay id: cde0d72e-0c4e-4550-a934-c1867d8a177c
-INFO  relay::setup >   log level: INFO
+INFO  relay::setup >   日志级别: INFO
 ```
 
-This example displays the messages with the default logging level (`INFO`), which you can modify so it displays either more or less information. For details about configuring logging please see the [Logging](/product/relay/options/#logging) section on the options page.
+此示例显示默认日志级别 (`INFO`) 的消息，您可以修改它以显示更多或更少的信息。有关配置日志记录的详细信息，请参阅选项页面上的[日志记录](/product/relay/options/#logging)部分。
 
-## Error Reporting
+## 错误报告
 
-By default, Relay logs errors to the configured logger. You can enable error
-reporting to your project in Sentry in the Relay configuration file:
+默认情况下，Relay 将错误记录到配置的日志记录器。您可以在 Relay 配置文件中启用到您在 Sentry 中的项目的错误报告：
 
 ```yaml
 sentry:
   enabled: true
-  dsn: <your_dsn>
+  dsn: <您的_dsn>
 ```
 
-More information about available options and their meaning can be found [on the options page](/product/relay/options/#internal-error-reporting).
+有关可用选项及其含义的更多信息可以在[选项页面](/product/relay/options/#internal-error-reporting)上找到。
 
-## Health Checks
+## 健康检查
 
-Relay provides two URLs for checking system status:
+Relay 提供两个 URL 用于检查系统状态：
 
-- `GET /api/relay/healthcheck/live/`: Tests if Relay is running and listening to
-  HTTP requests.
-- `GET /api/relay/healthcheck/ready/`: Tests if Relay is authenticated with the
-  upstream and operating normally.
+- `GET /api/relay/healthcheck/live/`：测试 Relay 是否正在运行并监听 HTTP 请求。
+- `GET /api/relay/healthcheck/ready/`：测试 Relay 是否与上游进行身份验证并正常运行。
 
-Both endpoints return a _200 OK_ response when successful:
+两个端点在成功时都返回 _200 OK_ 响应：
 
 ```json
 {
@@ -48,22 +45,22 @@ Both endpoints return a _200 OK_ response when successful:
 }
 ```
 
-## Metrics
+## 指标
 
-You can submit stats to a StatsD server by configuring the `metrics.statsd` key to an `ip:port` tuple.
+您可以通过将 `metrics.statsd` 键配置为 `ip:port` 元组来将统计信息提交到 StatsD 服务器。
 
-### Example Configuration
+### 示例配置
 
 ```yaml
 metrics:
-  # Endpoint of your StatsD server
+  # 您的 StatsD 服务器的端点
   statsd: 127.0.0.1:8126
-  # Prefix all metric names with this string
+  # 使用此前缀所有指标名称
   prefix: mycompany.relay
 ```
 
-The options for configuring metrics reporting are documented on the [options page](/product/relay/options/#statsd-metrics).
+配置指标报告的选项记录在[选项页面](/product/relay/options/#statsd-metrics)上。
 
-## Learn More
+## 了解更多
 
 <PageGrid />

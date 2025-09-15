@@ -1,140 +1,140 @@
 ---
-title: "Performance Issues"
+title: "性能问题"
 sidebar_order: 20
-description: "Learn more about which performance issues Sentry detects and how to use the Issue Details page to debug them."
+description: "了解更多关于 Sentry 检测的性能问题以及如何使用问题详情页面调试它们。"
 ---
 
-A _performance issue_ is a grouping of transaction events that are performing poorly. If your application is configured for [Insights and Tracing](/product/insights/), Sentry will detect common performance problems, and group them into issues. We group similar transaction events into issues based on a fingerprint. For performance issues, a fingerprint is primarily based on the problem type and the spans involved in the problem.
+_性能问题_ 是执行不佳的事务事件的分组。如果您的应用程序配置了 [洞察和追踪](/product/insights/)，Sentry 将检测常见的性能问题，并将它们分组到问题中。我们基于指纹将类似的事务事件分组到问题中。对于性能问题，指纹主要基于问题类型和涉及问题的跨度。
 
-The **Issue Details** page helps you to gain further insight into the source of a performance issue and the impact it has on your application's users. The main area of the page displays information about a specific transaction event that's part of an issue. The top panel and right-hand sidebar of the page display a summary of all the transaction events grouped together in this issue:
+**问题详情** 页面可帮助您深入了解性能问题的来源及其对应用程序用户的影响。页面的主要区域显示有关作为问题一部分的特定事务事件的信息。页面的顶部面板和右侧边栏显示此问题中分组在一起的所有事务事件的摘要：
 
-![Performance issue](./img/performance-issue-details.png)
+![性能问题](./img/performance-issue-details.png)
 
 <Alert>
 
-You can find performance issues by searching `issue.category:performance` in **Issues** and **Dashboards**.
+您可以通过在 **问题** 和 **仪表板** 中搜索 `issue.category:performance` 来查找性能问题。
 
 </Alert>
 
-While the **Issue Details** page displays information about a specific transaction event that's part of an issue, you can navigate between the events of an issue using the "Older" and "Newer" buttons. On this page, you'll see information about the performance issue as well as the details of the most recent transaction event. The page also displays a summary of when the issue was seen, as well as a breakdown of the tags, span evidence, and breadcrumbs if they are available.
+虽然 **问题详情** 页面显示有关作为问题一部分的特定事务事件的信息，但您可以使用"较旧"和"较新"按钮在问题的事件之间导航。在此页面上，您将看到有关性能问题以及最新事务事件的详细信息。页面还显示问题出现时间的摘要，以及标签、跨度证据和面包屑（如果可用）的细分。
 
-## How Performance Issues Work
+## 性能问题如何工作
 
-Sentry detects performance issues by scanning incoming transaction events. First we check various properties of the transaction (span durations, span arrangement, span types, and so on) to detect likely problems. We then check these properties against corresponding thresholds to determine whether a performance issue exists. Lastly, we generate a unique problem fingerprint based on the problem type and location in the application, and use that fingerprint to create a performance issue.
+Sentry 通过扫描传入的事务事件来检测性能问题。首先，我们检查事务的各种属性（跨度持续时间、跨度排列、跨度类型等）以检测可能的问题。然后，我们将这些属性与相应的阈值进行比较，以确定是否存在性能问题。最后，我们基于问题类型和应用程序中的位置生成唯一的问题指纹，并使用该指纹创建性能问题。
 
-## Span Evidence
+## 跨度证据
 
-Span evidence is information that explains the performance problem in the context of the current event. It may include details like the specific database queries that cause the problem, the spans that contain the problem, and the slow spans that have an impact on performance. This section also has a span tree which shows how the problematic spans relate to the rest of the event. Different performance problems will have slightly different kinds of evidence.
+跨度证据是解释当前事件上下文中性能问题的信息。它可能包括导致问题的特定数据库查询、包含问题的跨度以及对性能有影响的慢跨度等详细信息。此部分还有一个跨度树，显示有问题的跨度与事件的其余部分的关系。不同的性能问题会有略有不同的证据。
 
-## Event Grouping Information
+## 事件分组信息
 
-The "Event Grouping Information" section provides details of how Sentry fingerprinted the event into the group. You can see which parts of the span evidence contributed to the fingerprint.
+"事件分组信息"部分提供了 Sentry 如何将事件分组到组中的详细信息。您可以看到跨度证据的哪些部分对指纹有贡献。
 
-## Configuration
+## 配置
 
-As a Project Admin, you can also manage individual settings for each performance issue detector in **Project Settings > Performance**. Here, you can raise or lower the thresholds for what Sentry considers a performance issue for each project, or disable detection altogether.
+作为项目管理员，您还可以在 **项目设置 > 性能** 中管理每个性能问题检测器的单独设置。在这里，您可以提高或降低 Sentry 认为每个项目的性能问题的阈值，或完全禁用检测。
 
-![Performance issue configuration](./img/performance-issue-configuration.png)
+![性能问题配置](./img/performance-issue-configuration.png)
 
-## Issue Types
+## 问题类型
 
-The following is a list of available performance issues:
+以下是可用性能问题的列表：
 
 <table>
   <tbody>
     <tr>
-      <th>Browser</th>
+      <th>浏览器</th>
       <td>
         <ul>
           <li>
-            <a href="./consecutive-http/">Consecutive HTTP</a>
+            <a href="./consecutive-http/">连续 HTTP</a>
           </li>
           <li>
-            <a href="./large-http-payload/">Large HTTP Payload</a>
+            <a href="./large-http-payload/">大型 HTTP 有效负载</a>
           </li>
           <li>
-            <a href="./large-render-blocking-asset/">Large Render Blocking Asset</a>
+            <a href="./large-render-blocking-asset/">大型渲染阻塞资产</a>
           </li>
           <li>
-            <a href="./n-one-api-calls/">N+1 API Calls</a>
+            <a href="./n-one-api-calls/">N+1 API 调用</a>
           </li>
           <li>
-            <a href="./uncompressed-asset">Uncompressed Asset</a>
+            <a href="./uncompressed-asset">未压缩资产</a>
           </li>
           <li>
-            <a href="./http-overhead">HTTP/1.1 Overhead</a>
+            <a href="./http-overhead">HTTP/1.1 开销</a>
           </li>
           <li>
-            <a href="./function-regressions">Function Regressions</a>
+            <a href="./function-regressions">函数回归</a>
           </li>
         </ul>
       </td>
     </tr>
     <tr>
-      <th>Server</th>
+      <th>服务器</th>
       <td>
         <ul>
           <li>
-            <a href="./consecutive-db-queries/">Consecutive DB Queries</a>
+            <a href="./consecutive-db-queries/">连续数据库查询</a>
           </li>
           <li>
-            <a href="./n-one-queries/">N+1 Queries</a>
+            <a href="./n-one-queries/">N+1 查询</a>
           </li>
           <li>
-            <a href="./slow-db-queries/">Slow DB Queries</a>
+            <a href="./slow-db-queries/">慢数据库查询</a>
           </li>
           <li>
-            <a href="./function-regressions">Function Regressions</a>
+            <a href="./function-regressions">函数回归</a>
           </li>
           <li>
-            <a href="./endpoint-regressions">Endpoint Regressions</a>
+            <a href="./endpoint-regressions">端点回归</a>
           </li>
         </ul>
       </td>
     </tr>
     <tr>
-      <th>Mobile</th>
+      <th>移动端</th>
       <td>
         <ul>
           <li>
-            <a href="./file-main-thread-io/">File I/O on Main Thread</a>
+            <a href="./file-main-thread-io/">主线程文件 I/O</a>
           </li>
           <li>
-            <a href="./db-main-thread-io/">Database on Main Thread</a>
+            <a href="./db-main-thread-io/">主线程数据库</a>
           </li>
           <li>
-            <a href="./json-decoding-main-thread/">JSON Decoding on Main Thread</a>
+            <a href="./json-decoding-main-thread/">主线程 JSON 解码</a>
           </li>
           <li>
-            <a href="./image-decoding-main-thread/">Image Decoding on Main Thread</a>
+            <a href="./image-decoding-main-thread/">主线程图像解码</a>
           </li>
           <li>
-            <a href="./regex-main-thread/">Regex on Main Thread</a>
+            <a href="./regex-main-thread/">主线程正则表达式</a>
           </li>
           <li>
-            <a href="./n-one-api-calls/">N+1 API Calls</a>
+            <a href="./n-one-api-calls/">N+1 API 调用</a>
           </li>
           <li>
-            <a href="./frame-drop/">Frame Drop</a>
+            <a href="./frame-drop/">帧丢失</a>
           </li>
           <li>
-            <a href="./function-regressions">Function Regressions</a>
+            <a href="./function-regressions">函数回归</a>
           </li>
         </ul>
       </td>
     </tr>
     <tr>
-      <th>Serverless</th>
+      <th>无服务器</th>
       <td>
         <ul>
           <li>
-            <a href="./consecutive-db-queries/">Consecutive DB Queries</a>
+            <a href="./consecutive-db-queries/">连续数据库查询</a>
           </li>
           <li>
-            <a href="./n-one-queries/">N+1 Queries</a>
+            <a href="./n-one-queries/">N+1 查询</a>
           </li>
           <li>
-            <a href="./slow-db-queries/">Slow DB Queries</a>
+            <a href="./slow-db-queries/">慢数据库查询</a>
           </li>
         </ul>
       </td>
@@ -142,9 +142,9 @@ The following is a list of available performance issues:
   </tbody>
 </table>
 
-## Limitations
+## 限制
 
-Performance issues currently have the following limitations:
+性能问题目前有以下限制：
 
-- Performance issues cannot be merged
-- Custom fingerprinting and grouping can't be applied to performance issues
+- 性能问题无法合并
+- 无法对性能问题应用自定义指纹和分组

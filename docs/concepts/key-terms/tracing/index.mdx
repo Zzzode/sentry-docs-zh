@@ -1,77 +1,77 @@
 ---
-title: Tracing
+title: 追踪
 sidebar_order: 70
-description: "Learn more about the tracing features Sentry offers to help you track your software performance across multiple systems."
+description: "了解更多关于Sentry提供的追踪功能，帮助您跨多个系统跟踪软件性能。"
 ---
 
-## What's Tracing?
+## 什么是追踪？
 
-Tracing involves capturing the timing and flow of requests and operations as they happen in your application. This powerful debugging tool helps you identify which link in a sequence of events may be causing a problem, such as slow performance.
+追踪涉及捕获请求和操作在应用程序中发生时的时序和流程。这个强大的调试工具帮助您识别事件序列中可能导致问题的环节，例如性能缓慢。
 
-![An illustrated image of the anatomy of a trace, showing 8 span blocks cascading in a waterfall pattern.](./img/The-anatomy-of-a-trace.png)
+![追踪解剖结构的插图，显示8个跨度块以瀑布模式级联。](./img/The-anatomy-of-a-trace.png)
 
-### What's Distributed Tracing?
+### 什么是分布式追踪？
 
-Distributed tracing provides a unified view of how a single request moves from the frontend to the backend and beyond. This is particularly useful in modern applications, which are often composed of multiple separate services working together. To get a distributed view of your application, instrument Sentry in both your frontend and your backend.
+分布式追踪提供了单个请求如何从前端移动到后端及更远的统一视图。这在现代应用程序中特别有用，这些应用程序通常由多个独立服务协同工作组成。要获得应用程序的分布式视图，请在前端和后端都使用Sentry进行检测。
 
-With [distributed tracing](/concepts/key-terms/tracing/distributed-tracing/), you can identify performance bottlenecks that are affecting your application across different services and platforms. You can then use Sentry tools such as the [Trace Explorer](/product/explore/traces/) or [Trace View](/concepts/key-terms/tracing/trace-view/) page to dig deeper and find the root cause of the problem. Distributed tracing is particularly helpful for identifying problems that take place between multiple services that you can't debug using console logs, such as race conditions, [N+1 queries](/product/issues/issue-details/performance-issues/n-one-queries/), and [caching issues](/product/insights/caches/).
+通过[分布式追踪](/concepts/key-terms/tracing/distributed-tracing/)，您可以识别影响应用程序在不同服务和平台上的性能瓶颈。然后，您可以使用Sentry工具，如[追踪浏览器](/product/explore/traces/)或[追踪视图](/concepts/key-terms/tracing/trace-view/)页面，深入挖掘并找到问题的根本原因。分布式追踪对于识别发生在多个服务之间的问题特别有帮助，这些问题无法使用控制台日志进行调试，例如竞态条件、[N+1查询](/product/issues/issue-details/performance-issues/n-one-queries/)和[缓存问题](/product/insights/caches/)。
 
-### What's a Trace?
+### 什么是追踪？
 
-A trace is a record of a series of connected events and operations coming from your application. Each trace has a string of globally unique characters called a trace ID that's passed between frontend and backend services. The trace ID connects all the actions that take place, starting from the moment a user performs an action on the frontend, all the way through to the actions this triggers across your application and services. Each trace is composed of multiple spans.
+追踪是应用程序中一系列连接事件和操作的记录。每个追踪都有一个称为追踪ID的全局唯一字符字符串，在前端和后端服务之间传递。追踪ID连接所有发生的操作，从用户在前端执行操作的那一刻开始，一直到该操作在您的应用程序和服务中触发的所有操作。每个追踪由多个跨度组成。
 
-### What's a Span?
+### 什么是跨度？
 
-A span is a named, timed operation that represents a part of the application workflow. The data captured for each span provides granular insights into specific tasks, like API requests or database queries. Multiple spans are pieced together to create a trace, providing a comprehensive overview of how your application works. This makes it easier to troubleshoot and analyze performance issues.
+跨度是一个命名的、定时的操作，代表应用程序工作流程的一部分。为每个跨度捕获的数据提供了对特定任务（如API请求或数据库查询）的细粒度洞察。多个跨度被组合在一起创建追踪，提供您的应用程序如何工作的全面概览。这使得故障排除和分析性能问题变得更加容易。
 
-### What are Span Attributes and Metrics?
+### 什么是跨度属性和指标？
 
-Span attributes and metrics are key pieces of information that are captured for each span. Attributes are key-value pairs that provide additional context about the span, such as the name of the operation or the user ID. Metrics are numerical values that measure the performance of the span, such as the duration of the operation or the number of database queries.
+跨度属性和指标是为每个跨度捕获的关键信息片段。属性是提供有关跨度的附加上下文的键值对，例如操作的名称或用户ID。指标是测量跨度性能的数值，例如操作的持续时间或数据库查询的数量。
 
-### What's a Transaction?
+### 什么是事务？
 
-In Sentry, a "transaction" is a specific unit that represents any event that your application sends to Sentry, like loading a web page or processing an API call. Each transaction is made up of one or more spans. Transactions have a unique transaction ID and include the associated child spans that capture the operation’s entire process from start to finish.
+在Sentry中，"事务"是一个特定单元，代表您的应用程序发送到Sentry的任何事件，如加载网页或处理API调用。每个事务由一个或多个跨度组成。事务具有唯一的事务ID，并包括捕获操作从开始到结束的整个过程的相关子跨度。
 
-## How to Use Tracing in Sentry
+## 如何在Sentry中使用追踪
 
-If you instrument Sentry for a single part of your app (just the frontend for example), looking at a trace will provide useful context for debugging issues within that app or service. But to get the most out of tracing in Sentry, you'll need to instrument the frontend, the backend, and any services in-between with Sentry's SDK. Once this is done, there are several places where you can view and interact with tracing data:
+如果您仅为应用程序的一部分（例如仅前端）使用Sentry进行检测，查看追踪将为调试该应用程序或服务中的问题提供有用的上下文。但要充分利用Sentry中的追踪功能，您需要使用Sentry的SDK检测前端、后端以及任何中间服务。完成此操作后，有几个地方可以查看和交互追踪数据：
 
-### Traces to Trace View
+### 追踪到追踪视图
 
-You can view all the traces in your organization by going to the [Traces](https://sentry.io/orgredirect/organizations/:orgslug/traces/) page in Sentry. You'll see a chart and a list of traces letting you know how long each trace took to complete and the number of spans it contains.
+您可以通过转到Sentry中的[追踪](https://sentry.io/orgredirect/organizations/:orgslug/traces/)页面来查看组织中的所有追踪。您将看到一个图表和追踪列表，让您知道每个追踪完成所需的时间以及它包含的跨度数量。
 
-![A view of the Sentry Traces page showing traces and spans](./img/Traces-page.png)
+![Sentry追踪页面显示追踪和跨度的视图](./img/Traces-page.png)
 
-If you want more information, click on any trace ID. This will take you to the [Trace View](/concepts/key-terms/tracing/trace-view/) page, which provides a more detailed view of the trace and its spans. Here, you'll see a waterfall view of the spans in the trace, which will show you how much time each service and operation took to complete, and may give you an indicator of where a problem may originate. 
+如果您想要更多信息，请单击任何追踪ID。这将带您到[追踪视图](/concepts/key-terms/tracing/trace-view/)页面，该页面提供追踪及其跨度的更详细视图。在这里，您将看到追踪中跨度的瀑布视图，这将向您显示每个服务和操作完成所需的时间，并可能为您提供问题可能来源的指示。
 
-![A detailed view of the Senty Traces page showing an expaned trace and spans](./img/Trace-view-page.png)
+![Sentry追踪页面的详细视图，显示展开的追踪和跨度](./img/Trace-view-page.png)
 
-Alternatively, you can use the search bar to look for spans by name, project, or other criteria. You can also use the tags section to filter spans by specific tags. Learn more about the Sentry [Trace Explorer](/product/explore/traces/).
+或者，您可以使用搜索栏按名称、项目或其他条件查找跨度。您还可以使用标签部分按特定标签过滤跨度。了解更多关于Sentry[追踪浏览器](/product/explore/traces/)的信息。
 
-![An illustrated image of the anatomy of a trace, showing 8 span blocks cascading in a waterfall pattern.](./img/Traces-details-page.png)
+![追踪解剖结构的插图，显示8个跨度块以瀑布模式级联。](./img/Traces-details-page.png)
 
-### Performance to Trace View
+### 性能到追踪视图
 
-Depending on the size and volume of your app, you may have a lot of traces to sort through. The [Insights](https://sentry.io/orgredirect/organizations/:orgslug/insights/backend/) page in Sentry is a good place to get a high-level, aggregated view of your application's performance and focus in on the traces you care about. You'll see a list of transactions for specific pages, endpoints and parts of your application. Clicking on the transaction ID will take you to the Trace View page for that transaction. Learn more about using Sentry's [Insights](/product/insights/).
+根据应用程序的大小和数量，您可能有很多追踪需要排序。Sentry中的[洞察](https://sentry.io/orgredirect/organizations/:orgslug/insights/backend/)页面是获取应用程序性能的高级聚合视图并专注于您关心的追踪的好地方。您将看到特定页面、端点和应用程序部分的的事务列表。单击事务ID将带您到该事务的追踪视图页面。了解更多关于使用Sentry的[洞察](/product/insights/)的信息。
 
-![An overview of the Performance page in Sentry.](./img/Performance-page.png)
+![Sentry中性能页面的概览。](./img/Performance-page.png)
 
-## How Tracing Can Help You Debug
+## 追踪如何帮助您调试
 
-Sentry’s tracing lets you follow each request across various services, databases, and functions. This makes it easier to find exactly when and where an error occurred or a performance bottleneck started. Below, you'll find some real-world scenarios where tracing saved the day.
+Sentry的追踪让您可以跟踪每个请求跨各种服务、数据库和函数。这使得更容易准确找到错误发生或性能瓶颈开始的时间和地点。下面，您将找到一些追踪挽救局面的真实场景。
 
-### Debug Slowdowns Across Your Integrations
+### 调试集成中的减速
 
-When debugging integrations or a microservice architecture, you'll likely run into issues where the root cause is tricky to discover, especially when it's a performance issue. At Sentry, we make sure to add spans whenever we’re working with external services, like Slack. Because of this, when our users started experiencing a 4-second delay in receiving Sentry alerts via Slack, we were able to go to the [Trace View](/concepts/key-terms/tracing/trace-view/) and quickly narrow down which task was causing the slowdown and deploy a fix quickly. Read more about the details of [debugging Sentry’s Slack Integration](https://blog.sentry.io/debugging-a-slack-integration-with-sentrys-trace-view/).
+在调试集成或微服务架构时，您可能会遇到根本原因难以发现的问题，特别是当它是性能问题时。在Sentry，我们确保在与外部服务（如Slack）合作时添加跨度。因此，当我们的用户开始通过Slack接收Sentry警报时遇到4秒延迟时，我们能够转到[追踪视图](/concepts/key-terms/tracing/trace-view/)并快速缩小导致减速的任务并快速部署修复程序。阅读更多关于[调试Sentry的Slack集成](https://blog.sentry.io/debugging-a-slack-integration-with-sentrys-trace-view/)的详细信息。
 
-### Improve Core Web Vitals
+### 改善核心Web指标
 
-While everyone is sharing Lighthouse scores, we all know that the true determination of healthy web vitals is when your actual users are using your application in their authentic environments. Sentry offers real insights and analysis of your application in the real world, and while tracing can be leveraged to reactively solve issues, you can also use it to proactively discover opportunities to improve your application performance. In fact, this blog post describes [how you can improve performance before your web page even loads](https://blog.sentry.io/how-to-make-your-web-page-faster-before-it-even-loads/).
+虽然每个人都在分享Lighthouse分数，但我们都知道，健康Web指标的真正确定是当您的实际用户在其真实环境中使用您的应用程序时。Sentry提供对您的应用程序在真实世界中的真实洞察和分析，虽然追踪可以用于被动解决问题，但您也可以主动使用它来发现改进应用程序性能的机会。事实上，这篇博客文章描述了[如何在您的网页甚至加载之前提高性能](https://blog.sentry.io/how-to-make-your-web-page-faster-before-it-even-loads/)。
 
-### Debug New Code Bases Faster
+### 更快地调试新代码库
 
-Tracing can even give you the power to debug unfamiliar codebases. Although this benefit is not often discussed, a lot of time can be saved when debugging applications instrumented with Tracing, even if the codebase is completely new to you. Being able to trace actual user journeys throughout your application and see what happens across your entire stack contextualizes issues without even needing to recreate the issue locally. Read about other ways [tracing helps developers debug various issues](https://blog.sentry.io/everyone-needs-to-know-how-to-trace/).
+追踪甚至可以赋予您调试不熟悉代码库的能力。虽然这个好处不经常被讨论，但在使用追踪检测的应用程序进行调试时，即使代码库对您来说是全新的，也可以节省大量时间。能够追踪实际用户旅程贯穿您的应用程序，并查看整个技术栈中发生的事情，可以在甚至不需要在本地重现问题的情况下为问题提供上下文。阅读关于[追踪帮助开发人员调试各种问题](https://blog.sentry.io/everyone-needs-to-know-how-to-trace/)的其他方式。
 
-## Learn More
+## 了解更多
 
 <PageGrid />

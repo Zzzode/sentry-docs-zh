@@ -1,230 +1,228 @@
 ---
-title: Distributed Tracing
+title: 分布式追踪
 sidebar_order: 20
-description: With distributed tracing, you can track software performance and measure throughput & latency, while seeing the impact of errors across multiple systems.
+description: 通过分布式追踪，您可以跟踪软件性能并测量吞吐量和延迟，同时查看错误在多个系统中的影响。
 ---
 
-Distributed tracing provides a connected view of your application from frontend to backend. It helps track software performance, measure [metrics](/product/insights/overview/metrics/) like throughput and latency, and display the impact of errors across multiple systems. This makes Sentry a more complete [performance monitoring](/product/insights/overview/) solution, aiding in diagnosing problems and measuring your application's overall health.
+分布式追踪为您的应用程序提供了从前端到后端的连接视图。它有助于跟踪软件性能，测量[指标](/product/insights/overview/metrics/)（如吞吐量和延迟），并显示错误在多个系统中的影响。这使Sentry成为一个更完整的[性能监控](/product/insights/overview/)解决方案，有助于诊断问题并测量应用程序的整体健康状况。
 
-[Tracing](/concepts/key-terms/tracing/distributed-tracing/) in Sentry provides insights such as:
+Sentry中的[追踪](/concepts/key-terms/tracing/distributed-tracing/)提供以下洞察：
 
-- What occurred for a specific error event or issue
-- The conditions causing bottlenecks or latency issues
-- The endpoints or operations consuming the most time
+- 特定错误事件或问题发生了什么
+- 导致瓶颈或延迟问题的条件
+- 消耗时间最多的端点或操作
 
-## What Is Distributed Tracing?
+## 什么是分布式追踪？
 
-A tracing tool focuses on what happened (and when), logging events during a program's execution across multiple systems. Traces often include timestamps, allowing durations to be calculated, but their purpose is broader, showing how interconnected systems interact and how problems in one can affect another. While tracing can be useful if instrumented in just the frontend or backend, it's most powerful when set up for your full stack (distributed tracing).
+追踪工具专注于发生了什么（以及何时发生），记录程序在多个系统执行期间的事件。追踪通常包含时间戳，允许计算持续时间，但其目的更广泛，显示互连系统如何交互以及一个系统中的问题如何影响另一个系统。虽然仅在前端或后端进行追踪可能很有用，但当为您的整个技术栈设置时（分布式追踪），它最为强大。
 
-It's important to note that tracing is not [profiling](/product/explore/profiling/). A profiler measures various aspects of an application's operation, resulting in a statistical summary. While both diagnose application problems, they differ in what they measure and how data is recorded.
+需要注意的是，追踪不是[性能分析](/product/explore/profiling/)。性能分析器测量应用程序操作的各个方面，产生统计摘要。虽然两者都诊断应用程序问题，但它们在测量内容和数据记录方式上有所不同。
 
+在此[追踪：后端解决方案的前端问题](https://sentry.io/resources/tracing-frontend-issues-with-backend-solutions/?original_referrer=https%3A%2F%2Fblog.sentry.io%2F)研讨会中了解更多。
 
-Learn more in this [Tracing: Frontend issues with backend solutions](https://sentry.io/resources/tracing-frontend-issues-with-backend-solutions/?original_referrer=https%3A%2F%2Fblog.sentry.io%2F) workshop.
+### 追踪数据模型
 
-### The Tracing Data Model
+最终，任何数据结构都由它包含的数据类型定义，数据结构之间的关系由它们之间链接的记录方式定义。追踪、事务和跨度也不例外。
 
-Ultimately, any data structure is defined by the kind of data it contains, and relationships between data structures are defined by how links between them are recorded. Traces, transactions, and spans are no different.
+#### 追踪
 
-#### Traces
+追踪被定义为共享`trace_id`值的所有事务的集合。
 
-Traces are defined as the collection of all transactions that share a `trace_id` value.
+#### 事务
 
-#### Transactions
+事务与其根跨度共享大多数属性（开始和结束时间、标签等）。它们还有一个`transaction_name`属性，用于在UI中标识事务。常见示例包括后端请求事务的端点路径、cron作业事务的任务名称以及页面加载事务的URL。
 
-Transactions share most properties (start and end time, tags, and so on) with their root spans. They also have a `transaction_name` property, used in the UI to identify the transaction. Common examples include endpoint paths for backend request transactions, task names for cron job transactions, and URLs for page-load transactions.
-
-Before the transaction is sent, the `tags` and `data` properties will get merged with data from the global scope. (Global scope data is set in `Sentry.init()` or by using `Sentry.configureScope()`, `Sentry.setTag()`, `Sentry.setUser()`, or `Sentry.setExtra()`.)
-
+在发送事务之前，`tags`和`data`属性将与全局作用域中的数据合并。（全局作用域数据在`Sentry.init()`中设置，或通过使用`Sentry.configureScope()`、`Sentry.setTag()`、`Sentry.setUser()`或`Sentry.setExtra()`设置。）
 
 <Alert>
 
-Transaction names can contain **sensitive data**. See [Scrubbing Sensitive Data](/platforms/javascript/data-management/sensitive-data/#scrubbing-data) for more information.
+事务名称可能包含**敏感数据**。有关更多信息，请参阅[清除敏感数据](/platforms/javascript/data-management/sensitive-data/#scrubbing-data)。
 
 </Alert>
 
-#### Spans
+#### 跨度
 
-Span data includes:
+跨度数据包括：
 
-- `parent_span_id`: ties the span to its parent span
-- `op`: short string identifying the type or category of operation the span is measuring
-- `start_timestamp`: when the span was opened
-- `end_timestamp`: when the span was closed
-- `description`: longer description of the span's operation
-- `status`: short code indicating operation's status
-- `tags`: key-value pairs holding additional data about the span
-- `data`: arbitrarily-structured additional data about the span
+- `parent_span_id`：将跨度与其父跨度关联
+- `op`：短字符串，标识跨度正在测量的操作类型或类别
+- `start_timestamp`：跨度打开时的时间
+- `end_timestamp`：跨度关闭时的时间
+- `description`：跨度操作的更长描述
+- `status`：指示操作状态的短代码
+- `tags`：保存有关跨度的附加数据的键值对
+- `data`：有关跨度的任意结构化附加数据
 
-An example use of the `op` and `description` properties together is `op: db.query` and `description: SELECT * FROM users WHERE last_active < %s`. The `status` property indicates the success or failure of the span's operation, or a response code for HTTP requests. `Tags` and `data` attach further contextual information to the span, such as `function: middleware.auth.is_authenticated` for a function call or `request: {url: ..., headers: ... , body: ...}` for an HTTP request.
-To search span data see [Searchable Properties](/concepts/search/searchable-properties/spans/)
+`op`和`description`属性一起使用的一个示例是`op: db.query`和`description: SELECT * FROM users WHERE last_active < %s`。`status`属性指示跨度操作的成功或失败，或HTTP请求的响应代码。`Tags`和`data`将进一步的上下文信息附加到跨度，例如函数调用的`function: middleware.auth.is_authenticated`或HTTP请求的`request: {url: ..., headers: ... , body: ...}`。
+要搜索跨度数据，请参阅[可搜索属性](/concepts/search/searchable-properties/spans/)
 
-### What Can Tracing Help With?
+### 追踪可以帮助什么？
 
-Applications consist of interconnected components or services. For example, a modern web application may include:
+应用程序由互连的组件或服务组成。例如，现代Web应用程序可能包括：
 
-- Frontend (Single-Page Application)
-- Backend (REST API)
-- Task Queue
-- Database Server
-- Cron Job Scheduler
+- 前端（单页应用程序）
+- 后端（REST API）
+- 任务队列
+- 数据库服务器
+- Cron作业调度器
 
-Each component can be instrumented individually using a Sentry SDK to capture error data or crash reports, but this doesn't provide the full picture. Distributed tracing ties all the data together.
+每个组件都可以使用Sentry SDK单独检测以捕获错误数据或崩溃报告，但这无法提供完整的画面。分布式追踪将所有数据联系在一起。
 
-Distributed tracing allows you to follow a request from the [frontend](/product/sentry-basics/integrate-frontend/) to the [backend](/product/sentry-basics/integrate-backend/) and back, pulling in data from any background tasks or notification jobs that request creates. This helps correlate Sentry error reports and gain insights into which services may negatively impact your application's performance.
+分布式追踪允许您跟踪从[前端](/product/sentry-basics/integrate-frontend/)到[后端](/product/sentry-basics/integrate-backend/)的请求并返回，提取该请求创建的任何后台任务或通知作业的数据。这有助于关联Sentry错误报告并获得对哪些服务可能对您的应用程序性能产生负面影响的洞察。
 
-## Traces, Transactions, and Spans
+## 追踪、事务和跨度
 
-A **trace** represents the record of the entire operation you want to measure or track, like page load or a user action. When a trace includes work in multiple services, it's called a **distributed trace**.
+**追踪**表示您想要测量或跟踪的整个操作的记录，如页面加载或用户操作。当追踪包含多个服务中的工作时，它被称为**分布式追踪**。
 
-Each trace consists of one or more tree-like structures called [**transactions**](/product/insights/overview/transaction-summary/), with nodes called **spans**. Each transaction represents a single instance of a service being called, and each span represents a single unit of work. Here's an example trace, broken down into transactions and spans:
+每个追踪由一个或多个称为[**事务**](/product/insights/overview/transaction-summary/)的树状结构组成，节点称为**跨度**。每个事务表示服务被调用的单个实例，每个跨度表示单个工作单元。以下是一个追踪示例，分解为事务和跨度：
 
-![Diagram illustrating how a trace is composed of multiple transactions, and each transaction is composed of multiple spans.](./img/diagram-transaction-trace.png)
+![说明追踪如何由多个事务组成以及每个事务如何由多个跨度组成的图表。](./img/diagram-transaction-trace.png)
 
-Top-level spans can be broken down into smaller spans, mirroring the way one function may call others. Every span may be the **parent span** to multiple **child spans**. One span in every transaction represents the transaction itself, with all other spans descending from that root span. Here's a zoomed-in view of one of the transactions from the diagram above:
+顶级跨度可以分解为更小的跨度，反映一个函数可能调用其他函数的方式。每个跨度都可能是多个**子跨度**的**父跨度**。每个事务中的一个跨度表示事务本身，所有其他跨度都源自该根跨度。以下是上面图表中其中一个事务的放大视图：
 
-![Diagram illustrating the parent-child relationship between spans within a single transaction.](./img/diagram-transaction-spans.png)
+![说明单个事务内跨度之间父子关系的图表。](./img/diagram-transaction-spans.png)
 
-### Tracing Example: Investigating Slow Page Load
+### 追踪示例：调查慢页面加载
 
-Suppose your web application is slow to load. A lot has to happen for your app to get to a usable state: multiple requests to your backend, calls to your database or external APIs, and browser processing. Which part is slowing things down?
+假设您的Web应用程序加载缓慢。要使您的应用程序达到可用状态，必须发生很多事情：对后端的多个请求、对数据库或外部API的调用以及浏览器处理。哪个部分正在减慢速度？
 
-In this simplified example, when a user loads the app in their browser, the following happens:
+在这个简化的示例中，当用户在浏览器中加载应用程序时，会发生以下情况：
 
-- _Browser_
-  - 1 request each for HTML, CSS, and JavaScript
-  - 1 rendering task, which sets off 2 requests for JSON data
-- _Backend_
-  - 3 requests to serve static files (HTML, CSS, JS)
-  - 2 requests for JSON data - 1 requiring a database call, 1 requiring an external API call and processing
-- _Database Server_
-  - 1 request requiring 2 queries (authentication and data retrieval)
+- _浏览器_
+  - HTML、CSS和JavaScript各1个请求
+  - 1个渲染任务，触发2个JSON数据请求
+- _后端_
+  - 3个请求用于提供静态文件（HTML、CSS、JS）
+  - 2个JSON数据请求 - 1个需要数据库调用，1个需要外部API调用和处理
+- _数据库服务器_
+  - 1个需要2个查询的请求（身份验证和数据检索）
 
-_Note:_ The external API is not listed as it's external and can't be seen inside.
+_注意：_外部API未列出，因为它是外部的，无法在内部看到。
 
-The entire page-loading process is represented by a single **trace**. That trace consists of the following **transactions**:
+整个页面加载过程由单个**追踪**表示。该追踪由以下**事务**组成：
 
-- 1 browser transaction (for page load)
-- 5 backend transactions (one for each request)
-- 1 database server transaction (for the single DB request)
+- 1个浏览器事务（用于页面加载）
+- 5个后端事务（每个请求一个）
+- 1个数据库服务器事务（用于单个DB请求）
 
-Each transaction is broken down into **spans**:
+每个事务分解为**跨度**：
 
-- _Browser Page-load Transaction_: 7 spans
-  - 1 root span for the entire page load
-  - 1 span each (3 total) for HTML, CSS, and JS requests
-  - 1 span for the rendering task, containing 2 child spans for each JSON request
+- _浏览器页面加载事务_：7个跨度
+  - 整个页面加载的1个根跨度
+  - HTML、CSS和JS请求的各1个跨度（共3个）
+  - 渲染任务的1个跨度，包含每个JSON请求的2个子跨度
 
-Some spans in the browser transaction correspond to backend transactions. When a span in one service gives rise to a transaction in another, the original span is a parent span to both the transaction and its root span. In the diagram below, squiggly lines represent this parent-child relationship.
+浏览器事务中的一些跨度对应于后端事务。当一个服务中的跨度在另一个服务中产生事务时，原始跨度是事务及其根跨度的父跨度。在下图中，波浪线表示这种父子关系。
 
-![Diagram illustrating the trace-transaction-span relationship applied to the example.](./img/diagram-transaction-example.png)
+![将追踪-事务-跨度关系应用于示例的图表。](./img/diagram-transaction-example.png)
 
-In our example, every transaction other than the initial browser page-load transaction is the child of a span in another service. In a fully-instrumented system, this pattern always holds true. The only parentless span is the root of the initial transaction; every other span has a parent. Parents and children live in the same service, except when the child span is the root of a child transaction, in which case the parent span lives in the calling service and the child transaction/child root span lives in the called service.
+在我们的示例中，除初始浏览器页面加载事务外，每个事务都是另一个服务中跨度的子级。在完全检测的系统中，这种模式始终成立。唯一的无父跨度是初始事务的根；每个其他跨度都有一个父级。父级和子级位于同一服务中，除非子级跨度是子事务的根，在这种情况下，父级跨度位于调用服务中，子事务/子根跨度位于被调用服务中。
 
-A fully-instrumented system creates a trace which is a connected tree, with each transaction a subtree. The boundaries between subtrees/transactions are the boundaries between services. The diagram above shows one branch of our example's full trace tree.
+完全检测的系统创建一个追踪，这是一个连接的树，每个事务都是一个子树。子树/事务之间的边界是服务之间的边界。上图显示了我们的示例完整追踪树的一个分支。
 
-Now, back to our spans:
+现在，回到我们的跨度：
 
-- _Backend HTML/CSS/JS Request Transactions_: 1 span each
-  - 1 root span for the entire request (child of a browser span)
-- _Backend Request with DB Call Transaction_: 2 spans
-  - 1 root span for the entire request (child of a browser span)
-  - 1 span for querying the database (parent of the database server transaction)
-- _Backend Request with API Call Transaction_: 3 spans
-  - 1 root span for the entire request (child of a browser span)
-  - 1 span for the API request (not a parent span, as the API is external)
-  - 1 span for processing the API data
-- _Database Server Request Transaction_: 3 spans
-  - 1 root span for the entire request (child of the backend span above)
-  - 1 span for the authentication query
-  - 1 span for the data retrieval query
+- _后端HTML/CSS/JS请求事务_：每个1个跨度
+  - 整个请求的1个根跨度（浏览器跨度的子级）
+- _带有DB调用的后端请求事务_：2个跨度
+  - 整个请求的1个根跨度（浏览器跨度的子级）
+  - 查询数据库的1个跨度（数据库服务器事务的父级）
+- _带有API调用的后端请求事务_：3个跨度
+  - 整个请求的1个根跨度（浏览器跨度的子级）
+  - API请求的1个跨度（不是父级跨度，因为API是外部的）
+  - 处理API数据的1个跨度
+- _数据库服务器请求事务_：3个跨度
+  - 整个请求的1个根跨度（上面后端跨度的子级）
+  - 身份验证查询的1个跨度
+  - 数据检索查询的1个跨度
 
-After instrumenting all services, you might discover that the auth query in your database server is causing the slowdown. Tracing can't tell you _why_ it's happening, but now you know where to look!
+检测所有服务后，您可能会发现数据库服务器中的身份验证查询正在导致减速。追踪无法告诉您_为什么_会发生这种情况，但现在您知道在哪里查找了！
 
-### Further Examples of Tracing, Transactions & Spans
+### 追踪、事务和跨度的更多示例
 
-#### Measuring a Specific User Action
+#### 测量特定用户操作
 
-For an e-commerce application, you might measure the time between a user clicking "Submit Order" and the order confirmation appearing. This process is one trace, with transactions (_T_) and spans (_S_) for:
+对于电子商务应用程序，您可能会测量用户单击"提交订单"和订单确认出现之间的时间。此过程是一个追踪，具有以下事务(_T_)和跨度(_S_)：
 
-- Browser's full process (_T_ and root span _S_)
-  - XHR request to backend\* (_S_)
-  - Rendering confirmation screen (_S_)
-- Backend's processing of the request (_T_ and root span _S_)
-  - Function call to compute total (_S_)
-  - DB call to store order\* (_S_)
-  - API call to payment processor (_S_)
-  - Queuing of email confirmation\* (_S_)
-- Database's work updating the customer's order history (_T_ and root span _S_)
-  - Individual SQL queries (_S_)
-- Queued task of sending the email (_T_ and root span _S_)
-  - Function call to populate email template (_S_)
-  - API call to email-sending service (_S_)
+- 浏览器的完整过程(_T_和根跨度_S_)
+  - 对后端的XHR请求*(_S_)
+  - 渲染确认屏幕(_S_)
+- 后端对请求的处理(_T_和根跨度_S_)
+  - 计算总额的函数调用(_S_)
+  - 存储订单的DB调用*(_S_)
+  - 支付处理器的API调用(_S_)
+  - 电子邮件确认的排队*(_S_)
+- 数据库更新客户订单历史的工作(_T_和根跨度_S_)
+  - 单个SQL查询(_S_)
+- 发送电子邮件的排队任务(_T_和根跨度_S_)
+  - 填充电子邮件模板的函数调用(_S_)
+  - 电子邮件发送服务的API调用(_S_)
 
-\* Starred spans are parents of later transactions (and their root spans).
+*带星号的跨度是稍后事务（及其根跨度）的父级。
 
-#### Monitoring a Background Process
+#### 监控后台进程
 
-For a backend periodically polling for data from an external service, processing it, caching it, and forwarding it to an internal service, each instance is a trace, with transactions (_T_) and spans (_S_) for:
+对于定期轮询外部服务数据、处理数据、缓存数据并将其转发到内部服务的后端，每个实例都是一个追踪，具有以下事务(_T_)和跨度(_S_)：
 
-- Cron job completing the entire process (_T_ and root span _S_)
-  - API call to external service (_S_)
-  - Processing function (_S_)
-  - Call to caching service\* (_S_)
-  - API call to internal service\* (_S_)
-- Work done in your caching service (_T_ and root span _S_)
-  - Checking cache for existing data (_S_)
-  - Storing new data in cache (_S_)
-- Internal service's processing of the request (_T_ and root span _S_)
-  - Handling the request (_S_)
+- 完成整个流程的cron作业(_T_和根跨度_S_)
+  - 外部服务的API调用(_S_)
+  - 处理函数(_S_)
+  - 缓存服务的调用*(_S_)
+  - 内部服务的API调用*(_S_)
+- 缓存服务中完成的工作(_T_和根跨度_S_)
+  - 检查现有数据的缓存(_S_)
+  - 在缓存中存储新数据(_S_)
+- 内部服务对请求的处理(_T_和根跨度_S_)
+  - 处理请求(_S_)
 
-\* Starred spans are parents of later transactions (and their root spans).
+*带星号的跨度是稍后事务（及其根跨度）的父级。
 
-### Important Information About Tracing, Spans & Transactions
+### 关于追踪、跨度和事务的重要信息
 
-#### Trace Duration
+#### 追踪持续时间
 
-A trace begins when the earliest transaction starts, and ends when the last transaction ends. You can't "start" or "end" a trace, but you can initiate a transaction which will triggers a trace. Completing all transactions ends a trace.
+追踪在最早事务开始时开始，在最后一个事务结束时结束。您无法"启动"或"结束"追踪，但可以启动一个将触发追踪的事务。完成所有事务将结束追踪。
 
-#### Async Transactions
+#### 异步事务
 
-Child transactions may outlive the transactions containing their parent spans. For example, if a backend API call sets off a long-running task and then immediately returns a response, the backend transaction will finish long before the async task transaction does. Asynchronicity means that the order in which transactions are sent to Sentry won't depend on the order they were created. However, order of receipt for transactions in the same trace is correlated with order of completion.
+子事务可能比包含其父跨度的事务寿命更长。例如，如果后端API调用启动长时间运行的任务然后立即返回响应，后端事务将在异步任务事务之前很久完成。异步意味着事务发送到Sentry的顺序不取决于它们创建的顺序。但是，同一追踪中事务的接收顺序与完成顺序相关。
 
-#### Orphan Transactions
+#### 孤立事务
 
-In a fully instrumented system, each trace should contain only one transaction and one span (the transaction's root) without a parent. However, you may not have tracing enabled in every service, or an instrumented service may fail to report a transaction. This can result in gaps in your trace hierarchy, with non-originating, parentless transactions called **orphan transactions**.
+在完全检测的系统中，每个追踪应仅包含一个没有父级的事务和一个跨度（事务的根）。但是，您可能没有在每项服务中启用追踪，或者检测的服务可能无法报告事务。这可能导致追踪层次结构中的间隙，没有来源的无父级事务称为**孤立事务**。
 
-#### Nested Spans
+#### 嵌套跨度
 
-There's no set limit to how deep the nesting of spans can go, but practical limits exist: transaction payloads sent to Sentry have a maximum allowed size, and there's a balance between data granularity and usability.
+跨度嵌套的深度没有设定限制，但实际限制存在：发送到Sentry的事务负载具有最大允许大小，并且在数据粒度和可用性之间存在平衡。
 
-#### Zero-duration Spans
+#### 零持续时间跨度
 
-A span can have equal start and end times which will be recorded as taking no time. This can occur if the span is being used as a marker, for example, in the browser's [performance API](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark), or if the operation's duration is less than the measurement resolution (which will vary by service).
+跨度可以具有相等的开始和结束时间，这将被记录为不占用时间。如果跨度被用作标记，例如在浏览器的[性能API](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark)中，或者如果操作的持续时间小于测量分辨率（这将因服务而异），则可能发生这种情况。
 
-#### Clock Skew
+#### 时钟偏差
 
-Collecting transactions from multiple machines may result in **clock skew**, where timestamps in one transaction don't align with timestamps in another. To reduce this, use Network Time Protocol (NTP) or your cloud provider's clock synchronization services.
+从多台计算机收集事务可能导致**时钟偏差**，其中一个事务中的时间戳与另一个事务中的时间戳不对齐。为了减少这种情况，请使用网络时间协议（NTP）或云提供商的时钟同步服务。
 
-#### How Data is Sent
+#### 数据发送方式
 
-Individual spans aren't sent to Sentry; the entire transaction is sent as one unit. No span data is recorded by Sentry's servers until the transaction is closed and dispatched. Transactions are still valid and sent even if they only contain their root span.
+单个跨度不会发送到Sentry；整个事务作为一个单元发送。直到事务关闭并发送之前，Sentry的服务器不会记录任何跨度数据。即使事务仅包含其根跨度，事务仍然有效并发送。
 
-## Data Sampling
+## 数据采样
 
-When you enable sampling, you choose a percentage of collected transactions to send to Sentry. For example, a sampling rate of `0.25` for an endpoint receiving 1000 requests per minute results in approximately 250 transactions being sent to Sentry each minute. Sampling helps manage the number of events sent to Sentry and balances performance and volume concerns with data accuracy.
+启用采样时，您选择要发送到Sentry的收集事务的百分比。例如，对于每分钟接收1000个请求的端点，采样率为`0.25`会导致每分钟大约250个事务发送到Sentry。采样有助于管理发送到Sentry的事件数量，并在性能和容量问题与数据准确性之间取得平衡。
 
-### Consistency Within a Trace
+### 追踪内的一致性
 
-Sentry uses a "head-based" approach: a sampling decision is made in the originating service and passed to subsequent services. For example, if a browser makes requests to your backend, it includes the sampling decision in the headers. The backend collects transaction and span data if the decision is "yes" and passes the decision to subsequent services. This ensures either all transactions for a given trace are collected, or none are.
+Sentry使用"基于头部"的方法：在原始服务中做出采样决策并传递给后续服务。例如，如果浏览器向后端发出请求，它会在标头中包含采样决策。如果决策为"是"，后端将收集事务和跨度数据，并将决策传递给后续服务。这确保了给定追踪的所有事务都被收集，或者都不被收集。
 
 <Alert level="warning">
 
-Dynamic sampling ensures complete traces by retaining all transactions associated with a trace if the head transaction is preserved. However, transactions or other items may still be missing from a trace when rate limiting or quota enforcement drops them.
+动态采样通过保留与追踪关联的所有事务（如果保留了头部事务）来确保完整追踪。但是，当速率限制或配额强制删除事务或其他项目时，事务或其他项目仍可能从追踪中丢失。
 
 </Alert>
 
-## Viewing Trace Data
+## 查看追踪数据
 
-Use the [Trace Explorer](/product/explore/traces/) to search for traces containing spans that meet your specific query conditions. This helps you find distributed traces that give you a connected view of your application and can help you debug and optimize your code.
+使用[追踪浏览器](/product/explore/traces/)搜索包含满足特定查询条件的跨度的追踪。这有助于您找到为您提供应用程序连接视图的分布式追踪，并可以帮助您调试和优化代码。
 
-Through [Performance](/product/insights/overview/) and [Discover](/product/explore/discover-queries/), you can also view trace data in the [Trace View](/concepts/key-terms/tracing/trace-view/) page.
+通过[性能](/product/insights/overview/)和[发现](/product/explore/discover-queries/)，您还可以在[追踪视图](/concepts/key-terms/tracing/trace-view/)页面中查看追踪数据。

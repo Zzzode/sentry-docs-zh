@@ -1,25 +1,25 @@
 ---
-title: "Merging Issues"
+title: 合并问题
 sidebar_order: 10
-description: "Learn about merging similar issues that aren't automatically grouped."
+description: "了解合并未自动分组的类似问题。"
 ---
 
 <Include name="only-error-issues-note.mdx" />
 <Include name="merge-escalating-note.mdx" />
 
-If you have similar-looking issues that have not been grouped together automatically and you want to reduce noise, you can do so by merging them.
+如果您有看起来相似但尚未自动分组的问题，并且您希望减少噪音，您可以通过合并它们来实现。
 
-In this example, before merge, there are two issues that are very similar, but have not been grouped together. One issue has 39 events in the past 24 hours, and the other has 76:
-![Before merge.](./img/before-merge.png)
+在此示例中，合并前有两个非常相似但尚未自动分组的问题。一个问题在过去 24 小时内有 39 个事件，另一个有 76 个：
+![合并前](./img/before-merge.png)
 
-After the two issues are merged into one, the event count of 115 on that one issue reflects that they've been grouped together:
-![After merge.](./img/after-merge.png)
+将两个问题合并为一个后，该单个问题的事件计数 115 反映了它们已被分组在一起：
+![合并后](./img/after-merge.png)
 
-You can also do this from inside a single issue. Click the "Similar Issues" tab, select all of the issues that you want to merge, and click "Merge":
-![Similar Issues](./img/similar-issues.png)
+您还可以从单个问题内部执行此操作。点击"类似问题"选项卡，选择您要合并的所有问题，然后点击"合并"：
+![类似问题](./img/similar-issues.png)
 
-If you'd like to unmerge issues, go to the **Issue Details** page and click the “Merged Issues” tab. You will see the fingerprints that have been merged into that issue. Select the appropriate checkbox(es) and click “Unmerge”.
+如果您想取消合并问题，请转到**问题详细信息**页面并点击"合并问题"选项卡。您将看到已合并到该问题中的指纹。选择适当的复选框并点击"取消合并"。
 
-It's important to note that we don't infer any new grouping rules from how you merge issues. Future events will be added to the merged set of issues by the same criteria as they would've been added to the individual issues that are now in the merged set.
+需要注意的是，我们不会从您合并问题的方式推断任何新的分组规则。未来事件将通过与现在合并的单个问题中相同的条件添加到合并的问题集中。
 
-If Sentry creates more issues than you can merge, or too few issues, you can try updating your [Fingerprinting Rules](/concepts/data-management/event-grouping/fingerprint-rules/) or [Stack Trace Rules](/concepts/data-management/event-grouping/stack-trace-rules/).
+如果 Sentry 创建的问题多于您可以合并的问题，或问题太少，您可以尝试更新您的[指纹规则](/concepts/data-management/event-grouping/fingerprint-rules/)或[堆栈跟踪规则](/concepts/data-management/event-grouping/stack-trace-rules/)。

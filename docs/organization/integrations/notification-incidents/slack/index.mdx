@@ -1,99 +1,99 @@
 ---
 title: Slack
 sidebar_order: 1
-description: "Learn more about Sentry's Slack integration and how you can triage, resolve, and archive Sentry issues directly from Slack."
+description: "了解 Sentry 的 Slack 集成以及如何在 Slack 中直接分流、解决和归档 Sentry 问题。"
 ---
 
-## Install
+## 安装
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或拥有者权限才能安装此集成。
 
 </Alert>
 
-Slack defaults to let any workspace member authorize apps, but they may have to request access. See this [Slack help article](https://get.slack.help/hc/en-us/articles/202035138-Add-an-app-to-your-workspace) for more details.
+Slack 默认允许任何工作区成员授权应用，但他们可能需要请求访问权限。有关更多详细信息，请参阅此 [Slack 帮助文章](https://get.slack.help/hc/en-us/articles/202035138-Add-an-app-to-your-workspace)。
 
-1.  In [sentry.io](https://sentry.io), navigate to **Settings > Integrations > Slack**.
+1. 在 [sentry.io](https://sentry.io) 中，导航到 **设置 > 集成 > Slack**。
 
-2.  Click "Add Workspace".
+2. 点击"添加工作区"。
 
-    ![Install Slack integration](./img/slack-overview-details-page.png)
+    ![安装 Slack 集成](./img/slack-overview-details-page.png)
 
-3.  Toggle to the Slack workspace to which you want to connect using the dropdown menu in the upper right corner of the authentication window. Then select "Allow". Repeat this process if you are connecting to multiple workspaces.
+3. 使用身份验证窗口右上角的下拉菜单切换到您要连接的 Slack 工作区。然后选择"允许"。如果您要连接多个工作区，请重复此过程。
 
-    ![Installation confirmation modal](./img/slack-allow-install.png)
+    ![安装确认模态框](./img/slack-allow-install.png)
 
-Your integration details page will refresh and show the Slack workspace you just added.
+您的集成详情页面将刷新并显示您刚刚添加的 Slack 工作区。
 
-![Installation success message](./img/slack-install-success.png)
+![安装成功消息](./img/slack-install-success.png)
 
-Your Slack integration is now available to all projects in your Sentry organization. To enable Slack notification for private channels, add the Slack app to the channel. One quick method: use `@sentry` to invite the Sentry bot the Slack channel.
+您的 Slack 集成现在对您 Sentry 组织中的所有项目都可用。要为私人频道启用 Slack 通知，请将 Slack 应用添加到该频道。一种快速方法：使用 `@sentry` 邀请 Sentry 机器人到 Slack 频道。
 
-In the next section, we'll walk you through configuring your notification settings.
+在下一节中，我们将引导您配置通知设置。
 
-## Configure
+## 配置
 
-Use Slack for notifications and [alerts](#alert-rules) regarding issues, environments, deployment, etc.
+将 Slack 用于通知和[警报](#alert-rules)关于问题、环境、部署等。
 
-### Personal Notifications
+### 个人通知
 
-You can receive personal workflow, deploy, and issue alert notifications from our Slack integration. Manage your [personal notification settings](/product/alerts/notifications/notification-settings/) by navigating to **User Settings > Notifications**.
+您可以从我们的 Slack 集成接收个人工作流、部署和问题警报通知。通过导航到 **用户设置 > 通知** 来管理您的[个人通知设置](/product/alerts/notifications/notification-settings/)。
 
-#### Linking Your Slack and Sentry Accounts
+#### 链接您的 Slack 和 Sentry 账户
 
-In order to receive personal notifications from our Slack integration, your Slack identity must be linked with your Sentry account. This can be done by typing `/sentry link` in Slack.
+为了从我们的 Slack 集成接收个人通知，您的 Slack 身份必须与您的 Sentry 账户关联。这可以通过在 Slack 中输入 `/sentry link` 来完成。
 
-### Team Notifications
+### 团队通知
 
-You can receive [team alert notifications](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions) from our Slack integration. To enable this feature, type `/sentry link team` in the desired Slack channel. To view a team's associated Slack channel in [sentry.io](https://sentry.io), navigate to **Settings > Teams > [Team] > Notifications**.
+您可以从我们的 Slack 集成接收[团队警报通知](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions)。要启用此功能，请在所需的 Slack 频道中输入 `/sentry link team`。要在 [sentry.io](https://sentry.io) 中查看团队的关联 Slack 频道，请导航到 **设置 > 团队 > [团队] > 通知**。
 
-### Alert Rules
+### 警报规则
 
-Set up an alert rule by going to **Alerts** and clicking "Create Alert". From here, you can configure alerts to route notifications to your Slack workspace(s).
+通过转到 **警报** 并点击"创建警报"来设置警报规则。从这里，您可以配置警报以将通知路由到您的 Slack 工作区。
 
-#### Issue Alerts
+#### 问题警报
 
-In [issue alerts](/product/alerts/alert-types/#issue-alerts), select "Send a Slack notification" in the actions dropdown and then select your workspace and channel. You can optionally select any tags to include in the alert as well as other text in the "notes" section. Mentions are supported in the "notes" section - to @ a user, include their user id like `<@USER_ID>`.
+在[问题警报](/product/alerts/alert-types/#issue-alerts)中，从操作下拉菜单中选择"发送 Slack 通知"，然后选择您的工作区和频道。您还可以选择性地在"备注"部分中包含任何标签以及其他文本。"备注"部分支持提及 - 要 @ 用户，请包含他们的用户 ID，如 `<@USER_ID>`。
 
-![Slack issue alert action](./img/slack_issue_alert.png)
+![Slack 问题警报操作](./img/slack_issue_alert.png)
 
-Once you receive a Slack notification for an issue alert, you can use the "Resolve", "Archive", or "Select Assignee..." buttons to update the Issue in Sentry.
+一旦您收到问题警报的 Slack 通知，您可以使用"解决"、"归档"或"选择受让人..."按钮更新 Sentry 中的问题。
 
-![Slack notification of Sentry issue](./img/slack-alert-message.png)
+![Sentry 问题的 Slack 通知](./img/slack-alert-message.png)
 
-#### Metric Alerts
+#### 指标警报
 
-In [metric alerts](/product/alerts/alert-types/#metric-alerts), select the Slack option in the dropdown that corresponds to your workspace and the select your channel:
+在[指标警报](/product/alerts/alert-types/#metric-alerts)中，在下拉菜单中选择对应您工作区的 Slack 选项，然后选择您的频道：
 
-![Slack metric alert action](./img/slack_metric_alert.png)
+![Slack 指标警报操作](./img/slack_metric_alert.png)
 
-Metric alert Slack notifications include a chart of the metric's status and a link to investigate the alert further:
+指标警报 Slack 通知包括指标状态的图表以及进一步调查警报的链接：
 
-![Slack notification of Sentry metric alert](./img/slack-metric-alert-message.png)
+![Sentry 指标警报的 Slack 通知](./img/slack-metric-alert-message.png)
 
-Slack notifications in metric alerts are also contained within threads, so all notifications related to a singular issue will be replies to the original notification.
+指标警报中的 Slack 通知也包含在线程中，因此与单个问题相关的所有通知都将是原始通知的回复。
 
-Critical-level notifications will still be sent to the channel, and also contained in a thread.
+关键级别的通知仍将发送到频道，并包含在线程中。
 
-An example of the experience looks like this:
+体验示例如下：
 
-![Slack Issue Alert Thread Example](./img/slack-issue-alert-thread-example.png)
+![Slack 问题警报线程示例](./img/slack-issue-alert-thread-example.png)
 
-### Troubleshooting
+### 故障排除
 
-#### Rate Limiting Error
+#### 速率限制错误
 
-If you're attempting to save a Slack alert rule and are receiving the following error: "Requests to slack were rate limited. Please try again later.", you may enter in the channel or user ID in addition to the channel name.
+如果您尝试保存 Slack 警报规则并收到以下错误："对 slack 的请求受到速率限制。请稍后重试。"，您可以在频道名称之外输入频道或用户 ID。
 
-To find a channel's ID in Slack click the name of the channel at the top of the application and the channel ID will be shown at the bottom of the pop up. To find a user's ID click on their avatar >> "View full profile" >> ... >> "Copy member ID".
+要在 Slack 中查找频道的 ID，请点击应用程序顶部的频道名称，频道 ID 将显示在弹出窗口的底部。要查找用户的 ID，请点击他们的头像 >> "查看完整个人资料" >> ... >> "复制成员 ID"。
 
-#### Can't Add Alert Rule to Channel
+#### 无法将警报规则添加到频道
 
-If you receive an error “The slack resource `example-channel` does not exist or has not been granted access in the `example-workspace` Slack workspace” while trying to add an alert rule, we recommend checking whether our app is installed in the channel. In Slack, right click on your channel's name from the left bar and select "Open channel settings". Then click on the "Integrations" tab; the Sentry app should be listed under "Apps".
+如果您在尝试添加警报规则时收到错误"Slack 资源 `example-channel` 不存在或尚未在 `example-workspace` Slack 工作区中获得访问权限"，我们建议您检查我们的应用是否已安装在频道中。在 Slack 中，从左侧栏右键点击您的频道名称并选择"打开频道设置"。然后点击"集成"选项卡；Sentry 应用应列在"应用"下。
 
-## Deleting the legacy project-based Slack integration
+## 删除旧版基于项目的 Slack 集成
 
-We recommend disabling the legacy project-based integration after setting up the global integration.
+我们建议设置全局集成后禁用旧版基于项目的集成。
 
-Once you configure the global Slack integration and alert rules, you can disable the old project-based Slack integration. Go to each project that has the old project-based Slack enabled and disable it.
+配置全局 Slack 集成和警报规则后，您可以禁用旧的基于项目的 Slack 集成。转到启用了旧版基于项目的 Slack 的每个项目并禁用它。

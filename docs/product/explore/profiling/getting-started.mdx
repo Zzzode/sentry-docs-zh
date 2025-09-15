@@ -1,61 +1,59 @@
 ---
-title: Set Up
+title: 设置
 sidebar_order: 2
-description: "Get started with Profiling, which allows you to see code-level profiling information for your Sentry apps."
+description: "开始使用性能分析，它允许您查看 Sentry 应用的代码级性能分析信息。"
 ---
 
-Continuous Profiling and UI Profiling are the latest iteration of Sentry’s profiling capabilities, but they are currently only supported in select SDKs as described below. 
+连续性能分析和 UI 性能分析是 Sentry 性能分析功能的最新迭代，但目前仅在下面描述的选定 SDK 中受支持。
 
-Other platforms are supported via the prior transaction-based Profiling product, but these will not benefit from new capabilities introduced by Continuous and UI Profiling (direct start/stop control over the profile lifecycle and removal of duration limits). For more information on the differences between transaction-based Profiling and Continuous/UI Profiling, read [this documentation](/product/explore/profiling/transaction-vs-continuous-profiling).
+其他平台通过之前的基于事务的性能分析产品得到支持，但这些产品将无法受益于连续和 UI 性能分析引入的新功能（对性能分析生命周期的直接开始/停止控制和移除持续时间限制）。有关基于事务的性能分析与连续/UI 性能分析之间差异的更多信息，请阅读[此文档](/product/explore/profiling/transaction-vs-continuous-profiling)。
 
-If you are currently using transaction-based Profiling and want to migrate to Continuous Profiling or UI Profiling on a supported SDK, read the [migration guide](/product/explore/profiling/continuous-ui-profiling-migration-guide).
+如果您当前正在使用基于事务的性能分析，并且想要在支持的 SDK 上迁移到连续性能分析或 UI 性能分析，请阅读[迁移指南](/product/explore/profiling/continuous-ui-profiling-migration-guide)。
 
-All SDKs that currently support transaction-based Profiling will be migrated over time to support Continuous Profiling and UI Profiling.
+所有当前支持基于事务的性能分析的 SDK 都将随着时间的推移迁移以支持连续性能分析和 UI 性能分析。
 
-## Supported SDKs
+## 支持的 SDK
 
-### Continuous Profiling
+### 连续性能分析
 
 <Alert>
 
-Continuous Profiling can be used both independently and as a complement to the tracing product.
+连续性能分析既可以独立使用，也可以作为追踪产品的补充。
 
 </Alert>
 
-- Standalone and server apps
+- 独立和服务器应用
   - [Node.js](/platforms/javascript/guides/node/profiling/#enable-continuous-profiling)
   - [Python](/platforms/python/profiling/#enable-continuous-profiling)
 
-### UI Profiling
+### UI 性能分析
 
 <Alert>
 
-UI Profiling can be used both independently and as a complement to the tracing product. Support for Browser JavaScript is coming soon.
+UI 性能分析既可以独立使用，也可以作为追踪产品的补充。浏览器 JavaScript 支持即将推出。
 
 </Alert>
 
-- Mobile
+- 移动端
   - [Android](/platforms/android/profiling/#continuous-profiling)
-  - [iOS and macOS](/platforms/apple/guides/ios/profiling/#continuous-profiling)
+  - [iOS 和 macOS](/platforms/apple/guides/ios/profiling/#continuous-profiling)
 
-
-### Transaction-based Profiling
+### 基于事务的性能分析
 
 <Alert>
 
-If Continuous Profiling or UI Profiling are not supported on your SDK, you can fall back to the older transaction-based Profiling implementation for the platforms below.
+如果您的 SDK 不支持连续性能分析或 UI 性能分析，您可以回退到下面平台的旧版基于事务的性能分析实现。
 
-Transaction-based Profiling requires Sentry's tracing product being enabled beforehand. To enable tracing and performance monitoring features in the SDK, check out our [Insights guide](/product/insights/).
+基于事务的性能分析需要事先启用 Sentry 的追踪产品。要在 SDK 中启用追踪和性能监控功能，请查看我们的[洞察指南](/product/insights/)。
 
 </Alert>
 
-- [Browser JavaScript](/platforms/javascript/profiling/) [beta]
-- Mobile
-  - [React Native](/platforms/react-native/profiling/) [beta]
-  - [Flutter](/platforms/dart/guides/flutter/profiling/) [experimental, iOS and macOS only]
-  - [.NET](/platforms/dotnet/guides/maui/profiling/) [experimental, iOS only]
-- Standalone and server apps
+- [浏览器 JavaScript](/platforms/javascript/profiling/) [测试版]
+- 移动端
+  - [React Native](/platforms/react-native/profiling/) [测试版]
+  - [Flutter](/platforms/dart/guides/flutter/profiling/) [实验版，仅限 iOS 和 macOS]
+  - [.NET](/platforms/dotnet/guides/maui/profiling/) [实验版，仅限 iOS]
+- 独立和服务器应用
   - [PHP](/platforms/php/profiling/)
-  - [Ruby](/platforms/ruby/profiling/) [beta]
-  - [.NET](/platforms/dotnet/profiling/) [experimental]
-
+  - [Ruby](/platforms/ruby/profiling/) [测试版]
+  - [.NET](/platforms/dotnet/profiling/) [实验版]

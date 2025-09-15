@@ -1,66 +1,66 @@
 ---
 title: incident.io
 sidebar_order: 1
-description: "Learn more about Sentry's incident.io integration and how you can easily attach Sentry issues to ongoing incidents."
+description: "了解 Sentry 的 incident.io 集成的更多信息，以及您如何轻松地将 Sentry 问题附加到正在进行的突发事件。"
 ---
 
-The incident.io Sentry integration supports Sentry exceptions as incident attachments and can manage Sentry resources from within [incident.io](https://incident.io/).
+incident.io Sentry 集成支持将 Sentry 异常作为突发事件附件，并可以从 [incident.io](https://incident.io/) 内管理 Sentry 资源。
 
-This integration is maintained and supported by the company that created it. For more details, check out our [Integration Platform documentation](/organization/integrations/integration-platform/).
+此集成由创建它的公司维护和支持。更多详细信息，请查看我们的[集成平台文档](/organization/integrations/integration-platform/)。
 
-## Install
+## 安装
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
-incident.io **won't** work with self-hosted Sentry.
+需要 Sentry 所有者、管理员或管理员权限才能安装此集成。
+incident.io **不**适用于自托管 Sentry。
 
 </Alert>
 
-The preferred way to install the incident.io integration is by sharing a Sentry link in your active incident Slack channel, which prompts you to add the integration:
+安装 incident.io 集成的首选方法是在您的活跃突发事件 Slack 频道中分享 Sentry 链接，这将提示您添加集成：
 
-![Prompt to add incident.io integration in Slack.](./img/incidentio-slack-install.png)
+![在 Slack 中添加 incident.io 集成的提示。](./img/incidentio-slack-install.png)
 
-To add the incident.io integration in [sentry.io](https://sentry.io), navigate to **Settings > Integrations > incident.io** and click "Install":
+要在 [sentry.io](https://sentry.io) 中添加 incident.io 集成，请导航到**设置 > 集成 > incident.io** 并点击"安装"：
 
-![incident.io integration installed](./img/incidentio-install.png)
+![incident.io 集成已安装](./img/incidentio-install.png)
 
-## Issue Linking
+## 问题链接
 
-Issue linking allows you to attach Sentry issues to existing incidents. Issue linking can be accomplished in Slack or within [sentry.io](https://sentry.io).
+问题链接允许您将 Sentry 问题附加到现有突发事件。问题链接可以在 Slack 或 [sentry.io](https://sentry.io) 内完成。
 
-### In Slack
+### 在 Slack 中
 
-To attach a Sentry issue to an incident in Slack, share a link to the Sentry issue and click "Yes, attach it" when prompted:
+要将 Sentry 问题附加到 Slack 中的突发事件，请分享指向 Sentry 问题的链接，并在提示时点击"是的，附加它"：
 
-![Prompt to attach Sentry issue to incident in Slack](./img/incidentio-attach-prompt.png)
+![在 Slack 中将 Sentry 问题附加到突发事件的提示](./img/incidentio-attach-prompt.png)
 
-The Sentry issue is now attached to the incident:
+Sentry 问题现在已附加到突发事件：
 
-![Incident with Sentry issue attached](./img/incidentio-attach-post.png)
+![已附加 Sentry 问题的突发事件](./img/incidentio-attach-post.png)
 
-### In Sentry
+### 在 Sentry 中
 
-To attach a Sentry issue to an incident in [sentry.io](https://sentry.io), navigate to a specific Sentry issue and find the "Linked Issues" section on the right panel. Click "Link incident.io issue" and select your active incident from the dropdown:
+要在 [sentry.io](https://sentry.io) 中将 Sentry 问题附加到突发事件，请导航到特定的 Sentry 问题，并在右侧面板中找到"链接问题"部分。点击"链接 incident.io 问题"并从下拉菜单中选择您的活跃突发事件：
 
-![incident.io issue link modal in sentry.io](./img/incidentio-link-issue.png)
+![sentry.io 中的 incident.io 问题链接模态框](./img/incidentio-link-issue.png)
 
-## Issue Sync
+## 问题同步
 
-The incident's Slack channel will be updated with attached Sentry issue comments, edited comments, and when the Sentry issue is resolved:
+突发事件的 Slack 频道将更新附加的 Sentry 问题评论、编辑的评论以及 Sentry 问题解决时的通知：
 
-![Synced comments from Sentry on an incident in Slack](./img/incidentio-issue-sync.png)
-
-
-## Alerting
-
-Once installed, you can also set Sentry to be an alert source for incidents.
-
-![incident.io alert setup](./img/incidentio-alert-setup.png)
-
-Afterward, within Sentry you can connect it to that newly created source in an alert rule.
-
-![incident.io alert rule](./img/incidentio-alert-rule.png)
+![从 Sentry 同步到 Slack 中突发事件的评论](./img/incidentio-issue-sync.png)
 
 
-When the alert fires, it'll create an incident on incident.io, with all the downstream affects you set up on that side.
+## 警报
+
+安装后，您还可以将 Sentry 设置为突发事件的警报源。
+
+![incident.io 警报设置](./img/incidentio-alert-setup.png)
+
+之后，在 Sentry 内您可以将其连接到该新创建的源的警报规则。
+
+![incident.io 警报规则](./img/incidentio-alert-rule.png)
+
+
+当警报触发时，它将在 incident.io 上创建一个突发事件，并产生您在该端设置的所有下游影响。

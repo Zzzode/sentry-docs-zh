@@ -1,20 +1,20 @@
 ---
-title: Capture Your First Distributed Tracing Error
+title: 捕获您的第一个分布式追踪错误
 sidebar_order: 5
-description: "Learn how to capture your first error and view it in Sentry."
+description: "学习如何捕获您的第一个错误并在 Sentry 中查看它。"
 ---
 
-Now that the sample apps are up and running on your local environment and integrated with the Sentry SDKs, you're ready to generate the first error. Please ensure you have BOTH apps running (on http://localhost:3000 and http://localhost:3001).
+现在示例应用程序已在您的本地环境中运行并与 Sentry SDK 集成，您已准备好生成第一个错误。请确保您已同时运行两个应用程序（分别在 http://localhost:3000 和 http://localhost:3001 上）。
 
-You should see the 'One-Stop Shop' site running on http://localhost:3000. Clicking on any of the product buttons will trigger a call to the backend for product info. As long as your Express server is running, you should see titles, images, and descriptions for each product.
+您应该看到"一站式商店"网站在 http://localhost:3000 上运行。点击任何产品按钮都会触发对后端的调用以获取产品信息。只要您的 Express 服务器正在运行，您就应该看到每个产品的标题、图片和描述。
 
-## 1. Trigger an Error
+## 1. 触发错误
 
-To start using Sentry's error monitoring feature, you need some errors first. Let's add in an obvious error that will be easy to see in Sentry.
+为了开始使用 Sentry 的错误监控功能，您首先需要一些错误。让我们添加一个明显的错误，这样在 Sentry 中很容易看到。
 
-If you're using your own source code, skip this step. Instead, select your [platform](/platforms/) and follow its **Verify** step inside the **Getting Started** guide to introduce an error.
+如果您使用的是自己的源代码，请跳过此步骤。相反，选择您的[平台](/platforms/)并按照其**入门指南**中的**验证**步骤引入错误。
 
-1. In the `tracing-tutorial-frontend` repo, open `src/App.js` and update the `onClick` handler by replacing the string passed to the `getProduct()` function from `nonfat-water` to `debug-sentry`.
+1. 在 `tracing-tutorial-frontend` 仓库中，打开 `src/App.js` 并通过将传递给 `getProduct()` 函数的字符串从 `nonfat-water` 更改为 `debug-sentry` 来更新 `onClick` 处理程序：
 
 ```jsx diff {filename:App.js}
     <div className="btn-parent">
@@ -30,7 +30,7 @@ If you're using your own source code, skip this step. Instead, select your [plat
     </div>
 ```
 
-There's a middleware function handling the `/products/debug-sentry` route in the `server.js` file of the `tracing-tutorial-backend` repo that throws a sample error:
+在 `tracing-tutorial-backend` 仓库的 `server.js` 文件中有一个中间件函数处理 `/products/debug-sentry` 路由，它会抛出一个示例错误：
 
 ```javascript {filename:server.js}
 app.get("/products/debug-sentry", (req, res) => {
@@ -39,34 +39,34 @@ app.get("/products/debug-sentry", (req, res) => {
 });
 ```
 
-1. Save the file.
+1. 保存文件。
 
-1. Go back to the browser window and try clicking on the **Nonfat Water** button again, you will no longer see the expected product information. Instead, you'll see a `500 error` message displayed.
+1. 返回浏览器窗口并尝试再次点击**脱脂水**按钮，您将不再看到预期的产品信息。相反，您会看到显示`500 错误`消息。
 
-1. Open the terminal window that's running the `tracing-tutorial-backend` server. Here, you'll see a log letting you know that an error has occurred:
+1. 打开运行 `tracing-tutorial-backend` 服务器的终端窗口。在这里，您会看到一条日志，让您知道发生了错误：
 
 ```bash
 Sentry Error thrown!
 ```
 
-This confirms that the error we just produced on the frontend has triggered a corresponding error on the backend.
+这确认了我们刚才在前端产生的错误已在后端触发了相应的错误。
 
-## 2. View the Error in Sentry
+## 2. 在 Sentry 中查看错误
 
-Now that you've triggered an error, let's see what it looks like in Sentry.
+现在您已经触发了错误，让我们看看它在 Sentry 中的样子。
 
-1. Open the [**Traces**](https://sentry.io/orgredirect/organizations/:orgslug/traces/) page in Sentry.io. Make sure one (or both) of the projects you're using for this tutorial is selected in the projects dropdown.
+1. 在 Sentry.io 中打开[**追踪**](https://sentry.io/orgredirect/organizations/:orgslug/traces/)页面。确保为此教程选择的一个（或两个）项目已在项目下拉菜单中被选中。
 
-2. You should see a trace that shows both the React and Express icons, indicating that this trace traverses both projects. Click on the blue trace ID on the left to see the Trace View.
+2. 您应该看到一个追踪，显示 React 和 Express 图标，表明此追踪跨越了两个项目。点击左侧的蓝色追踪 ID 查看追踪视图。
 
-3. On the [Trace View](/concepts/key-terms/tracing/trace-view/) page, you can see every span that happened within this trace. You can see the error on the React app that directly triggered the error on the Express app.
+3. 在[追踪视图](/concepts/key-terms/tracing/trace-view/)页面上，您可以看到此追踪中发生的每个跨度。您可以看到 React 应用程序上的错误直接触发了 Express 应用程序上的错误。
 
-### UI Walkthrough
+### UI 操作演示
 
-The interactive demo below walks through how to view a distributed trace in Sentry.
+下面的交互式演示展示了如何在 Sentry 中查看分布式追踪。
 
 <Arcade src="https://demo.arcade.software/xPc1a1WUYTnQqPvBQGnQ?embed" />
 
-## Next
+## 下一步
 
-Congrats, you're done! You've verified that Sentry is providing distributed tracing across your projects. You can now dig in to issues to find the original source of the issue that's causing a problem so you can diagnose and fix it in less time.
+恭喜，您完成了！您已验证 Sentry 正在为您的项目提供分布式追踪。现在您可以深入问题以找到导致问题的原始错误源，这样您就可以用更少的时间诊断和修复它。

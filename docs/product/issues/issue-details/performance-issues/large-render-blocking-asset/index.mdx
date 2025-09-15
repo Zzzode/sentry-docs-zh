@@ -1,42 +1,42 @@
 ---
-title: "Large Render Blocking Asset"
+title: "大型渲染阻塞资源"
 sidebar_order: 30
-description: "Learn more about Large Render Blocking Assets and how to diagnose and fix them."
+description: "了解更多关于大型渲染阻塞资源以及如何诊断和修复它们的信息。"
 ---
 
-A _Large Render Blocking Asset_ is a performance problem that happens when a large asset causes a delay in displaying the page content. For example, if a page includes a stylesheet, and the browser pauses page rendering until the entire stylesheet downloads and processes. If that stylesheet is large, the user may see a blank or unstyled screen for a long time. This problem occurs when applications don't split up asset files, load non-essential assets synchronously, or load assets too early.
+_大型渲染阻塞资源_是一种性能问题，当大型资源导致页面内容显示延迟时发生。例如，如果页面包含样式表，浏览器会暂停页面渲染，直到整个样式表下载并处理完成。如果该样式表很大，用户可能会长时间看到空白或未样式化的屏幕。当应用程序不分割资源文件、同步加载非必要资源或过早加载资源时，会出现此问题。
 
-## Detection Criteria
+## 检测标准
 
-The detector for this performance issue looks for specific asset (resource) spans with the following criteria:
+此性能问题的检测器会查找具有以下条件的特定资源（资源）跨度：
 
-- The span operation has to be either a: `resource.link` or `resource.script`.
-- The span's `resource.render_blocking_status` data property should either have a value of `blocking` (added by the `@sentry/browser` SDK, version `7.38.0`), or be missing.
-- The span's `Encoded Body Size` data property has to be over `500kb`.
-- The [First Contentful Paint (FCP)](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp) of the transaction must be at least `2` seconds (with an upper bound of `10` seconds to eliminate outliers).
-- The span's duration must be at least `33%` of the FCP.
+- 跨度操作必须是：`resource.link`或`resource.script`之一
+- 跨度的`resource.render_blocking_status`数据属性应具有`blocking`值（由`@sentry/browser` SDK版本`7.38.0`添加），或缺失
+- 跨度的`Encoded Body Size`数据属性必须超过`500kb`
+- 事务的[首次内容绘制（FCP）](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp)必须至少为`2`秒（上限为`10`秒以消除异常值）
+- 跨度的持续时间必须至少为FCP的`33%`
 
-You can configure detector thresholds for Large Render Blocking Asset issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置大型渲染阻塞资源问题的检测器阈值：
 
-![Large Render Blocking Asset detector threshold settings](./img/render-blocking-asset-detector-settings.png)
+![大型渲染阻塞资源检测器阈值设置](./img/render-blocking-asset-detector-settings.png)
 
-## Span Evidence
+## 跨度证据
 
-You can get additional information about your Large Render Blocking Asset problem by looking at four aspects in the "Span Evidence" section:
+您可以通过查看"跨度证据"部分中的四个方面来获取有关大型渲染阻塞资源问题的额外信息：
 
-- Transaction name
-- Asset URL
-- Effect on FCP
-- Effect on total transaction time
+- 事务名称
+- 资源URL
+- 对FCP的影响
+- 对总事务时间的影响
 
-View it by going to the **Issues** page in Sentry, selecting your project, clicking on the Large Render Blocking Asset error you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+通过转到Sentry中的**问题**页面，选择您的项目，点击您要检查的大型渲染阻塞资源错误，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看它。
 
-![Large Render Blocking Asset issue span evidence](./img/span-evidence.png)
+![大型渲染阻塞资源问题跨度证据](./img/span-evidence.png)
 
-## Fingerprinting
+## 指纹识别
 
-Sentry computes the issue fingerprint based on the asset URL. We detect many different patterns of cache-busting hashes in URL paths, filenames, and query strings so that the same asset is grouped into a single issue even as its contents change.
+Sentry根据资源URL计算问题指纹。我们检测URL路径、文件名和查询字符串中的许多不同模式的缓存破坏哈希，以便即使内容发生变化，同一资源也会被分组到单个问题中。
 
-## Recommendations
+## 建议
 
-We recommend that you use tools like [Chrome's DevTools](https://developer.chrome.com/docs/devtools/) or [Firefox Developer Tools](https://firefox-dev.tools) to identify and extract non-critical CSS and JS in your pages. You can learn more about fixing these assets by reading the Chrome Developers post: [Eliminate render-blocking resources](https://developer.chrome.com/en/docs/lighthouse/performance/render-blocking-resources/), and web.dev articles on [extracting critical CSS](https://web.dev/extract-critical-css/) and [deferring non-critical CSS](https://web.dev/defer-non-critical-css/).
+我们建议您使用[Chrome的DevTools](https://developer.chrome.com/docs/devtools/)或[Firefox开发者工具](https://firefox-dev.tools)等工具来识别和提取页面中的非关键CSS和JS。您可以通过阅读Chrome开发者帖子：[消除渲染阻塞资源](https://developer.chrome.com/en/docs/lighthouse/performance/render-blocking-resources/)以及web.dev关于[提取关键CSS](https://web.dev/extract-critical-css/)和[延迟非关键CSS](https://web.dev/defer-non-critical-css/)的文章来了解更多关于修复这些资源的信息。

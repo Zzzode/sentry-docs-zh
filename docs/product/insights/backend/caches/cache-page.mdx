@@ -1,29 +1,31 @@
 ---
-title: "Cache Page"
+title: "缓存页面"
 sidebar_order: 30
-description: "Learn more about Sentry's Cache page, which provides insights into cache utilization and latency, so you can investigate potential cache performance issues."
+description: "了解有关Sentry缓存页面的更多信息，该页面提供有关缓存利用率和延迟的洞察，以便您可以调查潜在的缓存性能问题。"
 ---
 
-The **Caches** page gives an overview of cache performance across all endpoints for currently selected backend projects with summary graphs for **Miss Rate** and **Requests Per Minute** (throughput). You can use these as a starting point to see if there are any potential cache performance issues, for example, a higher than expected Miss Rate percentage.
+<Include name="feature-limited-on-team-retention.mdx" />
 
- If you see an anomaly or want to investigate a time range further, click and drag to select a range directly in the graph and data will be filtered for that specific time range only.
+**缓存**页面为当前所选后端项目的所有端点提供缓存性能概览，包括**未命中率**和**每分钟请求数**（吞吐量）的摘要图表。您可以将这些作为起点，看看是否存在任何潜在的缓存性能问题，例如高于预期的未命中率百分比。
 
-The transaction table shows a list of endpoints that contain at least one `cache.get` span along with:
+如果您发现异常或想进一步调查某个时间范围，请直接在图表中点击并拖动以选择特定时间范围，数据将仅针对该特定时间范围进行筛选。
 
-- Its average value size (the bytes being fetched from cache)
-- Throughput
-- Average transaction duration
-- Miss rate percentage (how often did a lookup did not return a value)
-- Time spent (total time your application spent on a given transaction)
+事务表格显示了包含至少一个`cache.get`span的端点列表，以及：
 
-By default, this table is sorted by most time spent. This means that endpoints at the top are usually really slow, requested very frequently, or both. You can change the sort order to view top transactions by throughput, miss rate percentage, average value size, or average transaction duration.
+- 其平均值大小（从缓存获取的字节数）
+- 吞吐量
+- 平均事务持续时间
+- 未命中率百分比（查找未返回值的频率）
+- 花费时间（应用程序在给定事务上花费的总时间）
 
-To investigate a specific endpoint, click on it to open a sidebar showing some sample events and additional duration metrics.
+默认情况下，此表格按花费时间最多排序。这意味着顶部的端点通常非常缓慢、请求非常频繁，或两者兼有。您可以更改排序顺序以按吞吐量、未命中率百分比、平均值大小或平均事务持续时间查看顶级事务。
 
-## Sample List
+要调查特定端点，请点击它以打开侧边栏显示一些样本事件和额外的持续时间指标。
 
-To help you compare the performances of cache hits (where a value was found in the cache) versus misses (where no value corresponding to the key was found in the cache) over time, Sentry automatically surfaces a distribution of both samples for the timeframe selected from the **Caches** page.
+## 样本列表
 
-These sample events are shown as triangles in the average duration graphs at the top. These sample events are also listed in the table below, along with their spans, key, transaction duration, and hit/miss status.
+为了帮助您比较缓存命中（在缓存中找到值）与未命中（在缓存中找不到对应键的值）随时间的性能，Sentry会自动从**缓存**页面中显示所选时间段的两种样本分布。
 
-From the sample list, you can drill down to specific good, average, or bad examples of cache performance within an endpoint. To view the detailed trace that contained the span operation, click on a **Span ID**.
+这些样本事件显示为顶部平均持续时间图表中的三角形。这些样本事件也在下面的表格中列出，以及它们的span、键、事务持续时间和命中/未命中状态。
+
+从样本列表中，您可以深入了解端点内缓存性能的特定好、平均或差示例。要查看包含span操作的详细跟踪，请点击**Span ID**。

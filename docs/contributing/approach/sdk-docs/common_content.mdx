@@ -1,18 +1,18 @@
 ---
-title: Common Content
+title: 通用内容
 noindex: true
 sidebar_order: 20
 ---
 
-Our docs strive for a contributor-friendly balance of duplication vs. complexity. That means we generally don't try to share content between SDKs in our docs, even when they have similar information architecture, sections, and even wording.
-Instead of enforcing consistency through shared content, we encourage contributors to reference other SDK docs to keep things consistent wherever possible.
+我们的文档力求在重复与复杂性之间实现贡献者友好的平衡。这意味着我们通常不会尝试在SDK之间共享内容，即使它们具有相似的信息架构、部分甚至措辞。
+我们不是通过共享内容来强制执行一致性，而是鼓励贡献者参考其他SDK文档以尽可能保持一致。
 
-For SDKs that have framework-specific docs (which we call guides or children), common content for that SDK's frameworks lives in `/docs/platforms/<platform_name>/common/`.
+对于具有框架特定文档的SDK（我们称为指南或子项），该SDK框架的通用内容位于 `/docs/platforms/<platform_name>/common/` 中。
 
-## Hierarchy
+## 层次结构
 
-What displays for the user relies upon the hierarchy of content as detailed in our content discussing [Platforms & Guides](/contributing/platforms/). In short, a guide's content displays if provided. If not provided, then the platform content displays.
+为用户显示的内容依赖于我们内容中详细讨论的 [平台与指南](/contributing/platforms/) 的层次结构。简而言之，如果提供了指南的内容，则显示指南的内容。如果未提供，则显示平台内容。
 
-## Tuning Common Content
+## 调整通用内容
 
-To ensure that common content can scale as we support more platforms and frameworks, we use `include` files. These files can range from, most typically, a code sample specific to a platform or framework to information that augments the core content for a specific platform or framework. These platform-specific `include` files live in [`plaftorm-includes/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes). We also have [platform-agnostic `include` files](/contributing/approach/product-docs/write-index/#includes) which are discussed in our product docs.
+为了确保通用内容可以随着我们支持更多平台和框架而扩展，我们使用 `include` 文件。这些文件的范围可以从最常见的情况（特定于平台或框架的代码示例）到增强特定平台或框架的核心内容的信息。这些特定于平台的 `include` 文件位于 [`plaftorm-includes/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes) 中。我们还有 [平台无关的 `include` 文件](/contributing/approach/product-docs/write-index/#includes)，这些文件在我们的产品文档中讨论。

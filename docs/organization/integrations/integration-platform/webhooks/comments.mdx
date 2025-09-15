@@ -1,48 +1,48 @@
 ---
-title: Comments
+title: 评论
 sidebar_order: 5
-description: "Learn more about Sentry's integration platform comment webhooks."
+description: "了解有关 Sentry 集成平台评论 webhooks 的更多信息。"
 ---
 
-Sentry integrations that have subscribed to comment webhooks can receive information about a comment being created and changing state.
+已订阅评论 webhooks 的 Sentry 集成可以接收有关评论创建和状态更改的信息。
 
-## Sentry-Hook-Resource Header
+## Sentry-Hook-Resource 标头
 
 `'Sentry-Hook-Resource': 'comment'`
 
-## Attributes
+## 属性
 
 ### action
 
-- type: string
-- description: can be `created`, `updated`, or `deleted`
+- 类型：字符串
+- 描述：可以是 `created`、`updated` 或 `deleted`
 
 ### data["comment"]
 
-- type: string
-- description: the content of the issue's comment
+- 类型：字符串
+- 描述：问题评论的内容
 
 ### data["project slug"]
 
-- type: string
-- description: the slug of the project the comment's issue belongs to
+- 类型：字符串
+- 描述：评论所属项目的 slug
 
 ### data["comment_id"]
 
-- type: int
-- description: the id of the comment
+- 类型：整数
+- 描述：评论的 id
 
 ### data["issue_id"]
 
-- type: int
-- description: the id of the issue
+- 类型：整数
+- 描述：问题的 id
 
 ### data["timestamp"]
 
-- type: datetime
-- description: when the comment was created, updated, or deleted
+- 类型：日期时间
+- 描述：评论创建、更新或删除的时间
 
-## Payload
+## 有效负载
 
 ```json
 {

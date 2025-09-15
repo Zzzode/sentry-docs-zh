@@ -1,86 +1,68 @@
 ---
-title: "Debug Information Files"
+title: "调试信息文件"
 sidebar_order: 3
-description: "Debug information files allow Sentry to extract stack traces and provide more information about crash reports for most compiled platforms. Sentry's CLI can be used to validate and upload debug information files. "
+description: "调试信息文件允许 Sentry 提取堆栈跟踪并为大多数编译平台提供有关崩溃报告的更多信息。Sentry 的 CLI 可用于验证和上传调试信息文件。"
 ---
 
-Debug information files allow Sentry to extract stack traces and provide more
-information about crash reports for most compiled platforms. `sentry-cli` can be
-used to validate and upload debug information files. For more general
-information, refer to [_Debug Information Files_](/platforms/native/data-management/debug-files/).
+调试信息文件允许 Sentry 提取堆栈跟踪并为大多数编译平台提供有关崩溃报告的更多信息。`sentry-cli` 可用于验证和上传调试信息文件。有关更一般的信息，请参阅[调试信息文件](/platforms/native/data-management/debug-files/)。
 
-## Permissions
+## 权限
 
-The `sentry-cli` requires an [Organization Token](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/) so that Debug Information Files can be uploaded.
+`sentry-cli` 需要[组织令牌](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/)才能上传调试信息文件。
 
 <Alert>
 
-Source maps, while also being debug information files, are handled
-differently in Sentry. For more information see [Source Maps in sentry-cli](/cli/releases/#sentry-cli-sourcemaps).
+源映射虽然是调试信息文件，但在 Sentry 中的处理方式不同。有关更多信息，请参阅 [sentry-cli 中的源映射](/cli/releases/#sentry-cli-sourcemaps)。
 
 </Alert>
 
-## Checking Files
+## 检查文件
 
-Not all debug information files can be used by Sentry. To see if they are usable
-or not, you can use the `sentry-cli debug-files check` command:
+并非所有调试信息文件都可以被 Sentry 使用。要查看它们是否可用，您可以使用 `sentry-cli debug-files check` 命令：
 
 ```bash
 sentry-cli debug-files check mylibrary.so.debug
 
-Debug Info File Check
-  Type: elf debug companion
-  Contained debug identifiers:
+调试信息文件检查
+  类型：elf 调试伴侣
+  包含的调试标识符：
     > 924e148f-3bb7-06a0-74c1-36f42f08b40e (x86_64)
-  Contained debug information:
+  包含的调试信息：
     > symtab, debug
-  Usable: yes
+  可用：是
 ```
 
-This will report the debug identifiers of the debug information file as well as
-if it passes basic requirements for Sentry.
+这将报告调试信息文件的调试标识符以及它是否通过 Sentry 的基本要求。
 
-## Finding Files
+## 查找文件
 
-If you see in Sentry's UI that debug information files are missing, but you are
-not sure how to locate them, you can use the `sentry-cli debug-files find` command
-to look for them:
+如果您在 Sentry 的 UI 中看到调试信息文件缺失，但不确定如何找到它们，您可以使用 `sentry-cli debug-files find` 命令来查找它们：
 
 ```bash
 sentry-cli debug-files find <identifier>
 ```
 
-Additionally, `sentry-cli debug-files upload` can automatically search for files in a
-folder or ZIP archive.
+此外，`sentry-cli debug-files upload` 可以自动在文件夹或 ZIP 存档中搜索文件。
 
-## Creating Source Bundles
+## 创建源包
 
-To get inline source context in stack traces in the Sentry UI, `sentry-cli` can
-scan debug files for references to source code files, resolve them in the local
-file system and bundle them up. The resulting source bundle is an archive
-containing all source files referenced by a specific debug information file.
+为了在 Sentry UI 中的堆栈跟踪中获得内联源上下文，`sentry-cli` 可以扫描调试文件以查找源代码文件的引用，在本地文件系统中解析它们并将它们打包。生成的源包是一个包含特定调试信息文件引用的所有源文件的存档。
 
-This is particularly useful when building and uploading debug information files
-are detached. In this case, a source bundle can be created when building and can
-be uploaded at any later point in time with `sentry-cli debug-files upload`.
+这在构建和上传调试信息文件分离时特别有用。在这种情况下，可以在构建时创建源包，并可以在以后任何时候使用 `sentry-cli debug-files upload` 上传。
 
-To create a source bundle, use the `debug-files bundle-sources` command on a list of
-debug information files:
+要创建源包，请在调试信息文件列表上使用 `debug-files bundle-sources` 命令：
 
 ```bash
-# on the build machine:
+# 在构建机器上：
 sentry-cli debug-files bundle-sources /path/to/files...
 
-# at any later time:
+# 在任何时候：
 sentry-cli debug-files upload --type sourcebundle /path/to/bundles...
 ```
 
-To create multiple source bundles for all debug information files, use the
-command on each file individually.
+要为所有调试信息文件创建多个源包，请对每个文件单独使用该命令。
 
-Alternatively, add the `--include-sources` option to the `debug-files upload` command,
-which generates source bundles on the fly during the upload. This requires that
-the upload is performed on the same machine as the application build:
+或者，将 `--include-sources` 选项添加到 `debug-files upload` 命令中，这将在上传过程中即时生成源包。这要求上传在与应用程序构建相同的机器上执行：
 
 ```bash
 sentry-cli debug-files upload --include-sources /path/to/files...
@@ -88,129 +70,99 @@ sentry-cli debug-files upload --include-sources /path/to/files...
 
 <Alert>
 
-This feature is supported by build tools that produce debug information files
-supported by Sentry such as DWARF and PDB. This applies to languages such
-as C/C++/C#/Swift/Rust/Zig/etc.
-For Java/Kotlin and other JVM languages, use one of the plugins: [Maven](/platforms/java/maven/) or [Gradle](/platforms/java/gradle/).
+此功能由 Sentry 支持的构建工具支持，这些工具生成 Sentry 支持的调试信息文件，如 DWARF 和 PDB。这适用于 C/C++/C#/Swift/Rust/Zig 等语言。
+对于 Java/Kotlin 和其他 JVM 语言，请使用其中一个插件：[Maven](/platforms/java/maven/) 或 [Gradle](/platforms/java/gradle/)。
 
 </Alert>
 
-## Uploading Files
+## 上传文件
 
-Use the `sentry-cli debug-files upload` command to upload debug information files to
-Sentry. The command will recursively scan the provided folders or ZIP archives.
-Files that have already been uploaded are skipped automatically.
+使用 `sentry-cli debug-files upload` 命令将调试信息文件上传到 Sentry。该命令将递归扫描提供的文件夹或 ZIP 存档。已上传的文件将自动跳过。
 
-We recommend uploading debug information files when publishing or releasing your
-application. Alternatively, files can be uploaded during the build process. See
-[_Debug Information Files_](/platforms/native/data-management/debug-files/)
-for more information.
+我们建议在上传或发布应用程序时上传调试信息文件。或者，可以在构建过程中上传文件。请参阅[调试信息文件](/platforms/native/data-management/debug-files/)了解更多信息。
 
 <Alert>
 
-You need to specify the organization and project you are working with because
-debug information files work on projects. For more information about this refer
-to [Working with Projects](/cli/configuration/#sentry-cli-working-with-projects).
+您需要指定您正在处理的组织和项目，因为调试信息文件在项目级别工作。有关此的更多信息，请参阅[使用项目](/cli/configuration/#sentry-cli-working-with-projects)。
 
 </Alert>
 
-A basic debug file upload can be started with:
+基本的调试文件上传可以这样开始：
 
 ```bash
 sentry-cli debug-files upload -o <org> -p <project> /path/to/files...
 
-> Found 2 debug information files
-> Prepared debug information files for upload
-> Uploaded 2 missing debug information files
-> File processing complete:
+> 找到 2 个调试信息文件
+> 准备调试信息文件进行上传
+> 已上传 2 个缺失的调试信息文件
+> 文件处理完成：
 
-  PENDING 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 executable)
-  PENDING 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 debug companion)
+  PENDING 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 可执行文件)
+  PENDING 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 调试伴侣)
 ```
 
-After the upload, Sentry analyzes the files to symbolicate future events. If you
-want to send a native crash to Sentry to verify correct operation, ensure that
-the debug files are listed in _Project Settings > Debug Files_. Alternatively,
-specify `--wait` in the CLI, which will block until server-side analysis is
-complete:
+上传后，Sentry 分析文件以符号化未来事件。如果您想向 Sentry 发送原生崩溃以验证正确操作，请确保调试文件列在_项目设置 > 调试文件_中。或者，在 CLI 中指定 `--wait`，这将阻塞直到服务器端分析完成：
 
 ```bash
 sentry-cli debug-files upload -o <org> -p <project> --wait /path/to/files...
 
-> Found 2 debug information files
-> Prepared debug information files for upload
-> Uploaded 2 missing debug information files
-> File processing complete:
+> 找到 2 个调试信息文件
+> 准备调试信息文件进行上传
+> 已上传 2 个缺失的调试信息文件
+> 文件处理完成：
 
-      OK 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 executable)
-      OK 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 debug companion)
+      OK 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 可执行文件)
+      OK 1ddb3423-950a-3646-b17b-d4360e6acfc9 (MyApp; x86_64 调试伴侣)
 ```
 
-### Upload Options
+### 上传选项
 
-The command's `--help` output lists and explains all options:
+该命令的 `--help` 输出列出并解释了所有选项：
 
 ```bash
 sentry-cli debug-files upload --help
 ```
 
-### Symbol Maps
+### 符号映射
 
-If you are hiding debug symbols from Apple, the debug files will not contain
-many useful symbols. In that case, the sentry-cli upload will warn you that it
-needs BCSymbolMaps:
+如果您正在隐藏来自 Apple 的调试符号，调试文件将不包含许多有用的符号。在这种情况下，sentry-cli 上传将警告您它需要 BCSymbolMaps：
 
 ```bash
 sentry-cli debug-files upload ...
-> Found 34 debug information files
-> Warning: Found 10 symbol files with hidden symbols (need BCSymbolMaps)
+> 找到 34 个调试信息文件
+> 警告：找到 10 个符号文件，符号被隐藏（需要 BCSymbolMaps）
 ```
 
-In this case, you need the BCSymbolMaps that match your files. Typically, these
-are generated by the Xcode build process. Supply the `--symbol-maps` parameter
-and point it to the folder containing the symbol maps:
+在这种情况下，您需要与您的文件匹配的 BCSymbolMaps。通常，这些由 Xcode 构建过程生成。提供 `--symbol-maps` 参数并将其指向包含符号映射的文件夹：
 
 ```bash
 sentry-cli debug-files upload --symbol-maps path/to/symbolmaps path/to/debug/symbols
 ```
 
-### Breakpad Files
+### Breakpad 文件
 
-In contrast to native debug files, Breakpad symbols discard a lot of information
-that is not required to process minidumps. Most notably, inline functions are
-not declared, such that Sentry is not able to display inline frames in stack
-traces.
+与原生调试文件相比，Breakpad 符号丢弃了大量不需要处理 minidump 的信息。最值得注意的是，内联函数未被声明，因此 Sentry 无法在堆栈跟踪中显示内联帧。
 
-If possible, upload native debug files such as dSYMs, PDBs or ELF files instead
-of Breakpad symbols.
+如果可能，请上传原生调试文件，如 dSYM、PDB 或 ELF 文件，而不是 Breakpad 符号。
 
-## ProGuard Mapping Upload
+## ProGuard 映射上传
 
-`sentry-cli` can be used to upload ProGuard files to Sentry; however, in most
-situations, you would use the [Gradle
-plugin](https://github.com/getsentry/sentry-android-gradle-plugin) to do that. Nevertheless, there may be
-situations where you would upload ProGuard files manually. For instance,
-when you only release some of the builds you're creating.
+`sentry-cli` 可用于将 ProGuard 文件上传到 Sentry；然而，在大多数情况下，您会使用 [Gradle 插件](https://github.com/getsentry/sentry-android-gradle-plugin) 来完成此操作。尽管如此，在某些情况下，您可能会手动上传 ProGuard 文件。例如，当您只发布您正在创建的部分构建时。
 
 <Alert>
 
-You need to specify the organization and project you are working with
-because ProGuard files work on projects. For more information about this refer to
-[Working with Projects](/cli/configuration/#sentry-cli-working-with-projects).
+您需要指定您正在处理的组织和项目，因为 ProGuard 文件在项目级别工作。有关此的更多信息，请参阅[使用项目](/cli/configuration/#sentry-cli-working-with-projects)。
 
 </Alert>
 
-The `upload-proguard` command is the one to use for uploading ProGuard files. It
-takes the path to one or more ProGuard mapping files and will upload them to
-Sentry.
+`upload-proguard` 命令是用于上传 ProGuard 文件的命令。它接受一个或多个 ProGuard 映射文件的路径，并将它们上传到 Sentry。
 
 ```bash
 sentry-cli upload-proguard \
     app/build/outputs/mapping/{BuildVariant}/mapping.txt
 ```
 
-Since the Android Sentry SDK needs to know the UUID of the mapping file, you need
-to associate it with the upload. However, you first have to place that UUID into the `AndroidManifest.xml` file:
+由于 Android Sentry SDK 需要知道映射文件的 UUID，因此您需要将其与上传关联。但是，您首先需要将该 UUID 放入 `AndroidManifest.xml` 文件中：
 
 ```xml
 <application>
@@ -218,7 +170,7 @@ to associate it with the upload. However, you first have to place that UUID into
 </application>
 ```
 
-The same UUID needs to be used to upload the mapping file:
+相同的 UUID 需要用于上传映射文件：
 
 ```bash
 sentry-cli upload-proguard \
@@ -226,16 +178,16 @@ sentry-cli upload-proguard \
     app/build/outputs/mapping/{BuildVariant}/mapping.txt
 ```
 
-Additionally, you can associate the ProGuard mapping file to a specific release:
+此外，您可以将 ProGuard 映射文件关联到特定版本：
 
 <Alert>
 
-This step is not required for deobfuscation to work but can help you identify which release a mapping file belongs to when multiple files exist for the same app.
+此步骤不是反混淆工作所必需的，但当存在多个相同应用程序的映射文件时，可以帮助您识别映射文件属于哪个版本。
 
 </Alert>
 
 ```bash {5-7}
-# Associate the mapping file to the release my.app.id@1.0.0+1
+# 将映射文件关联到版本 my.app.id@1.0.0+1
 sentry-cli upload-proguard \
     --uuid A_VALID_UUID \
     app/build/outputs/mapping/{BuildVariant}/mapping.txt \
@@ -244,40 +196,37 @@ sentry-cli upload-proguard \
     --version-code 1
 ```
 
-After the upload, Sentry deobfuscates future events.
-To make sure that it worked, you can check _Project Settings > ProGuard_ and see if the upload mapping files are listed.
+上传后，Sentry 反混淆未来事件。
+为确保其有效，您可以检查_项目设置 > ProGuard_，查看上传的映射文件是否已列出。
 
-### Upload Options
+### 上传选项
 
-The command's `--help` output lists and explains all options:
+该命令的 `--help` 输出列出并解释了所有选项：
 
 ```bash
 sentry-cli upload-proguard --help
 ```
 
-## JVM Source Bundles
+## JVM 源包
 
-If you're using a build tool we don't support, or you prefer not to use Sentry's build tool plugins, you'll need to upload source bundle files manually.
+如果您使用的是我们不支持的构建工具，或者您更喜欢不使用 Sentry 的构建工具插件，您将需要手动上传源包文件。
 
-See the build tool plugins we currently support here:
+在此处查看我们当前支持的构建工具插件：
 
 - [Android](/platforms/android/enhance-errors/source-context/)
 - [Java](/platforms/java/source-context/)
 
-You can also upload ProGuard files manually with `sentry-cli` for any JVM-based language like
-Java or Kotlin.
+您还可以使用 `sentry-cli` 手动上传 ProGuard 文件，用于任何基于 JVM 的语言，如 Java 或 Kotlin。
 
 <Alert>
 
-Before you can upload source files, you must configure the Sentry CLI with the organization and project you are uploading bundle files for. See the CLI docs on
-[Working with Projects](/cli/configuration/#sentry-cli-working-with-projects) to learn how to do this.
+在您能够上传源文件之前，您必须配置 Sentry CLI 以指定您正在为其上传包文件的组织和项目。请参阅 CLI 文档中的[使用项目](/cli/configuration/#sentry-cli-working-with-projects)以了解如何执行此操作。
 
 </Alert>
 
-### Creating a Source Bundle
+### 创建源包
 
-Run the `debug-files bundle-jvm` command to create a source bundle for a
-source directory.
+运行 `debug-files bundle-jvm` 命令为源目录创建源包。
 
 ```bash
 sentry-cli debug-files bundle-jvm \
@@ -286,13 +235,12 @@ sentry-cli debug-files bundle-jvm \
     path/to/source/dir
 ```
 
-You must provide the UUID of the source bundle for the Java/Android SDK to send.
-More details can be found in the [Source Context](/platforms/java/source-context/#manually-uploading-source-context) docs for Java and the [Source Context](/platforms/android/enhance-errors/source-context/#manually-uploading-source-context) docs for Android.
+您必须提供源包的 UUID 供 Java/Android SDK 发送。
+更多详细信息可以在 Java 的[源上下文](/platforms/java/source-context/#manually-uploading-source-context)文档和 Android 的[源上下文](/platforms/android/enhance-errors/source-context/#manually-uploading-source-context)文档中找到。
 
-### Uploading a Source Bundle
+### 上传源包
 
-The `debug-files upload` command allows you to upload the source
-bundle you created to Sentry.
+`debug-files upload` 命令允许您将创建的源包上传到 Sentry。
 
 ```bash
 sentry-cli debug-files upload \
@@ -300,6 +248,6 @@ sentry-cli debug-files upload \
     output/path/of/bundle-jvm/command
 ```
 
-After the upload, Sentry will attach Source Context to future events.
+上传后，Sentry 将源上下文附加到未来事件。
 
-To make sure these steps worked, check **Project Settings > Debug Files** in Sentry.io to see if the uploaded source bundle files are listed.
+为确保这些步骤有效，请检查 Sentry.io 中的**项目设置 > 调试文件**，查看上传的源包文件是否已列出。

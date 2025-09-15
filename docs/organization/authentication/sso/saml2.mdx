@@ -1,29 +1,29 @@
 ---
-title: "Custom SAML Provider"
+title: "自定义 SAML 提供商"
 sidebar_order: 5
-description: "Learn about how to integrate the Custom SAML Provider."
+description: "了解如何集成自定义 SAML 提供商。"
 ---
 
 <Include name="feature-available-for-plan-business-no-trial.mdx" />
 
-Sentry provides a generic auth provider for [SAML2 based authentication](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language), which allows Owners of a Sentry organization to manually configure any SAML2-enabled IdP system. Documented below are the general steps for integration.
+Sentry 为 [基于 SAML2 的身份验证](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) 提供通用身份验证提供商，允许 Sentry 组织的所有者手动配置任何启用 SAML2 的 IdP 系统。下面记录了一般集成步骤。
 
-# Setup
+# 设置
 
 <Alert level="warning">
 
-If you change your organization slug, you'll need to make the same update in the steps where you enter the SAML configuration values.
+如果您更改组织 slug，您需要在输入 SAML 配置值的步骤中进行相同的更新。
 
 </Alert>
 
-Sentry supports the following SAML services:
+Sentry 支持以下 SAML 服务：
 
-- Identity and Service Provider initiated SSO
-- Identity Provider initiated SLO (Single Logout)
+- 身份和服务提供商发起的 SSO
+- 身份提供商发起的 SLO（单点注销）
 
-## Register Sentry with IdP
+## 向 IdP 注册 Sentry
 
-Before connecting Sentry to the Identity Provider (IdP), it’s important to first register Sentry as an application on the IdP’s side. Sentry’s SAML endpoints are as follows, where `YOUR_ORG_SLUG` is substituted for your organization slug:
+在将 Sentry 连接到身份提供商 (IdP) 之前，首先将 Sentry 注册为 IdP 端的应用程序非常重要。Sentry 的 SAML 端点如下，其中 `YOUR_ORG_SLUG` 替换为您的组织 slug：
 
 <table class="table">
   <tbody valign="top">
@@ -54,31 +54,31 @@ Before connecting Sentry to the Identity Provider (IdP), it’s important to fir
   </tbody>
 </table>
 
-**What are these three things?**
+**这三样东西是什么？**
 
-- `ACS` means _Assertion Consumer Service_. It is used for establishing a session based on rules made between your IdP and the service provider with which it is integrating. Please note that Sentry’s ACS endpoint uses HTTP-POST bindings.
-- `SLS` stands for _Single Logout Service_, and is used to address logout requests from the IdP.
-- `Metadata`, alternatively referred to as the `entityID` in some systems, refers to the configuration data for an IdP or an SP. In this case, the metadata endpoint in Sentry refers to your Sentry organization’s metadata on the Service Provider end.
+- `ACS` 表示 _断言消费者服务_。它用于根据您的 IdP 与其集成的服务提供商之间制定的规则建立会话。请注意，Sentry 的 ACS 端点使用 HTTP-POST 绑定。
+- `SLS` 代表 _单点注销服务_，用于处理来自 IdP 的注销请求。
+- `Metadata`，在某些系统中也称为 `entityID`，是指 IdP 或 SP 的配置数据。在这种情况下，Sentry 中的元数据端点是指您的 Sentry 组织在服务提供商端的元数据。
 
-When setting these values up on the IdP end, it’s important to remember that Sentry does not need to provide a signing certificate for the integration to work.
+在 IdP 端设置这些值时，重要的是要记住 Sentry 不需要提供签名证书即可使集成正常工作。
 
-## Register IdP with Sentry
+## 向 Sentry 注册 IdP
 
-There are three distinct methods for registering your IdP with Sentry: Metadata, XML, and data fields. Each method is broken down below, and will produce the same end result.
+有三种不同的方法可以将您的 IdP 注册到 Sentry：元数据、XML 和数据字段。每种方法都在下面分解，并将产生相同的最终结果。
 
-### Using Metadata URL
+### 使用元数据 URL
 
-This method only requires a Metadata URL provided by the IdP platform. After it has been supplied, Sentry will automatically fetch the metadata it needs.
+此方法只需要 IdP 平台提供的元数据 URL。提供后，Sentry 将自动获取它需要的元数据。
 
 ![](./img/saml2-metadata-url.png)
 
-### Using Provider XML
+### 使用提供商 XML
 
-For this method to work, an administrator needs to provide the contents of the IdP’s generated metadata file. Once the contents are pasted directly into the text field, Sentry will do the rest. Please note that Sentry does not require a signing certificate.
+要使此方法起作用，管理员需要提供 IdP 生成的元数据文件的内容。内容直接粘贴到文本字段中后，Sentry 将完成其余工作。请注意，Sentry 不需要签名证书。
 
 ![](./img/saml2-provider-xml.png)
 
-Here’s an example of what the Metadata XML contents look like.
+以下是元数据 XML 内容的外观示例。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -99,59 +99,59 @@ Here’s an example of what the Metadata XML contents look like.
 </md:EntityDescriptor>
 ```
 
-### Using Provider Data
+### 使用提供商数据
 
-This registration method is the most involved, and requires matching up the data fields from an IdP. The easiest way to accomplish this is to look for the values in a metadata file such as the one provided above.
+此注册方法最复杂，需要匹配来自 IdP 的数据字段。完成此操作的最简单方法是在元数据文件中查找值，例如上面提供的值。
 
 ![](./img/saml2-provider-data.png)
 
-Based on the XML file example above, the field values to plug in are as follows:
+基于上面的 XML 文件示例，要插入的字段值如下：
 
 - `EntityID`
 - `X509Certificate`
 - `SingleSignOnService`
 
-In this example, the `SingleLogoutService` isn’t provided by the IdP, and is treated as an optional value within Sentry.
+在此示例中，`SingleLogoutService` 未由 IdP 提供，并且在 Sentry 中被视为可选值。
 
-## Map IdP Attributes
+## 映射 IdP 属性
 
-<Alert title="Note on field names">
+<Alert title="关于字段名称的说明">
 
-Metadata field names can vary from one provider to another. For example, Microsoft Azure AD refers to these very metadata fields as **Claims**, while Okta refers to them as **Attributes**. Similarly, one platform might use **user.email**, while another vendor uses **emailaddress**.
+元数据字段名称可能因提供商而异。例如，Microsoft Azure AD 将这些元数据字段称为 **声明**，而 Okta 将它们称为 **属性**。同样，一个平台可能使用 **user.email**，而另一个供应商使用 **emailaddress**。
 
 </Alert>
 
-Here, the field values of Sentry members need to be matched up with the corresponding values for members in the IdP. The basic required fields are the IdP's User ID and email address, but Sentry can also optionally pull first and last name values from there as well.
+在这里，Sentry 成员的字段值需要与 IdP 中成员的相应值匹配。基本必需字段是 IdP 的用户 ID 和电子邮件地址，但 Sentry 也可以从中选择性地提取名字和姓氏值。
 
 ![](./img/saml2-map-attributes.png)
 
-## Confirm successful registration
+## 确认成功注册
 
-Once the SAML integration flow is complete, the related Auth page will reflect the status of a successful integration. From here, you can send reminders to any existing members who existed prior to the integration, and they will receive an email prompt to link their accounts.
+SAML 集成流程完成后，相关身份验证页面将反映成功集成的状态。从这里，您可以向在集成之前存在的任何现有成员发送提醒，他们将收到链接其账户的电子邮件提示。
 
 ![](./img/saml2-success.png)
 
-Because Sentry uses Just-In-Time (JIT) provisioning, new members are registered with Sentry automatically during their first login attempt with SAML SSO. These accounts will have their membership types delegated based on what the default membership role is in your Organization Settings in Sentry.
+由于 Sentry 使用即时 (JIT) 配置，新成员在其首次使用 SAML SSO 登录尝试期间会自动在 Sentry 中注册。这些账户将根据 Sentry 中组织设置中的默认成员资格角色分配其成员资格类型。
 
-## SCIM Provisioning
+## SCIM 配置
 
-SCIM is available for automatic user provisioning, deprovisioning, and team assignment for SAML2 IdPs. [Configure Sentry for SCIM](/organization/authentication/sso/okta-sso/okta-scim/#sentry-configuration), and then follow your IdP's documentation for further setup. Learn more about the Sentry SCIM API endpoints in the [SCIM API documentation](/api/scim/).
+SCIM 可用于 SAML2 IdP 的自动用户配置、取消配置和团队分配。[为 SCIM 配置 Sentry](/organization/authentication/sso/okta-sso/okta-scim/#sentry-configuration)，然后按照 IdP 的文档进行进一步设置。在 [SCIM API 文档](/api/scim/) 中了解有关 Sentry SCIM API 端点的更多信息。
 
-## FAQ
+## 常见问题
 
-#### What is the process for adding new members to a SAML2-enabled Sentry organization?
+#### 将新成员添加到启用 SAML2 的 Sentry 组织的过程是什么？
 
-Sentry makes use of Just-In-Time provisioning for member accounts; any new member created within an Identity Provider will have an account automatically created in Sentry when that member attempts to sign into Sentry for the first time.
+Sentry 利用成员账户的即时配置；在身份提供商中创建的任何新成员将在该成员首次尝试登录 Sentry 时在 Sentry 中自动创建账户。
 
-#### What happens to Sentry accounts that exist prior to SAML being enabled/enforced?
+#### 在启用/强制执行 SAML 之前存在的 Sentry 账户会发生什么？
 
-Existing members will receive an email notifying them of the new SAML authentication option once it is turned on (regardless of enforcement) and they'll be able to link the accounts in the IdP system with their Sentry memberships.
+现有成员将收到一封电子邮件，通知他们新的 SAML 身份验证选项，一旦启用（无论是否强制执行），他们将能够将其 IdP 系统中的账户与其 Sentry 成员资格链接。
 
-#### Does Sentry deprovision members if they are no longer present in the Identity Provider?
+#### 如果成员不再存在于身份提供商中，Sentry 是否会取消配置成员？
 
-At this time, Sentry's SAML2 integration does not automatically deprovision inactive user accounts.
-Instead, the member remains inside of Sentry without any means to log in, as they can no longer access the IdP platform for sign-on. For now, inactive member accounts will need to be removed manually by a Manager or an Owner in Sentry.
+目前，Sentry 的 SAML2 集成不会自动取消配置非活动用户账户。
+相反，成员仍保留在 Sentry 中，但无法登录，因为他们无法再访问 IdP 平台进行登录。目前，非活动成员账户需要由 Sentry 中的经理或所有者手动删除。
 
-#### Attempting to set up SAML2 SSO with an IdP results in a failure with the message “The provider did not return a valid user identity.” What is happening here?
+#### 尝试使用 IdP 设置 SAML2 SSO 失败，并显示消息"提供商未返回有效用户身份"。这里发生了什么？
 
-The crux of the problem here is that different IdP platforms (Okta, Azure AD, etc) use different terms and conventions for the fields necessary for the integration to work. As a result, it’s possible to map up incorrect values into Sentry, causing SSO to fail with this error message.
+这里问题的核心是，不同的 IdP 平台（Okta、Azure AD 等）使用不同的术语和约定来表示集成工作所必需的字段。因此，可能会将不正确的值映射到 Sentry，导致 SSO 失败并显示此错误消息。

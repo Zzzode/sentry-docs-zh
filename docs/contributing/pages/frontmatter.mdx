@@ -1,58 +1,58 @@
 ---
-title: Frontmatter
+title: 前端内容
 noindex: true
 sidebar_order: 10
 ---
 
-Frontmatter a YAML-formatted blob defined at the top of every markdown or mdx file:
+前端内容是定义在每个markdown或mdx文件顶部的YAML格式块：
 
 ```markdown
 ---
-title: Doc Title
+title: 文档标题
 ---
 
-Markdown or MDX content
+Markdown或MDX内容
 ```
 
-Standard frontmatter will apply on nearly every page:
+标准前端内容将适用于几乎每个页面：
 
 `title`
 
-Document title - used in `<title>` as well as things like search titles.
+文档标题 - 用于 `<title>` 以及搜索标题等内容。
 
 `noindex` (false)
 
-Set this to true to disable indexing (robots, algolia) of this content.
+设置为true以禁用此内容的索引（机器人、algolia）。
 
 `notoc` (false)
 
-Set this to true to disable page-level table of contents rendering.
+设置为true以禁用页面级目录渲染。
 
 `draft` (false)
 
-Set this to true to mark this page as a draft, and hide it from various other components (such as the PageGrid).
+设置为true以将此页面标记为草稿，并将其隐藏在各种其他组件中（如PageGrid）。
 
 `keywords` ([])
 
-A list of keywords for indexing with search.
+用于搜索索引的关键词列表。
 
 `description`
 
-A description to use in the `<meta>` header, as well as in auto generated page grids.
+用于 `<meta>` 标头的描述，以及在自动生成的页面网格中。
 
 `sidebar_order` (10)
 
-The order of this page in auto generated sidebars and grids.
+此页面在自动生成的侧边栏和网格中的顺序。
 
-Much of the other functionality for pages is also driven via frontmatter, such as:
+页面的许多其他功能也通过前端内容驱动，例如：
 
-- [Redirects](../redirects/)
-- [Search](../search/)
+- [重定向](../redirects/)
+- [搜索](../search/)
 
 `nextPage` (`{ path: 'path/to/page', title: 'Page Title' }`)
 
-Overrides the next page shown in the bottom pagination navigation.
+覆盖底部分页导航中显示的下一页。
 
 `previousPage` (`{ path: 'path/to/page', title: 'Page Title' }`)
 
-Overrides the previous page shown in the bottom pagination navigation.
+覆盖底部分页导航中显示的上一页。

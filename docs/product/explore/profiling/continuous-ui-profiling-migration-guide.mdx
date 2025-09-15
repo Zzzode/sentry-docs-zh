@@ -1,65 +1,65 @@
 ---
-title: Continuous & UI Profiling Migration Guide
+title: 连续和 UI 性能分析迁移指南
 sidebar_order: 150
-description: "Learn how to migrate from the older transaction-based Profiling API to the new Continuous and UI Profiling APIs."
+description: "了解如何从旧的基于事务的性能分析 API 迁移到新的连续和 UI 性能分析 API。"
 ---
 
-To learn more about the conceptual difference between the previous transaction-based and the new Continuous Profiling and UI Profiling products, please see [the Transaction vs Continuous Profiling docs](/product/explore/profiling/transaction-vs-continuous-profiling/). To summarize, the key differences are:
+要了解之前基于事务的和新的连续性能分析和 UI 性能分析产品之间的概念差异，请参见[事务与连续性能分析文档](/product/explore/profiling/transaction-vs-continuous-profiling/)。简而言之，主要区别是：
 
-- Transaction-based profiling was bound to the lifecycle of a trace. Profiling only occurred during a transaction or root span and could not be started independently. **Continuous and UI Profiling support both a trace-bound lifecycle mode, and a manual lifecycle mode that allows you to directly control the profiler using start/stop APIs**.
-- Transaction-based profiles were limited at 30 seconds in length. **Continuous and UI Profiling support arbitrarily long profiles.**
+- 基于事务的性能分析绑定到追踪的生命周期。性能分析仅在事务或根跨度期间发生，不能独立启动。**连续和 UI 性能分析支持追踪绑定的生命周期模式，以及允许您使用开始/停止 API 直接控制性能分析器的手动生命周期模式**。
+- 基于事务的性能分析限制为 30 秒长度。**连续和 UI 性能分析支持任意长度的性能分析。**
 
-This guide will focus on how to migrate your instrumentation from transaction-based profiling to Continuous Profiling and UI Profiling, and explain the billing implications of migrating. We plan to eventually deprecate the transaction-based API, so we recommend that you migrate to the new APIs as soon as possible.
+本指南将重点介绍如何将您的插桩从基于事务的性能分析迁移到连续性能分析和 UI 性能分析，并解释迁移的计费影响。我们计划最终弃用基于事务的 API，因此我们建议您尽快迁移到新的 API。
 
-For the remainder of this document, you can assume that wherever “Continuous/UI Profiling” is referenced, the same guidance applies to both the Continuous Profiling (backend-oriented) and UI Profiling (frontend-oriented) products, even though they are targeted at different use cases.
+对于本文档的其余部分，您可以假设在引用"连续/UI 性能分析"的任何地方，相同的指导适用于连续性能分析（面向后端）和 UI 性能分析（面向前端）产品，即使它们针对不同的用例。
 
-## Availability
+## 可用性
 
-Continuous Profiling is supported on the following SDKs:
+连续性能分析在以下 SDK 上受支持：
 
 - [Python](/platforms/python/profiling/) `2.24.1`
 - [Node.js](/platforms/javascript/guides/node/profiling/) `9.8.0`
 
-UI Profiling is supported on the following SDKs:
+UI 性能分析在以下 SDK 上受支持：
 
-- [iOS & macOS](/platforms/apple/profiling/) `8.49.0`
-- [Android (Java & Kotlin only)](/platforms/android/profiling/) `8.5.0`
+- [iOS 和 macOS](/platforms/apple/profiling/) `8.49.0`
+- [Android（Java 和 Kotlin 仅限）](/platforms/android/profiling/) `8.5.0`
 
-If you are using any other SDKs that currently support transaction-based profiling, those SDKs do not yet support Continuous or UI Profiling. We will be adding support for more SDKs over time.
+如果您正在使用任何其他当前支持基于事务的性能分析的 SDK，这些 SDK 尚不支持连续或 UI 性能分析。我们将随着时间的推移为更多 SDK 添加支持。
 
-## Identifying Current API Usage
+## 识别当前 API 使用情况
 
-If you are specifying either the `profiles_sample_rate`  or `profiles_sampler` configuration options, you are using transaction-based profiling. 
+如果您正在指定 `profiles_sample_rate` 或 `profiles_sampler` 配置选项，您正在使用基于事务的性能分析。
 
-If you are specifying the `profile_session_sample_rate` and/or `profile_lifecycle` configuration options, you are using Continuous Profiling or UI Profiling. 
+如果您正在指定 `profile_session_sample_rate` 和/或 `profile_lifecycle` 配置选项，您正在使用连续性能分析或 UI 性能分析。
 
-## Migrating to Continuous/UI Profiling
+## 迁移到连续/UI 性能分析
 
-### 1. Replace the `profiles_sample_rate` and `profiles_sampler` SDK configuration options with `profile_session_sample_rate`
+### 1. 用 `profile_session_sample_rate` 替换 `profiles_sample_rate` 和 `profiles_sampler` SDK 配置选项
 
-There is an important distinction in how client-side sampling is implemented between transaction-based and Continuous/UI Profiling. `profiles_sample_rate` and `profiles_sampler` were used to evaluate whether the profile would be sampled *for each  transaction*. In other words, if `profiles_sample_rate` was set to 0.5, 50% of all transactions would have associated profiles. `profiles_sampler` worked similarly — the only difference was that you could implement custom sampling logic (rather than a fixed sample rate) based on the context of the transaction being sampled. 
+在基于事务的和连续/UI 性能分析之间，客户端采样的实现方式存在重要区别。`profiles_sample_rate` 和 `profiles_sampler` 用于评估是否对每个*事务*采样性能分析。换句话说，如果 `profiles_sample_rate` 设置为 0.5，50% 的所有事务将有关联的性能分析。`profiles_sampler` 的工作方式类似——唯一的区别是您可以根据被采样事务的上下文实现自定义采样逻辑（而不是固定采样率）。
 
-In contrast, Continuous/UI Profiling use client-side sampling that is *session scoped,* configured via the new `profile_session_sample_rate` parameter. Sampling is evaluated once at the beginning of each session, not every time profiling data is collected. Since the scope at which sampling is applied is different, you can’t just directly translate the previous `profiles_sample_rate` value to `profile_session_sample_rate`. 
+相比之下，连续/UI 性能分析使用*会话范围*的客户端采样，通过新的 `profile_session_sample_rate` 参数配置。采样在每个会话开始时评估一次，而不是每次收集性能分析数据时评估。由于应用采样的范围不同，您不能直接将之前的 `profiles_sample_rate` 值转换为 `profile_session_sample_rate`。
 
-To control client side sampling behavior, set the `profile_session_sample_rate` configuration parameter to a value from 0.0-1.0 (default is 0.0) to control the number of profiling sessions that are sampled. The way this sampling rate is applied depends on the context:
+要控制客户端采样行为，请将 `profile_session_sample_rate` 配置参数设置为 0.0-1.0 的值（默认为 0.0）以控制采样的性能分析会话数量。此采样率的应用方式取决于上下文：
 
-- **For Continuous Profiling**: the session starts when the Sentry SDK is initialized, and stops when the service or process is terminated. Sampling is only evaluated once during the process lifetime (during initialization.)
-    - For example, if you are using Continuous Profiling with a backend service where there are N instances of the same service that are deployed (such as N containers, pods, etc.), the `profile_session_sample_rate` controls the percentage of those instances that will have profiling enabled. 0.5 would mean that a randomly sampled 50% of the N instances would have profiling enabled.
-    - Sampling would only be re-evaluated once an instance restarts or is re-deployed
-- **For UI Profiling:** the initial user session starts when the Sentry SDK is initialized, and sampling is first evaluated at this point. The user session will either end on termination of the application *OR*, depending on the platform, there can be other events that end a user session (for example backgrounding a mobile application). The sampling rate will be re-evaluated on each new user session.
-    - For example, on the browser, the user session begins when the tab is opened and ends when the tab is closed. The sampling will be evaluated once at the start of each session, so if `profile_session_sample_rate` is set to 0.5, then 50% of the time your application is opened in a tab, profiling will be active for that tab’s lifetime.
-    - On mobile, the user session begins when the application is started or foregrounded, and ends when the application is terminated or backgrounded. The sampling will be evaluated once at the start of each session, so if `profile_session_sample_rate` is set to 0.5 then 50% of the time the user opens your mobile app, profiling will be active until the user backgrounds or quits the app.
+- **对于连续性能分析**：会话在 Sentry SDK 初始化时开始，在服务或进程终止时停止。采样仅在进程生命周期内评估一次（在初始化期间）。
+    - 例如，如果您将连续性能分析与后端服务一起使用，其中部署了 N 个相同服务的实例（如 N 个容器、pod 等），`profile_session_sample_rate` 控制这些实例中将启用性能分析的百分比。0.5 将意味着随机采样的 50% 的 N 个实例将启用性能分析。
+    - 采样仅在实例重新启动或重新部署时重新评估
+- **对于 UI 性能分析**：初始用户会话在 Sentry SDK 初始化时开始，此时首次评估采样。用户会话将在应用程序终止时结束*或*，取决于平台，可能有其他事件结束用户会话（例如将移动应用程序置于后台）。采样率将在每个新用户会话上重新评估。
+    - 例如，在浏览器上，用户会话在标签页打开时开始，在标签页关闭时结束。采样将在每个会话开始时评估一次，因此如果 `profile_session_sample_rate` 设置为 0.5，那么 50% 的时间您的应用程序在标签页中打开时，性能分析将在该标签页的生命周期内处于活动状态。
+    - 在移动设备上，用户会话在应用程序启动或置于前台时开始，在应用程序终止或置于后台时结束。采样将在每个会话开始时评估一次，因此如果 `profile_session_sample_rate` 设置为 0.5，那么 50% 的时间用户打开您的移动应用程序时，性能分析将处于活动状态，直到用户将应用程序置于后台或退出应用程序。
     
-### 2. Set the new `profile_lifecycle` SDK configuration option
+### 2. 设置新的 `profile_lifecycle` SDK 配置选项
 
-Continuous/UI Profiling support two lifecycle modes: `manual` and `trace`. 
+连续/UI 性能分析支持两种生命周期模式：`manual` 和 `trace`。
 
-**`manual` is the default mode** and allows you to more directly control when the profiler is running by calling the `start_profile_session` and `stop_profile_session` functions. If you decide to use this mode, you must add these start/stop calls anywhere in your code that you want profiling to be active. If `start_profile_session` is not called, profiling will never occur. Note that this respects `profile_session_sample_rate` — if the session is not sampled, no profiling data will be collected even if `start_profile_session` is called.
+**`manual` 是默认模式**，允许您通过调用 `start_profile_session` 和 `stop_profile_session` 函数更直接地控制性能分析器何时运行。如果您决定使用此模式，您必须在希望性能分析处于活动状态的代码中的任何位置添加这些开始/停止调用。如果未调用 `start_profile_session`，性能分析将永远不会发生。请注意，这遵循 `profile_session_sample_rate`——如果会话未被采样，即使调用 `start_profile_session`，也不会收集性能分析数据。
 
-**If you want a more automated profiling behavior that is analogous to the previous transaction-based profiling behavior, you can use the `trace` lifecycle mode.** In this mode, you don’t need to manually call `start_profile_session` and `stop_profile_session` because profiling will automatically be started and stopped whenever there is an active transaction or root span. This mode respects `profile_session_sample_rate` as the `manual` lifecycle mode does, but also respects `traces_sample_rate` and `traces_sampler` — in order for profiling to occur, the profiling session must be sampled, and the trace must be sampled as well.
+**如果您想要更自动的性能分析行为，类似于之前的基于事务的性能分析行为，您可以使用 `trace` 生命周期模式。** 在此模式下，您不需要手动调用 `start_profile_session` 和 `stop_profile_session`，因为性能分析将在有活动事务或根跨度时自动开始和停止。此模式遵循 `profile_session_sample_rate`，就像 `manual` 生命周期模式一样，但也遵循 `traces_sample_rate` 和 `traces_sampler`——为了发生性能分析，性能分析会话必须被采样，并且追踪也必须被采样。
 
-## Updating Your Subscription
+## 更新您的订阅
 
-Access to Continuous/UI Profiling is only available through your pay-as-you-go (PAYG) budget. To set-up a PAYG budget or make changes to your existing PAYG budget please go to your [**Settings**](https://sentry.io/orgredirect/organizations/:orgslug/settings/) page and click on "Subscription" (under the "Usage & Billing" heading.) See our [**pricing docs**](/pricing/) for more information.
+对连续/UI 性能分析的访问仅通过您的即用即付（PAYG）预算提供。要设置 PAYG 预算或对现有 PAYG 预算进行更改，请转到您的[**设置**](https://sentry.io/orgredirect/organizations/:orgslug/settings/)页面并点击"订阅"（在"使用情况和计费"标题下）。有关更多信息，请参见我们的[定价文档](/pricing/)。
 
-You can see the number of Continuous and/or UI Profile Hours of your transaction-based profiles by visiting the Stats page to help estimate the profiling hours you will need when migrating.
+您可以通过访问统计页面查看基于事务的性能分析的连续和/或 UI 性能分析小时数，以帮助估计迁移时所需的性能分析小时数。

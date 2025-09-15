@@ -1,35 +1,35 @@
 ---
-title: Error Issues
+title: 错误问题
 sidebar_order: 10
-description: "Learn how to use the information on the Issue Details page to debug an error issue."
+description: "了解如何使用问题详情页面上的信息来调试错误问题。"
 ---
 
-An _error issue_ is a grouping of error events. What counts as an error varies by platform, but in general, if there's something that looks like an exception, it can be captured as an error in Sentry. Sentry automatically captures errors, uncaught exceptions, and unhandled rejections, as well as other types of errors, depending on platform. We group similar error events into issues based on a fingerprint. For error issues, a fingerprint is primarily defined by the event stack trace.
+_错误问题_ 是错误事件的分组。什么算作错误因平台而异，但一般来说，如果有看起来像异常的东西，它就可以作为错误在 Sentry 中被捕获。Sentry 自动捕获错误、未捕获的异常和未处理的拒绝，以及根据平台的不同捕获其他类型的错误。我们基于指纹将类似的错误事件分组到问题中。对于错误问题，指纹主要由事件堆栈跟踪定义。
 
-![Issue details](../img/issue-details-page.png)
+![问题详情](../img/issue-details-page.png)
 
-## Subscribe to Issue Alerts
-To subscribe to an error issue and receive alerts about it, click the bell icon, then fine tune [workflow notifications](/product/alerts/notifications/#workflow-notifications) related to the issue in **User Settings > Notifications**. 
+## 订阅问题警报
+要订阅错误问题并接收有关它的警报，请点击铃铛图标，然后在 **用户设置 > 通知** 中微调与问题相关的 [工作流通知](/product/alerts/notifications/#workflow-notifications)。
 
-## Error Levels
-The event description is displayed just below the issue title along with an icon representing the error level of the event:
+## 错误级别
+事件描述显示在问题标题下方，以及代表事件错误级别的图标：
 
-![Error level icon in issue details](./img/error-level-icon-2.png)
+![问题详情中的错误级别图标](./img/error-level-icon-2.png)
 
-The level can be:
+级别可以是：
 
-- Error - orange
-- Info - blue
-- Warning - yellow
-- Fatal - red
-- Debug - gray
-- Sample - purple
+- 错误 - 橙色
+- 信息 - 蓝色
+- 警告 - 黄色
+- 致命 - 红色
+- 调试 - 灰色
+- 示例 - 紫色
 
-In the right hand sidebar, [sentry.io](https://sentry.io) reflects a summary that includes information such as how often the error <SandboxLink scenario="oneIssue" projectSlug="react">issue</SandboxLink> has occurred in the last 24 hours and the last 30 days, as well as the last time and the first time the issue was seen. If the issue is linked to any GitHub or Jira issues, that's displayed here as well. You can also use this section to link to existing GitHub or Jira issues. Learn more about linking issues in [Integrations](/organization/integrations/). Lastly, there is a facet map, which shows the distribution of values for the tags for all events included in the error issue. All of these values are based on the environment that you've selected in the environment dropdown.
+在右侧边栏中，[sentry.io](https://sentry.io) 反映了一个摘要，其中包括诸如错误 <SandboxLink scenario="oneIssue" projectSlug="react">问题</SandboxLink> 在过去 24 小时内发生的频率以及过去 30 天内发生的频率，以及问题最后一次和第一次出现的时间等信息。如果问题链接到任何 GitHub 或 Jira 问题，也会在此处显示。您还可以使用此部分链接到现有的 GitHub 或 Jira 问题。在 [集成](/organization/integrations/) 中了解有关链接问题的更多信息。最后，有一个方面图，它显示了包含在错误问题中的所有事件的标签值的分布。所有这些值都基于您在环境下拉菜单中选择的环境。
 
 
-## Event Grouping Information
+## 事件分组信息
 
-![Event Grouping](./img/event-grouping.png)
+![事件分组](./img/event-grouping.png)
 
-The "Event Grouping Information" section provides details of how Sentry fingerprinted the event into the group. You can see which parts of the stack trace contributed to the fingerprint as well as all values that were available. You can also use the "Grouping Config" dropdown to experiment with other grouping algorithms.
+"事件分组信息"部分提供了 Sentry 如何将事件分组到组中的详细信息。您可以看到堆栈跟踪的哪些部分对指纹有贡献以及可用的所有值。您还可以使用"分组配置"下拉菜单尝试其他分组算法。

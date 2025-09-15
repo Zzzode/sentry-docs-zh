@@ -1,65 +1,65 @@
 ---
-title: Inbound Filters
+title: 入站过滤器
 sidebar_order: 5
-description: "Learn about the different methods for filtering data in your project."
+description: "了解在项目中过滤数据的不同方法。"
 ---
 
-Sentry provides several methods to filter data in your project. Using sentry.io to filter events is a simple method since you don't have to [configure and deploy your SDK to filter projects](/platform-redirect/?next=/configuration/filtering/).
+Sentry 提供了几种在项目中过滤数据的方法。使用 sentry.io 过滤事件是一种简单的方法，因为您不需要[配置和部署您的 SDK 来过滤项目](/platform-redirect/?next=/configuration/filtering/)。
 
-## Inbound Data Filters
+## 入站数据过滤器
 
-Inbound data filters allow you to determine which errors, if any, Sentry should ignore. Explore these by navigating to **[Project] > Project Settings > Inbound Filters.**
+入站数据过滤器允许您确定 Sentry 应该忽略哪些错误（如果有）。通过导航到**[项目] > 项目设置 > 入站过滤器**来探索这些过滤器。
 
-These filters are exclusively applied at ingest time and not later in processing. This, for instance, lets you discard an error by error message when the error is ingested through the JSON API. On the other hand, this filter doesn't apply to ingested minidumps. Filtered events do not consume quota, as discussed in [What Counts Toward My Quota](/pricing/quotas/#what-counts-toward-my-quota-an-overview).
+这些过滤器仅在摄取时应用，而不是在后续处理中应用。例如，这允许您在通过 JSON API 摄取错误时按错误消息丢弃错误。另一方面，此过滤器不适用于摄取的 minidump。过滤的事件不消耗配额，如[什么计入我的配额](/pricing/quotas/#what-counts-toward-my-quota-an-overview)中所述。
 
-Inbound filters include:
+入站过滤器包括：
 
-- Common browser extension errors
-- Transactions coming from health checks and ping requests
-- Events coming from legacy browsers
-- Events coming from localhost
-- Errors from known web crawlers
-- React hydration errors
+- 常见浏览器扩展错误
+- 来自健康检查和 ping 请求的事务
+- 来自旧版浏览器的事件
+- 来自 localhost 的事件
+- 来自已知网络爬虫的错误
+- React 水合错误
 - ChunkLoadErrors
-- Events from certain IP addresses
-- Events with certain error messages
-- Events from specific release versions of your code
+- 来自某些 IP 地址的事件
+- 具有某些错误消息的事件
+- 来自代码的特定发布版本的事件
 
-### Legacy Browser Filters
+### 旧版浏览器过滤器
 
-The legacy browser filters allow you to filter out certain legacy versions of browsers that are known to cause problems.
+旧版浏览器过滤器允许您过滤掉已知会导致问题的某些旧版浏览器。
 
-Legacy browser filters were updated in Feb 2024 and will be periodically evaluated to include additional legacy versions.
+旧版浏览器过滤器于 2024 年 2 月更新，并将定期评估以包含其他旧版。
 
-If you had a legacy browser filter on before the update, the old filter will appear in your settings as "Deprecated". Deprecated legacy browser filters still work. However, if you turn them off, you won't be able to turn them on again and will need to use the new filters instead.
+如果您在更新之前有旧版浏览器过滤器，则旧过滤器将在您的设置中显示为"已弃用"。已弃用的旧版浏览器过滤器仍然有效。但是，如果您关闭它们，您将无法再次打开它们，而是需要使用新的过滤器。
 
-### Browser Extension Errors
+### 浏览器扩展错误
 
-Some browser extensions are known to cause errors. You can filter these out using the browser extension filter, which checks the error message and event source to see if it's a known error coming from a browser extension. To see the full list of errors filtered out by the browser extension filter, see the [source code in relay](https://github.com/getsentry/relay/blob/master/relay-filter/src/browser_extensions.rs#L9-L76).
+某些浏览器扩展已知会导致错误。您可以使用浏览器扩展过滤器过滤掉这些错误，该过滤器检查错误消息和事件源，以查看它是否来自浏览器扩展的已知错误。要查看浏览器扩展过滤器过滤掉的错误的完整列表，请参见 [relay 中的源代码](https://github.com/getsentry/relay/blob/master/relay-filter/src/browser_extensions.rs#L9-L76)。
 
-### Web Crawler Errors
+### 网络爬虫错误
 
-Due to their nature, web crawlers often encounter errors that normal users won't see. You can use the web crawler filter to filter out errors from web crawlers, determined by the event's user-agent, from the following sites: Baidu, Yahoo, Sogou, Facebook, Alexa, Slack, Google Indexing, Pingdom, Lytics, AWS Security Scanner, Hubspot, Bytedance, and other generic bots and spiders. Errors from Slack's Slackbot web crawler will not be filtered.
+由于其性质，网络爬虫经常会遇到正常用户不会看到的错误。您可以使用网络爬虫过滤器过滤掉来自网络爬虫的错误，这些错误由事件的用户代理确定，来自以下站点：百度、雅虎、搜狗、Facebook、Alexa、Slack、Google 索引、Pingdom、Lytics、AWS 安全扫描器、Hubspot、字节跳动以及其他通用机器人和蜘蛛。来自 Slack 的 Slackbot 网络爬虫的错误不会被过滤。
 
-### IP Addresses
+### IP 地址
 
-Filters events based on the **originating IP address of the client making the request**, not the user IP contained within the user data inside the request. This ensures that filtering decisions rely on the actual source of the request, as determined by network-level information, rather than data provided in the event payload.
+根据**发出请求的客户端的原始 IP 地址**过滤事件，而不是请求内用户数据中包含的用户 IP。这可确保过滤决策依赖于网络级信息确定的请求实际来源，而不是事件负载中提供的数据。
 
-Sentry attempts to identify the request's origin using the **forwarded IP address**. If no forwarded IP is available, it falls back to the **direct IP** of the client connecting to Sentry's servers.
+Sentry 尝试使用**转发的 IP 地址**识别请求的来源。如果没有转发的 IP，则回退到连接到 Sentry 服务器的客户端的**直接 IP**。
 
-The supported IP address formats are:
-- **IPv4 Addresses**: Standard dotted-decimal notation (e.g., 1.2.3.4, 122.33.230.14, 127.0.0.1).
-- **IPv6 Addresses**: Standard colon-separated hexadecimal notation (e.g., aaaa:bbbb::cccc, a:b:c::1).
-- **IPv4 Network Ranges (CIDR Notation)**: IPv4 address with a subnet mask (e.g., 122.33.230.0/30, 127.0.0.0/8).
-- **IPv6 Network Ranges (CIDR Notation)**: IPv6 address with a subnet mask (e.g., a:b:c::0/126).
+支持的 IP 地址格式为：
+- **IPv4 地址**：标准点分十进制表示法（例如，1.2.3.4、122.33.230.14、127.0.0.1）。
+- **IPv6 地址**：标准冒号分隔的十六进制表示法（例如，aaaa:bbbb::cccc、a:b:c::1）。
+- **IPv4 网络范围（CIDR 表示法）**：具有子网掩码的 IPv4 地址（例如，122.33.230.0/30、127.0.0.0/8）。
+- **IPv6 网络范围（CIDR 表示法）**：具有子网掩码的 IPv6 地址（例如，a:b:c::0/126）。
 
-### Transactions Coming from Health Check
+### 来自健康检查的事务
 
-In essence, the health check filter serves the purpose of excluding transactions that are generated as a part of health check procedures.
+本质上，健康检查过滤器的目的是排除作为健康检查程序的一部分生成的事务。
 
-By applying this filter, you effectively bypass transactions that, while crucial for app stability assessment, hold limited value for you beyond their designated function.
+通过应用此过滤器，您可以有效地绕过事务，这些事务虽然对于应用程序稳定性评估至关重要，但除了其指定功能之外，对您几乎没有价值。
 
-We consider a transaction to be a health check if its name matches one of the following glob patterns:
+我们认为，如果事务名称与以下通配符模式之一匹配，则该事务是健康检查：
 
 - `*healthcheck*`
 - `*heartbeat*`
@@ -75,110 +75,108 @@ We consider a transaction to be a health check if its name matches one of the fo
 - `*/ping`
 - `*/up`
 
-## Session Replay Filtering
+## 会话重放过滤
 
-Inbound data filters have partial support for [Session Replay](/product/explore/session-replay/). Only a subset of the available inbound filters apply to Session Replays.
+入站数据过滤器对[会话重放](/product/explore/session-replay/)有部分支持。只有一部分可用的入站过滤器适用于会话重放。
 
-The following inbound filters **do** apply to Session Replays:
+以下入站过滤器**确实**适用于会话重放：
 
-- **IP Addresses** - Filters replays based on the originating IP address
-- **Releases** - Filters replays from specific release versions
-- **Request URLs** - Filters replays based on the URL where the replay was captured
-- **User-Agents** - Filters replays based on the browser's user-agent string
+- **IP 地址** - 根据原始 IP 地址过滤重放
+- **发布** - 过滤来自特定发布版本的重放
+- **请求 URL** - 根据捕获重放的 URL 过滤重放
+- **用户代理** - 根据浏览器的用户代理字符串过滤重放
 
-The following inbound filters **do not** apply to Session Replays:
+以下入站过滤器**不**适用于会话重放：
 
-- Error messages
-- Browser extension errors  
-- Web crawler errors
-- Legacy browser filters
-- React hydration errors
+- 错误消息
+- 浏览器扩展错误
+- 网络爬虫错误
+- 旧版浏览器过滤器
+- React 水合错误
 - ChunkLoadErrors
-- Health check transactions
+- 健康检查事务
 
-**Note**: Because filtered outcomes are emitted per **segment** whereas successful outcomes are emitted per **replay** (a replay being a collection of segments), you may see a noticeable increase in filtered outcomes on your [Stats](https://sentry.io/orgredirect/organizations/:orgslug/stats) page when Session Replay filtering is active. This is expected behavior and not an error.
+**注意**：由于过滤的结果是按**段**发出的，而成功的结果按**重放**（重放是段的集合）发出，当会话重放过滤处于活动状态时，您可能会在[统计](https://sentry.io/orgredirect/organizations/:orgslug/stats)页面上看到过滤结果显著增加。这是预期行为，不是错误。
 
 <hr />
 
-<Alert title="Note" level="warning">
+<Alert title="注意" level="warning">
 
-Filters do not apply to [sessions](/product/releases/health/#session). Error messages from minidumps also do not yet apply.
+过滤器不适用于[会话](/product/releases/health/#session)。minidump 的错误消息也尚不适用。
 
 </Alert>
 
-Once applied, you can track the filtered events (numbers and cause) using the graph provided at the top of the Inbound Data Filters view.
+应用后，您可以使用入站数据过滤器视图顶部提供的图表跟踪过滤的事件（数量和原因）。
 
 ![](./img/builtin-inbound-filters.png)
 
-## Logs Filtering
+## 日志过滤
 
-Inbound data filters have partial support for [Logs](/product/explore/logs/). Only a subset of the available inbound filters apply to Logs.
+入站数据过滤器对[日志](/product/explore/logs/)有部分支持。只有一部分可用的入站过滤器适用于日志。
 
-The following inbound filters **do** apply to Logs:
+以下入站过滤器**确实**适用于日志：
 
-- **Log Message** - Filters logs based on the log message match
-- **Releases** - Filters replays from specific release versions
+- **日志消息** - 根据日志消息匹配过滤日志
+- **发布** - 过滤来自特定发布版本的重放
 
-The following inbound filters **do not** apply to Logs:
+以下入站过滤器**不**适用于日志：
 
-- Error messages
-- Browser extension errors  
-- Web crawler errors
-- Legacy browser filters
-- React hydration errors
+- 错误消息
+- 浏览器扩展错误
+- 网络爬虫错误
+- 旧版浏览器过滤器
+- React 水合错误
 - ChunkLoadErrors
-- Health check transactions
-- IP Address
-- Request URLs
-- User-Agents
+- 健康检查事务
+- IP 地址
+- 请求 URL
+- 用户代理
 
-
-## How Custom Filtering Works
+## 自定义过滤的工作方式
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-Inbound data filters are not case-sensitive.
+入站数据过滤器不区分大小写。
 
-### Error Message
+### 错误消息
 
-To use inbound data filters for error messages, keep the following in mind:
+要使用入站数据过滤器处理错误消息，请记住以下几点：
 
-- You can provide multiple patterns, one per line. The filter applies if any of the patterns match.
-- On error events, the filter matches the entire error description in the format `{exception.type}: {exception.value}`. We do not recommend matching the full error description including the colon, and suggest you match with wildcards. For example, to match any "ConnectionError", use the filter `*ConnectionError*`. The wildcard matcher can be used at the beginning or end of the string.
-- On message events, the filter matches the fully formatted message.
-- Transactions are never matched by this filter.
+- 您可以提供多个模式，每行一个。如果任何模式匹配，则应用过滤器。
+- 在错误事件上，过滤器匹配格式为 `{exception.type}: {exception.value}` 的整个错误描述。我们不建议匹配包括冒号的完整错误描述，并建议使用通配符匹配。例如，要匹配任何"ConnectionError"，请使用过滤器 `*ConnectionError*`。通配符匹配器可以在字符串的开头或结尾使用。
+- 在消息事件上，过滤器匹配完全格式化的消息。
+- 事务永远不会被此过滤器匹配。
 
-To ensure you're adding the correct message to the inbound filter setting, check the JSON for an event in the issue. The filter by error message setting matches the data found in the "title" field near the end of the file.
+为确保您将正确的消息添加到入站过滤器设置中，请检查问题中事件的 JSON。按错误消息过滤设置匹配文件末尾"title"字段中的数据。
 
-### Releases
+### 发布
 
-To filter releases, keep the following in mind:
+要过滤发布，请记住以下几点：
 
-- The filter matches the full release name provided during SDK initialization. If you provide the recommended package prefix, the release is in the format `package@version`, for example: `my-example@1.4.0-beta.1`.
-- Globbing rules apply and there is no special casing for SemVer. This allows for matching prefixes, such as `my-example@1.*`.
-- The filter never applies to events without a release.
+- 过滤器匹配在 SDK 初始化期间提供的完整发布名称。如果您提供推荐的包前缀，则发布采用 `package@version` 格式，例如：`my-example@1.4.0-beta.1`。
+- 通配符规则适用，并且没有 SemVer 的特殊处理。这允许匹配前缀，例如 `my-example@1.*`。
+- 过滤器从不适用于没有发布的事件。
 
-### Log Message
+### 日志消息
 
-To use inbound data filters for log messages, keep the following in mind:
+要使用入站数据过滤器处理日志消息，请记住以下几点：
 
-- You can provide multiple patterns, one per line. The filter applies if any of the patterns match.
-- On logs, the filter matches the log message in the format. We do not recommend matching the full log message, and suggest you match with wildcards. For example, to match any "Connection timeout asbq33q", use the filter `*Connection timeout*`. The wildcard matcher can be used at the beginning or end of the string.
+- 您可以提供多个模式，每行一个。如果任何模式匹配，则应用过滤器。
+- 在日志上，过滤器匹配格式的日志消息。我们不建议匹配完整的日志消息，并建议使用通配符匹配。例如，要匹配任何"Connection timeout asbq33q"，请使用过滤器 `*Connection timeout*`。通配符匹配器可以在字符串的开头或结尾使用。
 
+### 通配符匹配
 
-### Glob Matching
+错误消息、日志消息和发布过滤器使用通配符模式。通配符不区分大小写，并允许您指定通配符以匹配可变输入。例如，`*panic*` 匹配包含单词"panic"、"PANIC"或"PaNiC"的任何错误。
 
-The error messages, log messages and releases filters use glob patterns. Globs are case insensitive and allow you to specify wildcards to match variable input. For example, `*panic*` matches any error that contains the words "panic", "PANIC" or "PaNiC".
+某些符号（如 `*` 字符）具有元字符的特殊含义。要匹配文字星号，请使用反斜杠转义：`\*`。入站数据过滤器使用以下元字符：
 
-Some symbols, such as the `*` character, receive special meaning as meta characters. To match a literal asterisk, escape it with a backslash: `\*`. Inbound data filters use the following meta characters:
+- `?` 匹配任何单个字符。
+- `*` 匹配零个或多个字符。
+- `\` 转义下一个字符使其成为文字。如果它位于非元字符之前，则忽略反斜杠。
+- `[`、`]`、`{` 和 `}` 是保留的元字符。
+- `!` 用于否定，但仅在括号内，例如在 `[!1-4]` 中匹配任何不是 `[1-4]` 的字符。
 
-- `?` matches any single character.
-- `*` matches zero or more characters.
-- `\` escapes the next character making it literal. If it precedes a non-meta character, the backslash is ignored.
-- `[`, `]`, `{`, and `}` are reserved meta characters.
-- `!` works for negation, but only within brackets, such as in `[!1-4]` to match any character that is not `[1-4]`.
-
-Generally, `bash`'s out-of-the-box behavior for globbing is close to what Sentry supports:
+通常，`bash` 的开箱即用通配符行为接近 Sentry 支持的内容：
 
 ```bash
 touch 1.2.3

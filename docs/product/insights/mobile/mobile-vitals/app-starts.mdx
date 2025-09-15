@@ -1,19 +1,21 @@
 ---
-title: "App Starts"
+title: "应用程序启动"
 sidebar_order: 20
-description: "Learn how to monitor your mobile application's performance by using App Starts to identify slow or regressed screens."
+description: "了解如何通过使用应用程序启动来监控移动应用程序的性能，以识别缓慢或回归的屏幕。"
 ---
 
-![Example of App Starts](./img/app-starts.png)
+<Include name="feature-limited-on-team-retention.mdx" />
 
-The **App Starts** page shows an overview of the amount of time it takes for your application to complete cold and warm starts. It helps you identify slow or regressed screens and gives additional information so you can better understand the factors contributing to the slowness of your application start times.
+![应用程序启动示例](./img/app-starts.png)
 
-### Minimum SDK Requirements:
+**应用程序启动**页面显示了应用程序完成冷启动和热启动所需时间的概览。它帮助您识别缓慢或回归的屏幕，并提供额外信息，以便您更好地理解影响应用程序启动时间缓慢的因素。
 
-**For Android:**
+### 最低SDK要求：
 
-- `>=7.4.0` for automatic instrumentation of app start spans and app start profiling
-- [Performance-V2](/platforms/android/performance/instrumentation/perf-v2) feature flag (`<8.0.0`) and [App Start Profiling](/platforms/android/profiling/#app-start-profiling) must also be enabled in the SDK, e.g.:
+**对于Android：**
+
+- `>=7.4.0`用于应用程序启动span和应用程序启动分析的自动检测
+- [性能-V2](/platforms/android/performance/instrumentation/perf-v2)功能标志（`<8.0.0`）和[应用程序启动分析](/platforms/android/profiling/#app-start-profiling)也必须在SDK中启用，例如：
 
 ```java {filename:MyApplication.java}
 import io.sentry.android.core.SentryAndroid;
@@ -42,53 +44,53 @@ SentryAndroid.init(this) { options ->
 </manifest>
 ```
 
-**For iOS:**
+**对于iOS：**
 
-- `>=7.2.0` for automatic instrumentation of [app start spans](/platforms/apple/tracing/instrumentation/automatic-instrumentation/#app-start-tracing)
-- `>=8.21.0` for app start profiling
+- `>=7.2.0`用于[应用程序启动span](/platforms/apple/tracing/instrumentation/automatic-instrumentation/#app-start-tracing)的自动检测
+- `>=8.21.0`用于应用程序启动分析
 
-**For React Native:**
+**对于React Native：**
 
-- `>=5.24.0` for automatic instrumentation of [app start spans](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#app-start-instrumentation)
+- `>=5.24.0`用于[应用程序启动span](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#app-start-instrumentation)的自动检测
 
-By default, the **App Starts** page displays metrics for the two releases with the highest screen counts for the time range you’ve selected. To choose a different set of releases to compare, use the “release selector” at the top of the page. To change the app start type (cold or warm), use the “App Start” selector at the top of the page.
+默认情况下，**应用程序启动**页面显示您所选时间范围内屏幕计数最高的两个版本的指标。要选择不同的版本集进行比较，请使用页面顶部的"版本选择器"。要更改应用程序启动类型（冷启动或热启动），请使用页面顶部的"应用程序启动"选择器。
 
-The charts display the following metrics (using cold starts as an example):
+图表显示以下指标（以冷启动为例）：
 
-- Average Cold Start
-    - The overall time it takes your application to start, compared by release.
-- Cold Start Device Distribution
-    - The average cold start time grouped by [device class](/concepts/search/searchable-properties/#device-classification) (high, medium, low, or unknown).
+- 平均冷启动
+    - 应用程序启动所需的总时间，按版本比较。
+- 冷启动设备分布
+    - 按[设备类别](/concepts/search/searchable-properties/#device-classification)（高、中、低或未知）分组的平均冷启动时间。
 
-**Reasons Why You Might Not Be Seeing Any Data:**
+**您可能看不到任何数据的原因：**
 
-- You don’t have any transactions with op `ui.load`
-- Your SDKs don’t meet the minimum SDK requirements
+- 您没有任何带有op `ui.load`的事务
+- 您的SDK不满足最低SDK要求
 
-The table at the bottom shows spans that have changed from one release to the next and allows you to filter for specific span operations and device classes. Being able to narrow down to specific event samples helps debug slow starts.
+底部的表格显示从一个版本到下一个版本发生变化的span，并允许您筛选特定的span操作和设备类别。能够缩小到特定事件样本有助于调试缓慢启动。
 
-Clicking the "By Event" toggle in the top right corner of this table will show you events split by release and you'll be able to see overall changes in start times between the two releases you've selected.
+点击此表格右上角的"按事件"切换将显示按版本拆分的事件，您将能够看到所选两个版本之间启动时间的整体变化。
 
-![Example of Samples By Event](./img/app-starts-samples-by-event.png)
+![按事件样本示例](./img/app-starts-samples-by-event.png)
 
-The following table describes the span operations that are surfaced in the spans table:
+下表描述了span表中显示的span操作：
 
-| Platform | Span Operations |
+| 平台 | Span操作 |
 | --- | --- |
-| Common | <ul> <li>file.write</li> <li>ui.load</li> <li>http.client</li> <li>db</li> <li>db.sql.query</li> <li>db.sql.transaction</li> </ul> |
+| 通用 | <ul> <li>file.write</li> <li>ui.load</li> <li>http.client</li> <li>db</li> <li>db.sql.query</li> <li>db.sql.transaction</li> </ul> |
 | [iOS](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#app-start-tracing) | <ul> <li>app.start.cold</li> <li>app.start.warm</li> </ul> |
 | Android | <ul> <li>activity.load</li> <li>application.load</li> <li>contentprovider.load</li> <li>process.load</li> </ul> |
 
-## Span Detail View
+## Span详细视图
 
-![Example of Span Detail View](./img/app-starts-span-detail-view.png)
+![Span详细视图示例](./img/app-starts-span-detail-view.png)
 
-Clicking on a span description opens up a side panel that shows span details, including the average duration and count for that span in each of the releases you’re looking at.
+点击span描述会打开一个侧面板，显示span详细信息，包括您正在查看的每个版本中该span的平均持续时间和计数。
 
-In the table below, you’ll see a list of sampled events and profiles (if they exist). By comparing the two, you’ll be able to see how much the duration of the span you’re looking at deviates from average spans in each of the two releases you’ve selected.
+在下面的表格中，您将看到采样事件和配置文件（如果存在）的列表。通过比较两者，您将能够看到您正在查看的span的持续时间与所选两个版本中平均span的偏差程度。
 
-Sentry automatically identifies sample events to help you investigate performance problems. (They’re shown as triangles in the “Average Duration” graph.) To give you an accurate picture, a range of faster than average, slower than average, and average span durations are sampled across the whole time period you’ve selected.
+Sentry会自动识别样本事件以帮助您调查性能问题。（它们显示为"平均持续时间"图表中的三角形。）为了给您提供准确的画面，在整个所选时间段内采样了比平均值快、比平均值慢和平均span持续时间的一系列样本。
 
-You can use the sample list to drill down to and compare fast, average, and slow events of interest within a given screen.
+您可以使用样本列表深入查看并比较给定屏幕内感兴趣的快速、平均和缓慢事件。
 
-Clicking on a sample event will take you into either the query’s span details within the span waterfall of the [Trace View page](/concepts/key-terms/tracing/trace-view/#product-walkthrough-trace-view-page) or the profile icon to see the [flamegraph](/product/explore/profiling/flame-charts-graphs/) for the event. To get different event samples, click the "Try Different Samples" button.
+点击样本事件将带您进入[跟踪视图页面](/concepts/key-terms/tracing/trace-view/#产品演练-跟踪视图页面)的span瀑布中的查询span详细信息，或配置文件图标以查看事件的[火焰图](/product/explore/profiling/flame-charts-graphs/)。要获取不同的事件样本，请点击"尝试不同样本"按钮。

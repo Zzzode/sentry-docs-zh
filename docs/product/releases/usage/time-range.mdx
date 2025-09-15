@@ -1,11 +1,11 @@
 ---
-title: Time Range Changes
+title: 时间范围变化
 sidebar_order: 20
-description: "Learn about how Sentry recalculates the value of crash-free users or crash-free sessions if you change the time range."
+description: "了解当您更改时间范围时，Sentry如何重新计算无崩溃用户或无崩溃会话的值。"
 ---
 
-When you change the date range in **Releases**, Sentry recalculates the values. Sentry doesn't provide the _average_ value of the daily crash-free users or daily crash-free sessions, but the _actual_ value of those metrics calculated for the selected time period. Therefore, the number can change significantly based on the selected time range.
+当您在**发布**中更改日期范围时，Sentry会重新计算这些值。Sentry不提供每日无崩溃用户或每日无崩溃会话的_平均值_，而是为所选时间段计算的_实际_值。因此，该数字可能会根据所选时间范围发生显著变化。
 
-For example, you have seven users that are using your application for seven days and each day one of them experiences a crash. If you select the 24-hour time range, the **Releases** page will show you that every day there were 85.7% crash-free users on the release.
+例如，您有七个用户使用您的应用程序七天，每天其中一人都会遇到崩溃。如果您选择24小时时间范围，**发布**页面将显示该发布每天都有85.7%的无崩溃用户。
 
-By contrast, if you have the same conditions but you select the seven-day time range, by the end of the week, the **Releases** page will show you that there were 0% crash-free users on the release.
+相比之下，如果您在相同条件下选择七天时间范围，到周末结束时，**发布**页面将显示该发布有0%的无崩溃用户。

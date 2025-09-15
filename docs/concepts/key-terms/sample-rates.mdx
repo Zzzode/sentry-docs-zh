@@ -1,47 +1,47 @@
 ---
-title: Sample Rates
+title: 采样率
 sidebar_order: 11
-description: Learn how to manage the amount of data you send and are billed for in Sentry by adjusting the sample rates of various Sentry products including Traces and Session Replays.
+description: 了解如何通过调整 Sentry 各种产品（包括跟踪和会话重放）的采样率来管理您发送的数据量以及您需要支付的费用。
 ---
 
-## Overview
+## 概述
 
-### What Is a Sample Rate?
+### 什么是采样率？
 
-Adding Sentry to your app gives you a lot of valuable information about errors and performance you wouldn't otherwise get. And lots of information is good -- as long as it's the right information, at a reasonable volume. You can use sample rates to capture only a specified percentage of events like errors and traces.
+将 Sentry 添加到您的应用程序可以为您提供大量有关错误和性能的宝贵信息，否则您将无法获得这些信息。信息越多越好 - 只要它是正确的信息，并且数量合理。您可以使用采样率仅捕获一定百分比的错误和跟踪等事件。
 
+### 为什么不捕获所有事件？
 
-### Why Not Capture All Events?
+我们出于两个原因建议对事务进行采样：
 
-We recommend sampling your transactions for two reasons:
+1. 捕获单个跟踪涉及的开销很小，但为每个页面加载或 API 请求捕获跟踪可能会给您的系统增加不必要的负载。
 
-1. Capturing a single trace involves minimal overhead, but capturing traces for every page load or API request may add an undesirable load to your system.
+1. 启用采样允许您更好地管理发送到 Sentry 的事件数量，以便您可以根据组织的需求和预算调整数量。
 
-1. Enabling sampling allows you to better manage the number of events sent to Sentry, so you can tailor your volume to your organization's needs and budget.
+选择平衡数据准确性与性能和存储问题的采样率。您应该旨在收集足够的数据以获得有意义的见解，而不会使资源过载。如果不确定，请从低比率开始，随着更好地了解流量模式逐渐增加。
 
-Choose a sampling rate that balances data accuracy with performance and storage concerns. You should aim to collect enough data to get meaningful insights without overloading resources. If unsure, start with a low rate and gradually increase it as you understand your traffic patterns better.
-
-## Sampling Rate Options
+## 采样率选项
 
 <Alert>
-Some of the options below aren't available in every SDK; check out our platform-specific docs for more info.
+以下部分选项并非在每个 SDK 中都可用；查看我们的特定于平台的文档以获取更多信息。
 </Alert>
 
-### Error Events
+### 错误事件
 
-- **SampleRate** - Configures the sample rate for error events, in the range of 0.0 to 1.0. The default is 1.0, which means that 100% of error events will be sent. If set to 0.1, only 10% of error events will be sent. Events are picked randomly.
+- **SampleRate** - 配置错误事件的采样率，范围为 0.0 到 1.0。默认值为 1.0，表示将发送 100% 的错误事件。如果设置为 0.1，则仅发送 10% 的错误事件。事件是随机选择的。
 
-### Tracing
+### 跟踪
 
-- **tracesSampleRate** - A number between `0` and `1`, controlling the percentage chance a given transaction will be sent to Sentry. (`0` represents 0% while `1` represents 100%.) Applies equally to all transactions created in the app. Either this or `tracesSampler` must be defined to enable tracing.
+- **tracesSampleRate** - 一个介于 `0` 和 `1` 之间的数字，控制给定事务发送到 Sentry 的百分比机会。（`0` 表示 0%，而 `1` 表示 100%。）同样适用于应用程序中创建的所有事务。必须定义此选项或 `tracesSampler` 才能启用跟踪。
 
-- **tracesSampler** - A function responsible for determining the percentage chance a given transaction will be sent to Sentry. It will automatically be passed information about the transaction and the context in which it's being created, and must return a number between 0 (0% chance of being sent) and 1 (100% chance of being sent). Can also be used for filtering transactions, by returning 0 for those that are unwanted. Either this or `tracesSampleRate` must be defined to enable tracing.
+- **tracesSampler** - 负责确定给定事务发送到 Sentry 的百分比机会的函数。它将自动传递有关事务及其创建上下文的信息，并且必须返回介于 0（发送机会为 0%）和 1（发送机会为 100%）之间的数字。还可以通过为不需要的事务返回 0 来用于过滤事务。必须定义此选项或 `tracesSampleRate` 才能启用跟踪。
 
-Learn more about [tracing](/product/tracing/) in Sentry.
-### Session Replay
+在 Sentry 中了解有关[跟踪](/product/tracing/)的更多信息。
 
-- **replaysSessionSampleRate** - The sample rate for replays that begin recording immediately and last the entirety of the user's session. 1.0 collects all replays, and 0 collects none.
+### 会话重放
 
-- **replaysOnErrorSampleRate** - The sample rate for replays that are recorded when an error happens. This type of replay will record up to a minute of events prior to the error and continue recording until the session ends. 1.0 captures all sessions with an error, and 0 captures none.
+- **replaysSessionSampleRate** - 立即开始记录并持续整个用户会话的重放的采样率。1.0 收集所有重放，0 不收集任何重放。
 
-Learn more about [session replay](/product/explore/session-replay/) in Sentry.
+- **replaysOnErrorSampleRate** - 发生错误时记录的重放的采样率。这种类型的重放将记录错误前最多一分钟的事件，并继续记录直到会话结束。1.0 捕获所有出现错误的会话，0 不捕获任何会话。
+
+在 Sentry 中了解有关[会话重放](/product/explore/session-replay/)的更多信息。

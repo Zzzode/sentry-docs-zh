@@ -1,44 +1,44 @@
 ---
-title: "HTTP/1.1 Overhead"
+title: "HTTP/1.1开销"
 sidebar_order: 30
-description: "Learn more about HTTP/1.1 Overhead issues and how to diagnose and fix them."
+description: "了解更多关于HTTP/1.1开销问题以及如何诊断和修复它们的信息。"
 ---
 
-HTTP/1.1 overhead issues are created when a set of overlapping HTTP spans for the same host are queued by the browser and have a queue time that consistently exceeds 500ms.
+当浏览器排队的一组重叠HTTP跨度具有相同主机且排队时间持续超过500ms时，会创建HTTP/1.1开销问题。
 
-## Detection Criteria
+## 检测标准
 
 <Alert>
 
-This issue is currently only available for browser SDKs.
+此问题目前仅适用于浏览器SDK。
 
 </Alert>
 
-The detector for this performance issue looks for a set of overlapping HTTP/1.1 spans that are getting slower because the request itself is being delayed. This is a problem for HTTP/1.1 because of browser connection limits.
+此性能问题的检测器会查找一组重叠的HTTP/1.1跨度，这些跨度由于请求本身被延迟而变慢。由于浏览器连接限制，这对HTTP/1.1来说是个问题。
 
-Once these spans are found, the following must hold true:
+一旦找到这些跨度，还必须满足以下条件：
 
-- The max queue or 'wait' time reached by the slowest span in the set must exceed a threshold of `500ms`.
-- There must be `6` or more overlapping HTTP spans.
-- Each HTTP span must be using `HTTP/1.1`.
-- The queue time must be increasing for each new HTTP span.
-- All spans must share a common host (with the HTTP connection either coming from the same origin, or the same domain name).
+- 集合中最慢跨度达到的最大队列或'等待'时间必须超过`500ms`的阈值
+- 必须有`6`个或更多重叠的HTTP跨度
+- 每个HTTP跨度必须使用`HTTP/1.1`
+- 队列时间必须对每个新的HTTP跨度增加
+- 所有跨度必须共享一个公共主机（HTTP连接来自同一源或同一域名）
 
-All HTTP spans experience some wait time and will be included in the detection, but only HTTP spans over `100ms` will be marked as 'offending' and will show up in the span evidence.
+所有HTTP跨度都会经历一些等待时间，并将包含在检测中，但只有超过`100ms`的HTTP跨度会被标记为'违规'，并会显示在跨度证据中。
 
-If Sentry doesn't detect an HTTP overhead issue where you expect one, it's probably because the transaction didn't meet one of the above criteria. You can configure detector thresholds for HTTP overhead issues in Sentry by going to the **Settings** page, selecting "Projects", picking the project you're interested in, selecting "Performance" and then scrolling down to the "PERFORMANCE ISSUES - DETECTOR THRESHOLD SETTINGS" to make any updates.
+如果Sentry没有在您期望的地方检测到HTTP开销问题，可能是因为事务未满足上述任一标准。您可以通过转到**设置**页面，选择"项目"，选择您感兴趣的项目，选择"性能"，然后向下滚动到"性能问题 - 检测器阈值设置"来进行任何更新，从而配置Sentry中的HTTP开销问题的检测器阈值。
 
-## Span Evidence
+## 跨度证据
 
-You can find additional information about your Consecutive HTTP issue by looking at two main aspects in the "Span Evidence" section:
+您可以通过查看"跨度证据"部分中的两个主要方面来找到有关连续HTTP问题的额外信息：
 
-- **Transaction name**
-- **Max Queue Time**
+- **事务名称**
+- **最大队列时间**
 
-![HTTP overhead span evidence](./img/http-overhead-spans.png)
+![HTTP开销跨度证据](./img/http-overhead-spans.png)
 
-You can view the span evidence by going to the **Issues** page in Sentry, selecting your project, selecting the HTTP overhead error you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+您可以通过转到Sentry中的**问题**页面，选择您的项目，选择您要检查的HTTP开销错误，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看跨度证据。
 
-## How to Fix HTTP Overhead
+## 如何修复HTTP开销
 
-HTTP Overhead issues can be solved by upgrading to allow HTTP/2 or higher connections to your backend. This would involve your load balancers if you have them in front of your servers, or your server if it can be accessed directly. Since this may not always be possible, other options are to perform domain sharding, or reduce the number of simultaneous requests to your backend, but these solutions are more manual and harder to maintain over time.
+HTTP开销问题可以通过升级到允许HTTP/2或更高版本连接到您的后端来解决。这将涉及您的前端服务器（如果您有负载均衡器），或您的服务器（如果可以直接访问）。由于这可能并不总是可能的，其他选项是执行域分片，或减少到后端的同时请求数量，但这些解决方案更手动且更难长期维护。

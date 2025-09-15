@@ -1,124 +1,124 @@
 ---
-title: "Performance Metrics"
+title: "性能指标"
 sidebar_order: 110
-description: "Learn more about Sentry's Performance metrics such as Apdex, failure rate, throughput, and latency, and the user experience insights about your application that they provide."
+description: "了解更多关于Sentry的性能指标，如Apdex、失败率、吞吐量和延迟，以及它们提供的关于您的应用程序的用户体验洞察。"
 ---
 
-Metrics provide insight about how users are experiencing your application. In [Insights](/product/insights/overview/), we'll set you up with a few of the basic metrics to get you started. For further customizations on target thresholds, feel free to build out a query using the Discover [Query Builder](/product/explore/discover-queries/query-builder/). By identifying useful thresholds to measure your application, you have a quantifiable measurement of your application's health. This means you can more easily identify when errors occur or if performance issues are emerging.
+指标提供有关用户如何体验您的应用程序的洞察。在[洞察](/product/insights/overview/)中，我们将为您设置一些基本指标以帮助您入门。对于目标阈值的进一步自定义，请随时使用Discover[查询构建器](/product/explore/discover-queries/query-builder/)构建查询。通过识别有用的阈值来衡量您的应用程序，您就有了应用程序健康状况的量化测量。这意味着您可以更轻松地识别何时发生错误或性能问题是否正在出现。
 
 ## Apdex
 
-Apdex is an industry-standard metric used to track and measure user satisfaction based on your application response times. A higher Apdex score is better than a lower one; the score can go up to 1.0, representing 100% of users having a satisfactory experience. The Apdex score provides the ratio of satisfactory, tolerable, and frustrated requests in a specific transaction or endpoint. This metric provides a standard for you to compare transaction performance, understand which ones may require additional optimization or investigation, and set targets or goals for performance.
+Apdex是一个行业标准指标，用于根据应用程序响应时间跟踪和衡量用户满意度。较高的Apdex分数比较低的更好；分数最高可达1.0，代表100%的用户有令人满意的体验。Apdex分数提供了特定事务或端点中令人满意、可容忍和令人沮丧的请求比率。此指标为您提供了比较事务性能、了解哪些可能需要额外优化或调查以及设置性能目标或标准的标准。
 
-Below are the components of Apdex and its formula:
+以下是Apdex的组成部分及其公式：
 
-- **T**: Threshold for the target response time.
-- **Satisfactory**: Users are satisfied using the app when their page load times are less than or equal to T.
-- **Tolerable**: Users consider the app tolerable to use when their page load times are greater than T and less than or equal to 4T.
-- **Frustrated**: Users are frustrated with the app when their page load times are greater than 4T.
-- **Apdex**: (Number of Satisfactory Requests + (Number of Tolerable Requests/2)) / (Number of Total Requests)
+- **T**：目标响应时间的阈值。
+- **令人满意**：当页面加载时间小于或等于T时，用户对使用应用程序感到满意。
+- **可容忍**：当页面加载时间大于T且小于或等于4T时，用户认为使用应用程序是可以容忍的。
+- **令人沮丧**：当页面加载时间大于4T时，用户对应用程序感到沮丧。
+- **Apdex**：（令人满意请求数 +（可容忍请求数/2））/（总请求数）
 
-Configure what a satisfactory response time threshold (ms) is for Apdex in **Settings > Performance**. You can set this for each project with [custom thresholds](#custom-thresholds).
+在**设置 > 性能**中为Apdex配置令人满意的响应时间阈值（毫秒）。您可以为每个项目设置[自定义阈值](#custom-thresholds)。
 
-## Failure Rate
+## 失败率
 
-`failure_rate()` indicates the percentage of unsuccessful transactions. Sentry treats transactions with a status other than “ok,” “cancelled,” and “unknown” as failures. For more details, see a [list of possible status values](https://develop.sentry.dev/sdk/data-model/event-payloads/span/).
+`failure_rate()`表示不成功事务的百分比。Sentry将状态不是"ok"、"cancelled"和"unknown"的事务视为失败。有关更多详细信息，请参阅[可能的status值列表](https://develop.sentry.dev/sdk/data-model/event-payloads/span/)。
 
-## Throughput (Total, TPM, TPS)
+## 吞吐量（总计、TPM、TPS）
 
-Throughput indicates the number of transactions over a given time range (Total), average transactions per minute (TPM), or average transactions per second (TPS).
+吞吐量表示给定时间范围内的事务数（总计）、每分钟平均事务数（TPM）或每秒平均事务数（TPS）。
 
-## Latency
+## 延迟
 
-### Average Transaction Duration
+### 平均事务持续时间
 
-Average Transaction Duration indicates the average response time for all occurrences of a given transaction.
+平均事务持续时间表示给定事务的所有发生次数的平均响应时间。
 
-The following functions aggregate transaction durations:
+以下函数聚合事务持续时间：
 
 - average
-- various percentiles (by default, the pre-built Transactions query shows the 75th and 95th percentiles, but there are many other options, including a custom percentile)
+- 各种百分位数（默认情况下，预构建的事务查询显示第75和第95百分位数，但还有许多其他选项，包括自定义百分位数）
 - maximum
 
-One use-case for tracking these statistics is to help you identify transactions that are slower than your organization's target Service Level Agreements (SLAs).
+跟踪这些统计信息的一个用例是帮助您识别比组织的目标服务级别协议（SLA）慢的事务。
 
-A word of caution when looking at averages and percentiles: In most cases, you'll want to set up tracing so that only [a fraction](/product/sentry-basics/tracing/distributed-tracing/#data-sampling) of possible traces are actually sent to Sentry, to avoid overwhelming your system. Further, you may want to filter your transaction data by date or other factors, or you may be tracing a relatively uncommon operation. For all of these reasons, you may end up with average and percentile data that is directionally correct, but not accurate. (To use the most extreme case as an example, if only a single transaction matches your filters, you can still compute an "average" duration, even though that's clearly not what is usually meant by "average.")
+查看平均值和百分位数时的一个警告：在大多数情况下，您需要设置跟踪，以便只有[一小部分](/product/sentry-basics/tracing/distributed-tracing/#data-sampling)可能的跟踪实际发送到Sentry，以避免压垮您的系统。此外，您可能希望按日期或其他因素筛选事务数据，或者您可能正在跟踪相对不常见的操作。由于所有这些原因，您最终可能会得到方向正确但不准确的平均值和百分位数数据。（为了使用最极端的情况作为例子，如果只有单个事务与您的筛选器匹配，您仍然可以计算"平均"持续时间，即使这显然不是通常意义上的"平均"。）
 
-The problem of small sample size (and the resulting inability to be usefully accurate) will happen more often for some metrics than others, and sample size will also vary by row. For example, it takes less data to calculate a meaningful average than it does to calculate an equally meaningful 95th percentile. Further, a row representing requests to `/settings/my-awesome-org/` will likely contain many times as many transactions as one representing requests to `/settings/my-awesome-org/projects/best-project-ever/`.
+小样本量（以及由此导致的无法有用地准确）的问题会比其他指标更频繁地发生，样本量也会因行而异。例如，计算有意义的平均值所需的数据比计算同样有意义的第95百分位数所需的数据要少。此外，表示对`/settings/my-awesome-org/`的请求的行可能包含的表示对`/settings/my-awesome-org/projects/best-project-ever/`的请求的事务的数倍。
 
-### P50 Threshold
+### P50阈值
 
-The p50 threshold is the value at which 50% of transaction durations are greater than the threshold. This is also the median. For example, if the p50 threshold is 10 milliseconds, then 50% of transactions exceeded that threshold, taking longer than 10 milliseconds.
+p50阈值是50%的事务持续时间大于阈值的值。这也是中位数。例如，如果p50阈值为10毫秒，则50%的事务超过了该阈值，花费了超过10毫秒的时间。
 
-### P75 Threshold
+### P75阈值
 
-The p75 threshold is the value at which 25% of transaction durations are greater than the threshold. For example, if the p75 threshold is 10 milliseconds, then 25% of transactions exceeded that threshold, taking longer than 10 milliseconds.
+p75阈值是25%的事务持续时间大于阈值的值。例如，如果p75阈值为10毫秒，则25%的事务超过了该阈值，花费了超过10毫秒的时间。
 
-### P95 Threshold
+### P95阈值
 
-The p95 threshold is the value at which 5% of transaction durations are greater than the threshold. For example, if the p95 threshold is 50 milliseconds, then 5% of transactions exceeded that threshold, taking longer than 50 milliseconds.
+p95阈值是5%的事务持续时间大于阈值的值。例如，如果p95阈值为50毫秒，则5%的事务超过了该阈值，花费了超过50毫秒的时间。
 
-### P99 Threshold
+### P99阈值
 
-The p99 threshold is the value at which 1% of transaction durations are greater than the threshold. For example, if the p99 threshold is five seconds, then 1% of transactions exceeded that threshold, taking longer than five seconds.
+p99阈值是1%的事务持续时间大于阈值的值。例如，如果p99阈值为五秒，则1%的事务超过了该阈值，花费了超过五秒的时间。
 
-## Frequency
+## 频率
 
-The following functions aggregate transaction counts and the rate at which transactions are recorded:
+以下函数聚合事务计数和记录事务的速率：
 
 - count
-- count unique values (for a given field)
-- average requests (transactions) per second
-- average requests (transactions) per minute
+- count unique values（给定字段）
+- average requests（事务）每秒
+- average requests（事务）每分钟
 
-Each of these functions is calculated with respect to the collection of transactions within the given row, which means the numbers will change as you filter your data or change the time window. Also, if you have set up your SDK to [sample your data](/product/sentry-basics/tracing/distributed-tracing/#data-sampling), remember that only the transactions that are sent to Sentry are counted. So if a row containing transactions representing requests to a given endpoint is calculated to be receiving 5 requests per second, and you've got a 25% sampling rate enabled, in reality you're getting approximately 20 requests to that endpoint each second. (20 because you're collecting 25% - or 1/4 - of your data, so your real volume is 4 times what you're seeing in Sentry.)
+这些函数中的每一个都是针对给定行中的事务集合计算的，这意味着当您筛选数据或更改时间窗口时，数字将发生变化。此外，如果您已设置SDK以[采样数据](/product/sentry-basics/tracing/distributed-tracing/#data-sampling)，请记住只有发送到Sentry的事务才被计数。因此，如果计算包含表示对给定端点的请求的行每秒接收5个请求，并且您启用了25%的采样率，实际上您每秒大约获得20个对该端点的请求。（20是因为您正在收集25% - 或1/4 - 的数据，因此您的实际数量是您所看到的4倍。）
 
-## User Misery
+## 用户痛苦
 
-User Misery is a user-weighted performance metric to assess the relative magnitude of your application performance. While you can examine the ratio of various response time threshold levels with [Apdex](#apdex), User Misery counts the number of unique users who were frustrated based on four times the satisfactory response time threshold (ms). User Misery highlights transactions that have the highest impact on users.
+用户痛苦是一个用户加权性能指标，用于评估应用程序性能的相对幅度。虽然您可以使用[Apdex](#apdex)检查各种响应时间阈值级别的比率，但用户痛苦计算基于令人满意的响应时间阈值（毫秒）的四倍的令人沮丧的唯一用户数。用户痛苦突出显示了对用户影响最大的事务。
 
-The calculation accounts for the volume and proportion of users that experienced a slow transaction; so 800/1000 miserable users will translate to a higher user misery score than 5/5 miserable users.
+该计算考虑了经历缓慢事务的用户数量和比例；因此，800/1000痛苦用户将转化为比5/5痛苦用户更高的用户痛苦分数。
 
-You can set satisfactory thresholds for each project with [custom thresholds](#custom-thresholds).
+您可以使用[自定义阈值](#custom-thresholds)为每个项目设置令人满意的阈值。
 
 <Alert>
 
-User Misery is calculated using a probability distribution. This prevents false positives and ensures reasonable values for datasets with low event volume. You can view the underlying data by querying for the [`count_miserable()` function](/product/explore/discover-queries/query-builder/#stacking-functions).
+用户痛苦是使用概率分布计算的。这可以防止误报并确保低事件量数据集的合理值。您可以通过查询[`count_miserable()`函数](/product/explore/discover-queries/query-builder/#stacking-functions)来查看底层数据。
 
 </Alert>
 
-## Time Spent
+## 花费时间
 
-Time Spent is a performance metric that measures the total cumulative time your application spends executing a specific operation (like database queries, API calls, or other spans) over a given time period. Time Spent serves as a way to measure the relative performance impact of your spans towards your application.
+花费时间是一个性能指标，用于衡量您的应用程序在给定时间段内执行特定操作（如数据库查询、API调用或其他span）所花费的总累积时间。花费时间作为衡量span对应用程序的相对性能影响的一种方式。
 
-For example, an endpoint that takes 240ms on average and runs 10,000 times over an hour will roughly produce a Time Spent measurement of 40 minutes.
+例如，平均需要240毫秒且在一小时内运行10,000次的端点将大致产生40分钟的花费时间测量。
 
-## Custom Thresholds
+## 自定义阈值
 
-For each project, you can configure how [Apdex](#apdex) and [User Misery](#user-misery) are calculated in **[Project] > Settings > Performance**. You can override project-level settings at the transaction level in **Transaction Summary > Settings**.
+对于每个项目，您可以在**[项目] > 设置 > 性能**中配置如何计算[Apdex](#apdex)和[用户痛苦](#user-misery)。您可以在**事务摘要 > 设置**中的事务级别覆盖项目级设置。
 
-The calculation method determines if duration is defined as the entire length of the transaction or as a specific [Web Vital](/product/insights/web-vitals/) such as LCP. The response time threshold determines what the satisfactory baseline duration is in milliseconds. This threshold may vary across projects depending on how user-facing a project is.
+计算方法确定持续时间是否定义为事务的整个长度，还是特定[Web Vital](/product/insights/web-vitals/)，如LCP。响应时间阈值确定令人满意的基线持续时间是多少毫秒。此阈值可能因项目而异，具体取决于项目面向用户的程度。
 
-## Custom Performance Measurements
+## 自定义性能测量
 
-In addition to the automatic performance metrics described above, Sentry supports setting custom performance measurements on transactions. Custom performance measurements allow you to define measurements (beyond the ones mentioned above) that are important to your application and send them to Sentry.
+除了上述自动性能指标外，Sentry支持在事务上设置自定义性能测量。自定义性能测量允许您定义对您的应用程序重要且发送到Sentry的测量（除了上述提到的测量之外）。
 
-For example, you might want to set a custom measurement to track:
+例如，您可能想要设置自定义测量来跟踪：
 
-- Total memory usage during a transaction
-- The amount of time being queried
-- Number of times a user performed an action during a transaction
+- 事务期间的总内存使用量
+- 正在查询的时间量
+- 用户在事务期间执行操作的次数
 
-You define and configure custom measurements in the SDK. Currently, you can set custom measurements in:
+您在SDK中定义和配置自定义测量。目前，您可以在以下平台中设置自定义测量：
 
 <Include name="custom-measurements-supported-sdks.mdx" />
 
-Custom measurements are accessible to you in [sentry.io](https://sentry.io) when you:
+自定义测量在[sentry.io](https://sentry.io)中可供您使用：
 
-- Create visualizations in **Dashboards**
-- Query and add columns for them in **Discover**
-- View a transaction trace detail (see image below)
+- 在**仪表板**中创建可视化
+- 在**Discover**中查询并添加列
+- 查看事务跟踪详细信息（见下图）
 
-![Custom metrics in an trace detail](./img/transaction-trace-detail.png)
+![跟踪详细信息中的自定义指标](./img/transaction-trace-detail.png)
 
-You can define up to 10 custom performance metrics per transaction. If more custom performance metrics are included in a transaction event, the list will be truncated.
+您可以在每个事务中定义最多10个自定义性能指标。如果事务事件中包含更多自定义性能指标，列表将被截断。

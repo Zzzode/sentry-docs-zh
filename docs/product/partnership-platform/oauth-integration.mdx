@@ -1,86 +1,86 @@
 ---
-title: "OAuth Integration"
-description: "Learn how to integrate Sentry OAuth to allow existing customers to connect their Sentry accounts to your platform."
+title: "OAuth 集成"
+description: "了解如何集成 Sentry OAuth，允许现有客户将其 Sentry 账户连接到您的平台。"
 sidebar_order: 2
 ---
 
-# OAuth Integration
+# OAuth 集成
 
-Sentry's OAuth integration allows you to connect existing Sentry customers to your platform. This enables users to link their Sentry organizations with your product, providing seamless access to error monitoring and performance data.
+Sentry 的 OAuth 集成允许您将现有 Sentry 客户连接到您的平台。这使得用户能够将其 Sentry 组织与您的产품关联，提供对错误监控和性能数据的无缝访问。
 
-## Overview
+## 概述
 
-The OAuth flow enables:
+OAuth 流程支持：
 
-- **Account linking** between your platform and specific Sentry organizations
-- **Permission-based access** with configurable API scopes
-- **User-controlled permissions** with easy revocation
-- **Seamless authentication** without requiring users to share credentials
+- **账户关联** 在您的平台和特定 Sentry 组织之间
+- **基于权限的访问** 具有可配置的 API 范围
+- **用户控制的权限** 具有简单的撤销功能
+- **无缝身份验证** 无需用户共享凭据
 
-## User Experience Flow
+## 用户体验流程
 
-### 1. Account Linking
+### 1. 账户关联
 
-Users sign into your platform and see a "Connect to Sentry" button with context about what permissions your product will have.
+用户登录您的平台，并看到一个"连接到 Sentry"按钮，其中包含关于您的产将拥有的权限的上下文信息。
 
-### 2. Sentry Authentication
+### 2. Sentry 身份验证
 
-Clicking the button opens a Sentry login modal where users authenticate with their Sentry account.
+点击按钮会打开一个 Sentry 登录模态框，用户在其中使用其 Sentry 账户进行身份验证。
 
-### 3. Permission Confirmation
+### 3. 权限确认
 
-After login, users see details about:
-- Required permissions for your platform
-- The specific Sentry organization being connected
-- What actions your platform can perform
+登录后，用户会看到以下详细信息：
+- 您的平台所需的权限
+- 正在连接的特定 Sentry 组织
+- 您的平台可以执行的操作
 
-### 4. Connection Complete
+### 4. 连接完成
 
-Once confirmed, your platform receives an authorization code that can be exchanged for API tokens.
+确认后，您的平台会收到一个授权码，可以将其交换为 API 令牌。
 
-## Implementation Steps
+## 实现步骤
 
-### 1. Partner Registration
+### 1. 合作伙伴注册
 
-Before implementing OAuth, Sentry must register your application. Contact our partnership team with:
+在实施 OAuth 之前，Sentry 必须注册您的应用程序。请联系我们的合作伙伴团队，提供以下信息：
 
-- **Client Name**: Your platform name
-- **Redirect URIs**: Your OAuth callback URLs
-- **Allowed Origins**: Your domain(s)
-- **Home Page URL**: Your platform's homepage
-- **Privacy Policy URL**: Your privacy policy
-- **Terms and Conditions URL**: Your terms of service
-- **Required Scopes**: APIs your platform needs to access. See [Permissions & Scopes](/api/permissions/) for a list of scopes.
+- **客户端名称**：您的平台名称
+- **重定向 URI**：您的 OAuth 回调 URL
+- **允许的来源**：您的域名
+- **主页 URL**：您平台的主页
+- **隐私政策 URL**：您的隐私政策
+- **条款和条件 URL**：您的服务条款
+- **所需范围**：您的平台需要访问的 API。请参阅[权限和范围](/api/permissions/)获取范围列表。
 
-### 2. Authorization Request
+### 2. 授权请求
 
-Direct users to Sentry's authorization endpoint:
+将用户定向到 Sentry 的授权端点：
 
 ```
 https://sentry.io/oauth/authorize/?client_id=YOUR_CLIENT_ID&response_type=code&scope=SCOPE1%20SCOPE2
 ```
 
-**Parameters:**
-- `client_id`: Your registered client ID
-- `response_type`: Always `code`
-- `scope`: Space-separated list of required permissions
+**参数：**
+- `client_id`：您注册的客户端 ID
+- `response_type`：始终为 `code`
+- `scope`：以空格分隔的所需权限列表
 
-**Example:**
+**示例：**
 ```
 https://sentry.io/oauth/authorize/?client_id=0895306f2d310a075e82dff03cae9604c07e2c9465d4b990cc3f4c3010bb31d6&response_type=code&scope=project:read%20project:write
 ```
 
-### 3. Handle Authorization Code
+### 3. 处理授权码
 
-After user approval, Sentry redirects to your callback URL with an authorization code:
+用户批准后，Sentry 会重定向到您的回调 URL，并附带授权码：
 
 ```
 https://your-platform.com/oauth/sentry/callback?code=2767ac2e734ce35fe648a5f7b831bbb82776e384bb172fbcea42c292dc195e20
 ```
 
-### 4. Exchange Code for Token
+### 4. 交换代码获取令牌
 
-Make a POST request to exchange the authorization code for an access token:
+发起 POST 请求，将授权码交换为访问令牌：
 
 ```python
 import requests
@@ -98,7 +98,7 @@ response = requests.post(TOKEN_URL, data=token_data)
 tokens = response.json()
 ```
 
-**Response:**
+**响应：**
 ```json
 {
   "access_token": "8923f2eb3ec0fb9b328ccba6280e48debe119f5b5220273ffa13fb659b2d014a",
@@ -115,9 +115,9 @@ tokens = response.json()
 }
 ```
 
-### 5. Refresh Tokens
+### 5. 刷新令牌
 
-Access tokens expire every 8 hours. Use the refresh token to get new tokens:
+访问令牌每 8 小时过期一次。使用刷新令牌获取新令牌：
 
 ```python
 refresh_data = {
@@ -131,22 +131,22 @@ response = requests.post(TOKEN_URL, data=refresh_data)
 new_tokens = response.json()
 ```
 
-## API Scopes
+## API 范围
 
-[Scopes](/api/permissions/) define what permissions your application has. Common scopes include:
+[范围](/api/permissions/)定义了您的应用程序拥有的权限。常见范围包括：
 
-- `org:read` - Read organization information
-- `org:write` - Modify organization settings
-- `project:read` - Read project data
-- `project:write` - Create and modify projects
-- `member:read` - Read organization members
-- `member:write` - Manage organization members
+- `org:read` - 读取组织信息
+- `org:write` - 修改组织设置
+- `project:read` - 读取项目数据
+- `project:write` - 创建和修改项目
+- `member:read` - 读取组织成员
+- `member:write` - 管理组织成员
 
-Required scopes depend on your use case and are documented in our [API documentation](/api/).
+所需范围取决于您的用例，并在我们的 [API 文档](/api/) 中有详细说明。
 
-## Using Access Tokens
+## 使用访问令牌
 
-Include the access token in API requests using the Authorization header:
+在 API 请求中使用 Authorization 头包含访问令牌：
 
 ```python
 headers = {
@@ -160,73 +160,73 @@ response = requests.get(
 )
 ```
 
-## Organization Scoping
+## 组织范围
 
-A Sentry user can belong to multiple organizations. The access token only provides access to the specific organization the user selected during the OAuth flow.
+Sentry 用户可以属于多个组织。访问令牌仅提供对在 OAuth 流程期间用户选择的特定组织的访问权限。
 
-To get the connected organization:
+要获取连接的组织：
 
 ```python
-# List organizations accessible with this token
+# 列出此令牌可访问的组织
 response = requests.get(
     "https://sentry.io/api/0/organizations/",
     headers=headers
 )
 organizations = response.json()
 
-# The response will only include the organization the user connected
+# 响应将仅包括用户连接的组织
 ```
 
-## Error Handling
+## 错误处理
 
-### Permission Errors (403)
+### 权限错误 (403)
 
-If your application requests permissions the user doesn't have:
+如果您的应用程序请求用户没有的权限：
 
 ```python
 if response.status_code == 403:
-    # Handle insufficient permissions
-    # You may need to request additional scopes or handle gracefully
+    # 处理权限不足的情况
+    # 您可能需要请求额外的范围或优雅地处理
 ```
 
-### Token Expiration
+### 令牌过期
 
-Handle expired tokens by refreshing:
+通过刷新来处理过期的令牌：
 
 ```python
 if response.status_code == 401:
-    # Token expired, refresh it
+    # 令牌已过期，刷新它
     new_tokens = refresh_access_token(refresh_token)
-    # Retry the original request with new token
+    # 使用新令牌重试原始请求
 ```
 
-## User Management
+## 用户管理
 
-### Revoking Access
+### 撤销访问权限
 
-Users can revoke your application's access at any time through their Sentry account settings (Settings → Account → Authorized Applications).
+用户可以随时通过其 Sentry 账户设置撤销您应用程序的访问权限（设置 → 账户 → 授权应用程序）。
 
-### Handling Revoked Access
+### 处理撤销的访问权限
 
-Monitor for 401 responses and handle gracefully:
+监控 401 响应并优雅地处理：
 
 ```python
 if response.status_code == 401:
-    # Token may be revoked
-    # Prompt user to reconnect or handle appropriately
+    # 令牌可能已被撤销
+    # 提示用户重新连接或适当处理
 ```
 
-## Security Best Practices
+## 安全最佳实践
 
-1. **Store tokens securely**: Encrypt tokens in your database
-2. **Use HTTPS**: Always use HTTPS for OAuth flows
-3. **Validate redirect URIs**: Ensure redirect URIs match your registered URLs
-4. **Handle token expiration**: Implement automatic token refresh
-5. **Monitor for revocations**: Handle cases where users revoke access
+1. **安全存储令牌**：在数据库中加密令牌
+2. **使用 HTTPS**：始终对 OAuth 流程使用 HTTPS
+3. **验证重定向 URI**：确保重定向 URI 与您注册的 URL 匹配
+4. **处理令牌过期**：实施自动令牌刷新
+5. **监控撤销**：处理用户撤销访问权限的情况
 
-## Example Implementation
+## 示例实现
 
-Here's a complete example of handling the OAuth flow:
+以下是处理 OAuth 流程的完整示例：
 
 ```python
 from flask import Flask, request, redirect, session
@@ -254,7 +254,7 @@ def connect_sentry():
 def oauth_callback():
     code = request.args.get('code')
     
-    # Exchange code for token
+    # 交换代码获取令牌
     token_data = {
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
@@ -265,11 +265,11 @@ def oauth_callback():
     response = requests.post("https://sentry.io/oauth/token/", data=token_data)
     tokens = response.json()
     
-    # Store tokens securely
+    # 安全存储令牌
     session['sentry_access_token'] = tokens['access_token']
     session['sentry_refresh_token'] = tokens['refresh_token']
     
-    return "Successfully connected to Sentry!"
+    return "成功连接到 Sentry！"
 
 @app.route('/sentry-data')
 def get_sentry_data():
@@ -280,19 +280,19 @@ def get_sentry_data():
         "Content-Type": "application/json"
     }
     
-    # Get organization data
+    # 获取组织数据
     response = requests.get(
         "https://sentry.io/api/0/organizations/",
         headers=headers
     )
     
     if response.status_code == 401:
-        # Token expired, refresh it
+        # 令牌已过期，刷新它
         refresh_token = session.get('sentry_refresh_token')
         new_tokens = refresh_access_token(refresh_token)
         session['sentry_access_token'] = new_tokens['access_token']
         
-        # Retry request
+        # 重试请求
         response = requests.get(
             "https://sentry.io/api/0/organizations/",
             headers={"Authorization": f"Bearer {new_tokens['access_token']}"}
@@ -312,7 +312,7 @@ def refresh_access_token(refresh_token):
     return response.json()
 ```
 
-## Support
+## 支持
 
-For questions about OAuth integration or partnership setup, contact:
-**Email:** partnership-platform@sentry.io 
+有关 OAuth 集成或合作伙伴设置的问题，请联系：
+**邮箱：** partnership-platform@sentry.io

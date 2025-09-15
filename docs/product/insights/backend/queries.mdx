@@ -1,28 +1,30 @@
 ---
-title: Queries
+title: 查询（Queries）
 sidebar_order: 0
-description: "With Queries in Sentry, you can easily see database queries, remediate performance errors & monitor query performance."
+description: "使用Sentry中的查询功能，您可以轻松查看数据库查询、修复性能错误并监控查询性能。"
 ---
 
-If you have [Insights](/product/insights/) enabled and your application queries a database, you can see how your queries are performing in Sentry.
+<Include name="feature-limited-on-team-retention.mdx" />
 
-Sentry's query monitoring helps you investigate the performance of your queries and get more information to improve them.
+如果您启用了[洞察](/product/insights/)并且您的应用程序查询数据库，您可以在Sentry中查看查询的性能表现。
 
-Starting with the [**Queries** page](#queries-page), you get a high-level overview of how your queries are doing. From there, you can drill into a specific query's [**Query Summary** page](#query-summary-page) and then investigate sample events from the [Sample List](#sample-list) to better understand the context of its performance in a specific endpoint.
+Sentry的查询监控帮助您调查查询的性能并获取更多信息来改进它们。
 
-The interactive demo below demonstrates how to get insights on your query performance.
+从[**查询**页面](#查询页面)开始，您可以获得查询性能的高级概览。从那里，您可以深入查看特定查询的[**查询摘要**页面](#查询摘要页面)，然后通过[样本列表](#样本列表)调查样本事件，以更好地了解其在特定端点中的性能上下文。
+
+下面的交互式演示展示了如何获取查询性能的洞察。
 
 <Arcade src="https://demo.arcade.software/YwpxKWDVwi6CtDcOOw6a?embed" />
 
 <br />
 
-## Prerequisites and Limitations
+## 先决条件和限制
 
-The queries widget and pages are only available for backend projects with performance monitoring enabled.
+查询小组件和页面仅适用于启用了性能监控的后端项目。
 
-### Recommended SDK Versions
+### 推荐的SDK版本
 
-Query monitoring works best with up-to-date SDK versions. The following minimum versions are recommended:
+查询监控在使用最新SDK版本时效果最佳。建议使用以下最低版本：
 
 - [Python SDK v1.29.2](https://github.com/getsentry/sentry-python/releases/tag/1.29.2)
 - [JavaScript SDKs v7.63.0](https://github.com/getsentry/sentry-javascript/releases/tag/7.63.0)
@@ -34,92 +36,92 @@ Query monitoring works best with up-to-date SDK versions. The following minimum 
 - [Symfony SDK v4.11.0](https://github.com/getsentry/sentry-symfony/releases/tag/4.11.0)
 - [Android SDK v6.30.0](https://github.com/getsentry/sentry-java/releases/tag/6.30.0)
 
-### Span Eligibility
+### Span资格
 
-Sentry tries to extract metrics for all SQL-like dialects, as well as MongoDB. Other NoSQL databases like Elasticsearch, graph databases like Neo4j, and other non-SQL database systems are not currently eligible for this feature.
+Sentry尝试为所有类SQL方言以及MongoDB提取指标。目前不支持其他NoSQL数据库如Elasticsearch、图数据库如Neo4j以及其他非SQL数据库系统。
 
-If you are using <PlatformLink to="/tracing/instrumentation/automatic-instrumentation">automatic instrumentation</PlatformLink>, query performance monitoring should work without any configuration. If you've manually instrumented Sentry, you'll need to make sure that your spans conform to our standards for the best experience:
+如果您正在使用<PlatformLink to="/tracing/instrumentation/automatic-instrumentation">自动检测</PlatformLink>，查询性能监控应该无需任何配置即可工作。如果您手动检测了Sentry，您需要确保您的span符合我们的标准以获得最佳体验：
 
-- The span `op` field is set to an [eligible value](https://develop.sentry.dev/sdk/performance/span-operations/#database).
-- The span's description contains the full, parameterized query (e.g. `"SELECT * FROM users WHERE id = ?"`). Supported placeholder values for SQL are `%s`, `?`, `:c0` (e.g. `:c0`, `:c1`) and `$1` (e.g. `$1`, `$2`). MongoDB span descriptions should contain valid JSON, and placeholders should be the string `"?"`.
-- The `db.system` span data value is set to the [correct identifier](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/database/database-spans.md) (e.g., `"postgresql"` or `"mongodb"`).
+- span的`op`字段设置为[符合条件的值](https://develop.sentry.dev/sdk/performance/span-operations/#database)。
+- span的描述包含完整的参数化查询（例如`"SELECT * FROM users WHERE id = ?"`）。SQL支持的占位符值为`%s`、`?`、`:c0`（例如`:c0`、`:c1`）和`$1`（例如`$1`、`$2`）。MongoDB span描述应包含有效的JSON，占位符应为字符串`"?"`。
+- `db.system` span数据值设置为[正确的标识符](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/database/database-spans.md)（例如`"postgresql"`或`"mongodb"`）。
 
-## Queries Page
+## 查询页面
 
-The **Queries** page gives you a quick overview of your application's query performance for the selected project(s). You can use this page as a starting point to investigate potential problem queries and drill down to better understand how various queries are affecting your app's performance.
+**查询**页面为您提供了所选项目中应用程序查询性能的快速概览。您可以将此页面作为起点来调查潜在的问题查询，并深入了解各种查询如何影响应用程序的性能。
 
-Open the **Queries** page by clicking "Queries" in the sidebar, under "Insights". Alternatively, the **Performance** page also surfaces the highest impact queries in the "Most Time-Consuming Queries" widget. You can click "View All" to open the **Queries** page from there.
+点击侧边栏"洞察"下的"查询"打开**查询**页面。或者，**性能**页面也会在"最耗时的查询"小组件中显示影响最大的查询。您可以从那里点击"查看全部"打开**查询**页面。
 
-At the top of the page, summary graphs for queries per minute (throughput) and average duration provide high-level insight into your database performance. If you see an anomaly or want to investigate a time range further, you can click and drag to select a range directly in a graph to filter data for that time range.
+在页面顶部，每分钟查询数（吞吐量）和平均持续时间的摘要图表为您提供了数据库性能的高级洞察。如果您发现异常或想进一步调查某个时间范围，您可以直接在图表中点击并拖动来选择该时间范围以筛选该时间范围的数据。
 
-The query description table below shows a list of queries, their volume (queries per minute), average duration, and the total time your app spent running that query (time spent). The query descriptions are parametrized, so your queries may look slightly different.
+下面的查询描述表格显示了查询列表、它们的数量（每分钟查询数）、平均持续时间以及应用程序运行该查询所花费的总时间（花费时间）。查询描述已参数化，因此您的查询可能看起来略有不同。
 
-By default, this table is sorted by most [time spent](#what-is-time-spent). This means that queries at the top are usually really slow, very frequent, or both. You can change this to sort by queries per minute to see the most frequently run queries, or by average duration to see the slowest queries.
+默认情况下，此表格按最多[花费时间](#什么是花费时间)排序。这意味着顶部的查询通常运行非常缓慢、非常频繁，或两者兼有。您可以将其更改为按每分钟查询数排序以查看运行最频繁的查询，或按平均持续时间排序以查看最慢的查询。
 
-You can also use the dropdowns above to filter all data for specific commands (such as `SELECT` and `UPDATE`) and tables/collections queried.
+您还可以使用上方的下拉菜单筛选特定命令（如`SELECT`和`UPDATE`）和查询的表/集合的所有数据。
 
-To view more details, click on a query from the table to open its **Query Summary** page.
+要查看更多详细信息，请点击表格中的查询以打开其**查询摘要**页面。
 
-### Query Parameterization
+### 查询参数化
 
-Sometimes, Sentry processes queries and simplifies them to improve readability. For example, for SQL queries:
+有时，Sentry会处理查询并简化它们以提高可读性。例如，对于SQL查询：
 
-- Table names are removed from column selections if possible (e.g., `SELECT "users"."name", "users"."id", "users.age" FROM users` becomes `SELECT name, id, age FROM users`)
-- Long lists of `SELECT` arguments are collapsed (e.g., `SELECT id, name, age, city, country, phone FROM users` becomes `SELECT .. FROM users`)
-- Long lists of `VALUES` arguments are collapsed (e.g., `INSERT INTO users (id, email, name, age) VALUES (%s %s %s %s)` becomes `INSERT INTO users (..) VALUES (%s)`)
-- `CASE / WHEN` statements are collapsed
+- 如果可能，从列选择中删除表名（例如，`SELECT "users"."name", "users"."id", "users.age" FROM users`变为`SELECT name, id, age FROM users`）
+- 折叠长列表的`SELECT`参数（例如，`SELECT id, name, age, city, country, phone FROM users`变为`SELECT .. FROM users`）
+- 折叠长列表的`VALUES`参数（例如，`INSERT INTO users (id, email, name, age) VALUES (%s %s %s %s)`变为`INSERT INTO users (..) VALUES (%s)`）
+- 折叠`CASE / WHEN`语句
 
-For MongoDB queries:
+对于MongoDB查询：
 
-- Leaf values are replaced with the placeholder `"?"`
-- A maximum depth is applied to deeply nested query objects
+- 叶值被替换为占位符`"?"`
+- 对深度嵌套的查询对象应用最大深度
 
-You can see the full query by hovering on a truncated description, or clicking it to see its **Query Summary** page.
+您可以通过悬停在截断的描述上来查看完整查询，或点击它以查看其**查询摘要**页面。
 
-## Query Summary Page
+## 查询摘要页面
 
-To open a query's **Query Summary** page, click on the query from either the table in the "Most Time-Consuming Queries" widget on the **Performance** page or the table in the **Queries** page.
+要打开查询的**查询摘要**页面，请点击**性能**页面中"最耗时的查询"小组件中的表格或**查询**页面中的表格中的查询。
 
-At the top of the page, queries per minute, average duration, and time spent are shown for the selected time range. The full query is shown below these metrics, followed by graphs for queries per minute and average duration. The query's source in the code is also shown if it is available.
+在页面顶部，显示所选时间范围的每分钟查询数、平均持续时间和花费时间。这些指标下方显示完整查询，然后是每分钟查询数和平均持续时间的图表。如果可用，还会显示查询在代码中的来源。
 
-At the bottom, you can find a list of endpoints the query is found in, sorted by the most time your application spent in that span.
+在底部，您可以找到查询所在的端点列表，按应用程序在该span中花费的时间最多排序。
 
-If you want to investigate a specific endpoint, click on it to open a sidebar showing some sample events.
+如果您想调查特定端点，请点击它以打开侧边栏显示一些样本事件。
 
-## Query Sources
+## 查询来源
 
 <Alert>
 
-Query Sources are currently supported in Sentry's [Laravel](/platforms/php/guides/laravel/configuration/laravel-options/#more-configuration) (enabled by default) and [Python](/platforms/python/configuration/options/#enable-db-query-source) (enabled by default) SDKs. Sentry only attaches query sources to queries that are slower than a configurable threshold ([Python](/platforms/python/configuration/options/#db-query-source-threshold-ms), [Laravel](/platforms/php/guides/laravel/configuration/laravel-options/#more-configuration)) to reduce the performance impact.
+查询来源目前支持Sentry的[Laravel](/platforms/php/guides/laravel/configuration/laravel-options/#更多配置)（默认启用）和[Python](/platforms/python/configuration/options/#enable-db-query-source)（默认启用）SDK。Sentry仅将查询来源附加到比可配置阈值慢的查询（[Python](/platforms/python/configuration/options/#db-query-source-threshold-ms)、[Laravel](/platforms/php/guides/laravel/configuration/laravel-options/#更多配置)），以减少性能影响。
 
 </Alert>
 
-A query's source is the location in your application's code that triggered the query. Sentry automatically determines the query source by examining the [stack trace](/product/sentry-basics/integrate-frontend/upload-source-maps/) and attaches the source to the query data.
+查询来源是触发查询的应用程序代码中的位置。Sentry通过检查[堆栈跟踪](/product/sentry-basics/integrate-frontend/upload-source-maps/)自动确定查询来源，并将来源附加到查询数据。
 
-You can see the query's source underneath the query description on the **Query Summary** page, as shown in the image below. If you have a [source code management integration](/organization/integrations/source-code-mgmt/) enabled, Sentry will also show a link to open the query's source in the relevant repository.
+您可以在**查询摘要**页面的查询描述下方看到查询来源，如下图所示。如果您启用了[源代码管理集成](/organization/integrations/source-code-mgmt/)，Sentry还将显示指向相关存储库中查询来源的链接。
 
-![Example of Query Source](../img/query-source-laravel.png)
+![查询来源示例](../img/query-source-laravel.png)
 
-## Sample List
+## 样本列表
 
-Click on an endpoint to open its samples list. This side panel shows summary metrics (QPM and average duration) for the query in the specific endpoint.
+点击端点以打开其样本列表。此侧面板显示查询在特定端点中的摘要指标（QPM和平均持续时间）。
 
-The table shows a sample list of events, their span duration, and the difference in duration compared to the average. This table is sorted by longest span duration.
+表格显示了样本事件列表、它们的span持续时间以及与平均值的持续时间差异。此表格按最长span持续时间排序。
 
-Sentry automatically finds a variety of samples to help you investigate performance problems. The chosen events will cover the entire selected time range, as well as a range of durations (both faster than, slower than, and near the average duration). You can get a sense of the performance characteristics by comparing different sample events.
+Sentry会自动查找各种样本以帮助您调查性能问题。所选事件将覆盖整个所选时间范围，以及一系列持续时间（比平均值快、慢和接近）。您可以通过比较不同的样本事件来了解性能特征。
 
-These same events are also represented as triangles shown in the average duration graph above.
+这些相同的事件也显示为上方平均持续时间图表中的三角形。
 
-You can generate a new list of random sample events by clicking the "Try Different Samples" button at the bottom.
+您可以通过点击底部的"尝试不同样本"按钮生成新的随机样本事件列表。
 
-From the sample list, you can drill down to specific good, average, or bad examples of a given query within a given endpoint. Click on an event ID to drill into the query's span details within the span waterfall of the [Trace View page](/concepts/key-terms/tracing/trace-view/).
+从样本列表中，您可以深入了解给定端点中给定查询的特定好、平均或差示例。点击事件ID以深入了解查询span在[跟踪视图页面](/concepts/key-terms/tracing/trace-view/)的span瀑布中的详细信息。
 
-## What is Time Spent?
+## 什么是花费时间？
 
-By default, queries are sorted by **time spent**, which serves as a proxy for the relative impact of a given query.
+默认情况下，查询按**花费时间**排序，这可以作为给定查询相对影响的代理。
 
-Every database query takes some time to execute. When an application sends a query, it waits for the database to receive the query, parse it, execute it, and return the result. In Sentry, the total time taken from sending the query to receiving the full result is called the query's **duration**. The query's **time spent** is the sum of all its durations in a given period.
+每个数据库查询都需要一些时间来执行。当应用程序发送查询时，它会等待数据库接收查询、解析查询、执行查询并返回结果。在Sentry中，从发送查询到接收完整结果所花费的总时间称为查询的**持续时间**。查询的**花费时间**是给定时间段内其所有持续时间的总和。
 
-For example, an application might send a query like `SELECT * FROM users LIMIT 10` every time a user calls the `/users` endpoint. The query might take anywhere from 100ms to 200ms to run, and the endpoint is called anywhere from 10 times a minute to 100 times in a minute depending on the time of day. The query's time spent is the sum of all of its durations that occurred in a given period. Put another way, the time spent is the product of the average duration and queries per minute. In a high-throughput application, a query's time spent might be measured in weeks or months.
+例如，应用程序可能会每次用户调用`/users`端点时发送像`SELECT * FROM users LIMIT 10`这样的查询。查询可能需要100毫秒到200毫秒来运行，并且端点可能每分钟被调用10次到100次，具体取决于一天中的时间。查询的花费时间是给定时间段内发生的其所有持续时间的总和。换句话说，花费时间是平均持续时间和每分钟查询数的乘积。在高吞吐量应用程序中，查询的花费时间可能以周或月为单位。
 
-Time spent is a useful way to measure a query's relative impact, compared to other queries in an application. For example, if one query's time spent is 7 days, and another is just 2 hours, the query with more time spent is probably more impactful to fix. Even a small improvement in duration would result in a meaningful overall improvement. Time spent can also be a strong signal that something is wrong. Queries that suddenly start taking up more time often signal a problem.
+花费时间是衡量查询相对影响的有用方式，与应用程序中的其他查询相比。例如，如果一个查询的花费时间是7天，另一个是2小时，花费时间更多的查询可能更值得修复。即使持续时间的小幅改进也会导致有意义的整体改进。花费时间也可能是出问题的强烈信号。突然开始占用更多时间的查询通常表示存在问题。

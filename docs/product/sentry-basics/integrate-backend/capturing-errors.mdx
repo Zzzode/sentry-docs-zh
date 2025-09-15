@@ -1,58 +1,58 @@
 ---
-title: Capturing Errors
+title: 捕获错误
 sidebar_order: 3
-description: "Learn how Sentry captures unhandled errors and handled errors to enrich your event data."
+description: "了解 Sentry 如何捕获未处理的错误和已处理的错误以丰富您的事件数据。"
 ---
 
-Once initialized in your code, the Sentry SDK will capture errors and various types of events to notify you about them in real-time, depending on the alert rules you've configured. With the Django app already running on your [localhost](http://localhost:8000/), let's try them out.
+一旦在您的代码中初始化，Sentry SDK 将根据您配置的警报规则捕获错误和各种类型的事件并实时通知您。Django 应用程序已在您的 [localhost](http://localhost:8000/) 上运行，让我们尝试一下。
 
 <Alert>
 
-If you're using your own source code, follow the [Getting Started](/platforms/python/integrations/django/) instructions to introduce an error into your app.
+如果您使用的是自己的源代码，请按照[入门指南](/platforms/python/integrations/django/)中的说明将错误引入到您的应用程序中。
 
 </Alert>
 
-## Unhandled Errors
+## 未处理的错误
 
-The Sentry SDK will automatically capture and report any _unhandled error_ that occurs in your application runtime without any additional configuration or explicit handling. Generally, unhandled errors are errors that aren't caught by a `try/except` clause.
+Sentry SDK 将自动捕获并报告应用程序运行时中发生的任何_未处理的错误_，无需任何额外配置或显式处理。通常，未处理的错误是指未被 `try/except` 子句捕获的错误。
 
-To trigger an unhandled error:
+要触发未处理的错误：
 
-1. Run the local Django app.
+1. 运行本地 Django 应用程序。
 
-2. Point your browser to `http://localhost:8000/unhandled`.
+2. 将浏览器指向 `http://localhost:8000/unhandled`。
 
-2. If you've set up an [alert rule](/product/alerts/create-alerts/), you should be notified about the error. Otherwise, open the [**Issues**](https://sentry.io/orgredirect/organizations/:orgslug/issues/) page in your Sentry account.
+2. 如果您已设置[警报规则](/product/alerts/create-alerts/)，您应该会收到有关错误的通知。否则，请在您的 Sentry 账户中打开[**问题**](https://sentry.io/orgredirect/organizations/:orgslug/issues/)页面。
 
-3. You should see the unhandled exception in the list of issues.
+3. 您应该在问题列表中看到未处理的异常。
 
-   ![Unhandled Issue](./img/unhandled_issue.png)
+   ![未处理问题](./img/unhandled_issue.png)
 
-4. Click on the issue, to open the **Issue Details** page.
+4. 点击问题，打开**问题详情**页面。
 
-   ![Issue Details Page](./img/error_with_all_tags.png)
+   ![问题详情页面](./img/error_with_all_tags.png)
 
-5. Notice that the event:
+5. 请注意，该事件：
 
-   - Is tagged with the `environment` and `release` options we've set in the previous tutorial with the tag `handled:no`, marking this event as an unhandled error.
-   - Contains a suspect commit, made possible because of the commit-tracking feature we enabled earlier.
-   - Contains the custom breadcrumb we added through the SDK.
+   - 使用我们在上一个教程中设置的 `environment` 和 `release` 选项进行标记，并使用标签 `handled:no` 标记此事件为未处理的错误。
+   - 包含可疑提交，这是因为我们之前启用了提交跟踪功能。
+   - 包含我们通过 SDK 添加的自定义面包屑。
 
-     ![Unhandled Breadcrumbs](./img/unhandled_issue_breadcrumbs.png)
+     ![未处理面包屑](./img/unhandled_issue_breadcrumbs.png)
 
-## Handled Errors
+## 已处理的错误
 
-The Sentry SDK contains several methods that you can use to **explicitly** report errors, events, and custom messages in except clauses, critical areas of your code, and so on.
+Sentry SDK 包含几种方法，您可以使用这些方法在 except 子句、代码的关键区域等中**显式**报告错误、事件和自定义消息。
 
-### Capture Exception
+### 捕获异常
 
-1. Open the `views.py` file. Notice that we import `sentry_sdk` lib which contains the `capture_exception` method:
+1. 打开 `views.py` 文件。请注意，我们导入了 `sentry_sdk` 库，其中包含 `capture_exception` 方法：
 
    ```python {filename: myapp/views.py}
    import sentry_sdk
    ```
 
-2. The method is used to capture the exception handled by the except clause in `HandledErrorView`:
+2. 该方法用于在 `HandledErrorView` 中捕获由 except 子句处理的异常：
 
    ```python {filename: myapp/views.py}
    class HandledErrorView(APIView):
@@ -66,59 +66,59 @@ The Sentry SDK contains several methods that you can use to **explicitly** repor
          return Response()
    ```
 
-3. To try it out on your localhost, trigger the following endpoint: `http://localhost:8000/handled`.
+3. 要在您的 localhost 上尝试，请触发以下端点：`http://localhost:8000/handled`。
 
-4. Similar to what we did with the unhandled error, open the new issue's detail page.
+4. 与我们处理未处理错误的方式类似，打开新问题的问题详情页面。
 
-5. Notice that the event is tagged with the same `environment` and `release` configuration options. Hover over the "i" icon in the release tag to reveal the release information and the commits associated with it.
+5. 请注意，该事件使用相同的 `environment` 和 `release` 配置选项进行标记。将鼠标悬停在发布标签的"i"图标上，以显示发布信息及其关联的提交。
 
-   ![Handled release](./img/handled_release.png)
+   ![已处理发布](./img/handled_release.png)
 
-6. Click on the release's "i" icon to navigate to the release page.
+6. 点击发布的"i"图标导航到发布页面。
 
-### Capture Message
+### 捕获消息
 
-Typically, `capture_message` is not emitted, but there are times when a developer may want to add a simple message within their app for debugging purposes, and `capture_message` is great for that.
+通常，`capture_message` 不会被发出，但有时开发人员可能希望在其应用程序中添加简单消息以进行调试，`capture_message` 非常适合这种情况。
 
-1. In the `views.py` file, the `capture_message` method is made available through the `sentry_sdk` lib import.
+1. 在 `views.py` 文件中，`capture_message` 方法通过 `sentry_sdk` 库导入可用。
 
-2. You can use it anywhere within your app. In our example, we've created a dedicated view class, `CaptureMessageView`, to trigger and capture a message we want to track:
+2. 您可以在应用程序中的任何位置使用它。在我们的示例中，我们创建了一个专用视图类 `CaptureMessageView`，用于触发和捕获我们想要跟踪的消息：
 
    ```python {filename: myapp/views.py}
    sentry_sdk.capture_message("You caught me!")
    ```
 
-3. To try it out on your localhost, trigger the following endpoint: `http://localhost:8000/message`.
+3. 要在您的 localhost 上尝试，请触发以下端点：`http://localhost:8000/message`。
 
-4. As before, open the new issue’s detail page from the **Issues** page.
+4. 与之前一样，从**问题**页面打开新问题的问题详情页面。
    <Alert>
-      You'll need to remove the `"issue.priority is high or medium"` filter from the "Custom Search" field on the [**Issues**](https://sentry.io/orgredirect/organizations/:orgslug/issues/) page to see all the issue types in the list.
+      您需要从[**问题**](https://sentry.io/orgredirect/organizations/:orgslug/issues/)页面上的"自定义搜索"字段中删除 `"issue.priority is high or medium"` 过滤器，以查看列表中的所有问题类型。
    </Alert>
 
 
-   ![Import and Configure SDK](./img/capture_message.png)
+   ![导入和配置 SDK](./img/capture_message.png)
 
-   > By default, captured messages are marked with a severity level tag `level:info`, as reflected in the tags section. However, the `capture_message` methods accept an **optional** severity level parameter.
+   > 默认情况下，捕获的消息使用严重性级别标签 `level:info` 进行标记，如标签部分所示。但是，`capture_message` 方法接受一个**可选**的严重性级别参数。
 
-5. In the `views.py` file, change the `capture_message` method to:
+5. 在 `views.py` 文件中，将 `capture_message` 方法更改为：
 
    ```python {filename: myapp/views.py}
    sentry_sdk.capture_message("You caught me!", "fatal")
    ```
 
-6. Save the changes and trigger the `/message` endpoint again. Changes should be applied immediately through `StateReloader`.
+6. 保存更改并再次触发 `/message` 端点。更改应通过 `StateReloader` 立即应用。
 
-7. Notice that the severity level tag on the new event now shows `level:fatal`.
+7. 请注意，新事件上的严重性级别标签现在显示 `level:fatal`。
 
-## Enriching your Event Data
+## 丰富您的事件数据
 
-You can enrich your event and error data through the Sentry SDK by adding custom tags and user context attributes. In addition to providing more context to your errors, enriched data will expand your options to search, filter, and query through your event metadata. Learn more about the advantages of enriching your data in [Event Data](/product/sentry-basics/enrich-data/).
+您可以通过 Sentry SDK 通过添加自定义标签和用户上下文属性来丰富您的事件和错误数据。除了为您的错误提供更多上下文外，丰富的数据还将扩展您搜索、过滤和查询事件元数据的选项。在[事件数据](/product/sentry-basics/enrich-data/)中了解丰富数据的优势。
 
-To enrich the data of the message events we've captured with `capture_message`:
+要使用 `capture_message` 捕获的消息事件丰富数据：
 
-1. In the `views.py` file, locate the line that triggers `sentry_sdk.capture_message`.
+1. 在 `views.py` 文件中，找到触发 `sentry_sdk.capture_message` 的行。
 
-2. Replace that line with the following code:
+2. 将该行替换为以下代码：
 
    ```python {filename: myapp/views.py}
    sentry_sdk.set_tag("my-tag", "my value")
@@ -128,15 +128,15 @@ To enrich the data of the message events we've captured with `capture_message`:
    sentry_sdk.capture_message("You caught me!", "fatal")
    ```
 
-3. Save your changes and trigger the `/message` endpoint again.
+3. 保存您的更改并再次触发 `/message` 端点。
 
-4. Open the issue’s detail page from the [**Issues**](https://sentry.io/orgredirect/organizations/:orgslug/issues/) page.
+4. 从[**问题**](https://sentry.io/orgredirect/organizations/:orgslug/issues/)页面打开问题的问题详情页面。
 
-5. Notice that:
+5. 请注意：
 
-   - The **user email** is now displayed on the details page and the number of unique users impacted by this event is reflected in the issue's header.
-   - The **custom tag** is now available (and searchable) in the list of tags.
-     ![Enriched Event Data](./img/enriched_data_1.png)
+   - **用户电子邮件**现在显示在详情页面上，受此事件影响的唯一用户数量反映在问题的标题中。
+   - **自定义标签**现在可用（且可搜索）在标签列表中。
+     ![丰富的事件数据](./img/enriched_data_1.png)
 
-   - The **extra data** we set on the SDK is reflected in the "ADDITIONAL DATA" context.
-     ![Enriched Event Data 2](./img/enriched_data_2.png)
+   - 我们在 SDK 上设置的**额外数据**反映在"附加数据"上下文中。
+     ![丰富的事件数据 2](./img/enriched_data_2.png)

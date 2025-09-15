@@ -1,127 +1,127 @@
 ---
-title: Uncover Trends With Discover
+title: 使用 Discover 发现趋势
 sidebar_order: 20
-description: "Learn how to work with the data in Discover to gain useful insights into the health and stability of your applications."
+description: "了解如何使用 Discover 中的数据来获得有关应用程序健康和稳定性的有用洞察。"
 ---
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-**Discover** is a powerful query engine that allows you to query all your error metadata across projects and applications. As you've probably noticed, the Sentry SDKs installed in your applications capture huge amounts of events, each enriched with contextual data about the underlying error, platform, device, user, and more. We also highly encourage enriching your error data through the SDK by adding custom tags and configuring the release and environment. For more information see [Event Data](/product/sentry-basics/enrich-data/).
+**Discover** 是一个强大的查询引擎，允许您跨项目和应用程序查询所有错误元数据。正如您可能已经注意到的，安装在您应用程序中的 Sentry SDK 捕获了大量事件，每个事件都包含有关底层错误、平台、设备、用户等的上下文数据。我们还强烈鼓励通过 SDK 丰富您的错误数据，通过添加自定义标签和配置发布和环境。有关更多信息，请参阅[事件数据](/product/sentry-basics/enrich-data/)。
 
-Let's go over some examples of how to work with all this data to gain some useful insights into the health and stability of your applications.
+让我们看一些如何使用所有这些数据来获得有关应用程序健康和稳定性的有用洞察的示例。
 
 <Alert>
 
-Some table column options may be repeated if you’ve set up a tag with the same name as a Sentry field. For the examples that follow, use the table column option marked “field.”
+如果您设置了与 Sentry 字段同名的标签，某些表格列选项可能会重复。对于以下示例，请使用标记为"字段"的表格列选项。
 
 </Alert>
 
-## Discover Through Issues
+## 通过问题发现
 
-Sentry notifies you in real-time when your application breaks, and then provides the information and tools to triage and resolve the error. With **Discover**, you can take a more proactive approach to find the major issues that break your apps. Building that query might look like this:
+Sentry 在您的应用程序中断时实时通知您，然后提供信息和工具来分类和解决错误。使用 **Discover**，您可以采取更主动的方法来查找破坏您应用程序的主要问题。构建该查询可能如下所示：
 
-1. Navigate to **Discover** and click on "Build a new query".
+1. 导航到 **Discover** 并点击"构建新查询"。
 
-2. Select the projects, environments, and date range of errors you'd like to query.
+2. 选择您想要查询的项目、环境和错误日期范围。
 
-3. Sentry monitors different types of events for errors and performance. To query issues, select the "Errors" dataset using the Dataset dropdown.
+3. Sentry 监控不同类型的事件以了解错误和性能。要查询问题，请使用数据集下拉菜单选择"错误"数据集。
 
-   ![Filter by Error type](./img/004.png)
+   ![按错误类型过滤](./img/004.png)
 
-4. Edit the "Results" table columns to show the number of events [`count()`], impacted users [`count_unique(user)`], and unique issues [`count_unique(issue)`] per project.
+4. 编辑"结果"表格列以显示每个项目的事件数量 [`count()`]、受影响用户 [`count_unique(user)`] 和唯一问题 [`count_unique(issue)`]。
 
-   ![Issues per project](./img/001.png)
+   ![每个项目的问题](./img/001.png)
 
-5. With these columns set, you might want to look for the project with the most issues. Click on the `COUNT_UNIQUE(ISSUE)` column header to order the line items accordingly.
+5. 设置这些列后，您可能想要查找问题最多的项目。点击 `COUNT_UNIQUE(ISSUE)` 列标题以相应地排序行项目。
 
-6. Hover your cursor over the top project line item, click on the actions icon that displays, and select "Add to filter". This will narrow your results even more so that you can continue looking into the issues of that specific project.
+6. 将光标悬停在顶部项目行项目上，点击显示的操作图标，然后选择"添加到过滤器"。这将进一步缩小您的结果，以便您可以继续查看该特定项目的问题。
 
-   ![Project with most issues](./img/002.png)
+   ![问题最多的项目](./img/002.png)
 
-7. Now let's see what those issues are. Change the table columns to display:
+7. 现在让我们看看这些问题是什么。更改表格列以显示：
 
-   - `issue` (the issue id)
-   - `title` (issue title)
-   - `count()` (number of events)
-   - `count_unique(user)` (number of unique users impacted by the issue)
+   - `issue`（问题 id）
+   - `title`（问题标题）
+   - `count()`（事件数量）
+   - `count_unique(user)`（问题影响的唯一用户数量）
 
-8. On each line item/issue, you can click on the issue name to open the **Issue Details** page and triage the issue. You can also click on the Open Group icon to continue querying through the events stack in the context of a specific issue.
+8. 在每个行项目/问题上，您可以点击问题名称打开**问题详情**页面并对问题进行分类。您还可以点击打开组图标，继续在特定问题的上下文中查询事件堆栈。
 
-   ![Actions per line item](./img/003.png)
+   ![每行项目的操作](./img/003.png)
 
-## Discover Through Errors
+## 通过错误发现
 
-The true power of **Discover** lies in its ability to query through all your error metadata, so you're no longer restricted to the context of issues or projects, and can reveal trends and insights across all your applications. Let's look at some examples.
+**Discover** 的真正威力在于它能够查询所有错误元数据，因此您不再受问题或项目上下文的限制，并且可以揭示所有应用程序的趋势和洞察。让我们看一些示例。
 
-### Errors by URLs
+### 按 URL 的错误
 
-Create a report looking into all the errors occurring in the URL endpoints across your applications.
+创建一个报告，查看应用程序中 URL 端点发生的所有错误。
 
-- Dataset: Errors
-- Search condition: `has:url`
-- Table columns: `url`, `platform.name`, `count()`
+- 数据集：错误
+- 搜索条件：`has:url`
+- 表格列：`url`、`platform.name`、`count()`
 
-![Errors by URL](./img/005.png)
+![按 URL 的错误](./img/005.png)
 
-- Look into any one of the URL endpoints by clicking on "Add to filter" and changing the table columns.
-- Alternatively, filter URL patterns using wild cards:
+- 通过点击"添加到过滤器"并更改表格列来查看任何一个 URL 端点。
+- 或者，使用通配符过滤 URL 模式：
 
-![Wildcard filter](./img/009.png)
+![通配符过滤器](./img/009.png)
 
-### Unhandled Errors
+### 未处理的错误
 
-Whether your code is running on mobile, in browser, or on a server, an unhandled fatal error might crash your application. To find out where those crashes are happening, run the following query in **Discover**:
+无论您的代码是在移动设备、浏览器还是服务器上运行，未处理的致命错误都可能导致您的应用程序崩溃。要找出这些崩溃发生的位置，请在 **Discover** 中运行以下查询：
 
-- Dataset: Errors
-- Search condition: `handled:no level:fatal`
-- Table columns: `mechanism`, `platform.name`, `count()`
+- 数据集：错误
+- 搜索条件：`handled:no level:fatal`
+- 表格列：`mechanism`、`platform.name`、`count()`
 
-  ![Crashes](./img/006.png)
+  ![崩溃](./img/006.png)
 
-To look deeper into one of the crash types:
+要更深入地查看崩溃类型之一：
 
-- Select one of the line item values and add it to the filter.
-- Modify the table columns to show the crash `message` and `count()`.
+- 选择其中一个行项目值并将其添加到过滤器中。
+- 修改表格列以显示崩溃 `message` 和 `count()`。
 
-  ![Native Crashes](./img/007.png)
+  ![原生崩溃](./img/007.png)
 
-### Files With Most Errors
+### 错误最多的文件
 
-To find out which files in your codebase are generating the most errors, run the following query in **Discover**:
+要找出代码库中哪些文件生成最多错误，请在 **Discover** 中运行以下查询：
 
-- Dataset: Errors
-- Search condition: `has:stack.filename`
-- Table columns: `stack.filename`, `count()`, `count_unique(issue)`
+- 数据集：错误
+- 搜索条件：`has:stack.filename`
+- 表格列：`stack.filename`、`count()`、`count_unique(issue)`
 
-![By File Names](./img/010.png)
+![按文件名](./img/010.png)
 
-Change your "Display" selection to compare the current period to the previous one.
+将您的"显示"选择更改为将当前期间与上一期间进行比较。
 
-You can continue exploring a specific filename by adding it to the filter and changing the table columns to display the major error culprits in that file:
+您可以通过将其添加到过滤器并更改表格列来继续探索特定文件名，以显示该文件中主要的错误罪魁祸首：
 
-![Culprits](./img/008.png)
+![罪魁祸首](./img/008.png)
 
-### Errors per Release
+### 每个发布的错误
 
-To find out how the health of a specific project is improving (or not) over time as you release new versions, create the following query:
+要了解特定项目的健康状况如何随着您发布新版本而随时间改善（或不改善），请创建以下查询：
 
-- Dataset: Errors
-- Table columns: `release`, `count()`, `count_unique(issue)`
+- 数据集：错误
+- 表格列：`release`、`count()`、`count_unique(issue)`
 
-![Issues per release](./img/012.png)
+![每个发布的问题](./img/012.png)
 
-From here you can add a release as a filter and change the columns to `count()` and `title` to see similar errors. Then you can click the "Open Group" icon to drill down to individual events. You can also open the release in **Releases** from the "Results" table.
+从这里，您可以将发布添加为过滤器并将列更改为 `count()` 和 `title` 以查看类似的错误。然后您可以点击"打开组"图标深入到各个事件。您还可以从"结果"表格中在 **发布** 中打开发布。
 
-### Errors by Hour or Day
+### 按小时或天的错误
 
-The `timestamp.to_hour` and `timestamp.to_day` fields round down the timestamp to the last hour or day respectively. For example, an event with a `timestamp` value of Mar 12, 2021 2:26:50 PM UTC will have a `timestamp.to_hour` value of Mar 12, 2021 2:00:00 PM UTC and `timestamp.to_day` value of Mar 12, 2021 12:00:00 AM UTC. This allows you to group events. For example, you can show hourly hit counts for errors hit at least twice per hour:
+`timestamp.to_hour` 和 `timestamp.to_day` 字段分别将时间戳向下舍入到最后一个小时或天。例如，具有 `timestamp` 值为 2021 年 3 月 12 日下午 2:26:50 UTC 的事件将具有 `timestamp.to_hour` 值为 2021 年 3 月 12 日下午 2:00:00 UTC 和 `timestamp.to_day` 值为 2021 年 3 月 12 日凌晨 12:00:00 UTC。这允许您对事件进行分组。例如，您可以显示每小时至少命中两次的错误的小时命中计数：
 
-![Hourly counts for errors hit at least twice](./img/014.png)
+![每小时至少命中两次的错误的小时计数](./img/014.png)
 
-All timestamps are displayed in your preferred timezone based on your user settings in **User Settings > Account > Account Details**.
+所有时间戳都根据您在 **用户设置 > 帐户 > 帐户详细信息** 中的用户设置以您的首选时区显示。
 
-## Additional Use Cases
+## 其他用例
 
-As you've probably noticed by now, **Discover** is extremely useful in gaining visibility and insights into your errors. For additional use cases take a look at:
+正如您现在可能已经注意到的，**Discover** 在获得错误可见性和洞察方面非常有用。有关其他用例，请查看：
 
-- [What issues are consuming my quota?](/pricing/quotas/manage-event-stream-guide/#which-issues-are-consuming-my-quota)
+- [哪些问题正在消耗我的配额？](/pricing/quotas/manage-event-stream-guide/#which-issues-are-consuming-my-quota)

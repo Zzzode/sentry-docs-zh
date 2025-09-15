@@ -1,79 +1,79 @@
 ---
-title: Alerts
+title: 警报
 sidebar_order: 80
-description: "With Sentry Alerts, you can get real-time visibility into your code to quickly resolve errors & update personal notifications to enhance the error and performance monitoring experience for you and your team. Learn how to get started here."
+description: "使用 Sentry 警报，您可以实时了解代码情况，快速解决错误并更新个人通知，为您和您的团队增强错误和性能监控体验。在此处了解如何开始。"
 ---
 
-Alerts provide real-time visibility into problems with your code and the impact on your users. There are several types of alerts available with customizable thresholds and integrations.
+警报为您提供代码问题及其对用户影响的实时可见性。有多种类型的警报可用，具有可自定义的阈值和集成。
 
-From the **Alerts** page in [sentry.io](https://sentry.io), you can create new alert rules and manage existing ones. The “Alert Rules” tab displays your existing alert rules, along with their current status, project, team, and creation date. By default, the list is filtered so that only alerts associated with the teams you're a member of, as well as ones that aren't associated with any team, are displayed. You can change this using the filter button.
+从 [sentry.io](https://sentry.io) 中的 **警报** 页面，您可以创建新的警报规则并管理现有的警报规则。"警报规则"选项卡显示您现有的警报规则，以及它们的当前状态、项目、团队和创建日期。默认情况下，列表被过滤，以便仅显示与您所属团队相关的警报，以及那些不与任何团队关联的警报。您可以使用过滤器按钮更改此设置。
 
-![A list of alert rules, along with their status, project, team, and creation date.](./img/alert-listing.png)
+![警报规则列表，以及它们的状态、项目、团队和创建日期。](./img/alert-listing.png)
 
-The **Alerts** page also displays a “History” tab where you can find a list of metric alerts with information like when it was triggered and how long it was active.
+**警报** 页面还显示一个"历史记录"选项卡，您可以在其中找到指标警报的列表，以及诸如何时触发以及持续多长时间等信息。
 
-## Issue Alerts
+## 问题警报
 
-[Issue alerts](/product/alerts/alert-types/#issue-alerts) trigger whenever any issue in a project matches specified criteria. You can create alerts for issue-level changes, such as:
+[问题警报](/product/alerts/alert-types/#issue-alerts) 在项目中的任何问题匹配指定条件时触发。您可以为问题级别的更改创建警报，例如：
 
-- New issues
-- Issue frequency increasing
-- Resolved and archived issues becoming unresolved
+- 新问题
+- 问题频率增加
+- 已解决和已存档的问题变为未解决
 
-You can find a full list of issue alert triggers in [Issue Alert Configuration](/product/alerts/create-alerts/issue-alert-config/#when-conditions-triggers).
+您可以在 [问题警报配置](/product/alerts/create-alerts/issue-alert-config/#when-conditions-triggers) 中找到问题警报触发器的完整列表。
 
-## Metric Alerts for Errors & Performance
+## 错误和性能的指标警报
 
-[Metric alerts](/product/alerts/alert-types/#metric-alerts) trigger when a [metric](/product/insights/overview/metrics/) is breached for either error or transaction events. Use metric alerts to monitor a finite and known set of metrics and components you care about, such as error frequency or performance metrics in your entire project, on important pages, or with specific tags.
+[指标警报](/product/alerts/alert-types/#metric-alerts) 在错误或事务事件的 [指标](/product/insights/overview/metrics/) 被突破时触发。使用指标警报来监控您关心的有限且已知的指标和组件集，例如整个项目、重要页面或具有特定标签的错误频率或性能指标。
 
-Create alerts to monitor specific metrics, such as:
+创建警报以监控特定指标，例如：
 
-- Total errors in your project
-- [Latency](/product/insights/overview/metrics/#latency): min, max, average, percentile
-- [Failure rate](/product/insights/overview/metrics/#failure-rate)
-- Crash free session or user rate for monitoring release health
-- Custom metrics
+- 项目中总错误数
+- [延迟](/product/insights/overview/metrics/#latency)：最小值、最大值、平均值、百分位数
+- [失败率](/product/insights/overview/metrics/#failure-rate)
+- 用于监控发布健康的无崩溃会话或用户率
+- 自定义指标
 
-You can find a full list of available metric alerts in [Metric Alerts](/product/alerts/alert-types/#metric-alerts).
+您可以在 [指标警报](/product/alerts/alert-types/#metric-alerts) 中找到可用指标警报的完整列表。
 
-## Uptime Monitoring Alerts
+## 正常运行时间监控警报
 
-[Uptime alerts](/product/uptime-monitoring/) are triggered when an uptime HTTP check request fails to meet our
-[uptime check criteria](/product/uptime-monitoring/#uptime-check-criteria).
-You can use uptime alerts to make sure a specific URL is constantly available, even during periods of low or no traffic.
+[正常运行时间警报](/product/uptime-monitoring/) 在正常运行时间 HTTP 检查请求未能满足我们的
+[正常运行时间检查标准](/product/uptime-monitoring/#uptime-check-criteria) 时触发。
+您可以使用正常运行时间警报来确保特定 URL 持续可用，即使在低流量或无流量期间也是如此。
 
-## Creating Alerts
+## 创建警报
 
-When you create a new project in [sentry.io](https://sentry.io), you can select a default issue alert. However, you can also [create your own alerts](/product/alerts/create-alerts/) to suit your team’s needs, using these [alert best practices](/product/alerts/best-practices/) as a guide.
+当您在 [sentry.io](https://sentry.io) 中创建新项目时，您可以选择默认问题警报。但是，您也可以 [创建自己的警报](/product/alerts/create-alerts/) 以满足团队的需求，使用这些 [警报最佳实践](/product/alerts/best-practices/) 作为指南。
 
-## Muting Alerts
+## 静音警报
 
-Alerts should notify you when there's an important problem with your application. But they shouldn't be too noisy, because that can lead to alert fatigue. Muting alerts is one way to reduce noise, but we recommend following these [alert best practices](/product/alerts/best-practices/) to help you create relevant alerts that notify the people equipped to fix the problem.
+警报应在您的应用程序出现重要问题时通知您。但它们不应过于嘈杂，因为这可能导致警报疲劳。静音警报是减少噪音的一种方式，但我们建议遵循这些 [警报最佳实践](/product/alerts/best-practices/) 来帮助您创建相关的警报，通知有能力解决问题的人员。
 
 <Alert>
 
-Any user can mute alerts for their entire organization by default, but users with manager or owner-level permissions can update the minimum role requirement by going to **Settings > General Settings > Let Members Create and Edit Alerts**.
+默认情况下，任何用户都可以为其整个组织静音警报，但具有经理或所有者级别权限的用户可以通过转到 **设置 > 常规设置 > 让成员创建和编辑警报** 来更新最低角色要求。
 
 </Alert>
 
-### Muting Issue Alerts
+### 静音问题警报
 
-Issue alerts can be muted on the **Alerts** details page by clicking the "Mute" button. This will keep the alert from notifying you until you click "Unmute". If you want to keep the alert from firing entirely, select "Mute for everyone" from the dropdown. If there's just one alert rule and it's set up to notify an entire integration, the only muting option will be "Mute for everyone". If there are multiple alert rules and they're set to notify both an integration and a user or a team, selecting "Mute for me" will only silence the alert for you, not the rest of the team.
+问题警报可以通过在 **警报** 详细信息页面上点击"静音"按钮来静音。这将阻止警报通知您，直到您点击"取消静音"。如果您想完全阻止警报触发，请从下拉菜单中选择"为所有人静音"。如果只有一个警报规则，并且它设置为通知整个集成，则唯一的静音选项将是"为所有人静音"。如果有多个警报规则，并且它们设置为通知集成和用户或团队，选择"为我静音"将仅为您静音警报，而不会为团队的其他成员静音。
 
-### Muting Metric Alerts
+### 静音指标警报
 
-Metric alerts work in the same way as Issue alerts and can be muted on the **Alerts** details page by clicking the "Mute" button.
+指标警报的工作方式与问题警报相同，可以通过在 **警报** 详细信息页面上点击"静音"按钮来静音。
 
-## Disabled Alerts
+## 已禁用警报
 
-Sentry has disabled duplicate alerts and alerts with no actions.
+Sentry 已禁用重复警报和无操作的警报。
 
-Anyone with [alert edit access](/organization/membership/) can re-enable an alert by editing its conditions and re-saving it. Alerts need to pass Sentry’s checks before they can be saved. See [best practices](/product/alerts/best-practices/) for guidance on writing useful alerts.
+任何具有 [警报编辑访问权限](/organization/membership/) 的人都可以通过编辑其条件并重新保存来重新启用警报。警报需要通过 Sentry 的检查才能保存。有关编写有用警报的指导，请参见 [最佳实践](/product/alerts/best-practices/)。
 
-## Notifications
+## 通知
 
-Besides alerts, Sentry sends you notifications about various things like [issue state changes](/product/issues/states-triage/), [release deploys](/product/releases/), and [quota usage](/pricing/quotas/). You can fine-tune these notifications, as well as your personal alert settings, in **User Settings > Notifications**. Learn more about notifications and adjusting their associated settings in [the full documentation](/product/alerts/notifications/).
+除了警报之外，Sentry 还会向您发送有关各种事情的通知，例如 [问题状态更改](/product/issues/states-triage/)、[发布部署](/product/releases/) 和 [配额使用情况](/pricing/quotas/)。您可以在 **用户设置 > 通知** 中微调这些通知，以及您的个人警报设置。在 [完整文档](/product/alerts/notifications/) 中了解有关通知和调整其相关设置的更多信息。
 
-## Learn more
+## 了解更多
 
 <PageGrid />

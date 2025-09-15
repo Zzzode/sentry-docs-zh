@@ -1,51 +1,51 @@
 ---
-title: "N+1 API Calls"
+title: "N+1 API调用"
 sidebar_order: 15
-description: "Learn more about N+1 API Calls and how to diagnose and fix them."
+description: "了解更多关于N+1 API调用以及如何诊断和修复它们的信息。"
 ---
 
-_N+1 API Calls_ are a performance problem that happens when an application makes many simultaneous network requests to fetch a given type of resource. For example, when an application makes one network request for each item on a list instead of fetching all the information at once in a single combined network call. Each call to the server incurs performance overhead, and if the number of calls is high, it can lead to significant performance problems. This problem commonly occurs when rendering lists or grids of items, where each item needs to fetch additional information from the server.
+_N+1 API调用_是一种性能问题，当应用程序进行许多同时的网络请求来获取给定类型的资源时发生。例如，当应用程序为列表中的每个项目进行一个网络请求，而不是在单个组合网络调用中一次性获取所有信息时。每次对服务器的调用都会产生性能开销，如果调用数量很高，可能会导致显著的性能问题。当渲染列表或项目网格时，每个项目都需要从服务器获取额外信息时，通常会出现此问题。
 
-## Affected Platforms
+## 受影响的平台
 
-Sentry detects N+1 API Calls in frontend and mobile applications. The detector is both language and platform-agnostic. You can expect to see this problem in environments like React, Vue, Angular, React Native, Android, and others. Backend environments aren't supported at this time.
+Sentry在前端和移动应用程序中检测N+1 API调用。检测器与语言和平台无关。您可以在React、Vue、Angular、React Native、Android等环境中看到此问题。目前不支持后端环境。
 
-## Detection Criteria
+## 检测标准
 
-The N+1 API Call detector looks for groups of simultaneous network calls to the same URL. It uses the following detection criteria:
+N+1 API调用检测器会查找对同一URL的同时网络调用组。它使用以下检测标准：
 
-- Applies to `GET` requests only
-- Minimum of `10` network calls must be happening simultaneously
-- Total duration of involved spans must exceed `300ms`.
-- Network calls must be within `5ms` of each other
-- Calls can't be to a GraphQL endpoint or to `_next/data`
-- Calls can't be fetching a static resource (such as `.png` files)
-- The transaction operation must be `"navigation"`, `"pageload"`, `"ui.load"`, or `"ui.action"`
-- The span operation must be `"http.client"`
+- 仅适用于`GET`请求
+- 必须同时发生至少`10`个网络调用
+- 涉及跨度的总持续时间必须超过`300ms`
+- 网络调用必须在`5ms`内彼此发生
+- 调用不能是GraphQL端点或`_next/data`
+- 调用不能是获取静态资源（如`.png`文件）
+- 事务操作必须是`"navigation"`、`"pageload"`、`"ui.load"`或`"ui.action"`
+- 跨度操作必须是`"http.client"`
 
-You can configure detector thresholds for N+1 API Call issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置N+1 API调用问题的检测器阈值：
 
-![N+1 API Calls detector threshold settings](./img/n-plus-one-api-calls-detector-settings.png)
+![N+1 API调用检测器阈值设置](./img/n-plus-one-api-calls-detector-settings.png)
 
-## Span Evidence
+## 跨度证据
 
-You can identify the root cause of your N+1 API Call problems by looking at three main aspects in the "Span Evidence" section:
+您可以通过查看"跨度证据"部分中的三个主要方面来识别N+1 API调用问题的根本原因：
 
-- Transaction name
-- Repeating spans - This is the URL that's receiving the repeated network calls
-- Parameters - These are the query parameters that vary between the network calls
+- 事务名称
+- 重复跨度 - 这是接收重复网络调用的URL
+- 参数 - 这些是网络调用之间变化的查询参数
 
-![N+1 API Calls span evidence](./img/n-plus-one-api-calls-evidence.png)
+![N+1 API调用跨度证据](./img/n-plus-one-api-calls-evidence.png)
 
-View it by going to the **Issues** page in Sentry, clicking on the N+1 API Call error you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+通过转到Sentry中的**问题**页面，点击您要检查的N+1 API调用错误，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看它。
 
-## Fingerprinting
+## 指纹识别
 
-Sentry computes the issue fingerprint based on the URLs of the repeating network calls. Sentry parameterizes the URLs by stripping integers, UUIDs, SHA1 hashes, and MD5 hashes. If you're finding that Sentry is failing to correctly group N+1 API Call issues, you can parameterize the `http.client` spans in your transactions by using the <PlatformLink to="/configuration/options#before-send-transaction">before-send-transaction</PlatformLink> hook if your platform supports it.
+Sentry根据重复网络调用的URL计算问题指纹。Sentry通过剥离整数、UUID、SHA1哈希和MD5哈希来参数化URL。如果您发现Sentry未能正确分组N+1 API调用问题，您可以使用<PlatformLink to="/configuration/options#before-send-transaction">before-send-transaction</PlatformLink>钩子（如果您的平台支持）来参数化事务中的`http.client`跨度。
 
-## Example
+## 示例
 
-Consider a book recommendation website written in React. The homepage generates a list of the most popular books, and renders a `<Book />` component for each book in the list. Each `<Book />` component makes a `fetch` call to get the book information from the API.
+考虑一个用React编写的图书推荐网站。主页生成最受欢迎图书的列表，并为列表中的每本书渲染一个`<Book />`组件。每个`<Book />`组件都会进行`fetch`调用来从API获取图书信息。
 
 ```jsx
 const Book({ id }) => {
@@ -63,14 +63,14 @@ const Book({ id }) => {
 };
 ```
 
-If the list has 100 books in it, the page will make 100 network calls simultaneously. The number 100 is the "N" in "N+1 API Call". This effect is visible in the span waterfall, which shows all the simultaneous network requests:
+如果列表中有100本书，页面将同时进行100个网络调用。数字100是"N+1 API调用"中的"N"。此效果在跨度瀑布图中可见，显示了所有同时的网络请求：
 
-![N+1 API Calls in an example application](./img/n-plus-one-api-calls-in-book-application.png)
+![示例应用程序中的N+1 API调用](./img/n-plus-one-api-calls-in-book-application.png)
 
-## Fixing N+1 API Call Issues
+## 修复N+1 API调用问题
 
-Fixes for this issue type depend on the application context. In some cases, this behavior is intentional and even desired. It's up to you to decide what the appropriate fix is, if any. Here are some common approaches:
+此问题类型的修复取决于应用程序上下文。在某些情况下，此行为是故意的甚至是期望的。由您决定适当的修复是什么（如果有的话）。以下是一些常见方法：
 
-- Fetch all the information ahead of time in one network call. In the example above, you might update the `/books` endpoint to accept a list of IDs (e.g., `/books?id=78&id=89&id=120`).
-- Lazy-load the information. In the book example, you could change the `<Book>` component to only fetch the information once the component is visible on the screen.
-- Cache the information. If your page makes concurrent calls that might be duplicates, you can improve performance by adding caching, or call deduplication.
+- 提前在一个网络调用中获取所有信息。在上面的示例中，您可以更新`/books`端点以接受ID列表（例如，`/books?id=78&id=89&id=120`）。
+- 延迟加载信息。在图书示例中，您可以更改`<Book>`组件，仅在组件在屏幕上可见时才获取信息。
+- 缓存信息。如果您的页面进行可能是重复的并发调用，您可以通过添加缓存或调用去重来提高性能。

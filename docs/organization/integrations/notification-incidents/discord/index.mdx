@@ -1,121 +1,120 @@
 ---
 title: Discord
 sidebar_order: 1
-description: "Learn more about Sentry's Discord integration, which allows you to manage Sentry issues in Discord."
+description: "了解 Sentry 的 Discord 集成，它允许您在 Discord 中管理 Sentry 问题。"
 ---
 
-Set up a Discord integration so you can get notified about, then triage, resolve, and archive Sentry issues directly from Discord.
+设置 Discord 集成，以便您可以在 Discord 中获取通知，然后分流、解决和归档 Sentry 问题。
 
-## Install
+## 安装
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或拥有者权限才能安装此集成。
 
 </Alert>
 
-1. Navigate to **Settings > Integrations > Discord** in [Sentry](https://sentry.io).
+1. 在 [Sentry](https://sentry.io) 中导航到 **设置 > 集成 > Discord**。
 
-2. Click "Add Installation". You should see a pop up window.
+2. 点击"添加安装"。您应该看到一个弹出窗口。
 
-   ![Install Discord integration](./img/discord-integration-details.png)
+   ![安装 Discord 集成](./img/discord-integration-details.png)
 
-3. Log in to your Discord account. If you're already logged in, this login step will not be displayed.
+3. 登录您的 Discord 账户。如果您已经登录，将不会显示此登录步骤。
 
-4. Use the dropdown menu to select the Discord server you'd like to add Sentry to and click "Continue".
+4. 使用下拉菜单选择您要添加 Sentry 的 Discord 服务器，然后点击"继续"。
 
    <Alert>
-     You'll need to have the "Manage Server" permission enabled for your Discord
-     account in the server you're trying to add the bot to.
+     您需要为您尝试添加机器人的服务器中的 Discord 账户启用"管理服务器"权限。
    </Alert>
 
-   ![Select server](./img/discord-server-select.png)
+   ![选择服务器](./img/discord-server-select.png)
 
-5. Once you've selected the server, click "Authorize" to create the integration and add the Sentry Discord bot.
+5. 选择服务器后，点击"授权"创建集成并添加 Sentry Discord 机器人。
 
-Your Discord integration will now be available for all projects in your Sentry organization.
+您的 Discord 集成现在将对您 Sentry 组织中的所有项目可用。
 
-## Configure
+## 配置
 
-Our Discord integration currently supports issue and metric alert rules. Support for personal notifications is planned for future updates.
+我们的 Discord 集成目前支持问题和指标警报规则。个人通知支持计划在未来更新中提供。
 
-### Issue Alerts
+### 问题警报
 
-To create an issue alert that sends notifications to Discord, follow the steps below:
+要创建发送通知到 Discord 的问题警报，请按照以下步骤操作：
 
-1. Go to the **Alerts** page in Sentry and click "Create Alert".
+1. 转到 Sentry 中的 **警报** 页面并点击"创建警报"。
 
-2. Select "Issues" and then click "Set Conditions".
+2. 选择"问题"，然后点击"设置条件"。
 
-   ![Create issue alert](./img/discord-add-issue-alert.png)
+   ![创建问题警报](./img/discord-add-issue-alert.png)
 
-3. Configure your issue alert conditions.
+3. 配置您的问题警报条件。
 
-4. Select "Send a Discord notification" from the "THEN" actions dropdown.
+4. 从"THEN"操作下拉菜单中选择"发送 Discord 通知"。
 
-5. Choose the Discord server and channel you'd like to send the alert to. You'll also have the option to specify any tags you'd like to include in the notification.
+5. 选择您要发送警报的 Discord 服务器和频道。您还可以选择在通知中包含的任何标签。
 
-Note that the channel field must be filled in with a Discord channel ID or channel URL, **_not_** a channel name. To get the URL, right click on your channel, select "Copy Link".
+请注意，频道字段必须填写 Discord 频道 ID 或频道 URL，**_不是_** 频道名称。要获取 URL，请右键点击您的频道，选择"复制链接"。
 
-![Discord Channel Link](./img/discord-copy-channel-link.png)
+![Discord 频道链接](./img/discord-copy-channel-link.png)
 
-6. Test your configuration by clicking "Send Test Notification". If the bot has access to the given channel, you should see an example notification there.
+6. 通过点击"发送测试通知"测试您的配置。如果机器人可以访问给定频道，您应该会在那里看到示例通知。
 
-   ![Discord issue alert](./img/discord-issue-alert.png)
+   ![Discord 问题警报](./img/discord-issue-alert.png)
 
-Check out the interactive demo below for a walkthrough of how to create an alert that sends Discord notifications:
+查看下面的交互式演示，了解如何创建发送 Discord 通知的警报：
 
-![Issue alert creation](./img/discord-issue-alert-demo.gif)
+![问题警报创建](./img/discord-issue-alert-demo.gif)
 
-### Metric Alerts
+### 指标警报
 
-To set up a metric alert that sends Discord notifications, follow the steps below.
+要设置发送 Discord 通知的指标警报，请按照以下步骤操作。
 
-1. Go to the **Alerts** page in Sentry and click "Create Alert".
+1. 转到 Sentry 中的 **警报** 页面并点击"创建警报"。
 
-2. Select "Number of Errors" or "Users Experiencing Errors", then "Set Conditions".
+2. 选择"错误数量"或"遇到错误的用户"，然后"设置条件"。
 
-3. Configure your metric alert conditions as desired.
+3. 根据需要配置您的指标警报条件。
 
-4. Click "Add Action", then select your Discord server from the second dropdown.
+4. 点击"添加操作"，然后从第二个下拉菜单中选择您的 Discord 服务器。
 
-5. Add the channel ID you'd like to send the alert to.
+5. 添加您要发送警报的频道 ID。
 
-Note that the channel field must be filled in with a Discord channel ID, **_not_** a channel name. To get it, right click on your channel, select "Copy Link", then highlight the string of numbers at the end.
+请注意，频道字段必须填写 Discord 频道 ID，**_不是_** 频道名称。要获取它，请右键点击您的频道，选择"复制链接"，然后突出显示末尾的数字字符串。
 
-![Discord Channel Link](./img/discord-copy-channel-link.png)
+![Discord 频道链接](./img/discord-copy-channel-link.png)
 
-    For example, if the URL is `https://discord.com/channels/server-id/channel-id`, the ID is `channel-id`.
+    例如，如果 URL 是 `https://discord.com/channels/server-id/channel-id`，则 ID 是 `channel-id`。
 
-![Channel ID in Link](./img/discord-link-channel-id.png)
+![链接中的频道 ID](./img/discord-link-channel-id.png)
 
-6. Name and save your alert rule.
+6. 命名并保存您的警报规则。
 
-The interactive demo below walks through how to create a metric alert that sends Discord notifications.
+下面的交互式演示展示了如何创建发送 Discord 通知的指标警报。
 
-![Metric alert creation](./img/discord-metric-alert-demo.gif)
+![指标警报创建](./img/discord-metric-alert-demo.gif)
 
-### Identity Linking
+### 身份链接
 
-Having your Discord account linked to your Sentry account allows you to resolve, archive, and assign issues directly in Discord.
+将您的 Discord 账户链接到您的 Sentry 账户允许您直接在 Discord 中解决、归档和分配问题。
 
-When a user installs the Discord bot to their server, their identity gets linked in the process. To verify which Sentry account a Discord account is linked to, use the `/link` command.
+当用户将 Discord 机器人安装到他们的服务器时，他们的身份在此过程中被链接。要验证 Discord 账户链接到哪个 Sentry 账户，请使用 `/link` 命令。
 
-Any user on a Discord server with the Sentry bot can link their account. To do so, use the `/link` command. The bot will reply with a link to our identity linking page. When you open the link, be sure you're signed into the Sentry account you want to link to, then click "Link with Discord".
+Discord 服务器上的任何用户都可以链接他们的账户。为此，请使用 `/link` 命令。机器人将回复一个链接到我们的身份链接页面。当您打开链接时，请确保您已登录到要链接到的 Sentry 账户，然后点击"与 Discord 链接"。
 
-![Discord identity linking page](./img/discord-identity-link-page.png)
+![Discord 身份链接页面](./img/discord-identity-link-page.png)
 
-To unlink your accounts, use the `/unlink` command. Follow the link and click "Unlink from Discord"
+要取消链接您的账户，请使用 `/unlink` 命令。按照链接并点击"从 Discord 取消链接"
 
-### Troubleshooting
+### 故障排除
 
-Here are some ideas to help with troubleshooting.
+以下是一些故障排除的想法。
 
-#### Your channel ID or URL isn't working in the alert creation wizard
+#### 您的频道 ID 或 URL 在警报创建向导中不起作用
 
-If you're trying to create an alert with a Discord action and Sentry can't access the channel you've provided, please double-check the following:
+如果您尝试创建带有 Discord 操作的警报，而 Sentry 无法访问您提供的频道，请仔细检查以下内容：
 
-- You're giving us a channel ID and not a channel name or something else. See [Configure](#configure) for more details.
-- Your channel URL has no extra slashes.
-- The channel you're trying to add is in the same server as the one selected in the alert action.
-- The bot has access to the channel you're trying to use. A quick way to verify this is to check whether you can find the bot in the desired channel's member list. If you don't see the bot in the list of users, you may need to update your Discord role and/or channel permissions to allow the bot access. See [Install](#install) for more details.
+- 您给我们的是频道 ID 而不是频道名称或其他内容。有关更多详细信息，请参见[配置](#configure)。
+- 您的频道 URL 没有额外的斜杠。
+- 您尝试添加的频道与警报操作中选择的频道位于同一服务器中。
+- 机器人可以访问您尝试使用的频道。快速验证此问题的方法是检查您是否可以在所需频道的成员列表中找到机器人。如果您在用户列表中没有看到机器人，您可能需要更新您的 Discord 角色和/或频道权限以允许机器人访问。有关更多详细信息，请参见[安装](#install)。

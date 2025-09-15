@@ -1,53 +1,52 @@
 ---
-title: "Slow DB Queries"
+title: "慢数据库查询"
 sidebar_order: 30
-description: "Learn more about Slow DB Query issues and how to diagnose and fix them."
+description: "了解更多关于慢数据库查询问题以及如何诊断和修复它们的信息。"
 ---
 
-Slow DB Query issues are created when a particular `SELECT` SQL query in your application consistently takes longer than `500ms` to resolve.
+当应用程序中的特定`SELECT` SQL查询持续花费超过`500ms`来解决时，会创建慢数据库查询问题。
 
-## Detection Criteria
+## 检测标准
 
-The detector for this performance issue looks at singular database spans with the following criteria:
+此性能问题的检测器会查看具有以下条件的单个数据库跨度：
 
-- The span operation starts with `db` and the query is stored within the span description
-- The query is specifically a `SELECT` query
-- The span duration is at least `500ms`
+- 跨度操作以`db`开头，查询存储在跨度描述中
+- 查询特别是`SELECT`查询
+- 跨度持续时间至少为`500ms`
 
-Keep in mind, an issue won't be created unless the query in question is _consistently_ taking longer than `500ms`. More specifically, the issue will be created only if the same query is detected as a slow query
-in 100 events within a 24-hour period.
+请记住，除非所讨论的查询_持续_花费超过`500ms`，否则不会创建问题。更具体地说，仅当相同查询在24小时内被检测为100个事件中的慢查询时，才会创建问题。
 
-You can configure detector thresholds for Slow DB Query issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置慢数据库查询问题的检测器阈值：
 
-![Slow DB Query detector threshold settings](./img/slow-db-queries-detector-settings.png)
+![慢数据库查询检测器阈值设置](./img/slow-db-queries-detector-settings.png)
 
 <Alert>
 
-These settings can only be edited by users with owner, manager, or team-level admin roles.
+这些设置只能由具有所有者、经理或团队级管理员角色的用户编辑。
 
 </Alert>
 
-## Span Evidence
+## 跨度证据
 
-You can get additional information about your Slow DB Query by looking at the following fields in the "Span Evidence":
+您可以通过查看"跨度证据"中的以下字段来获取有关慢数据库查询的额外信息：
 
-- Transaction name
-- Slow DB Query
-- Duration Impact - The duration of the query as compared to the entire transaction, to put into perspective how much of the transaction is being taken up by the query
+- 事务名称
+- 慢数据库查询
+- 持续时间影响 - 查询持续时间与整个事务的比较，以透视查询占用了事务的多少
 
-![Slow DB Query span evidence](./img/span-evidence.png)
+![慢数据库查询跨度证据](./img/span-evidence.png)
 
-View it by going to the **Issues** page in Sentry, selecting your project, clicking on the Slow DB Query issue you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+通过转到Sentry中的**问题**页面，选择您的项目，点击您要检查的慢数据库查询问题，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看它。
 
-## Fixing Slow DB Queries
+## 修复慢数据库查询
 
-Slow queries often happen when un-indexed tables are queried. To avoid this, make sure that your table is properly indexed. While there aren’t any other obvious fixes, there are steps you can take to narrow down the causes of your query being slow.
+慢查询通常发生在查询未索引表时。为避免这种情况，请确保您的表已正确索引。虽然没有任何其他明显的修复方法，但您可以采取一些步骤来缩小查询缓慢的原因。
 
-If it's supported by your version of SQL, you can run an `EXPLAIN` command on your query. This will present you with a query plan. The plan will lay out individual steps that your database will perform in order to execute the query, along with additional information, such as its cost.
+如果您的SQL版本支持，您可以在查询上运行`EXPLAIN`命令。这将为您提供一个查询计划。该计划将列出数据库为执行查询将执行的各个步骤，以及额外信息，如其成本。
 
-The cost is an arbitrary value, but it will fluctuate based on how “expensive” that portion of the query is. You can compare the cost of each step to determine which ones are the most expensive. Additionally, you can run `EXPLAIN ANALYZE`, which will execute the query and report back with the same information as a regular `EXPLAIN`, plus the actual time taken by each step of your query (be careful not to run this on any destructive queries, as they _will_ be fully executed!).
+成本是一个任意值，但它会根据查询部分的"昂贵"程度而波动。您可以比较每个步骤的成本，以确定哪些是最昂贵的。此外，您可以运行`EXPLAIN ANALYZE`，它将执行查询并报告与常规`EXPLAIN`相同的信息，加上查询每个步骤实际花费的时间（注意不要在任何破坏性查询上运行此命令，因为它们_将_被完全执行！）。
 
-You can learn more about `EXPLAIN` from the following resources:
+您可以从以下资源中了解更多关于`EXPLAIN`的信息：
 
-- [PostgreSQL Documentation: EXPLAIN](https://www.postgresql.org/docs/current/sql-explain.html)
-- [MySQL Documentation: Optimizing Queries with EXPLAIN](https://dev.mysql.com/doc/refman/8.0/en/using-explain.html)
+- [PostgreSQL文档：EXPLAIN](https://www.postgresql.org/docs/current/sql-explain.html)
+- [MySQL文档：使用EXPLAIN优化查询](https://dev.mysql.com/doc/refman/8.0/en/using-explain.html)

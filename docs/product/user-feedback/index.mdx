@@ -1,133 +1,135 @@
 ---
-title: User Feedback
+title: 用户反馈
 sidebar_order: 65
-description: "Learn how you can view and triage user feedback submissions."
+description: "了解如何查看和分类用户反馈提交。"
 ---
 
-Sentry automatically detects errors thrown by your application, such as performance issues and user experience problems like rage clicks. But there are other frustrations your users may encounter (broken permission flows, broken links, typos, misleading UX, business logic flaws, and so on).
+Sentry 会自动检测应用程序抛出的错误，例如性能问题和用户体验问题，如愤怒点击。但您的用户可能还会遇到其他挫折（权限流程损坏、链接损坏、拼写错误、误导性 UX、业务逻辑缺陷等）。
 
-That’s where Sentry’s User Feedback Widget and Crash-Report Modal features come in. Setting up one or both lets you collect feedback from your end-users when they run into bugs in your application. Sentry then links that feedback to available rich debugging context, including errors, replays, and tags such as URL, allowing you to get to the root of the problem faster.
+这就是 Sentry 的用户反馈小组件和崩溃报告模态功能发挥作用的地方。设置其中一个或两个可以让您从最终用户那里收集他们在应用程序中遇到错误时的反馈。然后，Sentry 将该反馈与可用的丰富调试上下文（包括错误、重播和标签，如 URL）链接起来，让您更快地找到问题的根本原因。
 
-For example, using [Session Replay](/product/explore/session-replay/) with the User Feedback Widget could save you time, helping you quickly understand the context of the user problem by seeing exactly what they experienced before submitting their feedback.
+例如，将 [会话重播](/product/explore/session-replay/) 与用户反馈小组件结合使用可以节省时间，通过准确查看用户在提交反馈之前所经历的内容，帮助您快速理解用户问题的上下文。
 
-## User Feedback Widget
+## 用户反馈小组件
 
-The User Feedback Widget is an out-of-the-box, persistent widget you can add anywhere on your web application. It allows users to submit feedback quickly and easily any time they encounter something that isn’t working as expected. Learn more about how to install and customize it [here](/product/user-feedback/setup/) and recommended best practices [here](/product/sentry-basics/user-feedback-basics/).
+用户反馈小组件是一个开箱即用的持久小组件，您可以将其添加到 Web 应用程序的任何位置。它允许用户在遇到任何不按预期工作的情况时快速轻松地提交反馈。了解如何安装和自定义它 [此处](/product/user-feedback/setup/)。
 
-![User Feedback widget.](./img/user-feedback-widget.png)
+![用户反馈小组件。](./img/user-feedback-widget.png)
 
-Feedback collected via the Feedback Widget may have some or all of the following information (depending on what you mark as required and what’s available from the error context):
+通过反馈小组件收集的反馈可能包含以下部分或全部信息（取决于您标记为必需的内容以及错误上下文中可用的内容）：
 
-- Description from the user
-- Screenshot from the user
-- User email
-- Associated replay event (with up to 60 seconds of replay recording before the user submitted the feedback)
-    - Learn more about how to set up Session Replay [here](/product/explore/session-replay/getting-started/).
-- URL of the page the user was on when they submitted the feedback
-- Tags
+- 来自用户的描述
+- 来自用户的屏幕截图
+- 用户电子邮件
+- 关联的重播事件（用户提交反馈前最多 60 秒的重播录制）
+    - 了解如何设置会话重播 [此处](/product/explore/session-replay/getting-started/)。
+- 用户提交反馈时所在页面的 URL
+- 标签
 
-## Crash-Report Modal
+## 崩溃报告模态
 
-Another way to collect feedback is by installing the Crash-Report Modal. This allows users to submit feedback after they experience an error via an automatic modal that pops up after an error occurs. Learn more about how to install and customize it [here](/platforms/javascript/user-feedback/#crash-report-modal).
+收集反馈的另一种方法是安装崩溃报告模态。这允许用户在通过错误后出现的自动模态提交反馈。了解如何安装和自定义它 [此处](/platforms/javascript/user-feedback/#crash-report-modal)。
 
-![Crash-Report Modal.](./img/crash-report-user-feedback.png)
+![崩溃报告模态。](./img/crash-report-user-feedback.png)
 
-Feedback collected via the Crash-Report Modal will have the following information:
+通过崩溃报告模态收集的反馈将包含以下信息：
 
-- Description from the user
-- Sentry Issue preview and link to the Issue Details page
-- URL of the page the user was on when they submitted the feedback
-- Tags
+- 来自用户的描述
+- Sentry 问题预览和问题详情页面的链接
+- 用户提交反馈时所在页面的 URL
+- 标签
 
-## User Feedback API
+## 用户反馈 API
 
-We also provide an API to send user feedback programmatically. This allows you to connect your own user interface to Sentry. For more details, see the [set up guide](/product/user-feedback/setup/#supported-sdks-for-user-feedback-api).
+我们还提供了一个 API 以编程方式发送用户反馈。这使您可以将自己的用户界面连接到 Sentry。有关更多详细信息，请参见 [设置指南](/product/user-feedback/setup/#supported-sdks-for-user-feedback-api)。
 
-## Where to View User Feedback
+## 在哪里查看用户反馈
 
-Whether you choose to collect user feedback via the Feedback Widget, the Crash-Report Modal, or both, you’ll be able to view it from the **User Feedback** page. The page is chronologically-organized with the most recent, unresolved feedback at the top. You can click on individual feedback to see more details all in one view, similar to your e-mail inbox. The right-hand side shows the **User Feedback Details** view, which includes the user’s description and any available debugging context.
+无论您选择通过反馈小组件、崩溃报告模态还是两者收集用户反馈，您都可以从 **用户反馈** 页面查看它。该页面按时间顺序组织，最新的未解决反馈位于顶部。您可以点击单个反馈以在一个视图中查看更多详细信息，类似于您的电子邮件收件箱。右侧显示 **用户反馈详情** 视图，其中包括用户的描述和任何可用的调试上下文。
 
-You can narrow down the results in the feedback list by using the project, environment, and date range filters.
+您可以使用项目、环境和日期范围过滤器缩小反馈列表中的结果范围。
 
-![User Feedback List.](./img/user-feedback-list.png)
+![用户反馈列表。](./img/user-feedback-list.png)
 
-## AI-Powered User Feedback Summaries
+## AI 驱动的用户反馈摘要
 
-Sentry now provides **AI-powered user feedback summaries** that automatically analyze your feedback to give you actionable insights at a glance. This at-a-glance summary can help you understand large amounts of user feedback without having to manually triage every piece of feedback, transforming overwhelming volume into actionable insights, and helping you prioritize user experience improvements.
+Sentry 现在提供 **AI 驱动的用户反馈摘要**，自动分析您的反馈，让您一目了然地获得可操作的洞察。这种一目了然的摘要可以帮助您理解大量用户反馈，而无需手动分类每条反馈，将压倒性的数量转化为可操作的洞察，并帮助您优先考虑用户体验改进。
 
-### How It Works
+### 工作原理
 
-At the top of the User Feedback index, you'll see a summary highlighting your users' most common sentiments across the project(s) and date range you've selected. The summary provides a concise overview of what users are saying about your product:
+在用户反馈索引的顶部，您将看到一个摘要，突出显示您在所选项目（s）和日期范围内用户的最常见情绪。摘要提供了用户对您产品的评价的简明概述：
 
-![AI User Feedback Summary.](./img/ai-feedback-summary.png)
+![AI 用户反馈摘要。](./img/ai-feedback-summary.png)
 
-## Triaging User Feedback Submissions
+## 分类用户反馈提交
 
-You can either manually resolve user feedback submissions on the **User Feedback Details** view by clicking the “Resolve” button in the top-right corner, or bulk resolve by multi-selecting the feedback:
+您可以通过点击 **用户反馈详情** 视图右上角的"解决"按钮手动解决用户反馈提交，或通过多选反馈进行批量解决：
 
-![User Feedback List Triaging.](./img/user-feedback-triaging.png)
+![用户反馈列表分类。](./img/user-feedback-triaging.png)
 
-You can also assign a team member to a specific user feedback submission on the **User Feedback Details** view. If you come across user feedback that you consider spam, select the feedback(s) and click "Mark as Spam". This feedback will then be filtered out and moved to the "Spam" heading.
+您还可以在 **用户反馈详情** 视图中将团队成员分配给特定的用户反馈提交。如果您遇到认为是垃圾邮件的用户反馈，请选择反馈并点击"标记为垃圾邮件"。然后，此反馈将被过滤掉并移至"垃圾邮件"标题下。
 
-## Creating or Linking External Issues From User Feedback
+## 从用户反馈创建或链接外部问题
 
-If you have GitHub, Jira, or any other [issue tracking integration](https://sentry.io/integrations/) set up with Sentry, you can create an external issue or link an existing issue from the User Feedback page. On the **User Feedback Details** view, you should see all of your integrations appear in the header, under the project name.
+如果您已将 GitHub、Jira 或任何其他 [问题跟踪集成](https://sentry.io/integrations/) 与 Sentry 设置，您可以从用户反馈页面创建外部问题或链接现有问题。在 **用户反馈详情** 视图中，您应该在项目名下的标题中看到所有集成。
 
-![User Feedback Header.](./img/user-feedback-header.png)
+![用户反馈标题。](./img/user-feedback-header.png)
 
-Clicking on an integration name will open up a modal, which will allow you to create a new external issue or link an existing issue.
+点击集成名称将打开一个模态，允许您创建新的外部问题或链接现有问题。
 
-![User Feedback Linked Issue Modal.](./img/user-feedback-linked-issue-modal.png)
+![用户反馈链接问题模态。](./img/user-feedback-linked-issue-modal.png)
 
-The modal will be populated with a default title ("User Feedback") and description containing the basic details of the feedback, including a link to the feedback in Sentry and the user's message. You can edit the title and description, as well as configure the issue's repository, labels, and assignee.
+模态将填充默认标题（"用户反馈"）和描述，其中包含反馈的基本详细信息，包括 Sentry 中反馈的链接和用户的消息。您可以编辑标题和描述，以及配置问题的仓库、标签和受让人。
 
-To create the issue, simply click the "Create Issue" button at the bottom of the modal. To link an existing issue, click on the "Link" tab in the modal, and then click "Link Issue".
-
-
-## Searching for User Feedback
-
-You can search by feedbacks using the search box. It can, for example, allow you to search by feedback sent on a specific page.
-
-Example search: `url:*/payments/*`
-
-For a list of search fields, refer to the [search documentation](/concepts/search/searchable-properties/user-feedback/).
-
-## Spam Detection for User Feedback
-By default, Sentry auto-detects user feedback submissions that are likely to be spam and puts them in the “Spam” folder on the **User Feedback** page. This improves the quality and actionability of the feedback that are in the main list. To improve the quality of your alerts, feedback that's labeled as spam will bypass any User Feedback Alert Rules you may have configured, and you will not receive alerts for spam.
-
-To make automatic spam detection possible, we use a Large Language Model that classifies messages. This language model is internal to Google Cloud Platform and no data is stored or persisted. This is part of our existing [sub-processor agreement](https://sentry.io/legal/dpa/#subprocessors).
-
-If you’d like to opt out of spam detection, turn off "Enable Spam Detection" in [Settings](https://sentry.io/orgredirect/organizations/:orgslug/settings/) > Projects > [Project Name] > User Feedback (under “Project”).
+要创建问题，只需点击模态底部的"创建问题"按钮。要链接现有问题，请点击模态中的"链接"选项卡，然后点击"链接问题"。
 
 
 
-## Getting User Feedback Alerts
+## 搜索用户反馈
 
-If you have Sentry's default issue alert ("Alert me on every new issue") turned on for the project(s) with user feedback set up, then you should automatically get alerted every time new user feedback comes in via the User Feedback Widget.
+您可以使用搜索框按反馈进行搜索。例如，它可以让您搜索在特定页面上发送的反馈。
 
-If you don't have Sentry's default issue alert turned on, follow these steps to set up alerts for every new feedback:
+搜索示例：`url:*/payments/*`
 
-1. Create a [New Alert Rule](https://sentry.io/alerts/new/issue/) in Sentry.
-2. Scroll to the "Set conditions" section and set the "IF" filter to `The issue's category is equal to… "Feedback"`.
-3. Choose which actions to perform in the “THEN” filter.
-4. Add an alert name and owner.
+有关搜索字段的列表，请参阅 [搜索文档](/concepts/search/searchable-properties/user-feedback/)。
 
-![User Feedback Alert Configuration.](./img/user-feedback-alert-configuration.png)
+## 用户反馈的垃圾邮件检测
 
-To get notifications when crash-report feedback comes in, make sure to turn on "Enable Crash Report Notifications" in Settings > Projects > [Project Name] > User Feedback.
+默认情况下，Sentry 自动检测可能是垃圾邮件的用户反馈提交，并将它们放在 **用户反馈** 页面的"垃圾邮件"文件夹中。这提高了主列表中反馈的质量和可操作性。为了提高警报的质量，被标记为垃圾邮件的反馈将绕过您可能配置的任何用户反馈警报规则，您不会收到垃圾邮件的警报。
 
-## Automated Issue Creation for User Feedback
+为了使自动垃圾邮件检测成为可能，我们使用对消息进行分类的大型语言模型。此语言模型在 Google Cloud Platform 内部，不存储或保留任何数据。这是我们现有 [子处理器协议](https://sentry.io/legal/dpa/#subprocessors) 的一部分。
 
-If you'd like to automatically create an external issue (such as a GitHub or Jira issue) every time you receive user feedback, you can do so through the Alerts page in Sentry, similar to how you would create an issue alert for user feedback (illustrated in the section above).
+如果您想选择退出垃圾邮件检测，请在 [设置](https://sentry.io/orgredirect/organizations/:orgslug/settings/) > 项目 > [项目名称] > 用户反馈（在"项目"下）中关闭"启用垃圾邮件检测"。
 
-Follow these steps to set up automated GitHub or Jira issue creation for every new feedback:
 
-1. Create a [New Alert Rule](https://sentry.io/alerts/new/issue/) in Sentry.
-2. Scroll to the "Set conditions" section and set the "IF" filter to `The issue's category is equal to… "Feedback"`.
-3. Under the "THEN" filter actions, scroll to the "Create new..." section and select the integration you'd like to use.
-4. Default issue link settings, such as the repository, labels, and assignees, can be configured by clicking the "Issue Link Settings" button.
-5. Add an alert name and owner.
 
-Once this alert is configured, you should see a GitHub or Jira issue automatically created every time user feedback is submitted.
+## 获取用户反馈警报
 
-![User Feedback Auto Issue Alert Configuration.](./img/user-feedback-auto-issue-creation-configuration.png)
+如果您已为设置用户反馈的项目打开 Sentry 的默认问题警报（"在每个新问题上提醒我"），那么您应该自动在每次通过用户反馈小组件传入新用户反馈时收到警报。
+
+如果您没有打开 Sentry 的默认问题警报，请按照以下步骤设置每次新反馈的警报：
+
+1. 在 Sentry 中创建 [新警报规则](https://sentry.io/alerts/new/issue/)。
+2. 滚动到"设置条件"部分，并将"IF"过滤器设置为 `问题的类别等于... "反馈"`。
+3. 在"THEN"过滤器中选择要执行的操作。
+4. 添加警报名称和所有者。
+
+![用户反馈警报配置。](./img/user-feedback-alert-configuration.png)
+
+要在收到崩溃报告反馈时获取通知，请确保在设置 > 项目 > [项目名称] > 用户反馈中打开"启用崩溃报告通知"。
+
+## 用户反馈的自动问题创建
+
+如果您想在每次收到用户反馈时自动创建外部问题（如 GitHub 或 Jira 问题），您可以通过 Sentry 中的警报页面执行此操作，类似于如何为用户反馈创建问题警报（如上节所示）。
+
+请按照以下步骤设置每次新反馈的自动 GitHub 或 Jira 问题创建：
+
+1. 在 Sentry 中创建 [新警报规则](https://sentry.io/alerts/new/issue/)。
+2. 滚动到"设置条件"部分，并将"IF"过滤器设置为 `问题的类别等于... "反馈"`。
+3. 在"THEN"过滤器操作下，滚动到"创建新..."部分并选择您要使用的集成。
+4. 可以通过点击"问题链接设置"按钮配置默认问题链接设置，如仓库、标签和受让人。
+5. 添加警报名称和所有者。
+
+配置此警报后，您应该在每次提交用户反馈时看到自动创建的 GitHub 或 Jira 问题。
+
+![用户反馈自动问题警报配置。](./img/user-feedback-auto-issue-creation-configuration.png)

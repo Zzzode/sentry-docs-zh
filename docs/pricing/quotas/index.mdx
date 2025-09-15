@@ -1,136 +1,136 @@
 ---
-title: "Billing Quota Management"
+title: "计费配额管理"
 sidebar_order: 70
-description: "Learn about what counts towards your quota and how to manage your quota."
+description: "了解什么计入您的配额以及如何管理配额。"
 ---
 
-Data and quotas are interconnected in Sentry. When you [subscribe to Sentry](https://sentry.io/pricing/), you pay for the amount of data - events (errors, replays, spans or transactions, and profiles), logs, and attachments - to be tracked. Each data category has its own quota that you can adjust. When Sentry tracks an event, log, or attachment, it counts toward your quota for that type of data.
+数据和配额在Sentry中是相互关联的。当您[订阅Sentry](https://sentry.io/pricing/)时，您需要为要跟踪的数据量 - 事件（错误、重放、跨度或事务和性能分析）、日志和附件 - 付费。每个数据类别都有自己的配额，您可以进行调整。当Sentry跟踪事件、日志或附件时，会计入该类型数据的配额。
 
-To see which projects are using up your quota, you can review the "Usage" tab of **Stats**. This page can be viewed by any member of your organization. In addition, you can come back to this page to check if the changes you've made are having the desired effect:
+要查看哪些项目正在使用您的配额，您可以查看**统计**的"使用情况"选项卡。您组织的任何成员都可以查看此页面。此外，您可以返回此页面检查您所做的更改是否产生了预期效果：
 
-![Overview of Usage Stats page](./img/usage-stats-errors.png)
+![使用情况统计页面概览](./img/usage-stats-errors.png)
 
-You can also download a project breakdown report in the "Usage History" tab of **Settings > Subscriptions** (only accessible to Owner and Billing members of your Sentry organization).
+您还可以在**设置 > 订阅**的"使用历史记录"选项卡中下载项目明细报告（仅Sentry组织的所有者和计费成员可访问）。
 
-Sentry's flexibility means you can exercise fine-grained control over which events and attachments count toward your quota. This page provides you with high-level information about strategies for managing your quota, but you can get more detailed information in:
+Sentry的灵活性意味着您可以对哪些事件和附件计入配额进行精细控制。本页面为您提供有关管理配额策略的高级信息，但您可以在以下位置获取更详细的信息：
 
-- [Spike Protection](/pricing/quotas/spike-protection/)
-- [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/)
-- [Manage Your Span Quota](/pricing/quotas/manage-transaction-quota/)
-- [Manage Your Replay Quota](/pricing/quotas/manage-replay-quota/)
-- [Manage Your Attachments Quota](/pricing/quotas/manage-attachments-quota/)
-- [Manage Your Logs Quota](/pricing/quotas/manage-logs-quota/)
+- [峰值保护](/pricing/quotas/spike-protection/)
+- [管理错误配额](/pricing/quotas/manage-event-stream-guide/)
+- [管理跨度配额](/pricing/quotas/manage-transaction-quota/)
+- [管理重放配额](/pricing/quotas/manage-replay-quota/)
+- [管理附件配额](/pricing/quotas/manage-attachments-quota/)
+- [管理日志配额](/pricing/quotas/manage-logs-quota/)
 
-## How to Manage Your Quota
+## 如何管理配额
 
-There are a number of things you can do to manage your quota, as shown in the table below. Actions are listed in order from easiest and fastest, to most challenging and potentially time-consuming. The checkmarks tell you whether the action helps you manage errors, spans, replays, attachments, logs, or some combination of the five.
+您可以采取多种措施来管理配额，如下表所示。操作按从最简单快速到最具挑战性且可能耗时的顺序列出。复选标记告诉您该操作是否有助于管理错误、跨度、重放、附件、日志或它们的某种组合。
 
-The first 6 actions in the list can all be done in [sentry.io](https://sentry.io), while the rest have to be done in an SDK.
+列表中的前6个操作都可以在[sentry.io](https://sentry.io)中完成，其余操作必须在SDK中完成。
 
 {/*<!-- prettier-ignore-start -->*/}
 
-| Action | Errors | Spans | Replays | Attachments | Logs |
+| 操作 | 错误 | 跨度 | 重放 | 附件 | 日志 |
 | ------ | ------ | ------------ | ----------- | ----------- | ---- |
-| [Ensure spike protection is enabled](#spike-protection) | &check; | &check; |  | &check; |  |
-| [Adjust your quota](#adjusting-your-quota) | &check; | &check; | &check; | &check; | &check; |
-| [Rate limit your events or attachments](#rate-limits) | &check; |  |  | &check; |  |
-| [Review repeated events](#event-repetition) | &check; |  |  |  |  |
-| [Filter your events](#inbound-filters) | &check; | &check; |  | &check; | &check; |
-| [Update your SDK sample rate](#sdk-sample-rate) | &check; | &check; |  |  | &check; |
-| [Apply SDK filtering](#sdk-filtering-beforesend-and-beforesendtransaction) | &check; | &check; |  |  | &check; |
-| [Update your SDK configuration](#sdk-configuration) | &check; | &check; |  |  | &check; |
-| [Manage data size](#size-limits) | &check; | &check; |  | &check; | &check; |
+| [确保启用峰值保护](#spike-protection) | &check; | &check; | | &check; | |
+| [调整配额](#adjusting-your-quota) | &check; | &check; | &check; | &check; | &check; |
+| [限制事件或附件速率](#rate-limits) | &check; | | | &check; | |
+| [审查重复事件](#event-repetition) | &check; | | | | |
+| [过滤事件](#inbound-filters) | &check; | &check; | | &check; | &check; |
+| [更新SDK采样率](#sdk-sample-rate) | &check; | &check; | | | &check; |
+| [应用SDK过滤](#sdk-filtering-beforesend-and-beforesendtransaction) | &check; | &check; | | | &check; |
+| [更新SDK配置](#sdk-configuration) | &check; | &check; | | | &check; |
+| [管理数据大小](#size-limits) | &check; | &check; | | &check; | &check; |
 
 {/*<!-- prettier-ignore-end -->*/}
 
-## What Counts Towards Your Quota
+## 什么计入您的配额
 
-Sentry completes a thorough evaluation of each event to determine if it counts toward your quota, as outlined in this overview. Detailed documentation for each evaluation is linked throughout.
+Sentry对每个事件进行彻底评估，以确定其是否计入您的配额，如本概览中所述。每个评估的详细文档在整篇文章中都有链接。
 
-Before completing any of these evaluations, Sentry confirms that each event includes a valid DSN and project as well as whether the event can be parsed. In addition, for error events, Sentry validates that the event contains valid fingerprint information. If any of these items are missing or incorrect, the event is rejected.
+在完成任何这些评估之前，Sentry确认每个事件都包含有效的DSN和项目，以及事件是否可以解析。此外，对于错误事件，Sentry验证事件包含有效的指纹信息。如果这些项目中的任何一个缺失或不正确，事件将被拒绝。
 
 <Alert>
 
-This list is ordered from easiest or least time-consuming, to most challenging or potentially time-consuming.
+此列表按从最简单或最不耗时到最具挑战性或可能最耗时的顺序排列。
 
 </Alert>
 
-### Spike Protection
+### 峰值保护
 
-Spike Protection protects users from spiking event volume. Typically, spikes are caused by anomalies and have the potential to deplete your available event volume rapidly. Your baseline consumption is used to compute a threshold and spike protection is triggered if event volume exceeds this threshold. When spike protection is triggered, events start getting dropped, ensuring that you don't get charged for the excess volume.
+峰值保护保护用户免受事件量激增的影响。通常，激增是由异常引起的，有可能迅速耗尽您可用的事件量。您的基线消耗量用于计算阈值，如果事件量超过此阈值，则触发峰值保护。当触发峰值保护时，事件开始被丢弃，确保您不会因超额量而被收费。
 
-Spike Protection can be enabled on a per-project basis for your organization by any team member with either **Billing or Owner-level permissions**. To select which project to set it up for, go to **Settings > Spike Protection**. You'll be able to toggle it on for individual projects or click “Enable All” to set it up for all your projects at once. Learn more about how spike protection works and how to manage spikes in [Spike Protection](/pricing/quotas/spike-protection/).
+具有**计费或所有者级别权限**的任何团队成员都可以按项目为基础为您的组织启用峰值保护。要选择要设置的项目，请转到**设置 > 峰值保护**。您将能够为单个项目切换它，或单击"全部启用"以一次性为所有项目设置。了解有关峰值保护工作原理以及如何管理峰值的更多信息，请查看[峰值保护](/pricing/quotas/spike-protection/)。
 
-### Adjusting Your Quota
+### 调整配额
 
-Events and attachments that exceed your quota will not be accepted, so you may want to increase your quota. Conversely, you might want to decrease your quota or adjust your reserved and pay-as-you-go quotas to better control your spending. Learn about adjusting your quota in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/#adjusting-quotas), [Manage Your Span Quota](/pricing/quotas/manage-transaction-quota/), [Manage your Replay Quota](/pricing/quotas/manage-replay-quota/), [Manage Your Attachments Quota](/pricing/quotas/manage-attachments-quota/#adjusting-quotas), and [Manage Your Logs Quota](/pricing/quotas/manage-logs-quota/#adjusting-payg-budget).
+超出配额的事件和附件将不被接受，因此您可能需要增加配额。相反，您可能需要减少配额或调整预留和按需配额以更好地控制支出。了解有关调整配额的信息，请查看[管理错误配额](/pricing/quotas/manage-event-stream-guide/#adjusting-quotas)、[管理跨度配额](/pricing/quotas/manage-transaction-quota/)、[管理重放配额](/pricing/quotas/manage-replay-quota/)、[管理附件配额](/pricing/quotas/manage-attachments-quota/#adjusting-quotas)和[管理日志配额](/pricing/quotas/manage-logs-quota/#adjusting-payg-budget)。
 
-### Rate Limits
+### 速率限制
 
-You can add limits for error events on a per-project basis in **[Project] > Settings > SDK Setup > Client Keys (DSN)**. If the event rate limit for a project has been exceeded, and your subscription allows, the event won't be counted. You can also rate limit attachments on an organization level in **Settings > Security & Privacy**. Learn more in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/#rate-limiting) and [Manage Your Attachments Quota](/pricing/quotas/manage-attachments-quota/#rate-limiting).
+您可以在**[项目] > 设置 > SDK设置 > 客户端密钥(DSN)**中为错误事件按项目添加限制。如果项目的事件速率限制已被超过，且您的订阅允许，事件将不被计数。您还可以在**设置 > 安全与隐私**中按组织级别限制附件。在[管理错误配额](/pricing/quotas/manage-event-stream-guide/#rate-limiting)和[管理附件配额](/pricing/quotas/manage-attachments-quota/#rate-limiting)中了解更多信息。
 
-### Event Repetition
+### 事件重复
 
-In some cases, repeated events can count against your quota, so it's important to know how event repetition is treated in Sentry. Learn more in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/#review-event-repetition).
+在某些情况下，重复事件可能计入您的配额，因此了解Sentry中如何处理事件重复非常重要。在[管理错误配额](/pricing/quotas/manage-event-stream-guide/#review-event-repetition)中了解更多信息。
 
-### Inbound Filters
+### 入站过滤器
 
-If an inbound filter is applied for a type of error, transaction/span, or attachment, and your subscription allows, it won't be counted. You can manage these in **[Project] > Settings > Inbound Filters**. Learn more in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/#inbound-data-filters), [Manage Your Span Quota](/pricing/quotas/manage-transaction-quota/#inbound-filters), [Manage your Replay Quota](/pricing/quotas/manage-replay-quota/), [Manage Your Attachments Quota](/pricing/quotas/manage-attachments-quota/#inbound-data-filters), and [Manage Your Logs Quota](/pricing/quotas/manage-logs-quota/#logs-filtering).
+如果对错误、事务/跨度或附件类型应用了入站过滤器，且您的订阅允许，它将不被计数。您可以在**[项目] > 设置 > 入站过滤器**中管理这些。在[管理错误配额](/pricing/quotas/manage-event-stream-guide/#inbound-data-filters)、[管理跨度配额](/pricing/quotas/manage-transaction-quota/#inbound-filters)、[管理重放配额](/pricing/quotas/manage-replay-quota/)、[管理附件配额](/pricing/quotas/manage-attachments-quota/#inbound-data-filters)和[管理日志配额](/pricing/quotas/manage-logs-quota/#logs-filtering)中了解更多信息。
 
-### SDK Sample Rate
+### SDK采样率
 
-If a sample rate is defined for the SDK, the SDK evaluates whether this event should be sent as a representative fraction of events, effectively limiting the number of errors and transactions/spans you send to Sentry. For logs, many SDKs support sampling to reduce the volume of logs sent. Setting a sample rate is documented [for each SDK](/platform-redirect/?next=/configuration/sampling/), but you can also learn more in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/#sdk-sample-rate), [Manage Your Span Quota](/pricing/quotas/manage-transaction-quota/#sdk-configuration-tracing-options/), and [Manage Your Logs Quota](/pricing/quotas/manage-logs-quota/#sdk-configuration).
+如果为SDK定义了采样率，SDK将评估是否应将此事件作为事件的代表性部分发送，有效限制您发送到Sentry的错误和事务/跨度数量。对于日志，许多SDK支持采样以减少发送的日志量。设置采样率在[每个SDK](/platform-redirect/?next=/configuration/sampling/)中都有记录，但您也可以在[管理错误配额](/pricing/quotas/manage-event-stream-guide/#sdk-sample-rate)、[管理跨度配额](/pricing/quotas/manage-transaction-quota/#sdk-configuration-tracing-options/)和[管理日志配额](/pricing/quotas/manage-logs-quota/#sdk-configuration)中了解更多信息。
 
-### SDK Filtering: `beforeSend` and `beforeSendTransaction`
+### SDK过滤：`beforeSend`和`beforeSendTransaction`
 
-All Sentry SDKs support the `beforeSend` callback method, which you can use to modify the data of an error event or to drop it completely. Many also support `beforeSendTransaction`. For logs, many SDKs support `beforeSendLog` for filtering log entries. Learn more in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/#sdk-filtering-beforesend), [Manage Your Span Quota](/pricing/quotas/manage-transaction-quota/#sdk-filtering-beforesendtransaction), and [Manage Your Logs Quota](/pricing/quotas/manage-logs-quota/#sdk-configuration).
+所有Sentry SDK都支持`beforeSend`回调方法，您可以使用它来修改错误事件的数据或完全删除它。许多还支持`beforeSendTransaction`。对于日志，许多SDK支持`beforeSendLog`来过滤日志条目。在[管理错误配额](/pricing/quotas/manage-event-stream-guide/#sdk-filtering-beforesend)、[管理跨度配额](/pricing/quotas/manage-transaction-quota/#sdk-filtering-beforesendtransaction)和[管理日志配额](/pricing/quotas/manage-logs-quota/#sdk-configuration)中了解更多信息。
 
-### SDK Configuration
+### SDK配置
 
-The SDK configuration either allows an event to be sent to Sentry or filters it out. Configuration is documented [for each SDK](/platform-redirect/?next=/configuration/filtering/), but you can also learn more in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/#sdk-configuration), [Manage Your Span Quota](/pricing/quotas/manage-transaction-quota/#sdk-configuration-tracing-options), and [Manage Your Logs Quota](/pricing/quotas/manage-logs-quota/#sdk-configuration).
+SDK配置允许事件发送到Sentry或将其过滤掉。配置在[每个SDK](/platform-redirect/?next=/configuration/filtering/)中都有记录，但您也可以在[管理错误配额](/pricing/quotas/manage-event-stream-guide/#sdk-configuration)、[管理跨度配额](/pricing/quotas/manage-transaction-quota/#sdk-configuration-tracing-options)和[管理日志配额](/pricing/quotas/manage-logs-quota/#sdk-configuration)中了解更多信息。
 
-### Size Limits
+### 大小限制
 
-Sentry imposes limits on various fields within an event, as well as the size of full events and the requests they are sent in, which can affect your attachments quota. Learn more in [Manage Your Attachments Quota](/pricing/quotas/manage-attachments-quota/#attachments-size).
+Sentry对事件内的各种字段以及完整事件和发送请求的大小施加了限制，这可能会影响您的附件配额。在[管理附件配额](/pricing/quotas/manage-attachments-quota/#attachments-size)中了解更多信息。
 
-## What Counts Toward Your Quota - Quick Guide
+## 什么计入您的配额 - 快速指南
 
-Use this table as a quick reference for what does and doesn't count towards your quota:
+使用此表作为什么计入和不计入您配额的快速参考：
 
 {/*<!-- prettier-ignore-start -->*/}
 
-| Scenario | Yes, this data counts |
+| 场景 | 是的，此数据计入 |
 |----------|------------------------|
-| [Spike protection](#spike-protection) activation threshold has been reached (errors) |  |
-| [Spike protection](/pricing/quotas/spike-protection/#how-sentry-detects-spikes) no longer active (errors) | &check; |
-| Your [quota](#increasing-quotas) hasn't been reached | &check; |
-| Your [quota](#increasing-quotas) has been exceeded |  |
-| A [rate limit](#rate-limits) for a project has been applied (errors, attachments) |  |
-| This is a [repeated event](/pricing/quotas/manage-event-stream-guide/#review-event-repetition) for which issues were previously set to Delete & Discard (errors) |  |
-| This is a [repeated event](/pricing/quotas/manage-event-stream-guide/#review-event-repetition) for a previously resolved issue (errors) | &check; |
-| This is a [repeated event](/pricing/quotas/manage-event-stream-guide/#review-event-repetition) for an issue that you've set to Ignore | &check; |
-| The event defies [inbound filters](#inbound-filters) configured in sentry.io  |  |
-| The event is sent after the [SDK sample rate](#sdk-sample-rate) has been exceeded |  |
-| The event isn't sent based on [SDK filters](#sdk-filtering-beforesend-and-beforesendtransaction) |  |
-| The event isn't sent based on [SDK configuration](#sdk-configuration) |  |
-| The log is filtered by [logs filtering](#inbound-filters) configured in sentry.io |  |
-| [Size limits](#size-limits) have been exceeded |  |
+| [峰值保护](#spike-protection)激活阈值已达到（错误） | |
+| [峰值保护](/pricing/quotas/spike-protection/#how-sentry-detects-spikes)不再活跃（错误） | &check; |
+| 您的[配额](#increasing-quotas)尚未达到 | &check; |
+| 您的[配额](#increasing-quotas)已被超过 | |
+| 项目的[速率限制](#rate-limits)已应用（错误、附件） | |
+| 这是[重复事件](/pricing/quotas/manage-event-stream-guide/#review-event-repetition)，之前设置为删除并丢弃的问题（错误） | |
+| 这是[重复事件](/pricing/quotas/manage-event-stream-guide/#review-event-repetition)，之前已解决的问题（错误） | &check; |
+| 这是[重复事件](/pricing/quotas/manage-event-stream-guide/#review-event-repetition)，您已设置为忽略的问题（错误） | &check; |
+| 事件违反了sentry.io中配置的[入站过滤器](#inbound-filters) | |
+| 事件在[SDK采样率](#sdk-sample-rate)已被超过后发送 | |
+| 事件基于[SDK过滤器](#sdk-filtering-beforesend-and-beforesendtransaction)未发送 | |
+| 事件基于[SDK配置](#sdk-configuration)未发送 | |
+| 日志被sentry.io中配置的[日志过滤](#inbound-filters)过滤 | |
+| [大小限制](#size-limits)已被超过 | |
 
 {/*<!-- prettier-ignore-end -->*/}
 
-Sentry groups accepted errors and spans into issues. The issues themselves don't count towards your quota, but the errors and spans that comprise an issue are counted. Logs are counted individually and do not get grouped into issues.
+Sentry将接受的错误和跨度分组为问题。问题本身不计入您的配额，但构成问题的错误和跨度会被计数。日志单独计数，不会分组为问题。
 
-## Key Terms
+## 关键术语
 
-Let's clarify a few terms:
+让我们澄清几个术语：
 
-- **Attachment** - Attachments are stored additional files, such as config files, log files, or stored mini-dumps, that are related to an error event. Unless the option to store crash reports is enabled, Sentry will use these files only to create an event, and then drop them.
-- **Cron Monitor** - A Cron Monitor represents a set of configurations for a scheduled, recurring job such as a "Data Backup" job that runs daily on production and development.
-- **Data** - Anything you send to Sentry. This includes events (errors, spans, or replays), logs, attachments, and event metadata.
-- **Error** - What counts as an error varies by platform, but in general, if there's something that looks like an exception, it can be captured as an error in Sentry. Sentry automatically captures errors, uncaught exceptions, and unhandled rejections, as well as other types of errors, depending on platform. A grouping of similar errors makes [an issue](/product/issues/).
-- **Event** - An event is one instance of you sending data to Sentry, excluding attachments. Generally, this data is an error or a transaction/span.
-- **Logs** - Structured log entries sent from your applications that provide visibility into application behavior, debugging information, and user interactions.
-- **Replay** - Session Replays are video-like reproductions of users' sessions as they navigate your app or website.
-- **Span** - A billing unit in Sentry that maps to span usage. Also the basic unit that [traces](/concepts/key-terms/tracing/distributed-tracing/) are composed of. Multiple spans make up a trace in Sentry and share a trace_id.
-- **Profile** - A snapshot of your code's resource usage obtained by periodically capturing the call stack as your application runs.
-- **Quota** - Your quota is the amount of data (errors, spans, replays, logs, attachments) that you pay Sentry to track.
+- **附件** - 附件是存储的附加文件，如配置文件、日志文件或存储的迷你转储，与错误事件相关。除非启用了存储崩溃报告的选项，否则Sentry将仅使用这些文件创建事件，然后丢弃它们。
+- **定时任务监控器** - 定时任务监控器代表计划、重复作业的一组配置，例如在生产和开发环境中每天运行的"数据备份"作业。
+- **数据** - 您发送到Sentry的任何内容。这包括事件（错误、跨度或重放）、日志、附件和事件元数据。
+- **错误** - 什么算作错误因平台而异，但一般来说，如果有看起来像异常的东西，它可以作为Sentry中的错误被捕获。Sentry自动捕获错误、未捕获的异常和未处理的拒绝，以及根据平台捕获其他类型的错误。类似错误的分组构成[一个问题](/product/issues/)。
+- **事件** - 事件是您向Sentry发送数据的一个实例，不包括附件。通常，此数据是错误或事务/跨度。
+- **日志** - 从您的应用程序发送的结构化日志条目，提供对应用程序行为、调试信息和用户交互的可见性。
+- **重放** - 会话重放是用户浏览您的应用或网站时的会话类视频重现。
+- **跨度** - Sentry中的计费单元，映射到跨度使用。也是[追踪](/concepts/key-terms/tracing/distributed-tracing/)的基本组成单元。多个跨度在Sentry中构成一个追踪并共享trace_id。
+- **性能分析** - 通过在应用程序运行时定期捕获调用堆栈获得的代码资源使用快照。
+- **配额** - 您的配额是您支付给Sentry跟踪的数据量（错误、跨度、重放、日志、附件）。

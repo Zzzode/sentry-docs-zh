@@ -1,47 +1,47 @@
 ---
 title: Linear
 sidebar_order: 1
-description: "Learn more about Sentry's Linear integration, which streamlines issue creation and linking."
+description: "了解 Sentry 的 Linear 集成的更多信息，它可以简化问题创建和链接。"
 ---
 
-Linear is an issue tracking tool built for speed, streamlining software projects, tasks, and bug tracking. Effortlessly create new Linear issues from Sentry and link Sentry issues to existing Linear issues.
+Linear 是一个为速度而构建的问题跟踪工具，简化软件项目、任务和错误跟踪。轻松地从 Sentry 创建新的 Linear 问题，并将 Sentry 问题链接到现有的 Linear 问题。
 
-This integration is maintained and supported by the company that created it. For more details, check out our [Integration Platform documentation](/organization/integrations/integration-platform/).
+此集成由创建它的公司维护和支持。更多详细信息，请查看我们的[集成平台文档](/organization/integrations/integration-platform/)。
 
-## Install and Configure
+## 安装和配置
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或管理员权限才能安装此集成。
 
-Linear **won't** work with self-hosted Sentry.
+Linear **不**适用于自托管 Sentry。
 
 </Alert>
 
-1. Navigate to **Settings > Integrations > Linear**
+1. 导航到**设置 > 集成 > Linear**
 
-   ![Install Linear integration](./img/linear-install-pg.png)
+   ![安装 Linear 集成](./img/linear-install-pg.png)
 
-2. Follow the full [Linear installation instructions](https://linear.app/docs/sentry).
+2. 按照完整的 [Linear 安装说明](https://linear.app/docs/sentry)进行操作。
 
-## Issue Management
+## 问题管理
 
-Issue tracking allows you to create Linear issues from within Sentry, and link Sentry issues to existing Linear issues. Issue management can be configured in two ways — automatically or manually.
+问题跟踪允许您从 Sentry 内创建 Linear 问题，并将 Sentry 问题链接到现有的 Linear 问题。问题管理可以通过两种方式配置——自动或手动。
 
-### Automatically
+### 自动
 
-To configure issue management automatically, create an [issue alert](/product/alerts/alert-types/#issue-alerts) or a [metric alert](/product/alerts/alert-types/#metric-alerts). When selecting the [action](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions), choose "Notify Integration" and then "Linear" for issue alerts, or select "Linear" from the action dropdown for metric alerts:
+要自动配置问题管理，请创建[问题警报](/product/alerts/alert-types/#issue-alerts)或[指标警报](/product/alerts/alert-types/#metric-alerts)。在选择[操作](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions)时，对于问题警报选择"通知集成"然后选择"Linear"，或者对于指标警报从操作下拉菜单中选择"Linear"：
 
-![Create Linear issue as metric alert rule action](./img/linear-rule.png)
+![创建 Linear 问题作为指标警报规则操作](./img/linear-rule.png)
 
-A Linear issue will be created automatically when the alert is triggered.
+当警报触发时将自动创建 Linear 问题。
 
-### Manually
+### 手动
 
-To configure issue management manually, navigate to a specific Sentry issue and find the "Linked Issues" section on the right panel:
+要手动配置问题管理，请导航到特定的 Sentry 问题，并在右侧面板中找到"链接问题"部分：
 
-![Link Linear issue from Sentry issue](./img/linear-link-issue.png)
+![从 Sentry 问题链接 Linear 问题](./img/linear-link-issue.png)
 
-Here, you’ll be able to create or link Linear issues.
+在这里，您将能够创建或链接 Linear 问题。
 
-![Create Linear issue form](./img/linear-create-issue.png)
+![创建 Linear 问题表单](./img/linear-create-issue.png)

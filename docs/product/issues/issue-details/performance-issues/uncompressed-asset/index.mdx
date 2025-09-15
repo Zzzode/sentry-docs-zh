@@ -1,39 +1,39 @@
 ---
-title: "Uncompressed Asset"
+title: "未压缩资源"
 sidebar_order: 30
-description: "Learn more about Uncompressed Asset issues and how to diagnose and fix them."
+description: "了解更多关于未压缩资源问题以及如何诊断和修复它们的信息。"
 ---
 
-Uncompressed Asset issues happen when a file that needs to be downloaded in order to load a browser page, doesn’t get compressed while being transferred. This may indicate a misconfiguration of the server or CDN (content delivery network) that’s serving the asset file.
+未压缩资源问题发生在需要下载以加载浏览器页面的文件在传输过程中未压缩时。这可能表明提供资产文件的服务器或CDN（内容交付网络）配置错误。
 
-## Detection Criteria
+## 检测标准
 
-The detector for this performance issue looks for specific asset (resource) spans with the following criteria:
+此性能问题的检测器会查找具有以下条件的特定资源（资源）跨度：
 
-- The span has to be one of either: `resource.link` or `resource.script` spans, which in practice means it's a `.css` or `.js` file.
-- It has to be over `512kb` in size, (to filter out smaller files that are less likely to benefit from being compressed).
-- The span duration has to be over `500ms` (to filter out faster transfers or assets served in internal networks).
-- There has to be another asset span in the transaction that has compressed files. This helps filter out cases where a users' browser isn't sending the `Accept-Encoding` header.
+- 跨度必须是：`resource.link`或`resource.script`跨度之一，实际上这意味着它是一个`.css`或`.js`文件。
+- 它必须超过`512kb`大小（以过滤掉不太可能从压缩中受益的较小文件）。
+- 跨度持续时间必须超过`500ms`（以过滤掉更快的传输或内部网络中提供的资产）。
+- 事务中必须有另一个具有压缩文件的资产跨度。这有助于过滤掉用户浏览器未发送`Accept-Encoding`标头的情况。
 
-If Sentry isn't detecting an Uncompressed Asset issue where you expect one, it's probably because the transaction didn't meet one of the above criteria.
+如果Sentry没有在您期望的地方检测到未压缩资源问题，可能是因为事务未满足上述任一标准。
 
-You can configure detector thresholds for Uncompressed Asset issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置未压缩资源问题的检测器阈值：
 
-![Uncompressed Asset detector threshold settings](./img/uncompressed-asset-detector-settings.png)
+![未压缩资源检测器阈值设置](./img/uncompressed-asset-detector-settings.png)
 
-## Span Evidence
+## 跨度证据
 
-You can identify an Uncompressed Asset problem by four main aspects in the "Span Evidence" section:
+您可以通过"跨度证据"部分中的四个主要方面来识别未压缩资源问题：
 
-- Transaction name
-- Slow resource span - The uncompressed slow span, usually containing the asset url
-- Asset size
-- Duration impact - The fraction of time potentially added to the total transaction time if this span is in the critical path.
+- 事务名称
+- 慢资源跨度 - 未压缩的慢跨度，通常包含资产url
+- 资产大小
+- 持续时间影响 - 如果此跨度在关键路径中，可能添加到总事务时间的分数
 
-![Uncompressed Asset span evidence](./img/span-evidence.png)
+![未压缩资源跨度证据](./img/span-evidence.png)
 
-View it by going to the **Issues** page in Sentry, selecting your project, clicking on the Uncompressed Asset error you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+通过转到Sentry中的**问题**页面，选择您的项目，点击您要检查的未压缩资源错误，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看它。
 
-## Recommendations
+## 建议
 
-Check the server or CDN (content delivery network) where the asset is being hosted and make sure it's set up for gzip or brotli compression.
+检查托管资产的服务器或CDN（内容交付网络），并确保它已设置为gzip或brotli压缩。

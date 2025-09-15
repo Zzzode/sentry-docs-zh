@@ -1,309 +1,307 @@
 ---
-title: "Fingerprint Rules"
+title: 指纹规则
 sidebar_order: 20
-description: "Learn about fingerprint rules, matchers for fingerprinting, how to combine matchers, and using variables for fingerprinting."
+description: "了解指纹规则、指纹匹配器、如何组合匹配器以及使用指纹变量。"
 ---
 
 <Include name="only-error-issues-note.mdx" />
 
-Fingerprint rules (previously known as _server-side fingerprinting_) are configured with a config similar to [stack trace rules](../stack-trace-rules/), but the syntax is slightly different. The matchers are the same, but instead of flipping flags, a fingerprint is assigned and it overrides the default grouping entirely. Assigning a fingerprint can also refine the default grouping rather than overriding it, if the fingerprint includes the value `{{ default }}`.
+指纹规则（以前称为_服务器端指纹_）使用类似于[堆栈跟踪规则](../stack-trace-rules/)的配置进行配置，但语法略有不同。匹配器相同，但代替翻转标志，分配指纹并完全覆盖默认分组。分配指纹也可以细化默认分组，而不是覆盖它，如果指纹包含值 `{{ default }}`。
 
-These rules can be configured on a per-project basis in **Project Settings > Issue Grouping > Fingerprint Rules**. This setting has input fields where you can write custom fingerprinting rules. To update a rule:
+这些规则可以在**项目设置 > 问题分组 > 指纹规则**中按项目配置。此设置具有输入字段，您可以在其中编写自定义指纹规则。要更新规则：
 
-1. Identify the match logic for grouping issues together.
-1. Set the match logic and the fingerprint for it.
+1. 确定将问题分组在一起的匹配逻辑。
+1. 设置匹配逻辑及其指纹。
 
-The syntax for fingerprint rules is similar to syntax in [**Discover** queries](/concepts/search/#syntax). To negate a match, add an exclamation mark (`!`) at the beginning of the expression. See the full grammar [here](https://github.com/getsentry/sentry/blob/90f5cdfa9ebaf0bfdea63852812a6efc90f13691/src/sentry/grouping/fingerprinting/__init__.py#L36-L73).
+指纹规则的语法类似于[**Discover** 查询](/concepts/search/#syntax)中的语法。要否定匹配，请在表达式开头添加感叹号 (`!`)。完整的语法见[此处](https://github.com/getsentry/sentry/blob/90f5cdfa9ebaf0bfdea63852812a6efc90f13691/src/sentry/grouping/fingerprinting/__init__.py#L36-L73)。
 
-Sentry attempts to match against all values that are configured in the fingerprint. In the case of stack traces, all frames are considered. If the event data matches all the values in a line for a matcher and expression, then the fingerprint is applied. When there are multiple rules that match the event, the first matching rule in the list is applied.
+Sentry 尝试匹配指纹中配置的所有值。在堆栈跟踪的情况下，考虑所有帧。如果事件数据与匹配器和表达式的行中的所有值匹配，则应用指纹。当存在多个匹配事件的规则时，应用列表中的第一个匹配规则。
 
-```bash {tabTitle:Fingerprinting Config}
-# You can use comments to explain the rules.  Rules themselves follow the
-# following syntax:
-matcher:expression -> list of values
-# The list of values can be hardcoded or substituted values.
+```bash {tabTitle:指纹配置}
+# 您可以使用注释来解释规则。规则本身遵循
+# 以下语法：
+匹配器:表达式 -> 值列表
+# 值列表可以是硬编码值或替换值。
 ```
 
-Below is a practical example, which groups exceptions of a specific type together:
+以下是一个实际示例，它将特定类型的异常分组在一起：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:DatabaseUnavailable -> system-down
 error.type:ConnectionError -> system-down
 
 error.value:"connection error: *" -> connection-error, {{ transaction }}
 ```
 
-Now, all the events with the error type `DatabaseUnavailable` or `ConnectionError` will be grouped into an issue with the type `system-down`. In addition, all events with the error value `connection error` will be grouped by their transaction name. So, for example, if your transactions `/api/users/foo/` and `/api/events/foo/`—both with the value `connection error`—crash the same way, Sentry will create two issues, regardless of stack trace or any other default grouping method.
+现在，所有具有错误类型 `DatabaseUnavailable` 或 `ConnectionError` 的事件将被分组到类型为 `system-down` 的问题中。此外，所有具有错误值 `connection error` 的事件将按其事务名称分组。因此，例如，如果您的事务 `/api/users/foo/` 和 `/api/events/foo/` - 都具有值 `connection error` - 以相同的方式崩溃，Sentry 将创建两个问题，无论堆栈跟踪或任何其他默认分组方法如何。
 
-## Matchers
+## 匹配器
 
-Matchers allow you to use [glob patterns](<https://en.wikipedia.org/wiki/Glob_(programming)>).
+匹配器允许您使用[通配符模式](<https://en.wikipedia.org/wiki/Glob_(programming)>)。
 
-If you want to create a rule that includes brackets `[ ]`, braces `{ }` or a literal `*`, escape them with a backslash; that is, `\[`, `\]`, `\{`, `\}` or `\*`.
+如果要创建包含方括号 `[ ]`、大括号 `{ }` 或文字 `*` 的规则，请用反斜杠转义它们；即 `\[`、`\]`、`\{`、`\}` 或 `\*`。
 
-The following matchers are available:
+以下匹配器可用：
 
 <DefinitionList>
 
 ### `error.type`
 
-alias: `type`
+别名：`type`
 
-Matches on an exception type (exception name). The match is performed as a case-sensitive glob.
+匹配异常类型（异常名称）。匹配作为区分大小写的通配符执行。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:ZeroDivisionError -> zero-division
 error.type:ConnectionError -> connection-error
 ```
 
 ### `error.value`
 
-alias: `value`
+别名：`value`
 
-Matches on the exception value. Errors or exceptions often have human-readable descriptions (values) associated with them. This matcher allows a case insensitive match.
+匹配异常值。错误或异常通常具有与之关联的人类可读描述（值）。此匹配器允许不区分大小写的匹配。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.value:"connection error (code: *)" -> connection-error
 error.value:"could not connect (*)" -> connection-error
 ```
 
 ### `level`
 
-Matches on the log level. The match is case insensitive.
+匹配日志级别。匹配不区分大小写。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 logger:"com.myapp.FooLogger" level:"error" -> mylogger-error
 ```
 
 ### `logger`
 
-Matches on the name of the logger, which is useful to combine all messages of a logger together. This match is case-sensitive.
+匹配记录器的名称，这对于将记录器的所有消息组合在一起很有用。此匹配区分大小写。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 logger:"com.myapp.mypackage.*" -> mypackage-logger
 ```
 
 ### `message`
 
-Matches on a log message. It will also automatically check for the additional exception value as they can be hard to keep apart. The matching is case insensitive.
+匹配日志消息。它还将自动检查附加的异常值，因为它们可能很难区分。匹配不区分大小写。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 message:"system encountered a fatal problem: *" -> fatal-log
 ```
 
 ### `stack.abs_path`
 
-alias: `path`
+别名：`path`
 
-Matches on the path of an event and is case insensitive. It uses path globbing semantics, which means that `*` does not match a slash, but `**` does. Note that this matcher matches on both `abs_path` and `filename` as SDKs can be quite inconsistent about how these values are supported. If the glob matches on either of these values, it's considered a match.
+匹配事件的路径，不区分大小写。它使用路径通配符语义，这意味着 `*` 不匹配斜杠，但 `**` 匹配。请注意，此匹配器匹配 `abs_path` 和 `filename`，因为 SDK 对这些值的支持可能非常不一致。如果通配符匹配这些值中的任何一个，则视为匹配。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 stack.abs_path:"**/my-utils/*.js" -> my-utils, {{ error.type }}
 ```
 
 ### `stack.function`
 
-alias: `function`
+别名：`function`
 
-Checks if any of the functions in the stack trace match the glob. The match is case-sensitive:
+检查堆栈跟踪中的任何函数是否与通配符匹配。匹配区分大小写：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 stack.function:"my_assertion_failed" -> my-assertion-failed
 ```
 
 ### `stack.module`
 
-alias: `module`
+别名：`module`
 
-Similar to `stack.abs_path` but matches on the module name instead. The match is case-sensitive and regular globbing rules apply (`*` also matches slashes).
+类似于 `stack.abs_path` 但匹配模块名称。匹配区分大小写，并且应用常规通配符规则（`*` 也匹配斜杠）。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 stack.module:"*/my-utils/*" -> my-utils, {{ error.type }}
 ```
 
 ### `stack.package`
 
-alias: `package`
+别名：`package`
 
-Matches on the "package" of a frame. This is typically the name of the debug symbol/object file that contains a frame. If any of the frames match this object file, then it matches.
+匹配帧的"包"。这通常是包含帧的调试符号/对象文件的名称。如果任何帧匹配此对象文件，则匹配。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 stack.package:"**/libcurl.dylib" -> libcurl
 stack.package:"**/libcurl.so" -> libcurl
 ```
 
 ### `tags.tag_name`
 
-Matches on the value of the tag `tag_name`. This can be useful to filter down certain types of events. For instance, you can separate events caused by a specific server:
+匹配标签 `tag_name` 的值。这对于过滤某些类型的事件很有用。例如，您可以分离由特定服务器引起的事件：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 tags.server_name:"canary-*.mycompany.internal" -> canary-events
 ```
 
-Additionally, the folowing utility matchers are available:
+此外，以下实用程序匹配器可用：
 
 ### `app`
 
-Checks if the frame is in-app or not. It is particularly useful when combined with another matcher. Possible values are `yes` and `no`:
+检查帧是否在应用程序内。当与另一个匹配器组合时特别有用。可能的值为 `yes` 和 `no`：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 app:yes stack.function:"assert" -> assert
 ```
 
 ### `family`
 
-Used to "scope" down the matcher. The following families exist: `javascript` for any type of JavaScript event, `native` for any type of Native event. Any other platform is called `other`.
+用于"限定"匹配器的范围。以下系列存在：`javascript` 用于任何类型的 JavaScript 事件，`native` 用于任何类型的原生事件。任何其他平台都称为 `other`。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 family:native !stack.module:"myproject::*" -> not-from-my-project
 ```
 
 </DefinitionList>
 
-## Combining Matchers
+## 组合匹配器
 
-When multiple matchers are combined, they all need to match. Matchers that operate on frames must all apply to the same frame; otherwise, they are not considered a match.
+当组合多个匹配器时，它们都需要匹配。对帧进行操作的匹配器都必须应用于同一帧；否则，它们不被视为匹配。
 
-For instance, if you match on both the function name and module name, then a match only exists if a frame matches _both_ the function name and the module name. It's not enough for a frame to match only with the function name, even if another frame would match the module name by itself.
+例如，如果您同时匹配函数名称和模块名称，则仅当帧匹配_两者_函数名称和模块名称时才存在匹配。帧仅匹配函数名称是不够的，即使另一个帧本身会匹配模块名称。
 
-```bash {tabTitle:Fingerprinting Config}
-# this matches if a frame exists with a specific function and module name
-# and also a specific error type is thrown
+```bash {tabTitle:指纹配置}
+# 如果存在具有特定函数和模块名称的帧，则匹配
+# 并且还抛出特定错误类型
 error.type:ConnectionError stack.function:"connect" stack.module:"bot" -> bot-error
 ```
 
-## Variables
+## 变量
 
-On the right-hand side of the fingerprint, you can use constant values and variables. Variables are substituted automatically and have the same name as matchers, but they might be filled in differently. These variables can also be used when assigning fingerprints using Sentry SDKs.
+在指纹的右侧，您可以使用常量和变量。变量会自动替换，并且具有与匹配器相同的名称，但它们可能以不同的方式填充。这些变量也可以在分配指纹时使用 Sentry SDK 时使用。
 
-Variables are enclosed in double braces (`{{ variable_name }}`).
+变量用双大括号 (`{{ variable_name }}`) 括起来。
 
 <DefinitionList>
 
 ### `{{ default }}`
 
-This fills in the default fingerprint that would be produced by the normal grouping operation. It is useful if you want to subdivide an already existing group by something else:
+这将填充正常分组操作产生的默认指纹。如果您想按其他内容细分已存在的组，这很有用：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 stack.function:"query_database" -> {{ default }}, {{ transaction }}
 ```
 
 ### `{{ error.type }}`
 
-alias: `{{ type }}`
+别名：`{{ type }}`
 
-This fills in the name of the error that occurred. When chained exceptions are used, it will be the most recently thrown error. This will force the creation of a group per error type:
+这将填充发生的错误的名称。当使用链式异常时，它将是最近抛出的错误。这将强制按错误类型创建组：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 stack.function:"evaluate_script" -> script-evaluation, {{ error.type }}
 ```
 
 ### `{{ error.value }}`
 
-alias: `{{ value }}`
+别名：`{{ value }}`
 
-This fills in the stringified value of the error that occurred. When chained exceptions are used, it will be the most recently thrown error. Note that this can produce really bad groups when error values are frequently changing.
+这将填充发生的错误的字符串化值。当使用链式异常时，它将是最近抛出的错误。请注意，当错误值频繁更改时，这可能会产生非常糟糕的组。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:"ScriptError" -> script-evaluation, {{ error.value }}
 ```
 
 ### `{{ level }}`
 
-This fills in the name of the log level that was used to create an event.
+这将填充用于创建事件的日志级别的名称。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 message:"connection error*" -> connection-error, {{ logger }}, {{ level }}
 ```
 
 ### `{{ logger }}`
 
-This fills in the name of the logger that caused an event.
+这将填充导致事件的记录器的名称。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 message:"critical connection error*" -> connection-error, {{ logger }}
 ```
 
 ### `{{ message }}`
 
-This fills in the message of the event (similar to `error.value` but for
-captured messages). Note that this can produce groups with poor data quality if
-messages are changing frequently:
+这将填充事件的消息（类似于 `error.value`，但对于捕获的消息）。请注意，如果消息频繁更改，这可能会产生数据质量差的组：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 logger:"com.foo.auditlogger.*" -> audit-log, {{ message }}
 ```
 
 ### `{{ stack.abs_path }}`
 
-alias: `{{ path }}`
+别名：`{{ path }}`
 
-This fills in the path of the "crashing frame," also known as the application code's topmost frame.
+这将填充"崩溃帧"的路径，也称为应用程序代码的顶层帧。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:"ScriptError" -> script-evaluation, {{ stack.abs_path }}
 ```
 
 ### `{{ stack.filename }}`
 
-This is like `stack.abs_path` but will only fill in the relative file name:
+这类似于 `stack.abs_path`，但只会填充相对文件名：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:"ScriptError" -> script-evaluation, {{ stack.filename }}
 ```
 
 ### `{{ stack.function }}`
 
-alias: `{{ function }}`
+别名：`{{ function }}`
 
-This fills in the function name of the "crashing frame," also known as the application code's topmost frame.
+这将填充"崩溃帧"的函数名称，也称为应用程序代码的顶层帧。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:"ScriptError" -> script-evaluation, {{ stack.function }}
 ```
 
 ### `{{ stack.module }}`
 
-alias: `{{ module }}`
+别名：`{{ module }}`
 
-This fills in the module name of the "crashing frame," also known as the application code's topmost frame.
+这将填充"崩溃帧"的模块名称，也称为应用程序代码的顶层帧。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:"ScriptError" -> script-evaluation, {{ stack.module }}
 ```
 
 ### `{{ stack.package }}`
 
-alias: `{{ package }}`
+别名：`{{ package }}`
 
-This fills in the package name (object file) of the "crashing frame," also known as the application code's topmost frame.
+这将填充"崩溃帧"的包名称（对象文件），也称为应用程序代码的顶层帧。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 stack.function:"assert" -> assertion, {{ stack.package }}
 ```
 
 ### `{{ tags.tag_name }}`
 
-This fills in the value of a tag into the fingerprint, which can, for instance, be used to split events by server name or something similar.
+这将标签的值填充到指纹中，例如，可用于按服务器名称或其他类似内容拆分事件。
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 message:"connection error*" -> connection-error, {{ tags.server_name }}
 ```
 
 ### `{{ transaction }}`
 
-This fills in the name of the transaction into the fingerprint. It will force the creation of a group per transaction:
+这将事务的名称填充到指纹中。它将强制按事务创建组：
 
-```bash {tabTitle:Fingerprinting Config}
+```bash {tabTitle:指纹配置}
 error.type:"ApiError" -> api-error, {{ transaction }}
 ```
 
 </DefinitionList>
 
-## Custom Titles
+## 自定义标题
 
-When you use fingerprinting to group events together it can sometimes be useful to also change the default title of the event. Normally the title of the event is the exception type and value (or the top most function names for certain platforms). When you group by custom rules this title can often be misleading. For instance if you group a logger together you might want to name the group after that logger. This can be accomplished by setting the `title` attribute like this:
+当您使用指纹将事件分组在一起时，有时更改事件的默认标题也很有用。通常，事件的标题是异常类型和值（或某些平台的顶层函数名称）。当您按自定义规则分组时，此标题通常会产生误导。例如，如果您将记录器分组在一起，您可能希望以该记录器命名组。这可以通过设置 `title` 属性来完成，如下所示：
 
-```bash {tabTitle:Fingerprinting Config}
-logger:my.package.* level:error -> error-logger, {{ logger }} title="Error from Logger {{ logger }}"
+```bash {tabTitle:指纹配置}
+logger:my.package.* level:error -> error-logger, {{ logger }} title="来自记录器 {{ logger }} 的错误"
 ```

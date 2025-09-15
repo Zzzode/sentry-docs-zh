@@ -1,38 +1,34 @@
 ---
-title: API Reference
+title: API 参考
 sidebar_order: 60
 ---
 
-The Sentry web API is used to access the Sentry platform programmatically. You can use the APIs to manage account-level resources, like organizations and teams, as well as manage and export data.
+Sentry Web API 用于以编程方式访问 Sentry 平台。您可以使用 API 来管理帐户级资源，如组织和团队，以及管理和导出数据。
 
-If you're looking for information about the API surface for Sentry's SDKs, see the [SDK Development](https://develop.sentry.dev/sdk/overview/) docs.
+如果您正在寻找有关 Sentry SDK 的 API 表面的信息，请参阅 [SDK 开发](https://develop.sentry.dev/sdk/overview/) 文档。
 
-## Versioning
+## 版本控制
 
-The current version of the Sentry's web API is considered **v0**. Our public endpoints are generally stable, but beta endpoints are subject to change.
+当前版本的 Sentry Web API 被认为是 **v0**。我们的公共端点通常是稳定的，但 beta 端点可能会发生变化。
 
-## Getting Started
+## 入门
 
-- [Authentication](/api/auth/)
-- [Pagination](/api/pagination/)
-- [Permissions](/api/permissions/)
-- [Rate Limits](/api/ratelimits)
-- [Requests](/api/requests/)
+- [认证](/api/auth/)
+- [分页](/api/pagination/)
+- [权限](/api/permissions/)
+- [速率限制](/api/ratelimits)
+- [请求](/api/requests/)
 
-### Sentry API Tutorials
+### Sentry API 教程
 
-- [Tutorial: Create a Sentry Authentication Token](/api/guides/create-auth-token/)
-- [Tutorial: Create and List Teams with the Sentry API](/api/guides/teams-tutorial/)
+- [教程：创建 Sentry 认证令牌](/api/guides/create-auth-token/)
+- [教程：使用 Sentry API 创建和列出团队](/api/guides/teams-tutorial/)
 
-## Choosing the Right API Base Domain
+## 选择正确的 API 基础域
 
-While many of our APIs use `sentry.io` as the host for API endpoints, if
-you want to indicate a specific [data storage location](/organization/data-storage-location/#what-types-of-data-are-stored-where), you should use region-specific domains.
+虽然我们的许多 API 使用 `sentry.io` 作为 API 端点的主机，但如果您想指定特定的[数据存储位置](/organization/data-storage-location/#what-types-of-data-are-stored-where)，您应该使用特定区域的域。
 
-- US region is hosted on `us.sentry.io`
-- DE region is hosted on `de.sentry.io`.
+- 美国区域托管在 `us.sentry.io`
+- 德国区域托管在 `de.sentry.io`。
 
-To find out which API resources are available on region-based domains, see [what
-types of data are stored
-where](/organization/data-storage-location/#what-types-of-data-are-stored-where) for more information.
-
+要了解哪些 API 资源在基于区域的域上可用，请参阅[哪些类型的数据存储在哪里](/organization/data-storage-location/#what-types-of-data-are-stored-where)以获取更多信息。

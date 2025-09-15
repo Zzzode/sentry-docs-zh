@@ -1,48 +1,50 @@
 ---
-title: "Queues Page"
+title: "队列页面"
 sidebar_order: 20
-description: "Learn how to use Sentry's Queues page to get an overview of queue performance and investigate potential problems. "
+description: "了解如何使用Sentry的队列页面获取队列性能概览并调查潜在问题。"
 ---
 
-The **Queues** page provides a breakdown of queue performance by destination (the topic name or queue name). Use it as a starting point to investigate potential problems with queues, such as higher than expected processing latency.
+<Include name="feature-limited-on-team-retention.mdx" />
 
-A the top of the page, the Average Latency graph shows the total time that messages take to complete. The Published versus Processed graph shows how many messages are being written to the queue versus how many are being completed. If you see an anomaly or want to investigate a time range further, click and drag to select a range directly in the graph and you'll see data for that specific time range only.
+**队列**页面按目标（主题名称或队列名称）提供队列性能细分。将其作为起点来调查队列的潜在问题，例如高于预期的处理延迟。
 
-The destination table shows where messages are being published to, along with:
+在页面顶部，平均延迟图表显示消息完成所需的总时间。已发布与已处理图表显示正在写入队列的消息数量与正在完成的消息数量。如果您发现异常或想进一步调查某个时间范围，请直接在图表中点击并拖动以选择特定时间范围，您将只看到该特定时间范围的数据。
 
-- Throughput (the time spent both waiting and being processed in the queue)
-- Error rate (how often do jobs fail to complete)
-- Published versus processed count
-- Time spent (total time your application spent processing jobs)
+目标表格显示消息被发布到的位置，以及：
 
-If you want to dig deeper into the behavior of a specific destination, click the destination name to view the **Destination Summary** page.
+- 吞吐量（在队列中等待和处理所花费的时间）
+- 错误率（作业完成失败的频率）
+- 已发布与已处理计数
+- 花费时间（应用程序处理作业所花费的总时间）
 
-## Destination Summary Page
+如果您想深入了解特定目标的行为，请点击目标名称以查看**目标摘要**页面。
 
-To view the **Destination Summary** page click a [destination](https://opentelemetry.io/docs/specs/semconv/messaging/messaging-spans/#destinations) in the **Queues** page.
+## 目标摘要页面
 
-At the top of the page you'll see average time in queue, average processing latency, error rate, published versus processed counts, and the total time spent by your application processing jobs. These metrics are shown in relation to the destination, whereas the **Queues** page shows summed up metrics across all destinations. Below the summary you can view graphs for average latency and published versus processed counts.
+要查看**目标摘要**页面，请点击**队列**页面中的[目标](https://opentelemetry.io/docs/specs/semconv/messaging/messaging-spans/#destinations)。
 
-At the bottom of the page, a table is shown listing transactions that either published or processed queue messages.
+在页面顶部，您将看到队列中的平均时间、平均处理延迟、错误率、已发布与已处理计数，以及应用程序处理作业所花费的总时间。这些指标与目标相关，而**队列**页面显示所有目标的汇总指标。在摘要下方，您可以查看平均延迟和已发布与已处理计数的图表。
 
-If a problem with a specific endpoint jumps out at you, click the transaction to view sample spans and to navigate to the corresponding trace.
+在页面底部，显示一个表格，列出发布或处理队列消息的事务。
 
-### Sample List
+如果特定端点的问题引起您的注意，请点击事务以查看样本span并导航到相应的跟踪。
 
-Click on an endpoint to open a list of sample spans. This side panel varies depending on whether you click on a producer (your application writing messages to the queue) or consumer transaction.
+### 样本列表
 
-### Producer Sample List
+点击端点以打开样本span列表。此侧面板根据您点击的是生产者（将消息写入队列的应用程序）还是消费者事务而有所不同。
 
-Sentry automatically finds a variety of samples to help you investigate performance problems. The chosen spans cover the entire selected time range, as well as a range of durations and failure statues.
+### 生产者样本列表
 
-The Producer panel shows the number of messages the producer has published, the error rate (representing errors that occur while publishing the message), and the average duration of the transaction that publishes the message to the queue.
+Sentry会自动查找各种样本以帮助您调查性能问题。所选span覆盖整个所选时间范围，以及一系列持续时间和失败状态。
 
-To dig even deeper, click on a span identifier to view a detailed trace.
+生产者面板显示生产者已发布的消息数量、错误率（表示发布消息时发生的错误）以及将消息发布到队列的事务的平均持续时间。
 
-### Consumer Sample List
+要更深入地挖掘，请点击span标识符以查看详细的跟踪。
 
-Sentry automatically finds a variety of samples to help you investigate performance problems. The chosen spans cover the entire selected time range, as well as a range of durations and failure statues.
+### 消费者样本列表
 
-The Consumer panel shows the number of messages the consumer has processed, the error rate, the average time a message spends in a queue, and the average amount of time spent processing the message.
+Sentry会自动查找各种样本以帮助您调查性能问题。所选span覆盖整个所选时间范围，以及一系列持续时间和失败状态。
 
-To dig even deeper, click on a span identifier to view a detailed trace.
+消费者面板显示消费者已处理的消息数量、错误率、消息在队列中花费的平均时间以及处理消息所花费的平均时间。
+
+要更深入地挖掘，请点击span标识符以查看详细的跟踪。

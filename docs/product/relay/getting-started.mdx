@@ -1,104 +1,97 @@
 ---
-title: Getting Started
-description: "Learn how to get started with Relay, Sentry's data security solution."
+title: 入门指南
+description: "学习如何开始使用 Relay，Sentry 的数据安全解决方案。"
 sidebar_order: 1
 ---
 
-Getting started with [Relay](/product/relay/) is as simple as using the default settings. You can also configure Relay to suit your organization's needs. Check the [Configuration Options](../options/) page for a detailed discussion of operating scenarios.
+开始使用 [Relay](/product/relay/) 就像使用默认设置一样简单。您还可以配置 Relay 以满足您组织的需求。查看[配置选项](../options/)页面以获取操作场景的详细讨论。
 
 <Alert>
 
-The Relay server is called `relay`. Download binaries from [GitHub
-Releases](https://github.com/getsentry/relay/releases). A Docker image is provided on [DockerHub](https://hub.docker.com/r/getsentry/relay/).
+Relay 服务器称为 `relay`。从 [GitHub
+Releases](https://github.com/getsentry/relay/releases) 下载二进制文件。Docker 镜像在 [DockerHub](https://hub.docker.com/r/getsentry/relay/) 上提供。
 
 </Alert>
 
-## Initializing Configuration
+## 初始化配置
 
-To create the initial configuration, use Relay's `relay config init` command,
-which puts configuration files in the `.relay` folder under the current working
-directory.
+要创建初始配置，请使用 Relay 的 `relay config init` 命令，该命令将配置文件放在当前工作目录下的 `.relay` 文件夹中。
 
 <Alert>
 
-In Docker, provide the configuration directory using the standard
-mechanisms offered by Docker, either by mounting [Docker
-volumes](https://docs.docker.com/storage/volumes/) or by building a new
-container and copying in the files.
+在 Docker 中，使用 Docker 提供的标准机制提供配置目录，通过挂载 [Docker
+卷](https://docs.docker.com/storage/volumes/) 或通过构建新容器并复制文件。
 
 </Alert>
 
-```shell {tabTitle:Run in Docker}
-# Adjust permissions for the configuration directory
-# The :z option is only necessary on selinux.
-# See https://docs.docker.com/storage/bind-mounts/#configure-the-selinux-label.
+```shell {tabTitle:在 Docker 中运行}
+# 调整配置目录的权限
+# :z 选项仅在 selinux 上必要。
+# 参见 https://docs.docker.com/storage/bind-mounts/#configure-the-selinux-label。
 docker run --rm -it                  \
   -v $(pwd)/config/:/work/.relay/:z  \
   --entrypoint bash                  \
   getsentry/relay                    \
   -c 'chown -R relay:relay /work/.relay'
 
-# Generate the configuration
+# 生成配置
 docker run --rm -it                  \
   -v $(pwd)/config/:/work/.relay/:z  \
   getsentry/relay                    \
   config init
 ```
 
-```shell {tabTitle:Run Executable}
+```shell {tabTitle:运行可执行文件}
 ./relay config init
 ```
 
-Select the default configuration to create a minimal configuration file.
-You can choose to override the default settings by selecting
-_"create custom config"_ and customizing these parameters:
+选择默认配置以创建最小配置文件。您可以选择通过选择
+_"创建自定义配置"_ 并自定义这些参数来覆盖默认设置：
 
-- The `mode` setting, which configures the major mode in which Relay operates. For more information on available Relay modes, refer to [Relay Modes](../modes/).
+- `mode` 设置，它配置 Relay 运行的主要模式。有关可用 Relay 模式的更多信息，请参阅 [Relay 模式](../modes/)。
 
-- The `upstream` setting configures the server to which Relay will forward the
-  events (by default the main `sentry.io` URL).
+- `upstream` 设置配置 Relay 将转发事件到的服务器（默认情况下是主要的 `sentry.io` URL）。
 
-- The `port` and `host` settings configure the TCP port at which Relay will
-  listen. This is the address to which SDKs send events.
+- `port` 和 `host` 设置配置 Relay 将监听的 TCP 端口。这是 SDK 发送事件的地址。
 
-Settings are recorded in `.relay/config.yml`. Note that all configuration values
-are optional and default to these settings:
+设置记录在 `.relay/config.yml` 中。请注意，所有配置值
+都是可选的，默认为这些设置：
 
-```yaml {tabTitle:Run in Docker}
+```yaml {tabTitle:在 Docker 中运行}
 relay:
   mode: managed
-  # The upstream hostname is taken from any of your DSNs.
-  # Go to your Project Settings, and then to "Client Keys (DSN)" to see them.
+  # 上游主机名取自您的任何 DSN。
+  # 转到您的项目设置，然后转到"客户端密钥 (DSN)"以查看它们。
   upstream: https://___ORG_INGEST_DOMAIN___
   host: 0.0.0.0
   port: 3000
 ```
 
-```yaml {tabTitle:Run Executable}
+```yaml {tabTitle:运行可执行文件}
 relay:
   mode: managed
-  # The upstream hostname is taken from any of your DSNs.
-  # Go to your Project Settings, and then to "Client Keys (DSN)" to see them.
+  # 上游主机名取自您的任何 DSN。
+  # 转到您的项目设置，然后转到"客户端密钥 (DSN)"以查看它们。
   upstream: https://___ORG_INGEST_DOMAIN___
   host: 127.0.0.1
   port: 3000
 ```
 
-Configurations are fully documented in [Configuration Options](../options/).
+配置在[配置选项](../options/)中完全记录。
 
-## Creating Credentials
+## 创建凭据
 
 <Alert>
 
-Not applicable in `proxy` mode.
+在 `proxy` 模式下不适用。
 
 </Alert>
 
-In addition to `config.yml`, the `init` command creates a credentials file, `credentials.json`, which is placed in the same `.relay` directory. This file contains both the public and private key Relay uses to authenticate with the upstream server.
+除了 `config.yml` 之外，`init` 命令还会创建一个凭据文件 `credentials.json`，该文件放在相同的 `.relay` 目录中。此文件包含 Relay 用于与上游服务器进行身份验证的公钥和私钥。
 
-**As a result, this file must be protected from modification or view by unauthorized entities.**
+**因此，此文件必须受到保护，防止未经授权的实体修改或查看。**
 
-A typical credentials file is similar to this example:
+典型的凭据文件类似于以下示例：
 
 ```json
 {
@@ -108,52 +101,51 @@ A typical credentials file is similar to this example:
 }
 ```
 
-Use the `public_key` to register your Relay with the upstream server when running it in `managed` mode.
+使用 `public_key` 在 `managed` 模式下运行时将您的 Relay 注册到上游服务器。
 
-## Registering Relay with Sentry
+## 将 Relay 注册到 Sentry
 
 <Alert>
 
-Not applicable in `proxy` mode.
+在 `proxy` 模式下不适用。
 
 </Alert>
 
-To operate in `managed` mode, Relay pulls configuration for PII stripping,
-filtering, and rate limiting from your organization and project settings in
-Sentry. Since these settings may contain sensitive information, their access is
-restricted by Sentry and requires authorization.
+要在 `managed` 模式下运行，Relay 从您的组织和项目设置中拉取 PII 清理、
+过滤和速率限制的配置
+在 Sentry 中。由于这些设置可能包含敏感信息，它们的访问受到 Sentry 的限制，并且需要授权。
 
-To register Relay with Sentry:
+要将 Relay 注册到 Sentry：
 
-1. Copy the contents of the public key, either by inspecting the `credentials.json` file or by running:
+1. 复制公钥的内容，通过检查 `credentials.json` 文件或运行：
 
-   ```shell {tabTitle:Run in Docker}
+   ```shell {tabTitle:在 Docker 中运行}
    docker run --rm -it                \
      -v $(pwd)/config/:/work/.relay/  \
      getsentry/relay                  \
      credentials show
    ```
 
-   ```shell {tabTitle:Run Executable}
+   ```shell {tabTitle:运行可执行文件}
    ./relay credentials show
    ```
 
-2. Click on _Settings_ in the main navigation for Sentry, then select _Relays_.
+2. 点击 Sentry 主导航中的 _设置_，然后选择 _Relays_。
 
 ![](./img/add-relay-key.png)
 
-3. Click _New Relay Key_ to add the key and save it:
+3. 点击 _新建 Relay 密钥_ 以添加密钥并保存：
 
 ![](./img/edit-relay-key.png)
 
-This process registers Relay with Sentry so it is ready to send messages. See
-[Configuration Options](../options/) to learn more about Relay configuration options.
+此过程将 Relay 注册到 Sentry，使其准备好发送消息。请参阅
+[配置选项](../options/) 以了解有关 Relay 配置选项的更多信息。
 
-## Running Relay
+## 运行 Relay
 
-After registering Relay with Sentry, it is ready to run:
+将 Relay 注册到 Sentry 后，它就可以运行了：
 
-```shell {tabTitle:Run in Docker}
+```shell {tabTitle:在 Docker 中运行}
 docker run --rm -it                \
   -v $(pwd)/config/:/work/.relay/  \
   -p 3000:3000                     \
@@ -161,26 +153,26 @@ docker run --rm -it                \
   run
 ```
 
-```shell {tabTitle:Run Executable}
+```shell {tabTitle:运行可执行文件}
 ./relay run
 ```
 
-Under default configuration, Relay emits log output similar to:
+在默认配置下，Relay 发出类似于以下内容的日志输出：
 
 ```
- INFO  relay::setup > launching relay from config folder .relay
- INFO  relay::setup >   relay mode: managed
+ INFO  relay::setup > 从配置文件夹 .relay 启动 relay
+ INFO  relay::setup >   relay 模式: managed
  INFO  relay::setup >   relay id: cde0d72e-0c4e-4550-a934-c1867d8a177c
- INFO  relay::setup >   public key: nDJI79SbEYH9-8NEJAI7ezrgYfoIPW3Bnkg00k1z0fA
+ INFO  relay::setup >   公钥: nDJI79SbEYH9-8NEJAI7ezrgYfoIPW3Bnkg00k1z0fA
  ...
- INFO  relay_server::actors::upstream > relay successfully registered with upstream
+ INFO  relay_server::actors::upstream > relay 成功注册到上游
 ```
 
-Refer to the [Logging](../monitoring/#logging) page for more information on how to configure Relay's logging.
+有关如何配置 Relay 日志的更多信息，请参阅[日志记录](../monitoring/#logging)页面。
 
-If you moved your config folder (for example, for security reasons), use the `--config` option to specify the location:
+如果您移动了配置文件夹（例如，出于安全原因），请使用 `--config` 选项指定位置：
 
-```shell {tabTitle:Run in Docker}
+```shell {tabTitle:在 Docker 中运行}
 docker run --rm -it                \
   -v $(pwd)/config/:/etc/relay/    \
   -p 3000:3000                     \
@@ -188,21 +180,21 @@ docker run --rm -it                \
   run --config /etc/relay/
 ```
 
-```shell {tabTitle:Run Executable}
+```shell {tabTitle:运行可执行文件}
 ./relay run --config /etc/relay/
 ```
 
-## Sending a Test Event
+## 发送测试事件
 
-Once Relay is running and authenticated with Sentry, send a test event to one of the projects in your organization.
+一旦 Relay 运行并与 Sentry 进行身份验证，就向您组织中的一个项目发送测试事件。
 
-Get the DSN of your project by navigating to your project settings at _Settings > Projects > \{YOUR_PROJECT_NAME\} > Client Keys (DSN)_, and select one of the existing DSNs, which looks similar to:
+通过导航到您的项目设置 _设置 > 项目 > {您的项目名称} > 客户端密钥 (DSN)_ 获取您项目的 DSN，并选择现有的 DSN 之一，它看起来类似于：
 
 `https://12345abcdef10111213141516171819@o1.ingest.sentry.io/2345`
 
-Next, replace parts of the DSN to match the address at which Relay is reachable.
-For instance, if Relay listens at `http://localhost:3000`, change the protocol
-and host of the DSN to:
+接下来，替换 DSN 的部分以匹配 Relay 可访问的地址。
+例如，如果 Relay 在 `http://localhost:3000` 监听，请将 DSN 的协议
+和主机更改为：
 
 <p>
   <code>
@@ -217,19 +209,18 @@ and host of the DSN to:
   </code>
 </p>
 
-Use the new DSN in your SDK configuration. To test this, you can send a message
-with `sentry-cli` ([installation instructions](/cli/installation/)):
+在您的 SDK 配置中使用新的 DSN。要测试此功能，您可以使用 `sentry-cli` 发送消息
+（[安装说明](/cli/installation/)）：
 
 ```shell
 export SENTRY_DSN='http://12345abcdef10111213141516171819@127.0.0.1:3000/2345'
-sentry-cli send-event -m 'A test event'
+sentry-cli send-event -m '测试事件'
 ```
 
-In a few seconds, the event should appear in the issues stream in your
-project.
+几秒钟后，事件应该出现在您项目的问题流中。
 
-## Next Steps
+## 后续步骤
 
-- **[Learn more about our Operating Guidelines](../operating-guidelines/)**
+- **[了解有关我们的操作指南的更多信息](../operating-guidelines/)**
 
-With a working Relay instance, you can both monitor and scale your Relay setup.
+使用正常运行的 Relay 实例，您既可以监控又可以扩展您的 Relay 设置。

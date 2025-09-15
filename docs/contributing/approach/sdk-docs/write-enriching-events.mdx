@@ -1,95 +1,95 @@
 ---
-title: How to Write - Enriching Events
+title: 如何编写 - 丰富事件
 noindex: true
 sidebar_order: 50
 ---
 
-The Enriching Events section of the content covers how customers can add context to the data sent to Sentry. A new framework can adopt the common content, which is stored in `/docs/platforms/<SDK>/common/enriching-events` - feel free to peruse the files in that directory to answer any questions.
+内容的丰富事件部分涵盖了客户如何为发送到Sentry的数据添加上下文。新框架可以采用通用内容，这些内容存储在 `/docs/platforms/<SDK>/common/enriching-events` 中 - 请随意浏览该目录中的文件以回答任何问题。
 
 <Alert >
 
-Don't change the common content. That change will ripple across all guides that rely on the common content. Instead, open an issue on GitHub with questions/suggestions.
+不要更改通用内容。该更改将波及所有依赖通用内容的指南。相反，请在GitHub上提出问题并附带问题/建议。
 
 </Alert >
 
-Most of these pages are pretty self-evident, so only basic information is provided. But please ask questions by opening an issue on GitHub.
+这些页面中的大多数都是相当不言自明的，因此只提供基本信息。但请通过在GitHub上提出问题来询问任何问题。
 
-## Start Here
+## 从这里开始
 
-Determine if the page applies:
+确定页面是否适用：
 
-- If the content _does not apply_, add the guide to `notSupported` list in the frontmatter of the file. This will turn off the display of the content for this guide.
-- If the content _does apply_, add the `include` file to the correct directory as noted for each page. If the code sample is not provided, the page will display a big gray box requesting customers open an issue for the missing sample.
-- The JS family of content needs to import the SDK for the code samples to make sense on each page. Add the import statement to `/src/platform-includes/enriching-events/enriching-events/import`.
+- 如果内容**不适用**，请将指南添加到文件的前端内容中的 `notSupported` 列表中。这将关闭此指南的内容显示。
+- 如果内容**适用**，请将 `include` 文件添加到每个页面中注明的正确目录中。如果未提供代码示例，页面将显示一个大灰框，要求客户为缺失的示例提出问题。
+- JS系列内容需要导入SDK，以便代码示例在每个页面上都有意义。将导入语句添加到 `/src/platform-includes/enriching-events/enriching-events/import`。
 
-### Add Context
+### 添加上下文
 
-This file is `context.mdx`. It explains how to enable custom contexts. Add the code sample to this directory:
+此文件是 `context.mdx`。它解释了如何启用自定义上下文。将代码示例添加到此目录：
 
 - `/src/platform-includes/enriching-events/set-context/`
 
-If the guide can pass context directly, add it to the list of supported guides immediately above "Passing Context Directly".
+如果指南可以直接传递上下文，请将其添加到"直接传递上下文"上方支持的指南列表中。
 
-### Identify Users
+### 识别用户
 
-This file is `identify-user.mdx`. It explains how to capture the user. Add the code samples to these directories:
+此文件是 `identify-user.mdx`。它解释了如何捕获用户。将代码示例添加到这些目录：
 
 - `/src/platform-includes/enriching-events/set-user/`
 - `/src/platform-includes/enriching-events/unset-user/`
 
-### Set Transaction Name
+### 设置事务名称
 
-This file is `transaction-name.mdx`. It explains how to override the transaction name. Add the code sample to this directory:
+此文件是 `transaction-name.mdx`。它解释了如何覆盖事务名称。将代码示例添加到此目录：
 
 - `/src/platform-includes/enriching-events/set-transaction-name/`
 
-If the guide can control the starting and stopping of transactions, add it to the list of supported guides that refers customers to our tracing docs.
+如果指南可以控制事务的开始和停止，请将其添加到指向我们跟踪文档的支持指南列表中。
 
-### Customize Tags
+### 自定义标签
 
-This file is `tags.mdx`. It explains how to customize tags for an event. Add the code sample to this directory:
+此文件是 `tags.mdx`。它解释了如何为事件自定义标签。将代码示例添加到此目录：
 
 - `/src/platform-includes/enriching-events/set-tag/`
 
-If the guide doesn't bind tags to the current scope, add it to the list of guides that don't support this option.
+如果指南不将标签绑定到当前作用域，请将其添加到不支持此选项的指南列表中。
 
-### Attachments
+### 附件
 
-This file is `/attachments/index.mdx`. It explains attaching files along with the event. Add the code sample to this directory:
+此文件是 `/attachments/index.mdx`。它解释随事件附加文件。将代码示例添加到此目录：
 
 - `/src/platform-includes/enriching-events/add-attachment/`
 
-If the guide is part of the native family, add it to the list of guides that support the native content regarding:
+如果指南是本机系列的一部分，请将其添加到支持以下本机内容的指南列表中：
 
-- Debug information files and built-in support for native crashes
-- Large crash reports
-- The section on "Crash Reports and Privacy"
-- The paragraph regarding limiting crash reports per issue
+- 调试信息文件和对本机崩溃的内置支持
+- 大型崩溃报告
+- "崩溃报告和隐私"部分
+- 关于限制每个问题的崩溃报告的段落
 
-### Breadcrumbs
+### 面包屑
 
-This file is `breadcrumbs.mdx`. It explains manual breadcrumbs. Add the code sample to manually add record a breadcrumb to this directory:
+此文件是 `breadcrumbs.mdx`。它解释手动面包屑。将手动添加记录面包屑的代码示例添加到此目录：
 
 - `/src/platform-includes/enriching-events/breadcrumbs/breadcrumbs-example/`
 - `/src/platform-includes/enriching-events/breadcrumbs/before-breadcrumb/`
 
-One nuance:
+一个细微差别：
 
-- Update, as appropriate, the supported guide list in the `PlatformSection supported` that precedes "The available breadcrumb keys..."
+- 根据需要更新 `PlatformSection supported` 中支持的指南列表，该列表位于"可用的面包屑键..."之前
 
-### User Feedback
+### 用户反馈
 
-This file is `user-feedback.mdx`. It explains how to use the embeddable JS widget or the API.
+此文件是 `user-feedback.mdx`。它解释了如何使用可嵌入的JS小部件或API。
 
-- Update, as appropriate, the supported SDK list in the `PlatformSection supported` that precedes "User Feedback API".
-  Then add the code sample to the `src/platform-includes/user-feedback/sdk-api-example` directory
-- For the .NET family, if the User Feedback API has a specific integration, add it to the `PlatformSection supported` that precedes the "Use the .NET SDK", and add the appropriate link.
-- Update, as appropriate, the SDKs that don't support the JS widget in the listed `PlatformSection notSupported` that precedes "Embeddeable JavaScript Widget".
-- For the SDKs that use the JS widget, add the code sample to`/src/platform-includes/user-feedback/user-feedback-example-widget/`
+- 根据需要更新 `PlatformSection supported` 中支持的SDK列表，该列表位于"用户反馈API"之前。
+  然后将代码示例添加到 `src/platform-includes/user-feedback/sdk-api-example` 目录
+- 对于.NET系列，如果用户反馈API有特定集成，请将其添加到"使用.NET SDK"之前的 `PlatformSection supported` 中，并添加适当的链接。
+- 根据需要更新不支持JS小部件的SDK列表，在列出的 `PlatformSection notSupported` 中，该列表位于"可嵌入JavaScript小部件"之前。
+- 对于使用JS小部件的SDK，将代码示例添加到 `/src/platform-includes/user-feedback/user-feedback-example-widget/`
 
-### Scopes
+### 作用域
 
-This file is `scopes.mdx`. It explains managing scopes. Add the code samples to these directories:
+此文件是 `scopes.mdx`。它解释管理作用域。将代码示例添加到这些目录：
 
 - `/src/platform-includes/enriching-events/scopes/configure-scope/`
 - `/src/platform-includes/enriching-events/unset-user/`

@@ -1,62 +1,62 @@
 ---
-title: "Spend Allocation"
+title: "支出分配"
 sidebar_hidden: true
 sidebar_order: 20
-description: "Learn how to allocate reserved volume to specific projects so that the most important projects are always monitored."
+description: "了解如何将预留容量分配给特定项目，以便始终监控最重要的项目。"
 ---
 
 <Alert>
 
-This feature is only available to organizations with an Enterprise plan.
+此功能仅适用于企业计划的组织。
 
 </Alert>
 
-Spend Allocation gives you the ability to prioritize your most important projects (or make sure that smaller projects don't get ignored). You can do this by setting aside a set amount of reserved volume (errors and attachments) to be used by those projects each month. This ensures that all the projects that are important to you are always monitored, regardless of the volume other projects consume.
+支出分配使您能够优先考虑最重要的项目（或确保较小的项目不会被忽略）。您可以通过为那些项目每月预留一定数量的预留容量（错误和附件）来实现这一点。这确保所有对您重要的项目始终被监控，无论其他项目消耗多少量。
 
 <Alert>
 
-The per-project allocation you set is the **minimum** not the **maximum** number of events each project will get.
+您设置的每个项目分配是**最小值**而不是**最大值**，每个项目将获得的事件数量。
 
 </Alert>
 
-## How Spend Allocation Works
+## 支出分配的工作原理
 
-To get started with Spend Allocation, look at your total reserved volume and decide how much of it you'd like to allocate to the projects you want monitored. For example, if your total reserved volume is 1M events, and you have two important projects, you can decide to allocate 300K events to project 1, 250k events to project 2, and leave the remaining unallocated pool of 450k events for all other projects.
+要开始使用支出分配，请查看您的总预留容量，并决定您希望为您想要监控的项目分配多少。例如，如果您的总预留容量为100万个事件，并且您有两个重要项目，您可以决定为项目1分配30万个事件，为项目2分配25万个事件，并为所有其他项目留下剩余的45万个事件未分配池。
 
-For each project, you'll need to specify how much of your allocation goes to errors and attachments.
+对于每个项目，您需要指定您的分配中有多少用于错误和附件。
 
 <Alert>
 
-With Spend Allocation, excess event consumption may come from your [pay-as-you-go budget](/pricing/), <b>even if you still have reserved volume available.</b>
+使用支出分配时，超额事件消耗可能来自您的[按量付费预算](/pricing/)，<b>即使您仍有可用的预留容量。</b>
 
 </Alert>
 
-Once all your monthly volume has been consumed, any additional events will be dropped.
+一旦您的月度容量全部用完，任何额外的事件都将被丢弃。
 
-Team members with **Manager, Billing, or Owner-level permissions** will be notified via email when 80% of your Spend Allocation for each project has been consumed, and then again when 100% has been used up.
+具有**经理、账单或所有者级别权限**的团队成员将在每个项目的支出分配消耗了80%时通过电子邮件收到通知，然后在100%用完时再次收到通知。
 
-The allocations you've made will stay the same from billing period to billing period unless you choose to adjust them.
+您所做的分配将从计费期到计费期保持不变，除非您选择调整它们。
 
-## How to Enable Spend Allocation
+## 如何启用支出分配
 
-To enable spend allocation for your Org, you have to have **Manager, Billing, or Owner-level permissions**. If you've already depleted your quota for a data category, you need to wait until the next billing cycle to configure its spend allocation.
+要为您的组织启用支出分配，您必须具有**经理、账单或所有者级别权限**。如果您已经耗尽了某个数据类别的配额，您需要等到下一个计费周期来配置其支出分配。
 
-1. Go to **Settings > Spend Allocations > New Allocation**.
+1. 转到 **设置 > 支出分配 > 新分配**。  
 
-![Empty spend allocation page](./img/spend-allocation-empty.png)
+![空支出分配页面](./img/spend-allocation-empty.png)
 
-2. Select the project, the event category (errors or attachments), and the allocation amount you'd like to set aside for that project. You can choose your allocations by volume or spend. Repeat the process for each event type you'd like to allocate to.
+2. 选择项目、事件类别（错误或附件）以及您希望为该项目预留的分配数量。您可以按量或支出来选择分配。对您想要分配的每种事件类型重复此过程。
 
-![Create spend allocation modal](./img/spend-allocation-creation.png)
+![创建支出分配模态框](./img/spend-allocation-creation.png)
 
-The "Spend Allocations" panel shows both the consumed and the available event volume you have, broken out by event type. You can also see your spend allocation per project. You can make adjustments to your existing allocations in the current billing period if there are enough un-allocated events left to cover your request. If you've already depleted your quota for a data category, you'll need to wait until the following billing cycle to enable/adjust the allocation.
+"支出分配"面板显示您已消耗和可用的事件容量，按事件类型细分。您还可以查看每个项目的支出分配。如果当前计费期中有足够的未分配事件来覆盖您的请求，您可以对现有分配进行调整。如果您已经耗尽了某个数据类别的配额，您需要等到下一个计费周期才能启用/调整分配。
 
-![Spend allocation page showing an existing allocation](./img/spend-allocation-populated.png)
+![显示现有分配的支出分配页面](./img/spend-allocation-populated.png)
 
-## Use Cases for Spend Allocation
+## 支出分配的用例
 
-Adding Spend Allocation ensures that the projects you want to pay attention to get the monitoring they need. You can get a sense of how much volume various projects use by going to the **Stats** page. There are several use cases where having Spend Allocation makes a lot of sense:
+添加支出分配可确保您想要关注的项目获得所需的监控。您可以通过转到**统计**页面来了解各种项目使用了多少量。在几种情况下，拥有支出分配非常有意义：
 
-**For small-service projects -** If you have projects for small services in your app that aren't getting the monitoring they need because larger projects are consuming all your event volume.
+**对于小型服务项目 -** 如果您有为应用程序中小型服务的项目，这些项目由于大型项目消耗了所有事件量而没有获得所需的监控。
 
-**For main, user-facing projects -** If you've identified your most important, user-facing projects and want to dedicate the bulk of your volume to monitoring them.
+**对于主要的、面向用户的项目 -** 如果您已识别出最重要的、面向用户的项目，并希望将大部分量用于监控它们。

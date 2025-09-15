@@ -1,27 +1,27 @@
 ---
-title: Profiling Metrics
+title: 性能分析指标
 sidebar_order: 50
-description: "Learn about the measurements taken by the Sentry profiler that help us contextualize the work your mobile app does and detect possible issues impacting performance."
+description: "了解 Sentry 性能分析器进行的测量，这些测量帮助我们了解您的移动应用程序所做的工作并检测可能影响性能的问题。"
 ---
 
-The Sentry profiler records several system measurements to help analyze the backtraces it gathers. Some, like CPU and heap usage, are taken on a regular sampling interval using functions from `mach/mach.h`, albeit with a lower frequency than backtrace sampling. Others, like GPU information, are taken from `CADisplayLink` callback invocations, as they're received.
+Sentry 性能分析器记录几个系统测量值来帮助分析它收集的回溯。一些，如 CPU 和堆使用情况，使用来自 `mach/mach.h` 的函数以常规采样间隔获取，尽管频率低于回溯采样。其他，如 GPU 信息，从 `CADisplayLink` 回调调用中获取，因为它们被接收。
 
-## CPU Usage
+## CPU 使用率
 
-The amount of CPU used by the app process, (as a scaled percentage of total CPU capacity, which varies depending on the number of cores), is measured every 100 ms. The value is calculated using `thread_info` with `THREAD_BASIC_INFO`, which returns a CPU usage value per thread and sums up the values for all current threads.
+应用程序进程使用的 CPU 量（作为总 CPU 容量的缩放百分比，根据核心数量而变化）每 100 毫秒测量一次。该值使用带有 `THREAD_BASIC_INFO` 的 `thread_info` 计算，它返回每个线程的 CPU 使用值，并对所有当前线程的值求和。
 
-## Heap Usage
+## 堆使用情况
 
-The amount of heap memory used by the application is recorded every 100 ms using `task_info` with `TASK_VM_INFO`.
+应用程序使用的堆内存量每 100 毫秒使用带有 `TASK_VM_INFO` 的 `task_info` 记录一次。
 
-## GPU Information
+## GPU 信息
 
-In addition to counting the number of [slow and frozen UI frame renders](/product/insights/mobile/mobile-vitals/#slow-and-frozen-frames) for Mobile Vitals Insights, Sentry now records the timestamp for every frame and overlays it on top of profiling flame charts:
+除了计算[慢速和冻结 UI 帧渲染](/product/insights/mobile/mobile-vitals/#slow-and-frozen-frames)的数量用于移动洞察之外，Sentry 现在还记录每个帧的时间戳，并将其叠加在性能分析火焰图之上：
 
-![Sentry displays slow and frozen frames above the flamechart of a particular profile.](./img/flamechart-with-gpu-overlay.png)
+![Sentry 在特定性能分析的火焰图上方显示慢速和冻结帧。](./img/flamechart-with-gpu-overlay.png)
 
-The profiler records the current frame rate upon start, and then any time it changes, (for example if a user puts their device into low-power mode).
+性能分析器在启动时记录当前帧率，然后在它改变时记录（例如，如果用户将设备置于低功耗模式）。
 
-## Energy Usage
+## 能源使用
 
-The amount of energy expended by CPU work allocated to the app process is calculated every 100 ms using `task_info` with `TASK_POWER_INFO_V2`.
+分配给应用程序进程的 CPU 工作所消耗的能源量每 100 毫秒使用带有 `TASK_POWER_INFO_V2` 的 `task_info` 计算一次。

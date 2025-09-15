@@ -1,46 +1,46 @@
 ---
-title: Sentry Toolbar
+title: Sentry 工具栏
 sidebar_order: 110
-description: "Bring critical Sentry insights and tools directly into your web app for easier troubleshooting with the Sentry Toolbar."
+description: "将关键的 Sentry 洞察和工具直接带入您的 Web 应用程序，以便更轻松地进行故障排除。"
 ---
 
 <Alert>
-  The Sentry Toolbar is currently in **beta**. Beta features are still in progress and may have bugs. Please reach out on
-  [GitHub](https://github.com/getsentry/sentry-toolbar/issues) if you have any feedback or concerns.
+  Sentry 工具栏目前处于 **测试版**。测试版功能仍在进行中，可能存在错误。如果您有任何反馈或疑虑，请在
+  [GitHub](https://github.com/getsentry/sentry-toolbar/issues) 上联系我们。
 </Alert>
 
-Developers spend a lot of time troubleshooting their web apps on local, staging, and production environments. The Sentry Toolbar pulls data from [sentry.io](http://sentry.io) and surfaces relevant, actionable issues to you when you have the most context for understanding it: as you browse your own site. The Sentry Toolbar is a floating widget in your web app, offering meaningful Sentry insights for the specific page being viewed through three different **page-aware** panels: Issues, Feedback, and Feature Flags.
+开发人员在本地、暂存和生产环境中排除 Web 应用程序故障时花费大量时间。Sentry 工具栏从 [sentry.io](http://sentry.io) 提取数据，并在您拥有最多上下文理解时向您显示相关、可操作的问题：当您浏览自己的网站时。Sentry 工具栏是 Web 应用程序中的浮动小组件，通过三个不同的 **页面感知** 面板：问题、反馈和功能标志，为正在查看的特定页面提供有意义的 Sentry 洞察。
 
-![Collapsed Toolbar in context of a website](./img/toolbar-collapsed.png)
+![网站上下文中的折叠工具栏](./img/toolbar-collapsed.png)
 
-## Issues Panel
+## 问题面板
 
-The issues panel shows you your highest priority frontend [issues](/product/issues/) for the page you are currently viewing. From the Sentry Toolbar, you can quickly jump into specific issues in Sentry to get more detailed information (examples: Sentry project, issue title, description, and when the issue was first and last seen) and take action (examples: assign to a team member or mark as resolved). With the issues panel, you can browse the pages that are most important to your business and understand the top issues impacting your user base.
+问题面板向您显示您当前正在查看的页面的最高优先级前端 [问题](/product/issues/)。从 Sentry 工具栏中，您可以快速跳转到 Sentry 中的特定问题以获取更详细的信息（示例：Sentry 项目、问题标题、描述以及问题首次和最后出现的时间）并采取行动（示例：分配给团队成员或标记为已解决）。通过问题面板，您可以浏览对您的业务最重要的页面，并了解影响用户群的顶级问题。
 
-![Toolbar with the Issues Panel open](./img/issues-panel.png)
+![打开问题面板的工具栏](./img/issues-panel.png)
 
-## Feedback Panel
+## 反馈面板
 
-The feedback panel shows you the most recent user feedback messages for the page you are on, so you can more easily contextualize it. The feedback often describes suboptimal experiences that are not strictly code-thrown errors, such as misleading UX, broken links, and typos. The feedback panel works by pulling feedback messages from [Sentry’s User Feedback Widget](/product/user-feedback/#user-feedback-widget). Just like with the Issues panel, clicking on a particular user feedback will take you to the full detailed User Feedback page within Sentry.
+反馈面板向您显示您所在页面的最新用户反馈消息，以便您可以更轻松地将其置于上下文中。反馈通常描述并非严格代码抛出错误的次优体验，例如误导性 UX、损坏的链接和拼写错误。反馈面板通过从 [Sentry 的用户反馈小组件](/product/user-feedback/#user-feedback-widget) 提取反馈消息来工作。就像问题面板一样，点击特定的用户反馈将带您到 Sentry 中的完整详细用户反馈页面。
 
-![Toolbar with the Feedback Panel open](./img/feedback-panel.png)
+![打开反馈面板的工具栏](./img/feedback-panel.png)
 
-## Feature Flags Panel
+## 功能标志面板
 
-Feature flags are a powerful tool that allow you to control the visibility of features in your app, enabling you to ship, test, and experiment with confidence. The feature flag panel allows you to quickly view and override feature flags locally. You can override any feature flag to be `true` or `false` for your browser session, so you can verify its behavior and observe the impact it might have on errors. Learn more about how to [configure the feature flag panel](/product/sentry-toolbar/setup/#implement-feature-flag-adapter) and [what data Sentry can track](/product/explore/feature-flags/) related to your feature flagging system.
+功能标志是一个强大的工具，允许您控制应用程序中功能的可见性，使您能够自信地发布、测试和实验。功能标志面板允许您快速查看和本地覆盖功能标志。您可以覆盖任何功能标志，使其在浏览器会话中为 `true` 或 `false`，以便您可以验证其行为并观察它可能对错误产生的影响。了解如何 [配置功能标志面板](/product/sentry-toolbar/setup/#implement-feature-flag-adapter) 以及 [Sentry 可以跟踪哪些数据](/product/explore/feature-flags/) 与您的功能标志系统相关。
 
 
-![Toolbar with the Feature Flags Panel open](./img/feature-flags-panel.png)
+![打开功能标志面板的工具栏](./img/feature-flags-panel.png)
 
-## Login Flow
+## 登录流程
 
-After setting up the Sentry Toolbar you’ll see a “Login to Sentry” button floating in the center of the page. To access any information from your Sentry organization, you have to click this button and login to Sentry.
-![Toolbar login button](./img/login-button.png)
+设置 Sentry 工具栏后，您将在页面中心看到一个"登录到 Sentry"按钮。要访问来自您的 Sentry 组织的任何信息，您必须点击此按钮并登录到 Sentry。
+![工具栏登录按钮](./img/login-button.png)
 
-After clicking the button, you will see a pop-up window for logging in to Sentry.
-![Sentry log in pop up](./img/login-popup.png)
+点击按钮后，您将看到用于登录 Sentry 的弹出窗口。
+![Sentry 登录弹出窗口](./img/login-popup.png)
 
-If it's your first time [setting up the Sentry Toolbar](/product/sentry-toolbar/setup) , there will be a button with a link to Sentry's Toolbar settings page to configure your domain.
-![Toolbar configure domains button](./img/configure-domain.png)
+如果这是您第一次 [设置 Sentry 工具栏](/product/sentry-toolbar/setup)，将有一个按钮链接到 Sentry 的工具栏设置页面以配置您的域。
+![工具栏配置域按钮](./img/configure-domain.png)
 
-Learn more about setting up the Toolbar, including configuring a feature flag provider and integrating the toolbar in different environments, on the next page.
+了解有关设置工具栏的更多信息，包括配置功能标志提供程序以及在不同环境中集成工具栏，请访问下一页。

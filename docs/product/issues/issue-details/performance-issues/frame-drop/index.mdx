@@ -1,53 +1,53 @@
 ---
-title: "Frame Drop"
-description: "Learn more about how we detect Frame Drop issues and what you can do to fix them."
+title: "帧丢失"
+description: "了解更多关于我们如何检测帧丢失问题以及您可以采取哪些措施来修复它们。"
 sidebar_order: 30
 ---
 
-The main (or UI) thread in a mobile app is responsible for handling all user interaction and needs to be able to respond to gestures and taps in real time. If a long-running operation blocks the main thread, the app becomes unresponsive, impacting the quality of the user experience.
+移动应用程序中的主（或UI）线程负责处理所有用户交互，需要能够实时响应手势和点击。如果长时间运行的操作阻塞了主线程，应用程序会变得无响应，影响用户体验质量。
 
-We can detect some specific causes for a main thread stall, like decoding [images](/product/issues/issue-details/performance-issues/image-decoding-main-thread/) or [JSON](/product/issues/issue-details/performance-issues/json-decoding-main-thread/), or [searching strings with regexes](/product/issues/issue-details/performance-issues/regex-main-thread/), but there are many other things that could cause a stall. If a main thread stall causes your app to drop UI frames, but doesn't match one of our specific detectors, Sentry reports it under the generic Frame Drop issue type.
+我们可以检测主线程停顿的某些特定原因，如解码[图像](/product/issues/issue-details/performance-issues/image-decoding-main-thread/)或[JSON](/product/issues/issue-details/performance-issues/json-decoding-main-thread/)，或[使用正则表达式搜索字符串](/product/issues/issue-details/performance-issues/regex-main-thread/)，但还有许多其他可能导致停顿的原因。如果主线程停顿导致您的应用程序丢失UI帧，但未匹配我们的特定检测器之一，Sentry会在通用帧丢失问题类型下报告它。
 
-## Detection Criteria
+## 检测标准
 
-[Profiling](/product/explore/profiling/) must be enabled for Sentry to detect Frame Drop issues. Once set up, Sentry will look for profiles that record a frozen UI frame and then search for the most time-consuming application function call delaying the display link's next vsync. In a run of functions calling through without any self-time, the deepest call will be chosen.
+必须启用[性能分析](/product/explore/profiling/)，Sentry才能检测帧丢失问题。设置完成后，Sentry会查找记录冻结UI帧的性能分析，然后搜索最耗时的应用程序函数调用，该调用延迟了显示链接的下一个vsync。在一系列没有自身时间的函数调用中，将选择最深的调用。
 
 <Alert>
 
-The minimum supported version for Cocoa is `8.12.0`.
+Cocoa的最低支持版本为`8.12.0`。
 
 </Alert>
 
-## Function Evidence
+## 函数证据
 
-To find additional information about your Frame Drop problem, go to its **Issue Details** page and scroll down to the "Function Evidence" section, which shows the following:
+要查找有关帧丢失问题的额外信息，请转到其**问题详情**页面并向下滚动到"函数证据"部分，该部分显示以下内容：
 
-- **Transaction Name:** The name of the transaction where the issue was detected.
-- **Suspect Function:** The function that triggered the issue detection.
-- **Duration:** How long the function took to execute and the number of consecutive samples collected by the profiler that contained the function.
+- **事务名称：** 检测到问题的事务名称
+- **可疑函数：** 触发问题检测的函数
+- **持续时间：** 函数执行所需的时间以及性能分析器收集的包含该函数的连续样本数量
 
-![Frame Drop Function Evidence](./img/frame-drop-function-evidence.png)
+![帧丢失函数证据](./img/frame-drop-function-evidence.png)
 
-To view the entire profile associated with the issue, click the “View Profile” button.
+要查看与问题关联的整个性能分析，请点击"查看性能分析"按钮。
 
-The profile will indicate where the suspect function was called from, along with other functions being called _by_ the suspect function:
+性能分析将指示可疑函数的调用位置，以及可疑函数调用的其他函数：
 
-![Frame Drop Profile](./img/frame-drop-profile.png)
+![帧丢失性能分析](./img/frame-drop-profile.png)
 
-## Stack Trace
+## 堆栈跟踪
 
-The “Stack Trace” section shows a full stack trace view, highlighting the long-running function frame:
+"堆栈跟踪"部分显示完整的堆栈跟踪视图，突出显示长时间运行的函数帧：
 
-![Frame Drop Stack Trace](./img/frame-drop-stack-trace.png)
+![帧丢失堆栈跟踪](./img/frame-drop-stack-trace.png)
 
-## Examples
+## 示例
 
 ### iOS
 
-The following code executes a long-running `while` loop on the main thread:
+以下代码在主线程上执行长时间运行的`while`循环：
 
 ```objc
-// given an array of number strings...
+// 给定一个数字字符串数组...
 
 NSMutableOrderedSet<NSString *> *sortedEvenNumbers = [NSMutableOrderedSet<NSString *> orderedSet];
 [numbers enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger __unused idx, BOOL * _Nonnull __unused stop) {
@@ -57,10 +57,10 @@ NSMutableOrderedSet<NSString *> *sortedEvenNumbers = [NSMutableOrderedSet<NSStri
 }];
 ```
 
-Performance could be improved by moving the long computation off of the main thread. The simplest approach is dispatching it to a lower Quality of Service (QoS) queue (or `NSOperationQueue`):
+性能可以通过将长时间计算移出主线程来改善。最简单的方法是将其调度到较低服务质量(QoS)队列（或`NSOperationQueue`）：
 
-```objc {tabTitle:Dispatch to Background Queue}
-// given an array of number strings...
+```objc {tabTitle:调度到后台队列}
+// 给定一个数字字符串数组...
 
 NSMutableOrderedSet<NSString *> *sortedEvenNumbers = [NSMutableOrderedSet<NSString *> orderedSet];
 dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
@@ -72,14 +72,14 @@ dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
 });
 ```
 
-Another avenue to consider for loops is to parallelize iterations. There are several options for doing this:
+另一个需要考虑的途径是并行化循环迭代。有几种方法可以做到这一点：
 
-1. If you're iterating through a Foundation collection, you may already be using `enumerateObjects` or `enumerateKeysAndObjects`. Change this to `-[NSArray|NSSet|NSOrderedSet enumerateObjectsWithOptions:usingBlock:]` or `-[NSDictionary enumerateKeysAndObjectsWithOptions:usingBlock:]`, with option `NSEnumerationConcurrent`. Note that modifying the collection from inside the block will result in an exception being thrown. This is roughly equivalent to dispatching each iteration of the loop body to a concurrent GCD queue.
+1. 如果您正在遍历Foundation集合，您可能已经在使用`enumerateObjects`或`enumerateKeysAndObjects`。将其更改为`-[NSArray|NSSet|NSOrderedSet enumerateObjectsWithOptions:usingBlock:]`或`-[NSDictionary enumerateKeysAndObjectsWithOptions:usingBlock:]`，选项为`NSEnumerationConcurrent`。请注意，从块内部修改集合将导致抛出异常。这大致相当于将循环体的每次迭代调度到并发GCD队列。
 
-1. Use `dispatch_apply` to perform iterations of a general loop on a concurrent queue.
+1. 使用`dispatch_apply`在并发队列上执行一般循环的迭代。
 
-```objc {tabTitle:Foundation Collection Concurrent Enumeration}
-// given an array of number strings...
+```objc {tabTitle:Foundation集合并发枚举}
+// 给定一个数字字符串数组...
 
 NSMutableOrderedSet<NSString *> *sortedEvenNumbers = [NSMutableOrderedSet<NSString *> orderedSet];
 [numbers enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSString * _Nonnull obj, NSUInteger __unused idx, BOOL * _Nonnull __unused stop) {
@@ -90,7 +90,7 @@ NSMutableOrderedSet<NSString *> *sortedEvenNumbers = [NSMutableOrderedSet<NSStri
 ```
 
 ```objc {tabTitle:dispatch_apply}
-// given an array of number strings...
+// 给定一个数字字符串数组...
 
 NSMutableOrderedSet<NSString *> *sortedEvenNumbers = [NSMutableOrderedSet<NSString *> orderedSet];
 dispatch_apply(numberOfNumbers, dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^(size_t iteration) {
@@ -101,19 +101,19 @@ dispatch_apply(numberOfNumbers, dispatch_get_global_queue(QOS_CLASS_UTILITY, 0),
 });
 ```
 
-There are several things to keep in mind when introducing concurrency:
+引入并发时需要记住几件事：
 
-- You may need to `@synchronize` critical sections, use semaphores, or dispatch back to a serial queue (or the main queue for UI work).
-- You may be unable to parallelize loops whose iterations are dependent or where order is significant.
-- Parallelization may be less efficient for small collections because [thread spawning has its own costs](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/AboutThreads/AboutThreads.html#//apple_ref/doc/uid/10000057i-CH6-SW20). So always measure first!
-- Both `enumerateObjects...` and `dispatch_apply` are synchronous and won't return until all iterations have completed. Dispatch their invocation asynchronously off the main queue to avoid waiting.
+- 您可能需要`@synchronize`关键部分，使用信号量，或调度回串行队列（或主队列用于UI工作）。
+- 您可能无法并行化迭代相互依赖或顺序重要的循环。
+- 并行化对于小集合可能效率较低，因为[线程生成有其自身的成本](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/AboutThreads/AboutThreads.html#//apple_ref/doc/uid/10000057i-CH6-SW20)。因此，始终先测量！
+- `enumerateObjects...`和`dispatch_apply`都是同步的，在所有迭代完成之前不会返回。异步调度它们的调用，使其脱离主队列以避免等待。
 
 ### Android
 
-The following function executes a long-running `for` loop to sort a list:
+以下函数执行长时间运行的`for`循环来对列表进行排序：
 
 ```kotlin
-// sort a list of numbers, with even numbers before the odd ones
+// 对数字列表进行排序，偶数在奇数之前
 fun sortEvenOdd(numbers: List<Int>): List<Int> {
     val newList = ArrayList<Int>()
     for (n in numbers) {
@@ -129,10 +129,10 @@ fun sortEvenOdd(numbers: List<Int>): List<Int> {
 }
 ```
 
-Performance could be improved by moving the long computation off of the main thread to a coroutine:
+性能可以通过将长时间计算移出主线程到协程来改善：
 
 ```kotlin
-// sort a list of numbers, with even numbers before the odd ones, then call onSorted with the sorted list as parameter.
+// 对数字列表进行排序，偶数在奇数之前，然后调用onSorted并将排序后的列表作为参数
 fun sortEvenOdd(numbers: List<Int>, onSorted: (sorted: List<Int>) -> Unit): List<Int> {
     lifecycleScope.launch(Dispatchers.Default) {
     val newList = ArrayList<Int>()
@@ -147,24 +147,24 @@ fun sortEvenOdd(numbers: List<Int>, onSorted: (sorted: List<Int>) -> Unit): List
             }
         }
         withContext(Dispatchers.Main) {
-            // Continue computation on the main thread
+            // 继续在主线程上计算
             onSorted(newList)
         }
     }
 }
 ```
 
-There is no generally-applicable way to fix the performance of custom algorithms since each is different.
+没有通用的方法来修复自定义算法的性能，因为每个算法都不同。
 
-In our example above, for every item on the list we analyze each number, perform a search to find the right index for placing the element, and finally insert it into the list.
+在我们上面的示例中，对于列表中的每个项目，我们分析每个数字，执行搜索以找到放置元素的正确索引，最后将其插入到列表中。
 
-By using two separate lists for even and odd numbers we can avoid the search step since the right index will always be the end of the list.
-Also, due to the nature of the ArrayList, inserting an element in the middle of the list is slower than inserting it at the end.
+通过为偶数和奇数使用两个单独的列表，我们可以避免搜索步骤，因为正确的索引始终是列表的末尾。
+此外，由于ArrayList的性质，在列表中间插入元素比在末尾插入要慢。
 
-Given those considerations this function can be made faster:
+考虑到这些因素，可以使此函数更快：
 
 ```kotlin
-// sort a list of numbers, with even numbers before the odd ones, then call onSorted with the sorted list as parameter.
+// 对数字列表进行排序，偶数在奇数之前，然后调用onSorted并将排序后的列表作为参数
 fun sortEvenOddFaster(numbers: List<Int>, onSorted: (sorted: List<Int>) -> Unit): List<Int> {
     lifecycleScope.launch(Dispatchers.Default) {
         val evenList = ArrayList<Int>(numbers.size)
@@ -178,16 +178,16 @@ fun sortEvenOddFaster(numbers: List<Int>, onSorted: (sorted: List<Int>) -> Unit)
         }
         evenList.addAll(oddList)
         withContext(Dispatchers.Main) {
-            // Continue computation on the main thread
+            // 继续在主线程上计算
             onSorted(evenList)
         }
     }
 }
 ```
 
-There are several considerations to keep in mind to improve the performance of an algorithm:
+要记住几个注意事项来改善算法的性能：
 
-- You may be able to parallelize work by using threads (or Kotlin coroutines).
-- Explore and find the best data structures you can for your specific scope.
-- Some structures can be cached and reused throughout your function, reducing memory usage.
-- Evaluate different approaches to solve a problem.
+- 您可以通过使用线程（或Kotlin协程）来并行化工作。
+- 探索并为您的特定范围找到最佳数据结构。
+- 某些结构可以被缓存并在整个函数中重用，减少内存使用。
+- 评估解决问题的不同方法。

@@ -1,52 +1,50 @@
 ---
-title: Crons (CLI)
+title: 定时任务 (CLI)
 sidebar_order: 200
-description: "Follow this guide to set up and manage monitors using the Sentry CLI."
+description: "按照本指南使用 Sentry CLI 设置和管理监控器。"
 ---
 
-<Alert title="Deprecation Notice">
+<Alert title="弃用通知">
 
-Starting with v2.16.1 of the Sentry CLI, the ability to monitor check-ins using an auth token for authorization has been deprecated. Read on to learn how to update your CLI and use your project's DSN instead.
+从 Sentry CLI v2.16.1 开始，使用认证令牌授权监控检查的功能已被弃用。请继续阅读以了解如何更新您的 CLI 并使用项目的 DSN 代替。
 
 </Alert>
 
-Sentry Crons allows you to monitor the uptime and performance of any scheduled, recurring job. Once implemented, it'll allow you to get alerts and metrics to help you solve errors, detect timeouts, and prevent disruptions to your service.
+Sentry 定时任务允许您监控任何计划性、重复性作业的正常运行时间和性能。一旦实施，它将允许您获得警报和指标，帮助您解决错误、检测超时并防止服务中断。
 
-## Requirements
+## 要求
 
-To begin monitoring your recurring, scheduled job:
+要开始监控您的重复性、计划性作业：
 
-- [Install](/cli/installation) the Sentry CLI (min v2.16.1).
-- Create and configure your first Monitor in [Sentry](https://sentry.io/crons/create/) or [via the CLI](#creating-or-updating-a-monitor-through-a-check-in-optional).
+- [安装](/cli/installation) Sentry CLI（最低 v2.16.1）。
+- 在 [Sentry](https://sentry.io/crons/create/) 中创建并配置您的第一个监控器，或[通过 CLI](#通过检查创建或更新监控器可选)。
 
-## Configuration
+## 配置
 
-The Sentry CLI uses your Monitor's project DSN to authorize check-ins. To set it up, export the `SENTRY_DSN` environment variable:
-
+Sentry CLI 使用监控器的项目 DSN 来授权检查。要进行设置，请导出 `SENTRY_DSN` 环境变量：
 
 ```bash
 export SENTRY_DSN=___PUBLIC_DSN___
 ```
 
-Alternatively, you can add it to your `~/.sentryclirc` config:
-
+或者，您可以将其添加到您的 `~/.sentryclirc` 配置中：
 
 ```ini {filename:~/.sentryclirc}
 [auth]
-dsn = ___PUBLIC_DSN___
+dsns = ___PUBLIC_DSN___
 ```
 
-Learn more about the CLI's [configuration file](/cli/configuration#configuration-file).
+了解有关 CLI [配置文件](/cli/configuration#configuration-file)的更多信息。
 
-## Job Monitoring
+## 作业监控
 
-Use the Sentry CLI to run your job and notify you if it doesn't start when expected (missed) or if it exceeded its maximum runtime (failed).
+使用 Sentry CLI 运行您的作业，并在作业未按预期启动（错过）或超过最大运行时间（失败）时通知您。
 
 ```bash {tabTitle: CLI}
 sentry-cli monitors run <monitor_slug> -- <command> <args>
 ```
 
-Usage examples:
+使用示例：
 
 ```bash {tabTitle: Python}
 sentry-cli monitors run my-monitor-slug -- python path/to/file.py
@@ -56,35 +54,35 @@ sentry-cli monitors run my-monitor-slug -- python path/to/file.py
 sentry-cli monitors run my-monitor-slug -- node path/to/file.js
 ```
 
-### Creating or Updating a Monitor Through a Check-In (Optional)
+### 通过检查创建或更新监控器（可选）
 
-You can also use the Sentry CLI to create or update your cron monitor when you run your job. This way, you can avoid having to first set up the monitor through the Sentry web interface.
+您还可以使用 Sentry CLI 在运行作业时创建或更新您的定时任务监控器。这样，您可以避免首先通过 Sentry Web 界面设置监控器。
 
-Configure the cron monitor by providing the cron schdule in crontab format using the `--schedule` or the equivalent `-s` argument when executing the `sentry cli monitors run` command. Please make sure to enclose the schedule in quotes, so that your shell parses the argument correctly, like so:
+通过在执行 `sentry cli monitors run` 命令时使用 `--schedule` 或等效的 `-s` 参数以 crontab 格式提供 cron 计划来配置定时任务监控器。请确保将计划用引号括起来，以便您的 shell 正确解析参数，如下所示：
 
 ```bash
 sentry-cli monitors run --schedule "<expected schedule>" <monitor-slug> -- <command> <args>
 ```
 
-When providing the `--schedule` argument, we also support the following optional arguments to provide additional configuration:
+当提供 `--schedule` 参数时，我们还支持以下可选参数来提供额外配置：
 
-- `--check-in-margin`: The allowed margin of minutes after the expected check-in time that the monitor will not be considered missed for.
-- `--max-runtime`: The allowed duration in minutes that the monitor may be in progress for before being considered failed due to timeout.
-- `--timezone`: A valid [tz database identifier string](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) (e.g. "Europe/Vienna") representing the monitor's execution schedule's timezone.
+- `--check-in-margin`：在预期检查时间之后允许的分钟数，在此时间内监控器不会被视为错过。
+- `--max-runtime`：监控器在进行中之前允许持续的时间（分钟），然后因超时而失败。
+- `--timezone`：表示监控器执行计划时区的有效 [tz 数据库标识符字符串](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List)（例如 "Europe/Vienna"）。
 
-Below are some usage examples:
+以下是一些使用示例：
 
-```bash {tabTitle: Every Minute}
+```bash {tabTitle: 每分钟}
 sentry-cli monitors run -s "* * * * *" -- my-command
 ```
 
-```bash {tabTitle: Every Hour (+ Optional Arguments)}
+```bash {tabTitle: 每小时（+ 可选参数）}
 sentry-cli monitors run -s "0 * * * *" --check-in-margin 10 --max-runtime 5 --timezone "Europe/Vienna" -- my-command
 ```
 
-### Specifying Monitor Environments (Optional)
+### 指定监控器环境（可选）
 
-If your cron monitor runs in multiple environments you can use the `-e` flag to specify which [Monitor Environment](/product/crons/job-monitoring/#multiple-environments) to send check-ins to.
+如果您的定时任务监控器在多个环境中运行，您可以使用 `-e` 标志来指定要发送检查到哪个[监控器环境](/product/crons/job-monitoring/#multiple-environments)。
 
 ```bash {tabTitle: Node.JS}
 sentry-cli monitors run -e dev my-monitor-slug -- node path/to/file.js

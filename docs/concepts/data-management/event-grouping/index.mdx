@@ -1,115 +1,115 @@
 ---
-title: "Issue Grouping"
+title: 问题分组
 sidebar_order: 0
-description: "Learn about fingerprinting, Sentry's default error grouping algorithms, and other ways to customize how events are grouped into issues."
+description: "了解指纹、Sentry 的默认错误分组算法以及其他自定义事件如何分组到问题中的方法。"
 ---
 
-A fingerprint is a way to uniquely identify an event, and all events have one. Events with the same fingerprint are grouped together into an issue.
+指纹是唯⼀标识事件的⼀种⽅式，所有事件都有⼀个指纹。具有相同指纹的事件被分组到⼀个问题中。
 
-By default, Sentry will run one of our built-in grouping algorithms to generate an event fingerprint based on information available within the event. The available information and the grouping algorithms vary by event type. Sentry fingerprints error events based on information like `stacktrace`, `exception`, and `message`. Transaction events are fingerprinted by their `spans`.
+默认情况下，Sentry 将运⾏我们的内置分组算法之⼀，基于事件中可⽤的信息⽣成事件指纹。可⽤信息和分组算法因事件类型⽽异。Sentry 基于 `stacktrace`、`exception` 和 `message` 等信息对错误事件进⾏指纹。事务事件通过其 `spans` 进⾏指纹。
 
-## Default Error Grouping Algorithms
+## 默认错误分组算法
 
-Each time default error grouping behavior is modified, Sentry releases it as a new version, which is only applied to new events going forward. As a result, modifications to the default behavior do not affect the grouping of existing issues.
+每次修改默认错误分组⾏为时，Sentry 都会将其作为新版本发布，该版本仅应⽤于新事件。因此，对默认⾏为的修改不会影响现有问题的分组。
 
-When you create a Sentry project, the most recent version of the error grouping algorithm is automatically selected. This ensures that grouping behavior is consistent within a project.
+创建 Sentry 项⽬时，将⾃动选择最新的错误分组算法版本。这可确保分组⾏为在项⽬内保持⼀致。
 
-All versions consider the `fingerprint` first, the `stack trace` next, then the `exception`, and then finally the `message`.
+所有版本都⾸先考虑 `fingerprint`，然后是 `stack trace`，然后是 `exception`，最后是 `message`。
 
-To see how an issue was grouped, go to its **Issue Details** page and scroll down to "Event Grouping Information". There, you'll see if it was grouped by a fingerprint, stack trace, exception, or message.
+要查看问题的分组⽅式，请转到其**问题详细信息**⻚⾯，然后向下滚动到"事件分组信息"。在那⾥，您将看到它是通过指纹、堆栈跟踪、异常还是消息进⾏分组的。
 
-### Grouping by Built-In Fingerprinting Rules
+### 按内置指纹规则分组
 
-Some kinds of errors, like [chunk load errors](https://sentry.io/answers/chunk-load-errors-javascript/) and [hydration errors](https://sentry.io/answers/hydration-error-nextjs/), often have various different error types, values, or transaction messages that may result in separate but similar issues. To better handle these cases, Sentry maintains a set of built-in fingerprinting rules to better group such errors.
+某些类型的错误，如[块加载错误](https://sentry.io/answers/chunk-load-errors-javascript/)和[⽔合错误](https://sentry.io/answers/hydration-error-nextjs/)，通常具有各种可能导致单独但类似问题的不同错误类型、值或事务消息。为了更好地处理这些情况，Sentry 维护了⼀组内置指纹规则，以更好地对这类错误进⾏分组。
 
-Issues grouped by Sentry's built-in fingerprinting rules will list "Sentry Defined Fingerprint" in the "Event Grouping Information" at the bottom of the **Issue Details** page.
+按 Sentry 的内置指纹规则分组的问题将在**问题详细信息**⻚⾯底部的"事件分组信息"中列出"Sentry 定义的指纹"。
 
-![event grouping information for a sentry defined fingerprint](./sentry-defined-fingerprint.png)
+![事件的 sentry 定义指纹的分组信息](./sentry-defined-fingerprint.png)
 
-Built-in fingerprinting rules work the same as custom fingerprinting rules and are applied by default. If an user defined custom fingerprinting rule matches an event, the custom rule will always take precedence over the built-in ones.
+内置指纹规则的⼯作⽅式与⾃定义指纹规则相同，并默认应⽤。如果⽤户定义的⾃定义指纹规则匹配事件，则⾃定义规则将始终优先于内置规则。
 
-### Grouping by Stack Trace
+### 按堆栈跟踪分组
 
-When Sentry detects a stack trace in the event data (either directly or as part of an exception), the grouping is effectively based entirely on the stack trace.
+当 Sentry 在事件数据中检测到堆栈跟踪时（直接或间接作为异常的⼀部分），分组实际上完全基于堆栈跟踪。
 
-The first and most crucial part is that Sentry only groups by stack trace frames that the SDK reports and associates with your application. Not all SDKs report this, but when that information is provided, it’s used for grouping. This means that if two stack traces differ only in parts of the stack that are unrelated to the application, those stack traces will still be grouped together.
+第⼀个也是最重要的部分是，Sentry 仅按 SDK 报告并与您的应⽤程序关联的堆栈跟踪帧进⾏分组。并⾮所有 SDK 都报告此信息，但当提供该信息时，它⽤于分组。这意味着，如果两个堆栈跟踪仅在应⽤程序⽆关的堆栈部分有所不同，则这些堆栈跟踪仍将分组在⼀起。
 
-Depending on the information available, the following data can be used for each stack trace frame:
+根据可⽤信息，可以为每个堆栈跟踪帧使⽤以下数据：
 
-- Module name
-- Normalized filename (with revision hashes, and so forth, removed)
-- Normalized context line (essentially a cleaned up version of the source code of the affected line, if provided)
+- 模块名称
+- 规范化⽂件名（删除修订哈希等）
+- 规范化上下⽂⾏（基本上是受影响⾏的源代码的清理版本，如果提供）
 
-This grouping usually works well, but two specific situations can throw it off:
+这种分组通常效果很好，但两种特定情况可能会使其失效：
 
-1. Minimized JavaScript source code will destroy the grouping in detrimental ways. To avoid this, ensure that Sentry can access your [Source Maps](/platforms/javascript/sourcemaps/).
-2. Modifying your stack trace by introducing a new level through decorators changes your stack trace, so the grouping will also change. To handle this, many SDKs support hiding irrelevant stack trace frames. For example, the Python SDK will skip all stack frames with a local variable called `__traceback_hide__` set to _True_.
+1. 缩⼩的 JavaScript 源代码将以有害的⽅式破坏分组。为避免这种情况，请确保 Sentry 可以访问您的[源映射](/platforms/javascript/sourcemaps/)。
+2. 通过装饰器修改堆栈跟踪以引⼊新级别会更改您的堆栈跟踪，因此分组也会更改。为了处理这个问题，许多 SDK ⽀持隐藏不相关的堆栈跟踪帧。例如，Python SDK 将跳过所有设置了名为 `__traceback_hide__` 的局部变量为 _True_ 的堆栈帧。
 
-### Grouping By Exception
+### 按异常分组
 
-If the stack trace is not available, but exception information is, then the grouping will consider the `type` and `value` of the exception if both pieces of data are present on the event. This grouping is a lot less reliable because of changing error messages.
+如果堆栈跟踪不可⽤，但异常信息可⽤，则分组将考虑事件的 `type` 和 `value`（如果事件上存在这两个数据）。这种分组不太可靠，因为错误消息会发⽣变化。
 
-### Fallback Grouping
+### 回退分组
 
-Grouping falls back to messages if the stack trace, `type`, and `value` are not available. When this happens, the grouping algorithm will try to use the message without any parameters. If that is not available, the grouping algorithm will use the full message attribute.
+如果堆栈跟踪、`type` 和 `value` 都不可⽤，则分组回退到消息。当这种情况发⽣时，分组算法将尝试使⽤不带任何参数的消息。如果不可⽤，分组算法将使⽤完整的消息属性。
 
-### AI-Enhanced Grouping
+### AI 增强分组
 
-In addition to fingerprint-based grouping, Sentry uses AI to further improve issue grouping accuracy. This system helps identify semantically similar errors that might have different fingerprints due to minor code variations. The AI grouping system works alongside traditional fingerprinting - it only attempts to group new issues and will never split up issues that were grouped by fingerprint.
+除了基于指纹的分组外，Sentry 还使⽤ AI 进⼀步提⾼问题分组准确性。该系统有助于识别由于代码的细微变化⽽可能具有不同指纹的语义相似错误。AI 分组系统与传统的指纹识别并⾏⼯作 - 它仅尝试对新问题进⾏分组，并且永远不会拆分按指纹分组的问题。
 
-This system will not apply to any events that have fully custom fingerprints (either set via SDK or [fingerprint rules](/product/issues/grouping-and-fingerprints/#fingerprint-rules)). However, events with fingerprints containing `{{ default }}` will use AI grouping to calculate the `{{ default }}` portion of the fingerprint.
+此系统不会应⽤于任何具有完全⾃定义指纹的事件（通过 SDK 或[指纹规则](/product/issues/grouping-and-fingerprints/#fingerprint-rules)设置）。但是，具有包含 `{{ default }}` 的指纹的事件将使⽤ AI 分组来计算指纹的 `{{ default }}` 部分。
 
-When Sentry's default fingerprinting algorithm generates a new hash, it automatically sends the error data to [Seer](https://github.com/getsentry/seer), our AI/ML service. That error data includes the message and in-app stack frames (including those configured with stack trace rules), or all frames when no in-app frames are present.
+当 Sentry 的默认指纹算法⽣成新哈希时，它会⾃动将错误数据发送到 [Seer](https://github.com/getsentry/seer)，我们的 AI/ML 服务。该错误数据包括消息和应⽤程序内堆栈帧（包括配置有堆栈跟踪规则的那些），或当没有应⽤程序内帧时的所有帧。
 
-Seer performs the following steps:
+Seer 执⾏以下步骤：
 
-1. It generates a vector representation of the error's stack trace using a transformer-based text embedding model
-2. It compares this embedding against existing error embeddings for that project in the database
-3. If a semantically similar error is found within the configured threshold, Sentry merges the new error into the existing issue
+1. 它使⽤基于转换器的⽂本嵌⼊模型⽣成错误堆栈跟踪的向量表示
+2. 它将此嵌⼊与数据库中该项⽬的现有错误嵌⼊进⾏⽐较
+3. 如果在配置的阈值内找到语义相似的错误，Sentry 将新错误合并到现有问题中
 
 ![Sentry Seer PostgreSQL.](./img/sentry-seer-postgresql.png)
 
-This algorithm is particularly effective at handling cases where:
+该算法在以下情况下特别有效：
 
-- Similar errors occur in different parts of the codebase
-- Code changes or deployments introduce slight variations in stack traces
-- Different error types represent the same underlying problem
+- 相似错误发⽣在代码库的不同部分
+- 代码更改或部署在堆栈跟踪中引⼊细微变化
+- 不同的错误类型代表相同的基础问题
 
-You can see issues that have been merged through this system in the “Merged Issues” section of the Issue Details UI. You can always unmerge any fingerprints that you would not like to see grouped, and our system will avoid grouping them in the future.
+您可以在问题详细信息 UI 的"合并问题"部分中看到通过此系统合并的问题。您始终可以取消合并您不希望看到分组的任何指纹，我们的系统将避免将来分组它们。
 
-![Merged issues.](./img/merged-issues.png)
+![合并问题](./img/merged-issues.png)
 
-## Ways to Customize Error Grouping
+## 自定义错误分组的方法
 
-If the way that Sentry is grouping issues for your organization is already ideal, you don't need to make any changes. However, you may find that Sentry is either creating too many similar groups, or is grouping disparate events into groups that should be separate. If this is the case, for **error issues**, you can extend and change the default grouping behavior. Error grouping can be extended and changed completely according to your needs. Transaction grouping currently cannot be customized.
+如果 Sentry 为您的组织分组问题的⽅式已经理想，您⽆需进⾏任何更改。但是，您可能会发现 Sentry 要么创建了太多相似的组，要么将不同的事件分组到应该分开的组中。如果情况如此，对于**错误问题**，您可以扩展和更改默认分组⾏为。错误分组可以根据您的需求完全扩展和更改。事务分组⽬前⽆法⾃定义。
 
-You can customize error grouping using a combination of the following options, listed from least to most complex:
+您可以使⽤以下选项的组合来⾃定义错误分组，按从最不复杂到最复杂的顺序列出：
 
-1. In your project, by [Merging Issues](/concepts/data-management/event-grouping/merging-issues/)
-   > Merges together similar issues that have already been created. No settings or configuration changes are required for this.
-1. In your project, using [Fingerprint Rules](./fingerprint-rules/)
-   > Sets a new fingerprint for incoming events based on matchers. This doesn't affect already existing issues.
-1. In your project, using [Stack Trace Rules](./stack-trace-rules/)
-   > Sets rules for how incoming events should be treated based on matchers. This doesn't affect already existing issues.
-1. In your SDK, using [SDK Fingerprinting](/platform-redirect/?next=/usage/sdk-fingerprinting/)
-   > Sets a new fingerprint for incoming events based on matchers in the SDK. This doesn't affect already existing issues. Note that is not supported in WebAssembly.
+1. 在您的项⽬中，通过[合并问题](/concepts/data-management/event-grouping/merging-issues/)
+   > 合并已经创建的相似问题。不需要设置或配置更改。
+1. 在您的项⽬中，使⽤[指纹规则](./fingerprint-rules/)
+   > 基于匹配器为传⼊事件设置新指纹。这不会影响已经存在的问题。
+1. 在您的项⽬中，使⽤[堆栈跟踪规则](./stack-trace-rules/)
+   > 基于匹配器为传⼊事件设置处理规则。这不会影响已经存在的问题。
+1. 在您的 SDK 中，使⽤[SDK 指纹](/platform-redirect/?next=/usage/sdk-fingerprinting/)
+   > 基于 SDK 中的匹配器为传⼊事件设置新指纹。这不会影响已经存在的问题。请注意，WebAssembly 不⽀持此功能。
 
 <Alert>
 
-Stack trace rules can work as a combination of both SDK and project settings. As a result, we maintain the documentation in one location.
+堆栈跟踪规则可以作为 SDK 和项⽬设置的组合来⼯作。因此，我们在⼀个位置维护⽂档。
 
 </Alert>
 
-## How to View the Fingerprint
+## 如何查看指纹
 
-You can see a fingerprint by opening an issue, clicking "{} View JSON", and finding the _fingerprint_ property in that file. If the default grouping was used, you'll see "default" written there. If a different grouping was used, you'll see the actual fingerprint value itself.
+您可以通过打开问题，点击"{} 查看 JSON"，并在该⽂件中找到 _fingerprint_ 属性来查看指纹。如果使⽤了默认分组，您将在那⾥看到"default"。如果使⽤了不同的分组，您将看到实际的指纹值。
 
 <Arcade src="https://demo.arcade.software/8vE2p1OF0WRxjg7XN8HH?embed" />
 
-## Transaction Grouping Algorithms
+## 事务分组算法
 
-Sentry groups transactions with performance problems into [performance issues](/product/issues/issue-details/performance-issues/) using the transaction's `spans`. We fingerprint by the span evidence related to the performance problem found in the event. This includes the spans directly involved in the problem, as well as spans that might have caused the problem or are closely related to it. This algorithm isn't currently customizable or extendable.
+Sentry 通过事务的 `spans` 将有性能问题的事务分组到[性能问题](/product/issues/issue-details/performance-issues/)中。我们通过发现的事件中与性能问题相关的 span 证据进⾏指纹。这包括直接参与问题的 span，以及可能导致问题或与之密切相关的 span。该算法⽬前⽆法⾃定义或扩展。
 
-## Learn More
+## 了解更多
 
 <PageGrid />

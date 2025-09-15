@@ -1,71 +1,71 @@
 ---
-title: Issues
+title: 问题
 sidebar_order: 20
-description: "Learn how to use Sentry’s Issues page, where you can see and start to debug errors and performance problems that are affecting your application."
+description: "了解如何使用Sentry的问题页面，您可以在其中查看和开始调试影响应用程序的错误和性能问题。"
 ---
 
-The [**Issues**](https://sentry.io/orgredirect/organizations/:orgslug/issues/) page in Sentry displays information about problems in your application. This page allows you to filter by properties such as browser, device, impacted users, or whether an error is unhandled. You can then inspect issue details to better understand the problem and [triage](/product/issues/states-triage/) effectively.
+Sentry中的[**问题**](https://sentry.io/orgredirect/organizations/:orgslug/issues/)页面显示有关应用程序中问题的信息。此页面允许您按浏览器、设备、受影响用户或错误是否未处理等属性进行过滤。然后您可以检查问题详情以更好地理解问题并有效地[分类](/product/issues/states-triage/)。
 
-![Issues homepage](./img/issue_page.png)
+![问题主页](./img/issue_page.png)
 
-A typical application sends a large number of events to Sentry. You can think of an <SandboxLink scenario="oneIssue" projectSlug="react">issue</SandboxLink> as a single bug or problem with your app. To make them manageable, we [group similar events into issues](/concepts/data-management/event-grouping/) based on a fingerprint. This grouping of events into issues allows you to see how frequently a problem is happening and how many users it's affecting.
+典型的应用程序会向Sentry发送大量事件。您可以将<SandboxLink scenario="oneIssue" projectSlug="react">问题</SandboxLink>视为应用程序中的单个错误或问题。为了使它们易于管理，我们根据指纹[将相似事件分组为问题](/concepts/data-management/event-grouping/)。这种将事件分组为问题的方式允许您查看问题发生的频率以及它影响了多少用户。
 
 <a name="quota"></a>
 
 <Alert>
 
-**Issues and Event Quotas**
+**问题和事件配额**
 
-Your quota is consumed by _events_, not _issues_. Issues are generated from your accepted error or transaction events. Generating issues does not cause Sentry to accept more events for you and **does not** directly impact your quota. Sentry does provide tools, however, to control the type and amount of error and transaction events that are accepted. Learn more in [Quota Management](/pricing/quotas/).
+您的配额由_事件_消耗，而不是_问题_。问题由您接受的错误或事务事件生成。生成问题不会导致Sentry为您接受更多事件，也**不会**直接影响您的配额。然而，Sentry确实提供了工具来控制接受的错误和事务事件的类型和数量。在[配额管理](/pricing/quotas/)中了解更多信息。
 
 </Alert>
 
-For each issue, the page displays:
+对于每个问题，页面显示：
 
-- Issue type and description
-- Associated project
-- Issue timing, such as last and first time seen
+- 问题类型和描述
+- 关联项目
+- 问题时间，如最后和首次出现时间
 
-For error issues, to see the stack trace of the latest event, you can hover over the issue title. You can also hover over the colored square to the left of the issue information to see the error level (error, info, fatal, warning, debug, or sample) of the latest event:
+对于错误问题，要查看最新事件的堆栈跟踪，您可以将鼠标悬停在问题标题上。您还可以将鼠标悬停在问题信息左侧的彩色方块上，以查看最新事件的错误级别（错误、信息、致命、警告、调试或示例）：
 
-![Error level icon](./img/error_level.png)
+![错误级别图标](./img/error_level.png)
 
 {/* TODO(msun): Update this when issue views are GA'd */}
-You can save your issue queries and access them later by clicking the "Saved Searches" button in the header. Learn more in [Saved Searches](/concepts/search/saved-searches/). You can also add issues data to your [custom dashboards](/product/dashboards/custom-dashboards/) as widgets using the [dataset selector](/product/dashboards/widget-builder/#choose-your-dataset).
+您可以通过点击标题中的"已保存搜索"按钮来保存您的问题查询并稍后访问它们。在[已保存搜索](/concepts/search/saved-searches/)中了解更多信息。您还可以使用[数据集选择器](/product/dashboards/widget-builder/#choose-your-dataset)将问题数据作为小部件添加到您的[自定义仪表板](/product/dashboards/custom-dashboards/)中。
 
-When you click on an issue on the main **Issues** page, the **Issue Details** page for that issue is displayed. Learn more in [Issue Details](/product/issues/issue-details/).
+当您点击主**问题**页面上的问题时，将显示该问题的**问题详情**页面。在[问题详情](/product/issues/issue-details/)中了解更多信息。
 
-## Issue Categories
+## 问题类别
 
-There are two categories of issues: [_error issues_](/product/issues/issue-details/error-issues/) and [_performance issues_](/product/issues/issue-details/performance-issues/). An error issue is a grouping of error events; a performance issue is a grouping of poorly-performing transactions. To learn more about each issue category and what kind of information is captured in their detailed view, check out our full [Error Issues](/product/issues/issue-details/error-issues/) and [Performance Issues](/product/issues/issue-details/performance-issues/) documentation.
+有两类问题：[_错误问题_](/product/issues/issue-details/error-issues/)和[_性能问题_](/product/issues/issue-details/performance-issues/)。错误问题是错误事件的分组；性能问题是性能不佳事务的分组。要了解有关每个问题类别及其详细视图中捕获的信息类型的更多信息，请查看我们的完整[错误问题](/product/issues/issue-details/error-issues/)和[性能问题](/product/issues/issue-details/performance-issues/)文档。
 
-## Issue Triage
+## 问题分类
 
-From the **Issues** page, you can begin to triage. The page is organized into tabs, each corresponding to a filtered list of issues, and these different lists help you with triaging:
+从**问题**页面，您可以开始分类。页面被组织成选项卡，每个选项卡对应过滤后的问题列表，这些不同的列表可帮助您进行分类：
 
-- All Unresolved (`is:unresolved`): All unresolved issues, including issues that need review.
-- For Review (`is:unresolved is:for_review`). Also called **Review List**,  for-review issues are a subset of all unresolved issues and can include new issues or regressions that haven't been reviewed yet.
-- Regressed (`is:regressed`): All regressed issues; resolved issues that have come up again.
-- Archived (`is:archived`): All archived issues.
-- Escalating (`is:escalating`): All escalating issues; previously archived issues that have exceeded their forecasted event volume.
+- 所有未解决 (`is:unresolved`)：所有未解决的问题，包括需要审核的问题。
+- 待审核 (`is:unresolved is:for_review`)。也称为**审核列表**，待审核问题是所有未解决问题的子集，可以包括新问题或尚未审核的回归。
+- 回归 (`is:regressed`)：所有回归问题；已解决但再次出现的问题。
+- 已归档 (`is:archived`)：所有已归档的问题。
+- 升级中 (`is:escalating`)：所有升级中的问题；先前已归档但已超过其预测事件量的问题。
 
-Learn more about triaging issues and their different states in [Issue States and Triage](/product/issues/states-triage/).
+在[问题状态和分类](/product/issues/states-triage/)中了解更多关于分类问题及其不同状态的信息。
 
-## How to Sort Issues
+## 如何排序问题
 
-Change how issues are sorted in the issues stream by selecting from the sort dropdown:
+通过从排序下拉菜单中选择来更改问题流中的排序方式：
 
-![Issue sort](./img/issue_sort.png)
+![问题排序](./img/issue_sort.png)
 
-- **Last Seen**: The most recent events are shown first.
-- **First Seen**: The newest issues are shown first.
-- **Trends**: New issues and escalating issues (with event volumes trending upward) are shown first. Older issues and issues with fewer recent events are sorted lower. The ranking currently relies on three primary factors:
-  - Relative volume: Escalating issues that have a higher recent volume (relative to their baseline) are ranked higher.
-  - Absolute volume: Issues with more event volume are weighted more highly. Recent events are weighted more than old events.
-  - Issue age: New issues are prioritized — an exponential decay factor halves the weight every 12 hours.
-- **Events**: Issues are sorted by total event volume.
-- **Users**: Issues are sorted by number of users affected.
+- **最后出现**：最新的事件首先显示。
+- **首次出现**：最新问题首先显示。
+- **趋势**：新问题和升级中的问题（事件量呈上升趋势）首先显示。较旧的问题和最近事件较少的问题排序较低。排名目前依赖于三个主要因素：
+  - 相对量：相对于基线具有更高最近量的升级问题排名更高。
+  - 绝对量：事件量更多的问题权重更高。最近事件比旧事件权重更高。
+  - 问题年龄：新问题优先 - 指数衰减因子每12小时减半权重。
+- **事件**：问题按总事件量排序。
+- **用户**：问题按受影响用户数量排序。
 
-## Learn More
+## 了解更多
 
 <PageGrid />

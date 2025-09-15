@@ -1,36 +1,36 @@
 ---
-title: Automatic Release Management
+title: 自动发布管理
 sidebar_order: 10
-description: "Learn how Sentry release management can be automated using any continuous integration and delivery (CI/CD) platform or automation server."
+description: "了解如何使用任何持续集成和交付(CI/CD)平台或自动化服务器来自动化Sentry发布管理。"
 ---
 
-Sentry release management can be automated using any continuous integration and delivery (CI/CD) platform or automation server.
+Sentry发布管理可以使用任何持续集成和交付(CI/CD)平台或自动化服务器来自动化。
 
-## Install a Repository Integration
+## 安装仓库集成
 
-Notifying Sentry of a release and providing commit metadata can be done most easily using one of our repository integrations. We also support a [manual process](/product/releases/associate-commits/) for sending us your commit data if you either don’t want Sentry to connect to your repository or you’re using an unsupported repository provider or VCS.
+通知Sentry发布信息并提供提交元数据最容易通过我们的仓库集成之一完成。如果您不希望Sentry连接到您的仓库，或者您使用的是不受支持的仓库提供商或VCS，我们也支持[手动流程](/product/releases/associate-commits/)来发送您的提交数据。
 
-<Alert level="warning" title="Required Permissions">
+<Alert level="warning" title="所需权限">
 
-To set up or configure an integration, you need to be an Owner, Manager, or Admin of your Sentry organization. Learn more about [roles in Sentry](/organization/membership/).
+要设置或配置集成，您需要是Sentry组织的所有者、经理或管理员。了解有关[Sentry中的角色](/organization/membership/)的更多信息。
 
-If you’re linking a GitHub repository, you must have Admin or Owner permissions for the repository, and Sentry must be an authorized GitHub app in your [GitHub account settings](https://github.com/settings/applications).
+如果您要链接GitHub仓库，您必须对仓库具有管理员或所有者权限，并且Sentry必须是您[GitHub账户设置](https://github.com/settings/applications)中的授权GitHub应用。
 
 </Alert>
 
-1. Install the applicable integration. The available integrations are listed under your **Organization Settings > Integrations**.
+1. 安装适用的集成。可用的集成列在您的**组织设置 > 集成**下。
 
-2. Click the "Configure" button next to your instance.
+2. 点击实例旁边的"配置"按钮。
 
    ![](./img/releases-repo-integrations.png)
 
-3. In the **Repositories** panel, click "Add Repository" to add any repositories from which you'd like to track commits. The integration will then send Sentry metadata (such as authors and files changed) about each commit pushed to those repositories.
+3. 在**仓库**面板中，点击"添加仓库"以添加您希望跟踪提交的任何仓库。然后，集成将发送关于推送到这些仓库的每个提交的元数据（如作者和更改的文件）到Sentry。
 
 ![](./img/releases-repo-add.png)
 
   <Alert>
 
-If you’re having trouble adding the integration, [disconnect](https://sentry.io/account/settings/identities/) then [reconnect](https://sentry.io/account/settings/social/associate/github/) your GitHub identity.
+如果您在添加集成时遇到问题，请[断开](https://sentry.io/account/settings/identities/)然后[重新连接](https://sentry.io/account/settings/social/associate/github/)您的GitHub身份。
 
   </Alert>
 
@@ -39,6 +39,6 @@ If you’re having trouble adding the integration, [disconnect](https://sentry.i
 
   <Alert>
 
-The list above includes all platforms currently supported to automate the release management. If your platform is not included, you must use the [manual process](/product/releases/associate-commits/) to integrate release data.
+上面的列表包括当前支持自动化发布管理的所有平台。如果您的平台未包含在内，您必须使用[手动流程](/product/releases/associate-commits/)来集成发布数据。
 
   </Alert>

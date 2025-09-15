@@ -1,103 +1,104 @@
 ---
 title: "Web Vitals"
 sidebar_order: 0
-description: "Understand your application's performance score and how each web vital contributes to it. Drill in to explore opportunities to improve your app's overall performance."
+description: "了解您的应用程序性能得分以及每个web vital如何贡献。深入了解以探索改善应用程序整体性能的机会。"
 ---
 
-Web vitals are a set of metrics that measure the quality of the user experience on a web page. To learn more about these metrics, see [Web Vitals Concepts](/product/insights/web-vitals/web-vitals-concepts/).
+<Include name="feature-limited-on-team-retention.mdx" />
 
-For your instrumented web apps, Sentry gathers web vitals from real user traffic through [supported browsers](web-vitals-concepts/#browser-support). These web vitals are used to calculate a [Performance Score](#performance-score) for your web application. Using these metrics, we surface the pages that have the most [opportunity](#opportunity) to improve your app's overall performance.
+Web vitals是一组衡量网页用户体验质量的指标。要了解有关这些指标的更多信息，请参阅 [Web Vitals概念](/product/insights/web-vitals/web-vitals-concepts/)。
 
-The interactive demo below walks through how to get insights on your web vitals.
+对于您已检测的Web应用程序，Sentry通过 [支持的浏览器](web-vitals-concepts/#browser-support) 从真实用户流量中收集web vitals。这些web vitals用于为您的Web应用程序计算 [性能得分](#performance-score)。使用这些指标，我们展示具有最多 [机会](#opportunity) 来改善应用程序整体性能的页面。
+
+下面的交互式演示介绍了如何获取web vitals的洞察。
 
 <Arcade src="https://demo.arcade.software/pSDa9dkXo1yB4HIuGVuz?embed" />
 
-## Web Vitals Page
+## Web Vitals页面
 
-The **Web Vitals** page, nested under the **Insights** tab, gives you an overview of your page load and interaction performance for the selected project(s). You can use this page as a starting point to investigate poor Web Vitals affecting your web application and drill down to better understand which pages are affecting your web performance the most.
+**Web Vitals**页面位于**Insights**选项卡下，为您提供所选项目的页面加载和交互性能概览。您可以将此页面作为起点，调查影响Web应用程序的不良Web Vitals，并深入了解哪些页面对Web性能影响最大。
 
-In the top left, the [Performance Score](#performance-score) ring shows the overall performance rating of your application. Each component of the ring represents a single Web Vital and its relative weight and impact on the Performance Score. The area chart on the right shows you a breakdown - by Web Vitals - of your performance score over time.
+在左上角，[性能得分](#performance-score) 环显示应用程序的整体性能评级。环的每个组件代表单个Web Vital及其对性能得分的相对权重和影响。右侧的面积图向您展示了按Web Vitals划分的性能得分随时间的变化。
 
-Below this, you can see your application's p75 vital values and the individual scores for each Web Vital. These metrics can help you prioritize which Web Vitals need attention most. Click on a Web Vital to open a more detailed summary of that metric and see which pages have the most [opportunity](#opportunity) for improvement.
+在此下方，您可以看到应用程序的p75 vital值和每个Web Vital的单独得分。这些指标可以帮助您优先考虑哪些Web Vitals最需要关注。单击Web Vital以打开该指标的更详细摘要，并查看哪些页面具有最多的 [机会](#opportunity) 进行改进。
 
-At the bottom of the **Web Vitals** page, a sortable table shows a list of your application's pages, along with their associated p75 values for each Web Vital. Each page also has its own individual Performance Score. The Opportunity column displays a page score's potential improvement to your application's overall Performance Score if maximized to 100. The search bar above this table allows you to filter for specific pages by route name.
+在**Web Vitals**页面底部，可排序的表格显示应用程序页面的列表，以及它们与每个Web Vital关联的p75值。每个页面还有自己的单独性能得分。机会列显示如果将页面得分最大化到100，页面得分对应用程序整体性能得分的潜在改进。此表格上方的搜索栏允许您按路由名称筛选特定页面。
 
 <Alert>
 
-The **Web Vitals** page only displays data from your application's initial page load transactions and interactions. Navigations are not included.
+**Web Vitals**页面仅显示来自应用程序初始页面加载事务和交互的数据。不包括导航。
 
 </Alert>
 
-## Page Overview
+## 页面概览
 
-From the table in **Web Vitals** or a Web Vital Summary panel, click on a page to open its **Page Overview**. Here, you can see a summary of that single page's Web Vitals. In **Page Overview**, you can further drill down to a specific page load sample [Event](/concepts/key-terms/tracing/trace-view/), [Interaction](/product/insights/web-vitals/web-vitals-concepts/#interaction-to-next-paint-inp), [Replay](/product/explore/session-replay/), or [Profile](/product/explore/profiling/).
+从**Web Vitals**中的表格或Web Vital摘要面板，单击页面以打开其**页面概览**。在这里，您可以看到单个页面的Web Vitals摘要。在**页面概览**中，您可以进一步深入了解特定页面加载样本 [事件](/concepts/key-terms/tracing/trace-view/)、[交互](/product/insights/web-vitals/web-vitals-concepts/#interaction-to-next-paint-inp)、[重播](/product/explore/session-replay/) 或 [配置文件](/product/explore/profiling/)。
 
-The **Page Overview** page displays a "Page Loads" chart in the right sidebar of the page. A mini **Aggregate Span Waterfall** is also displayed in the right sidebar, which shows you common span paths that your application's page may take. Click the "View Full Waterfall" button or the "Aggregate Spans" tab at the top of the page to see the full **Aggregate Span Waterfall**.
+**页面概览**页面在页面右侧边栏中显示"页面加载"图表。页面右侧边栏中还显示一个迷你**聚合跨度瀑布图**，向您展示应用程序页面可能采用的常见跨度路径。单击"查看完整瀑布图"按钮或页面顶部的"聚合跨度"选项卡以查看完整的**聚合跨度瀑布图**。
 
-### Samples List
+### 样本列表
 
 <Alert>
-  The samples list only shows page loads with web vitals and performance score.
-  If a page load is missing a required web vital, it will not be shown in the
-  samples list. Find out which web vitals are required in the [Browser
-  Support](/product/insights/frontend/web-vitals/web-vitals-concepts/#browser-support)
-  table.
+  样本列表仅显示具有web vitals和性能得分的页面加载。
+  如果页面加载缺少必需的web vital，它将不会显示在
+  样本列表中。在 [浏览器支持](/product/insights/frontend/web-vitals/web-vitals-concepts/#browser-support)
+  表中找出哪些web vitals是必需的。
 </Alert>
 
-At the center of the **Page Overview**, Web Vital p75 values and scores are displayed. Clicking a Web Vital score will open a slideout panel containing a variety of **Page Load** samples with good to poor scores. Each sample contains an **Event ID** that can be clicked to open the [Trace View](/concepts/key-terms/tracing/trace-view/#product-walkthrough-trace-details-page) page for further investigation. If there is a [Replay](/product/session-replay/) or [Profile](/product/profiling/) associated with the sample page load, links will be included in the associated table columns.
+在**页面概览**中心，显示Web Vital p75值和得分。单击Web Vital得分将打开一个滑出面板，其中包含各种具有良好到不良得分的**页面加载**样本。每个样本都包含一个可以单击的**事件ID**以打开 [跟踪视图](/concepts/key-terms/tracing/trace-view/#product-walkthrough-trace-details-page) 页面以进行进一步调查。如果样本页面加载有关联的 [重播](/product/session-replay/) 或 [配置文件](/product/profiling/)，链接将包含在关联的表格列中。
 
 <Arcade src="https://demo.arcade.software/rFtiXFfPG1CX1QcrgdSf?embed" />
 
-## Performance Score
+## 性能得分
 
-**Performance Score** is a rating from 0 to 100 that summarizes the perceived performance of your web application. Page loads and Interactions on your web application are scored based on their **Web Vitals**. Each **Web Vital** is given a rating from 0 to 100 through a [Log-Normal Distribution](https://www.desmos.com/calculator/o98tbeyt1t), which is then weighed and aggregated by page and overall for your entire web application.
+**性能得分**是从0到100的评级，总结了Web应用程序的感知性能。Web应用程序上的页面加载和交互基于其 **Web Vitals** 进行评分。每个 **Web Vital** 通过 [对数正态分布](https://www.desmos.com/calculator/o98tbeyt1t) 给出从0到100的评级，然后按页面和整个Web应用程序进行加权汇总。
 
-**Page Loads** can have up to 4 individual **Web Vital** components that can be found on each event, while interactions contribute to **INP** (Interaction to Next Paint). The default weight and score-rating thresholds for each **Web Vital** can be found in the tables below.
+**页面加载** 最多可以有4个可以在每个事件上找到的单个 **Web Vital** 组件，而交互贡献于 **INP**（交互到下一次绘制）。每个 **Web Vital** 的默认权重和得分评级阈值可以在下表中找到。
 
-**Desktop Browsers**:
-| Web Vital | Good (90+) | Meh (50+) | Weight |
+**桌面浏览器**：
+| Web Vital | 良好(90+) | 一般(50+) | 权重 |
 | --------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ | ------ |
-| [Largest Contentful Paint](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp) (LCP) | [1200ms](https://www.desmos.com/calculator/ejhjazajbd) | [2400ms](https://www.desmos.com/calculator/ejhjazajbd) | 30% |
-| [Cumulative Layout Shift](/product/insights/web-vitals/web-vitals-concepts/#cumulative-layout-shift-cls) (CLS) | [0.1](https://www.desmos.com/calculator/irdoqfftdf) | [0.25](https://www.desmos.com/calculator/irdoqfftdf) | 15% |
-| [First Contentful Paint](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp) (FCP) | [900ms](https://www.desmos.com/calculator/gcxbiypuuh) | [1600ms](https://www.desmos.com/calculator/gcxbiypuuh) | 15% |
-| [Time To First Byte](/product/insights/web-vitals/web-vitals-concepts/#time-to-first-byte-ttfb) (TTFB) | [200ms](https://www.desmos.com/calculator/ykzahw9goi) | [400ms](https://www.desmos.com/calculator/ykzahw9goi) | 10% |
-| [Interaction to Next Paint](/product/insights/web-vitals/web-vitals-concepts/#interaction-to-next-paint-inp) (INP) | [200ms](https://www.desmos.com/calculator/jaqxodpx8d) | [500ms](https://www.desmos.com/calculator/jaqxodpx8d) | 30% |
+| [最大内容绘制](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp) (LCP) | [1200ms](https://www.desmos.com/calculator/ejhjazajbd) | [2400ms](https://www.desmos.com/calculator/ejhjazajbd) | 30% |
+| [累积布局偏移](/product/insights/web-vitals/web-vitals-concepts/#cumulative-layout-shift-cls) (CLS) | [0.1](https://www.desmos.com/calculator/irdoqfftdf) | [0.25](https://www.desmos.com/calculator/irdoqfftdf) | 15% |
+| [首次内容绘制](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp) (FCP) | [900ms](https://www.desmos.com/calculator/gcxbiypuuh) | [1600ms](https://www.desmos.com/calculator/gcxbiypuuh) | 15% |
+| [首字节时间](/product/insights/web-vitals/web-vitals-concepts/#time-to-first-byte-ttfb) (TTFB) | [200ms](https://www.desmos.com/calculator/ykzahw9goi) | [400ms](https://www.desmos.com/calculator/ykzahw9goi) | 10% |
+| [交互到下一次绘制](/product/insights/web-vitals/web-vitals-concepts/#interaction-to-next-paint-inp) (INP) | [200ms](https://www.desmos.com/calculator/jaqxodpx8d) | [500ms](https://www.desmos.com/calculator/jaqxodpx8d) | 30% |
 
-**Mobile Browsers**:
-| Web Vital | Good (90+) | Meh (50+) | Weight |
+**移动浏览器**：
+| Web Vital | 良好(90+) | 一般(50+) | 权重 |
 | --------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ | ------ |
-| [Largest Contentful Paint](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp) (LCP) | [2500ms](https://www.desmos.com/calculator/tegmkln1hr) | [4000ms](https://www.desmos.com/calculator/tegmkln1hr) | 30% |
-| [Cumulative Layout Shift](/product/insights/web-vitals/web-vitals-concepts/#cumulative-layout-shift-cls) (CLS) | [0.1](https://www.desmos.com/calculator/irdoqfftdf) | [0.25](https://www.desmos.com/calculator/irdoqfftdf) | 15% |
-| [First Contentful Paint](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp) (FCP) | [1800ms](https://www.desmos.com/calculator/ezkvtlqxkf) | [3000ms](https://www.desmos.com/calculator/ezkvtlqxkf) | 15% |
-| [Time To First Byte](/product/insights/web-vitals/web-vitals-concepts/#time-to-first-byte-ttfb) (TTFB) | [800ms](https://www.desmos.com/calculator/xcpjhfvwfo) | [1800ms](https://www.desmos.com/calculator/xcpjhfvwfo) | 10% |
-| [Interaction to Next Paint](/product/insights/web-vitals/web-vitals-concepts/#interaction-to-next-paint-inp) (INP) | [200ms](https://www.desmos.com/calculator/jaqxodpx8d) | [500ms](https://www.desmos.com/calculator/jaqxodpx8d) | 30% |
+| [最大内容绘制](/product/insights/web-vitals/web-vitals-concepts/#largest-contentful-paint-lcp) (LCP) | [2500ms](https://www.desmos.com/calculator/tegmkln1hr) | [4000ms](https://www.desmos.com/calculator/tegmkln1hr) | 30% |
+| [累积布局偏移](/product/insights/web-vitals/web-vitals-concepts/#cumulative-layout-shift-cls) (CLS) | [0.1](https://www.desmos.com/calculator/irdoqfftdf) | [0.25](https://www.desmos.com/calculator/irdoqfftdf) | 15% |
+| [首次内容绘制](/product/insights/web-vitals/web-vitals-concepts/#first-contentful-paint-fcp) (FCP) | [1800ms](https://www.desmos.com/calculator/ezkvtlqxkf) | [3000ms](https://www.desmos.com/calculator/ezkvtlqxkf) | 15% |
+| [首字节时间](/product/insights/web-vitals/web-vitals-concepts/#time-to-first-byte-ttfb) (TTFB) | [800ms](https://www.desmos.com/calculator/xcpjhfvwfo) | [1800ms](https://www.desmos.com/calculator/xcpjhfvwfo) | 10% |
+| [交互到下一次绘制](/product/insights/web-vitals/web-vitals-concepts/#interaction-to-next-paint-inp) (INP) | [200ms](https://www.desmos.com/calculator/jaqxodpx8d) | [500ms](https://www.desmos.com/calculator/jaqxodpx8d) | 30% |
 
 <Alert>
-These thresholds are meant to match Google Lighthouse as closely as possible, but there may be some differences because Sentry operates on real user data, whereas Google Lighthouse operates on lab data.
+这些阈值旨在尽可能接近Google Lighthouse，但可能存在一些差异，因为Sentry在真实用户数据上运行，而Google Lighthouse在实验室数据上运行。
 
-Some browsers may not support all **Web Vitals** used in Sentry's **Performance Score** calculation. Look at the [Browser Support](/product/insights/web-vitals/web-vitals-concepts/#browser-support) table to see which Web Vitals are supported by your browser.
+某些浏览器可能不支持Sentry的 **性能得分** 计算中使用的所有 **Web Vitals**。查看 [浏览器支持](/product/insights/web-vitals/web-vitals-concepts/#browser-support) 表以查看您的浏览器支持哪些Web Vitals。
 
 </Alert>
 
-## Opportunity
+## 机会
 
-**Opportunity** scores are number values associated with each page and are meant to give you a sense of which pages are most valuable to improve. The Opportunity score is the maximum possible increase to your application's overall Performance Score if you were to raise a page's score to 100. If a page in your application already has a score of 100, the Opportunity score would be 0, since there's no way to further optimize this page.
+**机会**得分是与每个页面关联的数字值，旨在让您了解哪些页面最有价值进行改进。机会得分是如果您将页面得分提高到100，应用程序整体性能得分的最大可能增加。如果您的应用程序中的页面已经得分为100，机会得分将为0，因为无法进一步优化此页面。
 
-Opportunity score calculation is also weighted based on the traffic that a page sees. Pages with high traffic tend to have higher Opportunity scores. For example, a page with a score of 70 that experiences 1000 page loads a day will have a higher Opportunity score than a page with a score of 50 that experiences only 10 page loads a day.
+机会得分计算也基于页面看到的流量进行加权。高流量页面往往具有更高的机会得分。例如，得分为70且每天经历1000次页面加载的页面将比得分为50且每天仅经历10次页面加载的页面具有更高的机会得分。
 
-### Prerequisites and Limitations
+### 先决条件和限制
 
-**Web Vitals** and **Performance Scores** are automatically captured by Sentry's JavaScript SDKs through the [BrowserTracing](/platforms/javascript/configuration/integrations/browsertracing/) integration.
+**Web Vitals** 和 **性能得分** 由Sentry的JavaScript SDK通过 [BrowserTracing](/platforms/javascript/configuration/integrations/browsertracing/) 集成自动捕获。
 
-You can find out how to set up Sentry on your web application in the [installation docs](/platforms/javascript/). If you are using a JavaScript framework, you may need to follow additional setup instructions for your specific framework:
+您可以在 [安装文档](/platforms/javascript/) 中找到如何在Web应用程序上设置Sentry。如果您使用JavaScript框架，可能需要遵循特定框架的其他设置说明：
 
 - [React SDK](/platforms/javascript/guides/react/)
 - [Vue SDK](/platforms/javascript/guides/vue/)
 - [Angular SDK](/platforms/javascript/guides/angular/)
 - [Svelte SDK](/platforms/javascript/guides/svelte/)
 
-Although Sentry provides auto instrumentation for many frontend frameworks, there are some environments and scenarios that may not be fully supported. If you are unable to find your pages in the **Web Vitals** page, check to see if your page loads are meeting the following conditions:
+虽然Sentry为许多前端框架提供自动工具化，但某些环境和场景可能无法完全支持。如果您无法在 **Web Vitals** 页面中找到您的页面，请检查您的页面加载是否满足以下条件：
 
-- **Performance Scores** only support **Chrome**, **Firefox**, **Safari**, **Opera**, and **Edge** desktop and mobile browsers.
-- Some pageloads may not capture all web vitals supported by Sentry. This may depending on the client browser and/or the unique behavior of your web page. **Performance Score** are calculated based on available web vitals.
-  - Find out the full list of web vitals in the [Browser Support](/product/insights/web-vitals/web-vitals-concepts/#browser-support) table.
+- **性能得分** 仅支持 **Chrome**、**Firefox**、**Safari**、**Opera** 和 **Edge** 桌面和移动浏览器。
+- 某些页面加载可能无法捕获Sentry支持的所有web vitals。这可能取决于客户端浏览器和/或您的网页的独特行为。**性能得分** 基于可用的web vitals计算。
+  - 在 [浏览器支持](/product/insights/frontend/web-vitals/web-vitals-concepts/#browser-support) 表中找出完整的web vitals列表。

@@ -1,27 +1,27 @@
 ---
 title: OpenTelemetry Protocol (OTLP)
 sidebar_order: 400
-description: "Learn how to send OpenTelemetry trace data directly to Sentry from OpenTelemetry SDKs."
+description: "了解如何直接从OpenTelemetry SDK向Sentry发送OpenTelemetry追踪数据。"
 keywords: ["otlp", "otel", "opentelemetry"]
 ---
 
 <Include name="feature-available-alpha-otlp.mdx" />
 
-Sentry can ingest [OpenTelemetry](https://opentelemetry.io) traces directly via the  [OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otel/protocol/). If you have an existing OpenTelemetry trace instrumentation, you can configure your OpenTelemetry exporter to send traces to Sentry directly. Sentry's OTLP ingestion endpoint is currently in development, and has a few known limitations:
+Sentry可以直接通过[OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otel/protocol/)接收[OpenTelemetry](https://opentelemetry.io)追踪数据。如果您已有现有的OpenTelemetry追踪检测，您可以配置OpenTelemetry导出器直接将追踪数据发送到Sentry。Sentry的OTLP接收端点目前正在开发中，有一些已知限制：
 
-- Span events are not supported. All span events are dropped during ingestion.
-- Span links are partially supported. We ingest and display span links, but they cannot be searched, filtered, or aggregated. Links are are shown in the [Trace View](/concepts/key-terms/tracing/trace-view/).
-- Array attributes are partially supported. We ingest and display array attributes, but they cannot be searched, filtered, or aggregated. Array attributes are shown in the [Trace View](/concepts/key-terms/tracing/trace-view/).
-- Sentry does not support ingesting OTLP metrics or OTLP logs.
+- 不支持跨度事件（Span events）。所有跨度事件在接收过程中都会被丢弃。
+- 部分支持跨度链接（Span links）。我们接收并显示跨度链接，但它们不能被搜索、过滤或聚合。链接显示在[追踪视图](/concepts/key-terms/tracing/trace-view/)中。
+- 部分支持数组属性。我们接收并显示数组属性，但它们不能被搜索、过滤或聚合。数组属性显示在[追踪视图](/concepts/key-terms/tracing/trace-view/)中。
+- Sentry不支持接收OTLP指标或OTLP日志。
 
-The easiest way to configure an OpenTelemetry exporter is with environment variables. You'll need to configure the trace endpoint URL, as well as the authentication headers. Set these variables on the server where your application is running.
+配置OpenTelemetry导出器的最简单方法是使用环境变量。您需要配置追踪端点URL以及认证头。在您应用程序运行的服务器上设置这些变量。
 
 ```bash {filename: .env}
 export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="___OTLP_TRACES_URL___"
 export OTEL_EXPORTER_OTLP_TRACES_HEADERS="x-sentry-auth=sentry sentry_key=___PUBLIC_KEY___"
 ```
 
-Alternatively, you can configure the OpenTelemetry Exporter directly in your application code. Here is an example with the OpenTelemetry Node SDK:
+或者，您可以直接在应用程序代码中配置OpenTelemetry导出器。以下是使用OpenTelemetry Node SDK的示例：
 
 ```typescript {filename: app.ts}
 import { NodeSDK } from "@opentelemetry/sdk-node";
@@ -39,8 +39,8 @@ const sdk = new NodeSDK({
 sdk.start();
 ```
 
-You can find the values of Sentry's OTLP endpoint and public key in your Sentry project settings.
+您可以在Sentry项目设置中找到Sentry的OTLP端点和公钥的值。
 
-1. Go to the [Settings > Projects](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/) page in Sentry.
-2. Select a project from the list.
-3. Go to the "Client Keys (DSN)" sub-page for this project under the "SDK Setup" heading.
+1. 在Sentry中转到[设置 > 项目](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/)页面。
+2. 从列表中选择一个项目。
+3. 在此项目下的"SDK设置"标题下转到"客户端密钥（DSN）"子页面。

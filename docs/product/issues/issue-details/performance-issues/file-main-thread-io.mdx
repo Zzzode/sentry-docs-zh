@@ -1,36 +1,36 @@
 ---
-title: "File I/O on Main Thread"
+title: "主线程文件I/O"
 sidebar_order: 20
-description: "Learn more about File I/O on Main Thread and how to diagnose and fix these issues."
+description: "了解更多关于主线程文件I/O以及如何诊断和修复这些问题。"
 ---
 
-The main UI thread in a mobile application handles user interface events such as button presses and page scrolls. To prevent App Hangs and Application Not Responding errors, the main UI thread should not be used for performing long-running operations like file I/O. These kinds of operations block the whole UI until they finish running and get in the way of the user interacting with the app.
+移动应用程序中的主UI线程处理用户界面事件，如按钮按下和页面滚动。为了防止应用程序挂起和应用程序无响应错误，主UI线程不应用于执行长时间运行的操作，如文件I/O。这类操作会阻塞整个UI，直到它们完成运行，并妨碍用户与应用程序交互。
 
-## Detection Criteria
+## 检测标准
 
-The detector for this performance issue looks at the total non-overlapping duration for file I/O spans. If it exceeds 16ms, a performance issue is created.
+此性能问题的检测器会查看文件I/O跨度的总非重叠持续时间。如果超过16ms，则会创建性能问题。
 
-You can configure detector thresholds for file I/O on main thread issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置主线程文件I/O问题的检测器阈值：
 
-![File I/O on Main Thread detector threshold settings](./img/file-main-thread-io-detector-settings.png)
+![主线程文件I/O检测器阈值设置](./img/file-main-thread-io-detector-settings.png)
 
-## Span Evidence
+## 跨度证据
 
-Span evidence identifies the root cause of the File I/O on Main Thread problem by showing you three main aspects:
+跨度证据通过向您显示三个主要方面来识别主线程文件I/O问题的根本原因：
 
-- Transaction name
-- Parent Span - Where the file I/O spans occurred
-- Offending Span - The actual spans that are performing file I/O in the main thread
+- 事务名称
+- 父跨度 - 文件I/O跨度发生的位置
+- 违规跨度 - 在主线程中执行文件I/O的实际跨度
 
-![File I/O Span Evidence](./img/file-io.png)
+![文件I/O跨度证据](./img/file-io.png)
 
-View it by going to the **Issues** page in Sentry, selecting your Android project, clicking on the file I/O error you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+通过转到Sentry中的**问题**页面，选择您的Android项目，点击您要检查的文件I/O错误，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看它。
 
-## Example
+## 示例
 
-Here are two examples of how a file I/O error may appear in your code if you're using Swift or Kotlin and how you might solve them.
+以下是如果您使用Swift或Kotlin，文件I/O错误可能如何在您的代码中出现以及如何解决的示例。
 
-This is what you might see when you're opening a file to get its contents if you're using Swift:
+如果您使用Swift，当您打开文件以获取其内容时，您可能会看到以下内容：
 
 ```swift
 if let path = Bundle.main.path(forResource: "LoremIpsum", ofType: "txt") {
@@ -39,7 +39,7 @@ if let path = Bundle.main.path(forResource: "LoremIpsum", ofType: "txt") {
 }
 ```
 
-In order to fix this performance issue, you could use a dispatch queue:
+为了修复此性能问题，您可以使用调度队列：
 
 ```swift
 let dispatchQueue = DispatchQueue(label: "ViewController", attributes: .concurrent) {
@@ -54,14 +54,14 @@ let dispatchQueue = DispatchQueue(label: "ViewController", attributes: .concurre
 }
 ```
 
-This is what you might see if you're using Kotlin:
+如果您使用Kotlin，您可能会看到以下内容：
 
 ```kotlin
 val file = File(context.cacheDir, "LoremIpsum.txt")
 val content = file.readText()
 ```
 
-In order to fix this performance issue you can initialize another thread to read the file instead.
+为了修复此性能问题，您可以初始化另一个线程来读取文件。
 
 ```kotlin
 suspend fun readFile(): String = withContext(Dispatchers.IO) {

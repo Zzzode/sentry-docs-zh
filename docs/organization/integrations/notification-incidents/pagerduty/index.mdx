@@ -1,59 +1,59 @@
 ---
 title: PagerDuty
 sidebar_order: 1
-description: "Learn more about Sentry's PagerDuty integration and how you can trigger PagerDuty incidents with Sentry alerts."
+description: "了解 Sentry 的 PagerDuty 集成以及如何使用 Sentry 警报触发 PagerDuty 事件。"
 ---
 
-The PagerDuty integration allows you to connect your Sentry organization with one or more PagerDuty accounts, and start getting incidents triggered by Sentry alerts.
+PagerDuty 集成允许您将 Sentry 组织与一个或多个 PagerDuty 账户连接，并开始获取由 Sentry 警报触发的事件。
 
-## Install
+## 安装
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或拥有者权限才能安装此集成。
 
 </Alert>
 
-1. Navigate to **Settings > Integrations > PagerDuty**
+1. 导航到 **设置 > 集成 > PagerDuty**
 
-   ![Install PagerDuty integration](./img/pagerduty-overview.png)
+   ![安装 PagerDuty 集成](./img/pagerduty-overview.png)
 
-2. In the resulting modal, click "Add Installation".
+2. 在结果模态框中，点击"添加安装"。
 
-3. You'll then be redirected to sign into PagerDuty and choose the account you'd like to connect to the current Sentry organization you are in.
+3. 然后您将被重定向登录 PagerDuty 并选择您要连接到当前所在 Sentry 组织的账户。
 
-   ![PagerDuty account picker modal](./img/pd_account_picker.png)
+   ![PagerDuty 账户选择器模态框](./img/pd_account_picker.png)
 
-4. After picking the account, you'll be prompted to add the PagerDuty services you want Sentry to send incidents to. Click "Connect" once you've added your services.
+4. 选择账户后，系统将提示您添加您希望 Sentry 发送事件的 PagerDuty 服务。添加服务后点击"连接"。
 
-   ![Add PagerDuty services](./img/pd_add_services.png)
+   ![添加 PagerDuty 服务](./img/pd_add_services.png)
 
-## Configure
+## 配置
 
-The PagerDuty integration should now be installed. You'll be able to see the services connected by going to the **configure** page for your installation.
+PagerDuty 集成现在应该已安装。您可以通过转到安装的 **配置** 页面来查看连接的服务。
 
-![PagerDuty is installed](./img/pd_installed.png)
+![PagerDuty 已安装](./img/pd_installed.png)
 
-You can now set up rules to use the new integration under **Project Configuration** in the configure section of your installation.
+您现在可以在安装的 configure 部分的 **项目配置** 下设置使用新集成的规则。
 
-![PagerDuty configuration page](./img/pd_org_configuration.png)
+![PagerDuty 配置页面](./img/pd_org_configuration.png)
 
-If you re-generate an integration key for one of your services in PagerDuty you can manually update that value in configuration page for your PagerDuty installation. Additionally, you can add services by clicking "Add Services" in the top right. This will take you to the same page, as shown in step 5.
+如果您在 PagerDuty 中为您的某个服务重新生成集成密钥，您可以手动在 PagerDuty 安装的配置页面中更新该值。此外，您可以通过点击右上角的"添加服务"来添加服务。这将带您到与步骤 5 中显示的相同页面。
 
-### Alert Rules
+### 警报规则
 
-Click "Add Alert Rule" in the integration configuration page or go to **Alerts** and click "Create Alert" to set up a new alert rule for the PagerDuty integration.
+点击集成配置页面中的"添加警报规则"或转到 **警报** 并点击"创建警报"，为 PagerDuty 集成设置新的警报规则。
 
-In [issue alerts](/product/alerts/alert-types/#issue-alerts), select "Send a PagerDuty notification" in the actions dropdown and then select your account and service. You can also select a custom severity for alert, or select "default" to use the default severity level that Sentry provides for issue types ("critical" for fatal, "error" for error, "warning" for warning, and "info" for debug and info issues).
+在[问题警报](/product/alerts/alert-types/#issue-alerts)中，从操作下拉菜单中选择"发送 PagerDuty 通知"，然后选择您的账户和服务。您还可以为警报选择自定义严重性，或选择"默认"以使用 Sentry 为问题类型提供的默认严重性级别（致命为"严重"，错误为"错误"，警告为"警告"，调试和信息问题为"信息"）。
 
-![PagerDuty alert rule action](./img/pd_alert_rule.png)
+![PagerDuty 警报规则操作](./img/pd_alert_rule.png)
 
-In [metric alerts](/product/alerts/alert-types/#metric-alerts), select the PagerDuty option in the dropdown that corresponds to your account and the select your service. You can also select a custom severity for the alert, or leave it blank to use the default severity level that Sentry provides for incident statuses ("critical" for critical status and "warning" for warning status).
+在[指标警报](/product/alerts/alert-types/#metric-alerts)中，在下拉菜单中选择对应您账户的 PagerDuty 选项，然后选择您的服务。您还可以为警报选择自定义严重性，或留空以使用 Sentry 为事件状态提供的默认严重性级别（关键状态为"严重"，警告状态为"警告"）。
 
-![PagerDuty metric alert rule action](./img/pd_metric_alert_rule.png)
+![PagerDuty 指标警报规则操作](./img/pd_metric_alert_rule.png)
 
-If a PagerDuty incident is created from the critical trigger of a metric alert and no warning threshold has been set, it will resolve itself when the Sentry metric alert is resolved. Metric alerts that have set warning thresholds may need to be manually resolved as PagerDuty incidents.
+如果从指标警报的关键触发器创建 PagerDuty 事件且未设置警告阈值，当 Sentry 指标警报解决时，它将自动解决。设置了警告阈值的指标警报可能需要手动解决 PagerDuty 事件。
 
-## Deleting the Legacy PagerDuty Integration
+## 删除旧版 PagerDuty 集成
 
-Once you configure the global PagerDuty integration and Alert Rules, you can disable the old PagerDuty integration. You’ll need to go to each project that has it enabled and disable it. We recommend disabling the legacy integration after setting up the global integration.
+配置全局 PagerDuty 集成和警报规则后，您可以禁用旧的 PagerDuty 集成。您需要转到启用了它的每个项目并禁用它。我们建议设置全局集成后禁用旧版集成。

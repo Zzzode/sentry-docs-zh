@@ -1,22 +1,24 @@
 ---
-title: Assets
+title: 资源文件（Assets）
 sidebar_order: 20
-description: "Learn more about browser asset performance monitoring, which allows you to debug the performance of loading JavaScript and CSS on your frontend."
+description: "了解浏览器资源文件性能监控，帮助您调试前端JavaScript和CSS加载性能问题。"
 ---
 
-If you have performance monitoring enabled for your frontend, you can see how your browser assets are performing in Sentry.
+<Include name="feature-limited-on-team-retention.mdx" />
 
-Starting with the [**Assets** page](#assets-page), you get a high-level overview of how your assets are doing. From there, you can drill into a specific asset's [**Asset Summary** page](#asset-summary-page) and then investigate sample events from the [Sample List](#sample-list) to better understand the context of its performance in a specific page.
+如果您在前端启用了性能监控，您可以在Sentry中查看浏览器资源文件的性能表现。
+
+从[**资源文件**页面](#资源文件页面)开始，您可以获得资源文件性能的高级概览。从那里，您可以深入查看特定资源文件的[**资源文件摘要**页面](#资源文件摘要页面)，然后通过[样本列表](#样本列表)调查样本事件，以更好地了解其在特定页面中的性能上下文。
 
 <Arcade src="https://demo.arcade.software/c7lgN0cFkg0R2tb9t0jH?embed" />
 
-## Prerequisites and Limitations
+## 先决条件和限制
 
-The asset pages are only available for frontend JavaScript projects with performance monitoring enabled. Currently only JavaScript, CSS, images, and certain assets that are initiated by CSS (such as fonts), are supported.
+资源文件页面仅适用于启用了性能监控的前端JavaScript项目。目前仅支持JavaScript、CSS、图片以及由CSS发起的某些资源文件（如字体）。
 
-For the best experience, we recommend enabling automatic instrumentation via the `BrowserTracing` integration for your frontend project to see asset performance data. This is supported for the following JavaScript platforms:
+为了获得最佳体验，我们建议为您的项目启用`BrowserTracing`集成来自动检测资源文件性能数据。以下JavaScript平台支持此功能：
 
-- [Vanilla JavaScript](/platforms/javascript/performance/)
+- [原生JavaScript](/platforms/javascript/performance/)
 - [Angular](/platforms/javascript/guides/angular/performance/)
 - [Astro](/platforms/javascript/guides/astro/performance/)
 - [Ember](/platforms/javascript/guides/ember/performance/)
@@ -28,27 +30,27 @@ For the best experience, we recommend enabling automatic instrumentation via the
 - [SvelteKit](/platforms/javascript/guides/sveltekit/performance/)
 - [Vue](/platforms/javascript/guides/vue/performance/)
 
-### Span Eligibility
+### Span资格
 
-Sentry tries to extract metrics by looking at asset-related spans.
+Sentry通过查找与资源文件相关的span来提取指标。
 
-The JavaScript SDK automatically generates `asset` spans on `pageload` and `navigation` transactions using the browser's [Resource Timing API](https://developer.mozilla.org/en-US/docs/Web/API/Performance_API/Resource_timing).
+JavaScript SDK使用浏览器的[资源计时API](https://developer.mozilla.org/zh-CN/docs/Web/API/Performance_API/Resource_timing)在`pageload`和`navigation`事务上自动生成`asset` span。
 
-If you are using <PlatformLink to="/tracing/instrumentation/automatic-instrumentation">automatic instrumentation</PlatformLink>, asset monitoring should work without any configuration.
+如果您正在使用<PlatformLink to="/tracing/instrumentation/automatic-instrumentation">自动检测</PlatformLink>，资源文件监控应该无需任何配置即可工作。
 
-If you've manually instrumented Sentry, you'll need to make sure that your spans conform to our standards for the best experience:
+如果您手动检测了Sentry，您需要确保您的span符合我们的标准以获得最佳体验：
 
-- The span `op` field is prefixed with `resource` (for example, `resource.script` or `resource.css`).
-- The span's `description` contains the URL of the loaded resource, which should correspond to the [PerformanceResourceTiming name field](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceEntry/name).
-- The `http.response_transfer_size` span data value is set to the [total transfer size](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize) of the resource.
-- The `http.response_content_length` span data value is set to the [encoded body size](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/encodedBodySize) of the resource.
-- The `http.decoded_response_content_length` span data value is set to the [decoded body size](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/decodedBodySize) of the resource.
-- The `resource.render_blocking_status` span data value is set to the [render blocking status](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/renderBlockingStatus) of the resource.
+- span的`op`字段以`resource`为前缀（例如，`resource.script`或`resource.css`）。
+- span的`description`包含加载资源的URL，这应该对应于[PerformanceResourceTiming名称字段](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceEntry/name)。
+- `http.response_transfer_size` span数据值设置为资源的[总传输大小](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceResourceTiming/transferSize)。
+- `http.response_content_length` span数据值设置为资源的[编码主体大小](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceResourceTiming/encodedBodySize)。
+- `http.decoded_response_content_length` span数据值设置为资源的[解码主体大小](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceResourceTiming/decodedBodySize)。
+- `resource.render_blocking_status` span数据值设置为资源的[渲染阻塞状态](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceResourceTiming/renderBlockingStatus)。
 
-Here's an example snippet of creating a resource span manually with the SDK.
+以下是使用SDK手动创建资源span的示例代码片段。
 
 ```javascript
-// https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming
+// https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceResourceTiming
 const resources = performance.getEntriesByType("resource");
 resources.forEach((entry) => {
   const startTime = msToSec(entry.startTime);
@@ -68,91 +70,90 @@ resources.forEach((entry) => {
     },
   });
 
-  // override end timestamp to match performance entry
+  // 覆盖结束时间戳以匹配性能条目
   span.finish(startTime + duration);
 });
 ```
-## Assets Page
 
-The **Assets** page gives you a quick overview of your application's asset performance for the selected project(s). You can use this page as a starting point to investigate potential problem assets and drill down to better understand how various assets are affecting your app's performance.
+## 资源文件页面
 
-Open the **Assets** page by clicking "Assets" in the sidebar, under "Insights". Alternatively, the **Performance** page also surfaces the highest impact assets in the "Most Time Consuming Assets" widget. From there, you can click "View All" to open the **Assets** page.
+**资源文件**页面为您提供了所选项目中应用程序资源文件性能的快速概览。您可以将此页面作为起点来调查潜在的问题资源文件，并深入了解各种资源文件如何影响应用程序性能。
 
-At the top of the page, summary graphs for requests per minute (throughput) and average duration provide high-level insight into the performance of your assets. If you see an anomaly or want to investigate a time range further, you can click and drag to select a range directly in a graph to filter data for that time range.
+点击侧边栏"洞察"下的"资源文件"打开**资源文件**页面。或者，**性能**页面也会在"最耗时的资源文件"小组件中显示影响最大的资源文件。从那里，您可以点击"查看全部"打开**资源文件**页面。
 
-The asset table below shows a list of grouped assets, along with their type, their volume (requests per min), average duration, the total time your app spent loading that asset (time spent), and [average encoded size](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/encodedBodySize) of the asset.
+在页面顶部，每分钟请求数（吞吐量）和平均持续时间的摘要图表为您提供了资源文件性能的高级洞察。如果您发现异常或想进一步调查某个时间范围，您可以直接在图表中点击并拖动来选择该时间范围以筛选该时间范围的数据。
 
-By default, the assets table is sorted by most time spent, which serves as a proxy for the relative performance impact of a given asset. A asset's time spent is the sum of all its durations in a given time period or, put another way, the product of its average duration and requests per minute. This means that assets at the top are usually loading really slowly, very frequently, or both.
+下面的资源文件表格显示了分组资源文件的列表，以及它们的类型、数量（每分钟请求数）、平均持续时间、应用程序加载该资源文件所花费的总时间（花费时间）以及资源文件的[平均编码大小](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceResourceTiming/encodedBodySize)。
 
-You can click on a column header to change how the table is sorted. Sort by requests per minute to see the most frequently loaded assets or by average duration to see the slowest-loading assets.
+默认情况下，资源文件表格按花费时间最多排序，这可以作为给定资源文件相对性能影响的代理。资源文件的花费时间是给定时间段内其所有持续时间的总和，换句话说，是其平均持续时间与每分钟请求数的乘积。这意味着顶部的资源文件通常加载非常缓慢、非常频繁，或两者兼有。
 
-You can also filter assets by domain, type, page it's found on, and whether it has render blocked.
+您可以点击列标题来更改表格的排序方式。按每分钟请求数排序以查看加载最频繁的资源文件，或按平均持续时间排序以查看加载最慢的资源文件。
 
-To view more details, click on a asset from the table to open its **Asset Summary** page.
+您还可以按域、类型、所在页面以及是否已渲染阻塞来筛选资源文件。
 
+要查看更多详细信息，请点击表格中的资源文件以打开其**资源文件摘要**页面。
 
-### What Does a Render Blocking Mean?
+### 渲染阻塞是什么意思？
 
-A render blocking asset is one which will stop the browser from rendering anything on the screen, until the asset is fully download and processed by the browser.
+渲染阻塞资源文件是指会阻止浏览器在屏幕上渲染任何内容的资源文件，直到该资源文件被浏览器完全下载和处理。
 
-An example of this is a `<script/>` within the `<head>` of an HTML document. When loaded, the browser will want to load this script entirely before rendering content as it assumes it may need something from that script to render. If this is not the case, you can add the `defer` or `async` attribute to the script in order to reduce or eliminate render blocking.
+一个例子是HTML文档`<head>`中的`<script/>`。加载时，浏览器会希望在渲染内容之前完全加载此脚本，因为它假设可能需要该脚本中的某些内容来渲染。如果不是这种情况，您可以向脚本添加`defer`或`async`属性以减少或消除渲染阻塞。
 
-Sentry captures a assets render blocking status using the `resource.render_blocking_status` property in the [PerformanceResourceTiming Api](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/renderBlockingStatus).
+Sentry使用[PerformanceResourceTiming API](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceResourceTiming/renderBlockingStatus)中的`resource.render_blocking_status`属性捕获资源文件的渲染阻塞状态。
 
-### Asset Parameterization
+### 资源文件参数化
 
-To enable Sentry to group similar assets together, Sentry parameterizes asset URLs, removing potentially dynamic elements. This helps track the performance of a particular asset across different releases, even when they have dynamic segments (used for busting caches or CDNS).
+为了使Sentry能够将相似的资源文件分组在一起，Sentry对资源文件URL进行参数化，删除可能动态的元素。这有助于跟踪特定资源文件在不同版本中的性能，即使它们具有动态段（用于缓存清除或CDN）。
 
-If you would like to further improve your groupings, consider the following rules we use when parameterizing urls. These rules can help you understand how you can name urls to improve grouping.
+如果您想进一步改进分组，请考虑我们在参数化URL时使用的以下规则。这些规则可以帮助您了解如何命名URL以改进分组。
 
-The following tokens will be replaced with \* within a asset url
+以下标记将在资源文件URL中被替换为\*
 
-1. A version string (`myfile.v3.0.js` is replace with `myfile.*.js`)
-2. Hexadecimal strings with more than 5 digits (`myfile.7A9B3E.js` is replaced with `myfile.*.js`)
-3. UUID's
-4. Integer IDs with more than one digit (`1234.7A9B3E.js` is replace with `*.*.js`)
-5. Strings longer then 25 characters
-6. The entire path except for common path segments such as static, chunks, media, etc
+1. 版本字符串（`myfile.v3.0.js`被替换为`myfile.*.js`）
+2. 超过5位的十六进制字符串（`myfile.7A9B3E.js`被替换为`myfile.*.js`）
+3. UUID
+4. 超过一位的整数ID（`1234.7A9B3E.js`被替换为`*.*.js`）
+5. 超过25个字符的字符串
+6. 整个路径，除了常见路径段如static、chunks、media等
 
 <Alert>
 
-Asset parametrization is still a work-in-progress. As these improvements are made, you will will temporarily see instances of the new and old groupings in your Asset Module.
+资源文件参数化仍在进行中。随着这些改进的进行，您将暂时在资源文件模块中看到新旧分组的实例。
 
-Let us know of any feedback through GitHub Issues.
+请通过GitHub Issues告诉我们任何反馈。
 
 </Alert>
 
-To see an example of asset URL from a group, hover over a URL in the asset table.
+要查看分组中资源文件URL的示例，请将鼠标悬停在资源文件表格中的URL上。
 
-## Asset Summary Page
+## 资源文件摘要页面
 
-To open a asset's **Asset Summary** page, click on the asset from the table in the **Assets** page.
+要打开资源文件的**资源文件摘要**页面，请点击**资源文件**页面表格中的资源文件。
 
-At the top of the page, average encoded size, average decoded size, average transfer size, average duration, and requests per minute are shown for the selected time range. Right below this, you can see summary graphs for requests per minute, average duration, and average asset size over time.
+在页面顶部，显示所选时间范围的平均编码大小、平均解码大小、平均传输大小、平均持续时间和每分钟请求数。在此下方，您可以看到随时间变化的每分钟请求数、平均持续时间和平均资源文件大小的摘要图表。
 
-At the bottom, you can find a list of pages the asset is found in, sorted by the requests per minute for the asset on that page.
+在底部，您可以找到资源文件所在页面的列表，按该页面上资源文件的每分钟请求数排序。
 
-If you want to investigate a specific page, click on it to open a sidebar showing some sample events.
+如果您想调查特定页面，请点击它以打开侧边栏显示一些样本事件。
 
+### 图片样本
 
-### Image Samples
+查看图片资源文件时，资源文件摘要页面还会显示5个最大的图片样本。如果资源文件具有以下扩展名之一，Sentry会确定该span是图片：'jpg'、'jpeg'、'png'、'gif'、'svg'、'webp'、'apng'、'avif'。
 
-When viewing an image asset, the asset summary page will also show the 5 largest image samples. Sentry determines the span is an image if it has one of the following extensions: 'jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'apng', 'avif'.
+如果大小信息不可用，样本将不会按任何特定顺序排序。如果图片可公开访问且启用了"启用图片"项目设置，则实际图片将在UI中渲染。
 
-If size information is not available, the samples will not be ordered in any particular order. If the images are publicly accessible and the 'Enable Images' project settings is enabled, then the actual images will be rendered in the UI.
+![样本图片示例](../img/asset-sample-images.png)
 
-![Example of Sample Images](../img/asset-sample-images.png)
+## 样本列表
 
-## Sample List
+点击页面以打开其样本列表。此侧面板显示资源文件在特定页面中的摘要指标（每分钟请求数、平均持续时间和花费时间）。
 
-Click on a page to open its samples list. This side panel shows summary metrics (requests per minute, average duration, and time spent) for the asset in the specific page.
+表格显示了样本事件列表、它们的span持续时间以及与平均值的持续时间差异。此表格按最长span持续时间排序。
 
-The table shows a sample list of events, their span duration, and the difference in duration compared to average. This table is sorted by longest span duration.
+Sentry会自动查找各种样本以帮助您调查性能问题。所选事件将覆盖整个所选时间范围，以及一系列持续时间（比平均值快、慢和接近）。您可以通过比较不同的样本事件来了解性能特征。
 
-Sentry automatically finds a variety of samples to help you investigate performance problems. The chosen events will cover the entire selected time range, as well as a range of durations (both faster than, slower than, and near the average duration). You can get a sense of the performance characteristics by comparing different sample events.
+这些相同的事件也显示为上方平均持续时间图表中的三角形。
 
-These same events are also represented as triangles shown in the average duration graph above.
+您可以通过点击底部的"尝试不同样本"按钮生成新的随机样本事件列表。
 
-You can generate a new list of random sample events by clicking the "Try Different Samples" button at the bottom.
-
-From the sample list, you can drill down to specific good, average, or bad examples of a given asset within a given page. Click on an event ID to drill into the asset's span details within the span waterfall of the [Trace View](/concepts/key-terms/tracing/trace-view/#product-walkthrough-trace-details-page) page.
+从样本列表中，您可以深入了解给定页面中给定资源文件的特定好、平均或差示例。点击事件ID以深入了解资源文件span在[跟踪视图](/concepts/key-terms/tracing/trace-view/#产品演练-跟踪详情页面)页面的span瀑布中的详细信息。

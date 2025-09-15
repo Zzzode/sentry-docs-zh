@@ -1,36 +1,36 @@
 ---
-title: Sorting & Filtering
+title: 排序和筛选
 sidebar_order: 10
-description: "Learn how to sort and filter releases."
+description: "了解如何排序和筛选发布。"
 ---
 
-## Sorting Releases
+## 排序发布
 
-On the **Releases** page, you can use the "Sort By" dropdown to sort releases by:
+在**发布**页面上，您可以使用"排序依据"下拉菜单按以下方式排序发布：
 
-- Date Created
-- Total Sessions
-- [Active Sessions/Users](/product/releases/health/#active-sessionsusers)
-- [Crash Free Sessions/Users](/product/releases/health/#crash-free-sessionsusers)
-- Build Number
-- [Semantic Version](/platform-redirect/?next=/configuration/releases/%23bind-the-version)
-- Date Adopted (when you select a single environment)
+- 创建日期
+- 总会话数
+- [活跃会话/用户](/product/releases/health/#active-sessionsusers)
+- [无崩溃会话/用户](/product/releases/health/#crash-free-sessionsusers)
+- 构建号
+- [语义版本](/platform-redirect/?next=/configuration/releases/%23bind-the-version)
+- 采用日期（当您选择单个环境时）
 
-## Filtering Releases
+## 筛选发布
 
-Search on the **Releases** page supports both raw text and query syntax, and you can search using the following properties:
+**发布**页面上的搜索支持原始文本和查询语法，您可以使用以下属性进行搜索：
 
-- `release` - Search based on string comparison, or `release:latest` to pick the most recent release. [Learn more](#latest-release).
-- `release.stage` - Search releases with matching adoption stage. Can be `adopted`, `low_adoption`, or `replaced`. Learn more about [release adoption stages](/product/releases/health/#adoption-stages).
+- `release` - 基于字符串比较搜索，或`release:latest`选择最新发布。[了解更多](#latest-release)。
+- `release.stage` - 搜索具有匹配采用阶段的发布。可以是`adopted`、`low_adoption`或`replaced`。了解有关[发布采用阶段](/product/releases/health/#adoption-stages)的更多信息。
 
-If you are using our [semantic versioning](/platform-redirect/?next=/configuration/releases/%23bind-the-version) format, you can use the following query tokens:
+如果您使用我们的[语义版本控制](/platform-redirect/?next=/configuration/releases/%23bind-the-version)格式，您可以使用以下查询标记：
 
-- `release.package` - Search releases with matching package names.
-- `release.version` - Search releases with matching semantic version. Supports ranges and wildcards (for example, `release.version:>7.8` or `release.version:1.2.*`).
-- `release.build` - Search releases with matching build numbers.
+- `release.package` - 搜索具有匹配包名称的发布。
+- `release.version` - 搜索具有匹配语义版本的发布。支持范围和通配符（例如，`release.version:>7.8`或`release.version:1.2.*`）。
+- `release.build` - 搜索具有匹配构建号的发布。
 
-Learn more about search queries in our [full Search documentation](/concepts/search/).
+在我们的[完整搜索文档](/concepts/search/)中了解有关搜索查询的更多信息。
 
-## Latest Release
+## 最新发布
 
-The special `release:latest` filter intelligently finds the most recent release for every selected project. For projects that use [Semantic Version](/platform-redirect/?next=/configuration/releases/%23bind-the-version) numbers, the latest release is one with the highest version number. For projects that use Commit SHA for versioning, the latest release is the most recent one.
+特殊的`release:latest`过滤器智能地为每个选定的项目查找最新发布。对于使用[语义版本](/platform-redirect/?next=/configuration/releases/%23bind-the-version)号的项目，最新发布是具有最高版本号的发布。对于使用提交SHA进行版本控制的项目，最新发布是最近的一个。

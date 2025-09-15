@@ -1,67 +1,67 @@
 ---
 title: Microsoft Teams
 sidebar_order: 1
-description: "Learn more about Sentry's Microsoft Teams integration and how you can get alerts that let you triage issues directly in your Teams channels."
+description: "了解 Sentry 的 Microsoft Teams 集成以及如何在 Teams 频道中获取警报，让您直接分流问题。"
 ---
 
-Microsoft Teams is a hub for teamwork in Office 365. Keep all your team's chats, meetings, files, and apps together in one place. Get alerts that let you assign, archive, and resolve issues right in your Teams channels with the Sentry integration for Microsoft Teams.
+Microsoft Teams 是 Office 365 中的团队协作中心。将所有团队的聊天、会议、文件和应用放在一个地方。通过 Sentry 的 Microsoft Teams 集成，获取警报让您可以在 Teams 频道中直接分配、归档和解决问题。
 
-Set this integration up once per organization, then it's available for _all_ projects.
+每个组织设置一次此集成，然后它对 _所有_ 项目都可用。
 
-## Install
-
-<Alert>
-
-Sentry owner, manager, or admin permissions are required to install this integration.
-
-</Alert>
-
-1. Visit [the Microsoft Teams App Store](https://teams.microsoft.com/l/app/5adee720-30de-4006-a342-d454317db1d4)
-
-2. Click "Open".
-
-   ![Microsoft Teams installation modal](./img/msteams-open-app.png)
-
-3. Select the General channel for the Team you want for the integration. Click "Go".
-
-   ![Microsoft Teams installation modal with channel selection](./img/msteams-select-channel.png)
-
-<Alert level="warning" title="Note">
-  If you click "Open" instead of selecting a channel, this will incorrectly install Sentry as a personal app.
-</Alert>
-
-3. You should see a welcome message in your selected channel within a few seconds. Click "Complete Setup".
-
-   ![Welcome to Microsoft Teams message](./img/msteams-welcome-message.png)
-
-The integration should be installed at this point.
-
-## Configure
-
-Use Microsoft Teams for [alerts](/product/alerts/) regarding issues, environments, deployment, etc.
-
-### Alert Rules
+## 安装
 
 <Alert>
 
-If Microsoft Teams is not appearing as an option in issue alert actions, re-install the integration using "Add to team".
+需要 Sentry 所有者、管理员或拥有者权限才能安装此集成。
 
 </Alert>
 
-Set up an alert rule by going to **Alerts** and clicking "Create Alert". From here, you can configure alerts to route notifications to your Microsoft Team's channels.
+1. 访问 [Microsoft Teams 应用商店](https://teams.microsoft.com/l/app/5adee720-30de-4006-a342-d454317db1d4)
 
-In [issue alerts](/product/alerts/alert-types/#issue-alerts), select "Send a Microsoft Teams notification" in the actions dropdown and then select your team and channel:
+2. 点击"打开"。
 
-![Microsoft Teams alert rule action](./img/msteams-add-action.png)
+   ![Microsoft Teams 安装模态框](./img/msteams-open-app.png)
 
-In [metric alerts](/product/alerts/alert-types/#metric-alerts), select the Microsoft Teams option in the dropdown that corresponds to your team and then enter the username or channel:
+3. 为集成选择您想要的团队的常规频道。点击"前往"。
 
-![Microsoft Teams metric alert rule action](./img/msteams_metric_alert_rule.png)
+   ![带有频道选择的 Microsoft Teams 安装模态框](./img/msteams-select-channel.png)
 
-Once you receive a Microsoft Teams notification, you can use the "Resolve", "Archive", or "Assign" buttons to update the Issue in Sentry.
+<Alert level="warning" title="注意">
+  如果您点击"打开"而不是选择频道，这将错误地将 Sentry 安装为个人应用。
+</Alert>
 
-![Sentry issue status buttons in Microsoft Teams alert](./img/msteams-alert-message.png)
+3. 您应该在几秒钟内在您选择的频道中看到欢迎消息。点击"完成设置"。
 
-The first time you try to interact with a notification, you will get a message from the Sentry bot asking you to link your identity. Click "Link Identities" to complete this step. Until you do this, you can't interact with messages.
+   ![欢迎使用 Microsoft Teams 消息](./img/msteams-welcome-message.png)
 
-![Link Microsoft Teams identity to Sentry](./img/msteams-link-identity.png)
+此时集成应该已安装。
+
+## 配置
+
+将 Microsoft Teams 用于关于问题、环境、部署等的[警报](/product/alerts/)。
+
+### 警报规则
+
+<Alert>
+
+如果 Microsoft Teams 没有出现在问题警报操作选项中，请使用"添加到团队"重新安装集成。
+
+</Alert>
+
+通过转到 **警报** 并点击"创建警报"来设置警报规则。从这里，您可以配置警报以将通知路由到您的 Microsoft Teams 频道。
+
+在[问题警报](/product/alerts/alert-types/#issue-alerts)中，从操作下拉菜单中选择"发送 Microsoft Teams 通知"，然后选择您的团队和频道：
+
+![Microsoft Teams 警报规则操作](./img/msteams-add-action.png)
+
+在[指标警报](/product/alerts/alert-types/#metric-alerts)中，在下拉菜单中选择对应您团队的 Microsoft Teams 选项，然后输入用户名或频道：
+
+![Microsoft Teams 指标警报规则操作](./img/msteams_metric_alert_rule.png)
+
+一旦您收到 Microsoft Teams 通知，您可以使用"解决"、"归档"或"分配"按钮更新 Sentry 中的问题。
+
+![Microsoft Teams 警报中的 Sentry 问题状态按钮](./img/msteams-alert-message.png)
+
+第一次尝试与通知交互时，您将收到来自 Sentry 机器人的消息，要求您链接您的身份。点击"链接身份"完成此步骤。在您完成此操作之前，您无法与消息交互。
+
+![将 Microsoft Teams 身份链接到 Sentry](./img/msteams-link-identity.png)

@@ -1,52 +1,52 @@
 ---
-title: Errors
+title: 错误
 sidebar_order: 6
-description: "Learn more about Sentry's integration platform error webhooks."
+description: "了解有关 Sentry 集成平台错误 webhooks 的更多信息。"
 ---
 
-Sentry integrations that have subscribed to error webhooks can receive information about an error being created.
+已订阅错误 webhooks 的 Sentry 集成可以接收有关错误创建的信息。
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-## Sentry-Hook-Resource Header
+## Sentry-Hook-Resource 标头
 
 `'Sentry-Hook-Resource': 'error'`
 
-## Attributes
+## 属性
 
 ### action
 
-- type: string
-- description: only option currently is `created`
+- 类型：字符串
+- 描述：目前唯一选项是 `created`
 
 ### data['error']
 
-- type: object
-- description: the error that was created
+- 类型：对象
+- 描述：创建的错误
 
 ### data['error']['url']
 
-- type: string
-- description: the api url for the error
+- 类型：字符串
+- 描述：错误的 api url
 
 ### data['error']['web_url']
 
-- type: string
-- description: the web url for the error
+- 类型：字符串
+- 描述：错误的 web url
 
 ### data['error']['issue_url']
 
-- type: string
-- description: the api url for the associated issue
+- 类型：字符串
+- 描述：关联问题的 api url
 
 ### data['event']['issue_id']
 
-- type: string
-- description: the id of the issue
+- 类型：字符串
+- 描述：问题的 id
 
-If you've set up user identification you can find the user attributes under `data['error']['user']`.
+如果您已设置用户识别，可以在 `data['error']['user']` 下找到用户属性。
 
-## Payload
+## 有效负载
 
 ```json
 {

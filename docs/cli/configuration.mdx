@@ -1,199 +1,199 @@
 ---
-title: "Configuration and Authentication"
+title: "配置和认证"
 sidebar_order: 1
-description: "Learn about the functionality of Sentry’s command line interface, including installation, configuration, and authentication."
+description: "了解 Sentry 命令行界面的功能，包括安装、配置和认证。"
 ---
 
-For most functionality you need to authenticate with Sentry. Setting this up can be done either automatically, using `sentry-cli`, or manually via [Organization Tokens](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/).
+对于大多数功能，您需要与 Sentry 进行认证。可以通过 `sentry-cli` 自动设置，或通过[组织令牌](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/)手动设置。
 
-## To use the automatic option:
+## 使用自动选项：
 
 ```bash
 sentry-cli login
 ```
 
-This will give you the option to visit your auth token user settings, where you can create a new auth token, or simply copy an existing one. When you return to the CLI, you'll paste in your token and it will get added to `~/.sentryclirc` automatically.
+这将为您提供访问认证令牌用户设置的选项，您可以在那里创建新的认证令牌，或简单地复制现有的令牌。当您返回 CLI 时，您将粘贴您的令牌，它将自动添加到 `~/.sentryclirc` 中。
 
-By default, `sentry-cli` will connect to sentry.io, but for self-hosted you can also sign in elsewhere:
+默认情况下，`sentry-cli` 将连接到 sentry.io，但对于自托管，您也可以在其他地方登录：
 
 ```bash
 sentry-cli --url https://myserver.invalid/ login
 ```
 
-## To Authenticate Manually:
+## 手动认证：
 
-You can manually create an [Organization Token](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/) and pass it to sentry-cli.
+您可以手动创建[组织令牌](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/)并将其传递给 sentry-cli。
 
-You can also sign in to your Sentry account (if you're not already) and create an Auth Token directly from this page.
+您也可以登录到您的 Sentry 账户（如果尚未登录）并直接从该页面创建认证令牌。
 
 <Alert>
-Some CLI functionality, such as [Crons Monitoring](/product/crons/getting-started/cli/), is dependent on [Data Source Name (DSN)](/concepts/key-terms/dsn-explainer/) authentication.
+某些 CLI 功能，如[定时任务监控](/product/crons/getting-started/cli/)，依赖于[数据源名称 (DSN)](/concepts/key-terms/dsn-explainer/) 认证。
 </Alert>
 
-You can create an Auth Token from this page in one of the following three ways:
+您可以通过以下三种方式之一从该页面创建认证令牌：
 
-- add it to `~/.sentryclirc`:
+- 将其添加到 `~/.sentryclirc`：
 
   ```ini
   [auth]
   token=___ORG_AUTH_TOKEN___
   ```
 
-- export it as an environment variable:
+- 将其导出为环境变量：
 
   ```bash
   export SENTRY_AUTH_TOKEN=___ORG_AUTH_TOKEN___
   ```
 
-- pass it as a parameter when you invoke `sentry-cli`:
+- 在调用 `sentry-cli` 时将其作为参数传递：
 
   ```bash
   $ sentry-cli login --auth-token ___ORG_AUTH_TOKEN___
   ```
 
-## Configuration File
+## 配置文件
 
-The `sentry-cli` tool can be configured with a config file named `.sentryclirc` as well as environment variables and `.env` files. The config file is looked for upwards from the current path and defaults from `~/.sentryclirc` are always loaded. You can also override these settings from command line parameters.
+`sentry-cli` 工具可以使用名为 `.sentryclirc` 的配置文件以及环境变量和 `.env` 文件进行配置。配置文件从当前路径向上查找，并且始终加载 `~/.sentryclirc` 中的默认值。您也可以通过命令行参数覆盖这些设置。
 
-The config file uses standard INI syntax.
+配置文件使用标准 INI 语法。
 
-By default `sentry-cli` will connect to sentry.io. For on-prem you can export the `SENTRY_URL` environment variable and point it to your installation:
+默认情况下，`sentry-cli` 将连接到 sentry.io。对于本地部署，您可以导出 `SENTRY_URL` 环境变量并将其指向您的安装：
 
 ```bash
 export SENTRY_URL=https://mysentry.invalid/
 ```
 
-Alternatively you can add it to your `~/.sentryclirc` config. This is also what the `login` command does:
+或者您可以将其添加到您的 `~/.sentryclirc` 配置中。这也是 `login` 命令所做的：
 
 ```ini
 [defaults]
 url = https://mysentry.invalid/
 ```
 
-## Configuration Values
+## 配置值
 
-The following settings are available (first is the environment variable, the value in the parentheses is the config key in the config file):
+以下设置可用（第一个是环境变量，括号中的值是配置文件中的配置键）：
 
 `SENTRY_AUTH_TOKEN` (_auth.token_):
 
-The authentication token to use for all communication with Sentry.
+用于与 Sentry 进行所有通信的认证令牌。
 
 `SENTRY_API_KEY` (_auth.api_key_):
 
-The legacy API key for authentication if you have one.
+如果您有传统的 API 密钥，则用于认证的旧版 API 密钥。
 
 `SENTRY_DSN` (_auth.dsn_):
 
-The DSN to use to connect to Sentry.
+用于连接到 Sentry 的 DSN。
 
 `SENTRY_URL` (_defaults.url_):
 
-The URL to use to connect to Sentry. This defaults to `https://sentry.io/`.
+用于连接到 Sentry 的 URL。默认为 `https://sentry.io/`。
 
 `SENTRY_ORG` (_defaults.org_):
 
-The ID or slug of the organization to use for a command.
+用于命令的组织的 ID 或 slug。
 
 `SENTRY_PROJECT` (_defaults.project_):
 
-The ID or slug of the project to use for a command.
+用于命令的项目的 ID 或 slug。
 
 `SENTRY_VCS_REMOTE` (_defaults.vcs_remote_):
 
-The name of the _remote_ in the versioning control system. This defaults to `origin`.
+版本控制系统中 _remote_ 的名称。默认为 `origin`。
 
 `SENTRY_PIPELINE` (_defaults.pipeline_):
 
-The name of the environment to be appended to `User-Agent` header.
+要附加到 `User-Agent` 标头的环境名称。
 
 `CUSTOM_HEADER` (_defaults.custom_header_):
 
-The header that will be added to every outgoing request in `key:value` format.
+将以 `key:value` 格式添加到每个传出请求的标头。
 
 `SENTRY_ALLOW_FAILURE`
 
-Note: This option will ignore the CLI's failure when uploading symbols. **BE AWARE** this will unblock your CI in case Sentry has issues, but you won't have unminified/unsymbolicated crashes in production.
-When using this flag, you should download your sourcemaps/debug files from CI, to re-run the upload symbols command at a later point once Sentry is available.
+注意：此选项将忽略上传符号时 CLI 的失败。**请注意**，如果 Sentry 出现问题，这将解除您的 CI 的阻塞，但您在生产中将没有未缩小/未符号化的崩溃。
+使用此标志时，您应该从 CI 下载您的源映射/调试文件，以便在 Sentry 可用后稍后重新运行上传符号命令。
 
 (_http.keepalive_):
 
-This ini only setting is used to control the behavior of the SDK with regards to HTTP keepalives. The default is _true_ but it can be set to _false_ to disable keepalive support.
+此 ini 仅设置用于控制 SDK 关于 HTTP keepalive 的行为。默认为 _true_，但可以设置为 _false_ 以禁用 keepalive 支持。
 
 `http_proxy` (_http.proxy_url_):
 
-The URL that should be used for the HTTP proxy. The standard `http_proxy` environment variable is also honored. Note that it is lowercase.
+应用于 HTTP 代理的 URL。也遵循标准的 `http_proxy` 环境变量。请注意它是小写的。
 
 (_http.proxy_username_):
 
-This ini only setting sets the proxy username in case proxy authentication is required.
+此 ini 仅设置在需要代理认证时设置代理用户名。
 
 (_http.proxy_password_):
 
-This ini only setting sets the proxy password in case proxy authentication is required.
+此 ini 仅设置在需要代理认证时设置代理密码。
 
 (_http.verify_ssl_):
 
-This can be used to disable SSL verification when set to false. You should never do that unless you are working with a known self signed server locally.
+这可用于在设置为 false 时禁用 SSL 验证。除非您正在本地使用已知的自签名服务器，否则您永远不应这样做。
 
 (_http.check_ssl_revoke_):
 
-If this is set to false then SSL revocation checks are disabled on Windows. This can be useful when working with a corporate SSL MITM proxy that does not properly implement revocation checks. Do not use this unless absolutely necessary.
+如果将其设置为 false，则在 Windows 上禁用 SSL 吊销检查。这对于使用未正确实施吊销检查的公司 SSL MITM 代理可能很有用。除非绝对必要，否则不要使用此功能。
 
 `SENTRY_HTTP_MAX_RETRIES` (_http.max_retries_):
 
-Sets the maximum number of retry attempts for HTTP requests, which may be experiencing a transient failure. The default is `5`.
+设置 HTTP 请求的最大重试尝试次数，这些请求可能正在经历瞬态故障。默认为 `5`。
 
 (_ui.show_notifications_):
 
-If this is set to false some operating system notifications are disabled. This currently primarily affects xcode builds which will not show notifications for background builds.
+如果将其设置为 false，则某些操作系统通知将被禁用。这目前主要影响 xcode 构建，这些构建不会显示后台构建的通知。
 
 `SENTRY_LOG_LEVEL` (_log.level_):
 
-Configures the log level for the SDK. The default is `warn`. If you want to see what the library is doing you can set it to `info` which will spit out more information which might help to debug some issues with permissions. Possible values are `trace`, `debug`, `info`, `warn`, and `error`.
+配置 SDK 的日志级别。默认为 `warn`。如果您想查看库正在做什么，您可以将其设置为 `info`，这将输出更多信息，这可能有助于调试一些权限问题。可能的值为 `trace`、`debug`、`info`、`warn` 和 `error`。
 
 (_dif.max_upload_size_):
 
-Sets the maximum upload size in bytes (before compression) of debug symbols into one batch. The default is 35MB or 100MB (depending on the version of sentry-cli) which is suitable for sentry.io but if you are using a different Sentry server you might want to change this limit if necessary. (Prior to version 1.72.0, this option was called `dsym.max_upload_size`.)
+设置调试符号批量上传到 Sentry 的最大上传大小（压缩前）。默认为 35MB 或 100MB（取决于 sentry-cli 的版本），这适用于 sentry.io，但如果您使用不同的 Sentry 服务器，您可能希望根据需要更改此限制。（在 1.72.0 版本之前，此选项称为 `dsym.max_upload_size`。）
 
 (_dif.max_item_size_):
 
-Sets the maximum file size of a single file inside DIF bundle. The default is 1MB.
+设置 DIF 包内单个文件的最大文件大小。默认为 1MB。
 
 `SENTRY_DISABLE_UPDATE_CHECK` (_update.disable_check_):
 
-If set to `true`, then the automatic update check in sentry-cli is disabled. The update check is also not enabled for npm based installations of sentry-cli at the moment.
+如果设置为 `true`，则 sentry-cli 中的自动更新检查将被禁用。更新检查目前也不适用于基于 npm 的 sentry-cli 安装。
 
 `SENTRY_NO_PROGRESS_BAR`:
 
-If set to `1`, then `sentry-cli` will not display progress bars for any operations.
+如果设置为 `1`，则 `sentry-cli` 将不会显示任何操作的进度条。
 
 `SENTRY_LOAD_DOTENV`:
 
-Set to `0` to prevent sentry-cli from loading an `.env` file.
+设置为 `0` 以防止 sentry-cli 加载 `.env` 文件。
 
 `SENTRY_DOTENV_PATH`:
 
-Specify a path to `.env` file to be loaded during setup. This was introduced in version 1.70.
+指定在设置期间要加载的 `.env` 文件的路径。这是在 1.70 版本中引入的。
 
 `DEVICE_FAMILY` (_device.family_):
 
-Device family value reported to Sentry.
+报告给 Sentry 的设备系列值。
 
 `DEVICE_MODEL` (_device.model_):
 
-Device model value reported to Sentry.
+报告给 Sentry 的设备型号值。
 
-## Validating The Config
+## 验证配置
 
-To make sure everything works you can run `sentry-cli info` and it should print out some basic information about the Sentry installation you connect to as well as some authentication information.
+为确保一切正常，您可以运行 `sentry-cli info`，它应该打印出有关您连接的 Sentry 安装的基本信息以及一些认证信息。
 
-## Working with Projects
+## 使用项目
 
-Many commands require you to specify the organization and project to work with. There are multiple ways in which you can specify this.
+许多命令要求您指定要处理的组织和项目。有多种方法可以指定这一点。
 
-### Config Defaults
+### 配置默认值
 
-If you are always working with the same projects you can set it in the `.sentryclirc` file:
+如果您始终使用相同的项目，您可以在 `.sentryclirc` 文件中设置它：
 
 ```ini
 [defaults]
@@ -201,40 +201,40 @@ project=my-project
 org=my-org
 ```
 
-### Environment Variables
+### 环境变量
 
-You can also set these defaults in environment variables. There are two environment variables that control this (`SENTRY_ORG` and `SENTRY_PROJECT`) which you can export:
+您也可以在环境变量中设置这些默认值。有两个环境变量控制这一点（`SENTRY_ORG` 和 `SENTRY_PROJECT`），您可以导出它们：
 
 ```bash
 export SENTRY_ORG=my-org
 export SENTRY_PROJECT=my-project
 ```
 
-### Properties Files
+### 属性文件
 
-Additionally `sentry-cli` supports loading configuration values from `.properties` files (common in the Java environment). You can instruct `sentry-cli` to load config files from there by exporting the path to a properties file in the `SENTRY_PROPERTIES` environment variable. This is commonly done automatically for some of our client integrations like [Java](/platforms/java/) and [React Native](/platforms/react-native/).
+此外，`sentry-cli` 支持从 `.properties` 文件（在 Java 环境中常见）加载配置值。您可以通过在 `SENTRY_PROPERTIES` 环境变量中导出属性文件的路径来指示 `sentry-cli` 从那里加载配置文件。这通常由我们的一些客户端集成自动完成，如 [Java](/platforms/java/) 和 [React Native](/platforms/react-native/)。
 
-Inside the properties files you just use the dotted notation to set values. Example:
+在属性文件中，您只需使用点符号来设置值。示例：
 
 ```ini
 defaults.url=https://mysentry.invalid/
 ```
 
-To then instruct `sentry-cli` to use that file use this:
+然后指示 `sentry-cli` 使用该文件，请使用：
 
 ```bash
 export SENTRY_PROPERTIES=/path/to/sentry.properties
 sentry-cli ...
 ```
 
-### Explicit Options
+### 显式选项
 
-Lastly you can also provide these values explicitly to the command you are executing. The parameters are always called `--org` or `-o` for the organization and `--project` or `-p` for the project.
+最后，您也可以将这些值显式地提供给您正在执行的命令。参数始终称为 `--org` 或 `-o` 用于组织，以及 `--project` 或 `-p` 用于项目。
 
-Note that they do not always go to the same command. For instance if you are managing releases (which are shared across the organization) you usually supply the organization to the `releases` command but the projects to the subcommand on it:
+请注意，它们并不总是转到相同的命令。例如，如果您正在管理发布（这些发布在组织之间共享），您通常将组织提供给 `releases` 命令，但将项目提供给其子命令：
 
 ```bash
 sentry-cli releases -o my-org new -p my-project 1.0
 ```
 
-For more information use the `help` command which will display documentation for all parameters.
+有关更多信息，请使用 `help` 命令，它将显示所有参数的文档。

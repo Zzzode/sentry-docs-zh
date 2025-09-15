@@ -1,117 +1,114 @@
 ---
 title: "Discover"
 sidebar_order: 90
-description: "Discover is a powerful query engine that allows you to query all your metadata across projects and environments to unlock insights."
+description: "Discover 是一个强大的查询引擎，允许您跨项目和环境查询所有元数据以解锁洞察。"
 ---
 
 <Alert>
 
-This feature is available only if your organization is on either a Business or Trial Plan, with the exception of the ["All Events" pre-built query](/product/explore/discover-queries/#pre-built-queries), which is available on Team plans or higher.
+此功能仅在您的组织使用商业或试用计划时可用，["所有事件"预构建查询](/product/explore/discover-queries/#pre-built-queries)除外，该查询在团队计划或更高版本中可用。
 
 </Alert>
 
-<SandboxLink scenario="discover" projectSlug="react">Discover</SandboxLink> provides visibility into your data across environments by building
-upon and enriching your error data. You can <SandboxLink scenario="oneDiscoverQuery" projectSlug="react">query</SandboxLink> and unlock insights into the health of your entire system and get
-answers to critical business questions — all in one place. Use <b>Discover</b> to
-view comprehensive information sent to Sentry.
+<SandboxLink scenario="discover" projectSlug="react">Discover</SandboxLink> 通过构建和丰富您的错误数据，提供跨环境的数据可见性。您可以<SandboxLink scenario="oneDiscoverQuery" projectSlug="react">查询</SandboxLink>并解锁对整个系统健康状况的洞察，并在一个地方获得关键业务问题的答案。使用<b>Discover</b>查看发送到 Sentry 的综合信息。
 
-![Full view of the Discover Homepage with query cards and button to build new queries.](./img/discover-homepage.png)
+![Discover 主页的完整视图，带有查询卡片和构建新查询的按钮。](./img/discover-homepage.png)
 
-The Discover homepage displays the query builder where you can immediately begin creating a new query. By default, the page shows the pre-built "All Events" query, but you can customize the homepage and [set the custom version as your default](#set-as-default). To navigate back to the query management page, where you can find [pre-built](#pre-built-queries) and [saved](#saved-queries) queries, click the "Saved Queries" button.
+Discover 主页显示查询构建器，您可以立即开始创建新查询。默认情况下，页面显示预构建的"所有事件"查询，但您可以自定义主页并[将自定义版本设置为默认](#set-as-default)。要导航回查询管理页面，您可以在其中找到[预构建](#pre-built-queries)和[已保存](#saved-queries)查询，请点击"已保存查询"按钮。
 
-The query management page offers views of all your saved and pre-built queries so you can quickly see areas that need immediate attention. For example, if a query on errors shows a spike has occurred in the past 24 hours, you might want to investigate that first. Each query is saved as a card that displays a summarized view of the following data:
+查询管理页面提供所有已保存和预构建查询的视图，以便您可以快速查看需要立即关注的区域。例如，如果错误查询显示过去 24 小时内发生了峰值，您可能希望首先调查该问题。每个查询都保存为卡片，显示以下数据的摘要视图：
 
-- Display Name
-- Search Conditions
-- Creator
-- Graph Snapshot
-- Date Range
-- Last Edited
+- 显示名称
+- 搜索条件
+- 创建者
+- 图表快照
+- 日期范围
+- 最后编辑时间
 
-## Pre-built Queries
+## 预构建查询
 
-Pre-built queries can be accessed by clicking the "Saved Queries" button on the Discover homepage. Query cards with Sentry avatars are pre-built and cannot be removed.
+预构建查询可以通过点击 Discover 主页上的"已保存查询"按钮来访问。带有 Sentry 头像的查询卡片是预构建的，无法移除。
 
-- All Events: Users can see the raw error stream for any group of projects. This replaces the Events feature and gives users the ability to add additional columns and change groupings to achieve their desired breakdown.
-- Errors by Title: Users can see their most frequently occurring errors by the total number of raw errors, as well as the total number of users affected.
-- Errors by URL: Users can see the pages that generated the most errors and different types of issues. As a reminder, issues are a group of fingerprinted Events. For more details, see the [full documentation on fingerprinting](/concepts/data-management/event-grouping/fingerprint-rules/).
+- 所有事件：用户可以看到任何项目组的原生错误流。这取代了事件功能，并让用户能够添加其他列和更改分组以实现所需的细分。
+- 按标题的错误：用户可以看到按原生错误总数以及受影响用户总数排序的最常发生的错误。
+- 按 URL 的错误：用户可以看到生成最多错误的页面和不同类型的问题。提醒一下，问题是指纹事件的分组。有关更多详细信息，请参阅[指纹的完整文档](/concepts/data-management/event-grouping/fingerprint-rules/)。
 
-## Saved Queries
+## 已保存查询
 
-Saved queries can be accessed by clicking the "Saved Queries" button on the Discover homepage. Query cards with a user avatar indicate saved queries. The user who created a saved query will have their avatar displayed on the query card. Saved Queries are viewable by anyone in your organization and **are not** scoped to the user's account.
+已保存查询可以通过点击 Discover 主页上的"已保存查询"按钮来访问。带有用户头像的查询卡片表示已保存查询。创建已保存查询的用户的头像将显示在查询卡片上。已保存查询可由您组织中的任何人查看，**不**限定于用户帐户。
 
-### Build a New Query
+### 构建新查询
 
-From the **Discover** page, you can build a <SandboxLink scenario="oneDiscoverQuery" projectSlug="react">query</SandboxLink> in three ways.
+从**Discover**页面，您可以通过三种方式构建<SandboxLink scenario="oneDiscoverQuery" projectSlug="react">查询</SandboxLink>。
 
-- Click on "Build a new query"
-- Click on the ellipsis of an existing saved query card to "Duplicate"
-- Go into any existing query
-  1. Click on "Save as..." in the top right
-  2. Enter a display name
-  3. Click "Save"
+- 点击"构建新查询"
+- 点击现有已保存查询卡片上的省略号以"复制"
+- 进入任何现有查询
+  1. 点击右上角的"另存为..."
+  2. 输入显示名称
+  3. 点击"保存"
 
-Apply new search conditions or table columns to modify the query results. Save the query and assign a custom display name. For the full details, see the [documentation on the Query Builder](/product/explore/discover-queries/query-builder/).
+应用新的搜索条件或表格列来修改查询结果。保存查询并分配自定义显示名称。有关完整详细信息，请参阅[查询构建器文档](/product/explore/discover-queries/query-builder/)。
 
-### Search for a Query
+### 搜索查询
 
-Looking for a specific query? Use the search bar on the homepage to find the query name.
+查找特定查询？使用主页上的搜索栏查找查询名称。
 
-### Sort Queries
+### 排序查询
 
-The dropdown in the top right will allow you to sort by attributes.
+右上角的下拉菜单将允许您按属性排序。
 
-- Recently Edited (Default)
-- My Queries
-- Query Name (A-Z)
-- Date Created (Newest)
-- Date Created (Oldest)
-- Most Outdated
+- 最近编辑（默认）
+- 我的查询
+- 查询名称（A-Z）
+- 创建日期（最新）
+- 创建日期（最旧）
+- 最过时
 
-### Edit Queries
+### 编辑查询
 
-If you need to edit any of these queries, go into the query, make the desired changes and a button will appear in the top right asking you to save/update the query. Keep in mind that edits to the query conditions **will not** be automatically saved.
+如果您需要编辑这些查询中的任何一个，请进入查询，进行所需的更改，右上角将出现一个按钮询问您是否保存/更新查询。请记住，对查询条件的编辑**不会**自动保存。
 
-To rename a saved query, click on the pencil icon by the header and enter the desired display name. Click "enter" or outside of the area to save the updated name.
+要重命名已保存的查询，请点击标题旁边的铅笔图标并输入所需的显示名称。点击"回车"或区域外部以保存更新的名称。
 
-### Share Queries
+### 共享查询
 
-Share your queries as often as you want. You can share URLs with other users who also have access to the same organization. As each part of the query is built, the results update, and the URL is updated so that in-progress searches can be shared in an email, chat, and so forth.
+根据需要共享您的查询。您可以与也具有访问同一组织权限的其他用户共享 URL。随着查询的每个部分被构建，结果会更新，URL 也会更新，以便可以通过电子邮件、聊天等方式共享进行中的搜索。
 
-### Delete Queries
+### 删除查询
 
-On the **Discover** page, each saved query card has an ellipsis that will open a context menu. From here, you can delete the query. This action is irreversible. You can also delete the query within the [query results](#query-results) view by clicking the "Delete Saved Query" option in the context menu.
+在**Discover**页面上，每个已保存的查询卡片都有一个省略号，将打开一个上下文菜单。从这里，您可以删除查询。此操作不可撤销。您还可以在[查询结果](#query-results)视图中通过点击上下文菜单中的"删除已保存查询"选项来删除查询。
 
-### Add to Dashboard
+### 添加到仪表板
 
-Queries can also be added to <SandboxLink scenario="dashboards" projectSlug="react">custom dashboards</SandboxLink> as widgets. You can find the "Add to Dashboard" button by opening the context menu on the **Discover** page or within the context menu of the [query results](#query-results) view. When you click "Add to Dashboard", a form opens where you can name your widget. Select your target dashboard, and make any other required changes before saving your new widget.
+查询还可以作为小部件添加到<SandboxLink scenario="dashboards" projectSlug="react">自定义仪表板</SandboxLink>。您可以通过点击**Discover**页面上的上下文菜单或在[查询结果](#query-results)视图的上下文菜单中找到"添加到仪表板"按钮。当您点击"添加到仪表板"时，会打开一个表单，您可以在其中命名小部件。选择目标仪表板，并在保存新小部件之前进行任何其他所需的更改。
 
-### Set as Default
+### 设为默认
 
-When you navigate to **Discover**, the homepage opens the query builder where you can immediately begin creating a new query. By default, the page displays the pre-built "All Events" query.
+当您导航到**Discover**时，主页会打开查询构建器，您可以立即开始创建新查询。默认情况下，页面显示预构建的"所有事件"查询。
 
-You can customize your homepage by changing the query, choosing which columns are displayed, and how charts appear, and then clicking the "Set as Default" button. Navigating to **Discover** will now open the query builder with this configuration pre-loaded. The "Set as Default" button is also available on both saved and pre-built queries, which you can find by clicking the "Saved Queries" button.
+您可以通过更改查询、选择显示哪些列以及图表如何显示，然后点击"设为默认"按钮来自定义主页。导航到**Discover**现在将打开预加载此配置的查询构建器。"设为默认"按钮也可用于已保存和预构建的查询，您可以通过点击"已保存查询"按钮找到它们。
 
-If you don't want to use this configuration as your default homepage anymore, click "Remove Default", and the homepage will revert to the "All Events" query.
+如果您不想再使用此配置作为默认主页，请点击"移除默认"，主页将恢复为"所有事件"查询。
 
-To navigate to the query management page, where you can find pre-built and saved queries, click the "Saved Queries" button.
+要导航到查询管理页面，您可以在其中找到预构建和已保存的查询，请点击"已保存查询"按钮。
 
-## Query Results
+## 查询结果
 
-![Page displaying a graph of error spikes by URL, the event tag summary, and results of the query.](./img/discover-results.png)
+![显示按 URL 的错误峰值的图表、事件标签摘要和查询结果的页面。](./img/discover-results.png)
 
-To view query results, click on any query card. You'll find a graph, table, and toggleable tag summary (or facet map). The top search bar lets you to see the search conditions entered. The table reflects the events with sortable columns.
+要查看查询结果，请点击任何查询卡片。您会找到一个图表、表格和可切换的标签摘要（或方面图）。顶部搜索栏让您看到输入的搜索条件。表格反映了具有可排序列的事件。
 
-Each table cell has a dynamic context menu that allows you to continue exploring your data by automatically updating the search bar or the table columns, according to your selection. Actions like adding or excluding values from the filter, opening a selected release, or viewing the underlying stack of issues:
+每个表格单元格都有一个动态上下文菜单，允许您通过根据选择自动更新搜索栏或表格列来继续探索数据。添加或排除过滤器中的值、打开选定的发布或查看底层问题堆栈等操作：
 
-![Context menu](./img/013.png)
+![上下文菜单](./img/013.png)
 
-If the first column shows an icon (as seen above), it means the events have been stacked. Click on the icon to view the full list of events. Each event will have an event ID you can click on for more details. Hovering over fields in the "Issue", "Release", and "Event ID" columns displays additional information like issue statuses, release authors, and stack traces for errors.
+如果第一列显示图标（如上所示），则意味着事件已堆叠。点击图标查看事件的完整列表。每个事件都有一个您可以点击以获取更多详细信息的事件 ID。将鼠标悬停在"问题"、"发布"和"事件 ID"列中的字段上会显示其他信息，如问题状态、发布作者和错误的堆栈跟踪。
 
-For more about how to build a query, go to [the Query Builder](/product/explore/discover-queries/query-builder/).
+有关如何构建查询的更多信息，请转到[查询构建器](/product/explore/discover-queries/query-builder/)。
 
-## Trace View
+## 跟踪视图
 
-![Trace View](./img/trace-details-view.png)
+![跟踪视图](./img/trace-details-view.png)
 
-You can see additional information about your event by clicking into any "Event ID" on the [**Discover**](https://sentry.io/orgredirect/organizations/:orgslug/discover) page. Clicking on any event type other than an error event, will take you to the [**Trace View**](/concepts/key-terms/tracing/trace-view/) page. Clicking on an error event will take you to the [**Issues**](https://sentry.io/orgredirect/organizations/:orgslug/issues/) page.
+您可以通过点击[**Discover**](https://sentry.io/orgredirect/organizations/:orgslug/discover)页面上的任何"事件 ID"来查看有关事件的更多信息。点击除错误事件之外的任何事件类型，将带您到[**跟踪视图**](/concepts/key-terms/tracing/trace-view/)页面。点击错误事件将带您到[**问题**](https://sentry.io/orgredirect/organizations/:orgslug/issues/)页面。

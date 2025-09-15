@@ -1,39 +1,39 @@
 ---
-title: "Data Forwarding"
+title: 数据转发
 sidebar_order: 3
-description: "Learn about forwarding processed events to third-party providers."
+description: "了解将处理过的事件转发到第三方提供商。"
 ---
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
 <Alert>
 
-The plugins listed on this page have been deprecated and will be removed from Sentry in a future date.
+此页面上列出的插件已被弃用，并将在未来的日期从 Sentry 中删除。
 
 </Alert>
 
-Sentry provides the ability to forward processed error events to certain third-party providers, such as [Segment](https://segment.com) and [Amazon SQS](https://aws.amazon.com/sqs/).
+Sentry 提供了将处理过的错误事件转发到某些第三方提供商的能力，例如 [Segment](https://segment.com) 和 [Amazon SQS](https://aws.amazon.com/sqs/)。
 
-This is often useful when you may want to analyze exceptions more deeply, or empower other teams, such as a Business Intelligence function.
+当您可能希望更深入地分析异常或授权其他团队（如商业智能功能）时，这通常很有用。
 
-Configure Data Forwarding by navigating to your **[Project] » Settings » Data Forwarding**, then providing the required information for the given integration.
+通过导航到**[项目] » 设置 » 数据转发**来配置数据转发，然后为给定集成提供所需的信息。
 
-Only error events will be forwarded. Forwarding of transaction events is not supported.
+只有错误事件会被转发。不支持事务事件的转发。
 
 ## Amazon SQS
 
-Integration with Amazon SQS makes it quick and easy to pipe exceptions back into your own systems.
+与 Amazon SQS 的集成使得将异常快速轻松地传回您自己的系统变得简单。
 
-The payload for Amazon is identical to our standard API event payload, and will evolve over time. For more details on the format of this data, see our [API documentation](/api/events/retrieve-an-event-for-a-project/).
+Amazon 的有效负载与我们的标准 API 事件负载相同，并将随着时间的推移而发展。有关此数据格式的更多详细信息，请参阅我们的 [API 文档](/api/events/retrieve-an-event-for-a-project/)。
 
 ## Segment
 
-The Segment integration will generate _Error Captured_ events within your data pipeline. These events will **only** be captured for `error` events, and only when an ID is present the user context. The general shape of the event will look roughly similar to:
+Segment 集成将在您的数据管道中生成_错误捕获_事件。这些事件**仅**为 `error` 事件捕获，并且仅在用户上下文中存在 ID 时捕获。事件的一般形状看起来大致如下：
 
 ```json
 {
   "userId": "1",
-  "event": "Error Captured",
+  "event": "错误捕获",
   "properties": {
     "environment": "production",
     "eventId": "002c8bbde8324dae9f12a0b96f5b1e51",
@@ -54,4 +54,4 @@ The Segment integration will generate _Error Captured_ events within your data p
 
 ## Splunk
 
-For details on the Splunk integration, visit the dedicated [Splunk integration documentation](/organization/integrations/data-visualization/splunk/).
+有关 Splunk 集成的详细信息，请访问专门的 [Splunk 集成文档](/organization/integrations/data-visualization/splunk/)。

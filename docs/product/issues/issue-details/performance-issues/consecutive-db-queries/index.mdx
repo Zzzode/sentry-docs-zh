@@ -1,48 +1,48 @@
 ---
-title: "Consecutive DB Queries"
+title: "连续数据库查询"
 sidebar_order: 30
-description: "Learn more about Consecutive DB Queries and how to diagnose and fix them."
+description: "了解更多关于连续数据库查询以及如何诊断和修复它们的信息。"
 ---
 
-Consecutive DB Queries are a sequence of database spans where one or more have been identified as parallelizable, in other words, spans that can be shifted to the start of the sequence. This often occurs when a DB query performs no filtering on the data, for example a query without a WHERE clause.
+连续数据库查询是一系列数据库跨度，其中一个或多个被识别为可并行化，换句话说，是可以移动到序列开头的跨度。这通常发生在数据库查询不对数据执行过滤时，例如没有WHERE子句的查询。
 
-## Detection Criteria
+## 检测标准
 
-The detector for this performance issue looks for a set of sequential, non-overlapping database spans. Within this set of spans, it proceeds to look for queries that are parallelizable, which occurs when the following is true about the query:
+此性能问题的检测器会查找一组顺序的、不重叠的数据库跨度。在这组跨度中，它会继续查找可并行化的查询，当查询满足以下条件时会发生这种情况：
 
-- It doesn't contain a `WHERE` clause
-- It's a `SELECT` query
-- There are no parameters in the query
-- It's not the first query in a set of sequential spans
+- 不包含`WHERE`子句
+- 是`SELECT`查询
+- 查询中没有参数
+- 不是一组顺序跨度中的第一个查询
 
-Once these spans are found, the following must also hold true:
+一旦找到这些跨度，还必须满足以下条件：
 
-- Maximum time saved from parallelization must exceed a 100ms threshold
-- Ratio between the maximum time saved and the duration of the sequential spans must exceed a 0.1 threshold
-- Total duration of each parallelizable span must exceed a 30ms threshold
+- 并行化节省的最大时间必须超过100ms阈值
+- 节省的最大时间与顺序跨度持续时间之间的比率必须超过0.1阈值
+- 每个可并行化跨度的总持续时间必须超过30ms阈值
 
-If Sentry isn't detecting a consecutive DB issue where you expect one, it's probably because the transaction didn't meet one of the above criteria.
+如果Sentry没有在您期望的地方检测到连续数据库问题，可能是因为事务未满足上述任一标准。
 
-You can configure detector thresholds for Consecutive DB Queries issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置连续数据库查询问题的检测器阈值：
 
-![Consecutive DB Queries detector threshold settings](./img/consecutive-db-detector-settings.png)
+![连续数据库查询检测器阈值设置](./img/consecutive-db-detector-settings.png)
 
-## Span Evidence
+## 跨度证据
 
-You can identify a Consecutive DB Queries problem by four main aspects in the "Span Evidence" section:
+您可以通过"跨度证据"部分中的四个主要方面来识别连续数据库查询问题：
 
-- Transaction name
-- Starting Span - The first span in a set of consecutive spans
-- Parallelizable Spans - The spans that can be parallelized
-- Duration Impact - The fraction of time added to the total transaction time as a result of spans not being ran in parallel
+- 事务名称
+- 起始跨度 - 一组连续跨度中的第一个跨度
+- 可并行化跨度 - 可以并行化的跨度
+- 持续时间影响 - 由于跨度未并行运行而添加到总事务时间的分数
 
-![Consecutive DB Queries span evidence](./img/span-evidence.png)
+![连续数据库查询跨度证据](./img/span-evidence.png)
 
-View it by going to the **Issues** page in Sentry, selecting your project, clicking on the Consecutive DB Queries error you want to examine, then scrolling down to the "Span Evidence" section in the "Details" tab.
+通过转到Sentry中的**问题**页面，选择您的项目，点击您要检查的连续数据库查询错误，然后在"详情"选项卡中向下滚动到"跨度证据"部分来查看它。
 
-## Example
+## 示例
 
-Consider using this Node.js code when counting and retrieving all the users from a database
+在从数据库计数和检索所有用户时，请考虑使用此Node.js代码
 
 ```javascript
 const result = await db.query("SELECT * FROM USERS");
@@ -50,12 +50,11 @@ const count = await db.query("SELECT COUNT(*) FROM USERS");
 processMyData({ result, count });
 ```
 
-This results in a consecutive DB performance issue. You'll notice these queries occur sequentially in the span tree,
-but they aren't interdependent because the result of one doesn't affect the other. Therefore, they can be executed in parallel.
+这会导致连续数据库性能问题。您会注意到这些查询在跨度树中按顺序发生，但它们不是相互依赖的，因为一个的结果不会影响另一个。因此，它们可以并行执行。
 
-![Consecutive DB Queries example](./img/consecutive-example.png)
+![连续数据库查询示例](./img/consecutive-example.png)
 
-To fix this performance issue, you could use Promise.all():
+要修复此性能问题，您可以使用Promise.all()：
 
 ```javascript
 const [result, count] = await Promise.all([
@@ -65,6 +64,6 @@ const [result, count] = await Promise.all([
 processMyData({ result, count });
 ```
 
-This makes the queries execute in parallel, which in this case, reduced the transaction duration by almost half!
+这使查询并行执行，在这种情况下，事务持续时间减少了近一半！
 
-![Consecutive DB Queries solved](./img/parallel-example.png)
+![连续数据库查询已解决](./img/parallel-example.png)

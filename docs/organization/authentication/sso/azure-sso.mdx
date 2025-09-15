@@ -1,140 +1,140 @@
 ---
 title: "Azure Active Directory SSO"
 sidebar_order: 1
-description: "Set up Azure Active Directory single sign-on (SSO) on Sentry."
+description: "在 Sentry 上设置 Azure Active Directory 单点登录 (SSO)。"
 ---
 
-## Installation
+## 安装
 
 <Alert level="warning">
 
-If you change your organization slug, you'll need to make the same update in the steps where you enter the SAML configuration values.
+如果您更改组织 slug，您需要在输入 SAML 配置值的步骤中进行相同的更新。
 
 </Alert>
 
-1. Log in to the [Azure portal](https://portal.azure.com/).
+1. 登录到 [Azure 门户](https://portal.azure.com/)。
 
-1. Under "Manage Azure Active Directory" (the picture of the shield), click "View". This takes you to the **Organization Overview** page.
+1. 在"管理 Azure Active Directory"（盾牌图片）下，点击"查看"。这将带您到 **组织概述** 页面。
 
-1. If you don't require a permission group for Sentry, skip to Step 5.
+1. 如果您不需要 Sentry 的权限组，请跳到第 5 步。
 
-1. In the search bar, search for "Groups" then navigate to it. From there, create a new group, add an owner and members to the group. Set "Group type" to Office 365. For more details about group creation, see the [Azure docs](https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-groups-create-azure-portal).
+1. 在搜索栏中，搜索"组"然后导航到它。从那里，创建一个新组，为组添加所有者和成员。将"组类型"设置为 Office 365。有关组创建的更多详细信息，请参阅 [Azure 文档](https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-groups-create-azure-portal)。
 
-1. Return to the **Overview** page. In the search bar, enter `Enterprise Applications`, then navigate to it. Click "+ New application". Search for `Sentry` to create the application.
+1. 返回到 **概述** 页面。在搜索栏中，输入 `企业应用程序`，然后导航到它。点击"+ 新应用程序"。搜索 `Sentry` 以创建应用程序。
 
-   ![Sentry in Azure Gallery](./img/azure-search-sentry.png)
+   ![Azure 库中的 Sentry](./img/azure-search-sentry.png)
 
-1. Once the application is created, you'll be directed to **Sentry - Overview**.
+1. 应用程序创建后，您将被引导到 **Sentry - 概述**。
 
-   ![Sentry Overview](./img/azure-sentry-overview.png)
+   ![Sentry 概述](./img/azure-sentry-overview.png)
 
-1. Click on "1. Assign users and groups", then "+ Add user". Add yourself and the group you've created to the Sentry app. Click "Assign".
+1. 点击"1. 分配用户和组"，然后"+ 添加用户"。将您自己和您创建的组添加到 Sentry 应用。点击"分配"。
 
-1. Navigate back to **Overview**, click on "2. Set up single sign-on" and then select SAML as your single sign-on method.
+1. 导航回 **概述**，点击"2. 设置单点登录"，然后选择 SAML 作为您的单点登录方法。
 
-1. For Section (1), labeled "Basic SAML Configuration", enter the following data in each line and save your changes.
+1. 对于第 (1) 部分，标记为"基本 SAML 配置"，在每一行中输入以下数据并保存您的更改。
 
-   - Identifier (Entity ID): `https://sentry.io/saml/metadata/YOUR_ORG_SLUG/` <Alert level="warning">Ensure that the URL includes a trailing slash to prevent Azure from throwing a misconfiguration error (AADSTS650056).</Alert>
+   - 标识符（实体 ID）：`https://sentry.io/saml/metadata/YOUR_ORG_SLUG/` <Alert level="warning">确保 URL 包含尾部斜杠，以防止 Azure 抛出配置错误 (AADSTS650056)。</Alert>
 
-   - Reply URL (Assertion Consumer Service URL): `https://sentry.io/saml/acs/YOUR_ORG_SLUG/`
+   - 回复 URL（断言消费者服务 URL）：`https://sentry.io/saml/acs/YOUR_ORG_SLUG/`
 
-   - Sign on URL: `https://sentry.io/auth/login/YOUR_ORG_SLUG/`
+   - 登录 URL：`https://sentry.io/auth/login/YOUR_ORG_SLUG/`
 
-   - Relay State: `https://sentry.io/organizations/YOUR_ORG_SLUG/`
+   - 中继状态：`https://sentry.io/organizations/YOUR_ORG_SLUG/`
 
-   - Logout URL: `https://sentry.io/saml/sls/YOUR_ORG_SLUG/`
+   - 注销 URL：`https://sentry.io/saml/sls/YOUR_ORG_SLUG/`
 
-   ![SAML Configuration](./img/azure-basic-saml-configuration.png)
+   ![SAML 配置](./img/azure-basic-saml-configuration.png)
 
-1. In Section (3), labeled "SAML Signing Certificate", copy the "App Federation Metadata URL".
+1. 在第 (3) 部分，标记为"SAML 签名证书"，复制"应用联合元数据 URL"。
 
-   ![SAML Signing Certificate](./img/azure-saml-signing-certificate.png)
+   ![SAML 签名证书](./img/azure-saml-signing-certificate.png)
 
-1. Navigate to your **Org Settings > Auth** (or go to `https://sentry.io/settings/YOUR_ORG_SLUG/auth/`) and click on "Configure" for Active Directory.
+1. 导航到您的 **组织设置 > 身份验证**（或转到 `https://sentry.io/settings/YOUR_ORG_SLUG/auth/`）并点击 Active Directory 的"配置"。
 
-1. Paste the App Federation Metadata URL from above and click "Get Metadata".
+1. 粘贴上面的应用联合元数据 URL，然后点击"获取元数据"。
 
-1. In the next page, enter the following keys in their respective fields to map the attributes from AzureAD to Sentry, and then save them.
+1. 在下一页上，在各自的字段中输入以下键，将 AzureAD 中的属性映射到 Sentry，然后保存它们。
 
-   - IdP User ID: `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name`
+   - IdP 用户 ID：`http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name`
 
-   - User Email: `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress`
+   - 用户电子邮件：`http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress`
 
-   - First Name: `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname`
+   - 名字：`http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname`
 
-   - Last Name: `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname`
+   - 姓氏：`http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname`
 
-   For more details about mappings for custom configs, see [The Role of Claims](https://docs.microsoft.com/en-us/windows-server/identity/ad-fs/technical-reference/the-role-of-claims).
+   有关自定义配置的映射的更多详细信息，请参阅 [声明的角色](https://docs.microsoft.com/en-us/windows-server/identity/ad-fs/technical-reference/the-role-of-claims)。
 
-   ![Map Identity with provider attributes](./img/azure-map-identity-provider-attributes.png)
+   ![使用提供商属性映射身份](./img/azure-map-identity-provider-attributes.png)
 
-1. Sentry will attempt to authenticate and link your account with Azure. After successful authentication, you'll be redirected to Sentry's SSO configuration page, where you can take the following actions:
+1. Sentry 将尝试验证您的身份并将您的账户与 Azure 链接。成功验证后，您将被重定向到 Sentry 的 SSO 配置页面，您可以在其中采取以下操作：
 
-   - You can share the "Login URL" value, which will be used for SP-initiated SSO, with the users in your organization.
+   - 您可以与组织中的用户共享将用于 SP 发起的 SSO 的"登录 URL"值。
 
-   - Scroll down to the bottom and ensure that "Require SSO" is checked if you want to enforce logging in with Azure Active Directory.
+   - 向下滚动到底部，如果您想强制使用 Azure Active Directory 登录，请确保选中"需要 SSO"。
 
-   - Set a "Default Role" for new SSO users. Selecting "Member" should cover most use cases.
+   - 为新 SSO 用户设置"默认角色"。选择"成员"应该涵盖大多数用例。
 
-   - If you made changes, click "Save Settings" to complete your setup.
+   - 如果您进行了更改，请点击"保存设置"以完成设置。
 
-## SCIM Integration
+## SCIM 集成
 
 <Alert>
 
-This feature is only available if your organization is on a Business or Enterprise plan; it is not available on Trial plans.
+此功能仅在您的组织在业务或企业计划上时才可用；在试用计划上不可用。
 
 </Alert>
 
 <Alert level="warning">
 
-If you change your organization slug, you'll need to make the same update in the steps where you enter the SCIM configuration values.
+如果您更改组织 slug，您需要在输入 SCIM 配置值的步骤中进行相同的更新。
 
 </Alert>
 
-Sentry users can manage provisioning using Azure with SCIM. You'll need to have Azure SSO set up and configured for your organization already. Sentry supports User and Group provisioning with Azure.
+Sentry 用户可以使用 SCIM 与 Azure 管理配置。您需要已经为您的组织设置和配置了 Azure SSO。Sentry 支持与 Azure 的用户和组配置。
 
-### Sentry Configuration
+### Sentry 配置
 
-1. Sign in to [sentry.io](https://sentry.io). Select **Settings > Auth**
+1. 登录 [sentry.io](https://sentry.io)。选择 **设置 > 身份验证**
 
-   ![Sentry Okta SCIM Auth Page](./img/scim-settings-auth.png)
+   ![Sentry Okta SCIM 身份验证页面](./img/scim-settings-auth.png)
 
-1. Under General Settings select "Enable SCIM", then "Save Settings"
+1. 在常规设置下选择"启用 SCIM"，然后"保存设置"
 
-   ![Sentry Enable SCIM Instruction](./img/scim-enable-sentry.png)
+   ![Sentry 启用 SCIM 说明](./img/scim-enable-sentry.png)
 
-   - Sentry will display "SCIM Information" that contains your Auth Token and SCIM Base URL.
+   - Sentry 将显示"SCIM 信息"，其中包含您的身份验证令牌和 SCIM 基本 URL。
 
-     ![SCIM Credentials Fields](./img/scim-sentry-fields.png)
+     ![SCIM 凭据字段](./img/scim-sentry-fields.png)
 
-### Azure Configuration
+### Azure 配置
 
-1. Log in to the [Azure portal](https://portal.azure.com/).
+1. 登录到 [Azure 门户](https://portal.azure.com/)。
 
-1. In your Azure portal, navigate to **Enterprise applications** in the sidebar.
+1. 在您的 Azure 门户中，导航到侧边栏中的 **企业应用程序**。
 
-1. Select the existing Sentry application.
+1. 选择现有的 Sentry 应用程序。
 
-1. Select "Provisioning" from the "Manage" menu.
-   ![Azure Provisioning Selection](./img/azure-scim-provisioning.png)
+1. 从"管理"菜单中选择"配置"。
+   ![Azure 配置选择](./img/azure-scim-provisioning.png)
 
-1. Set "Provisioning Mode" to "Automatic".
+1. 将"配置模式"设置为"自动"。
 
-1. Use the values from your Sentry SCIM configuration to enter your SCIM URL in the "Tenant URL" field and your SCIM Auth token in the "Secret Token" field.
+1. 使用来自您的 Sentry SCIM 配置的值，在"租户 URL"字段中输入您的 SCIM URL，在"密钥令牌"字段中输入您的 SCIM 身份验证令牌。
 
-1. Select "Test Connection" and wait for the message that confirms that the credentials are authorized to enable provisioning.
+1. 选择"测试连接"并等待确认凭据已授权启用配置的消息。
 
-   ![Azure Test SCIM Connection](./img/azure-scim-test-connection.png)
+   ![Azure 测试 SCIM 连接](./img/azure-scim-test-connection.png)
 
-We recommend that you select the option to "Send an email notification when a failure occurs".
+我们建议您选择"发生故障时发送电子邮件通知"选项。
 
-As a result of these changes, users who are assigned will be sent an invitation email. When a user is un-assigned, their membership object in Sentry will be deleted.
+由于这些更改，分配的用户将收到邀请电子邮件。当用户被取消分配时，他们在 Sentry 中的成员资格对象将被删除。
 
-You can use Use Group Provisioning to sync and assign groups in Azure; they will be reflected in Sentry teams.
+您可以使用组配置来同步和分配 Azure 中的组；它们将反映在 Sentry 团队中。
 
 <Alert>
 
-Please see the [Microsoft AD tutorial](https://docs.microsoft.com/en-us/azure/active-directory/saas-apps/sentry-provisioning-tutorial) for further documentation on Azure provisioning setup. If you are using a custom enterprise application, you **must** follow the instructions for only enabling attribute mappings that Sentry supports (Step 5).
+请查看 [Microsoft AD 教程](https://docs.microsoft.com/en-us/azure/active-directory/saas-apps/sentry-provisioning-tutorial) 以获取有关 Azure 配置设置的更多文档。如果您使用的是自定义企业应用程序，您 **必须** 遵循仅启用 Sentry 支持的属性映射的说明（第 5 步）。
 
 </Alert>

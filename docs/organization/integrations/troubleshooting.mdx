@@ -1,16 +1,16 @@
 ---
-title: Troubleshooting Integrations
+title: 集成故障排除
 sidebar_order: 5000
-description: "Learn more about troubleshooting and repairing your integrations."
+description: "了解有关故障排除和修复集成的更多信息。"
 ---
 
-Sentry integrates with many third party services to make your development experience easier. Unfortunately, we can’t always automatically update some of these services when critical data within Sentry is changed. This document is meant to help you navigate any expected behaviour resulting from these settings being changed. In some cases, we may need your team to manually intervene to get the integration working smoothly again.
+Sentry 与许多第三方服务集成，以使您的开发体验更轻松。不幸的是，当 Sentry 中的关键数据发生更改时，我们并不总是能够自动更新其中一些服务。本文档旨在帮助您了解这些设置更改导致的任何预期行为。在某些情况下，我们可能需要您的团队手动干预，以使集成再次顺利运行。
 
-## If you've changed your organization slug
+## 如果您更改了组织标识符
 
-- Any integration that creates links directly to Sentry issues will continue creating correct links going forward, **but existing links will no longer work as expected**. This includes, for example, Slack notifications containing links to Sentry alerts, and Jira tickets that link to Sentry issues.
-- Most [deployment integrations](/organization/integrations/#deployment) use [Sentry CLI](https://github.com/getsentry/sentry-cli) under the hood, which requires providing your organization slug by way of the `SENTRY_ORG` environment variable. For these integrations to continue working, **you must manually update this variable on the appropriate service**.
-- If you're using any of the following integrations, you need to manually update the organization slug to maintain functionality:
+- 任何直接创建指向 Sentry 问题的链接的集成将继续创建正确的链接，**但现有链接将不再按预期工作**。这包括，例如，包含指向 Sentry 警报的链接的 Slack 通知，以及链接到 Sentry 问题的 Jira 票据。
+- 大多数[部署集成](/organization/integrations/#deployment)在底层使用 [Sentry CLI](https://github.com/getsentry/sentry-cli)，这需要通过 `SENTRY_ORG` 环境变量提供您的组织标识符。为了使这些集成继续工作，**您必须在适当的服务上手动更新此变量**。
+- 如果您使用以下任何集成，您需要手动更新组织标识符以保持功能：
 
   - [Bitbucket Pipelines](/product/releases/setup/release-automation/bitbucket-pipelines/)
   - [GitHub Actions](/product/releases/setup/release-automation/github-actions/)

@@ -1,20 +1,20 @@
 ---
-title: Integrations
+title: 集成
 sidebar_order: 5000
-description: "Learn more about the wide variety of apps and services integrated with Sentry and how you can add your own Sentry integration."
+description: "了解更多关于与 Sentry 集成的各种应用程序和服务的信息，以及如何添加您自己的 Sentry 集成。"
 ---
 
-Sentry integrates with your favorite apps and services. Each integration offers features that help track and triage your errors. If you're experiencing issues with some integrations after making changes to your Sentry instance or organization, check out our [troubleshooting guide](/organization/integrations/troubleshooting/).
+Sentry 与您喜欢的应用程序和服务集成。每个集成都提供有助于跟踪和分类错误的功能。如果您在对 Sentry 实例或组织进行更改后遇到某些集成问题，请查看我们的 [故障排除指南](/organization/integrations/troubleshooting/)。
 
-## Integration Platform
+## 集成平台
 
-Sentry’s integration platform provides a way for external services to interact with Sentry. Integrations utilizing this platform are first-class actors within Sentry, and you can build them for [public](/organization/integrations/integration-platform/public-integration) as well as [internal](/organization/integrations/integration-platform/internal-integration) use cases.
+Sentry 的集成平台提供了一种让外部服务与 Sentry 交互的方式。利用此平台的集成是 Sentry 中的一流参与者，您可以为 [公共](/organization/integrations/integration-platform/public-integration) 和 [内部](/organization/integrations/integration-platform/internal-integration) 用例构建它们。
 
-For more details, see the [full Integration Platform documentation](/organization/integrations/integration-platform/).
+有关更多详细信息，请参阅 [完整集成平台文档](/organization/integrations/integration-platform/)。
 
-## Notification & Incidents
+## 通知和事件
 
-| Integration                                                              | Issue alerts | Metric alerts | Link Unfurling |
+| 集成                                                              | 问题警报 | 指标警报 | 链接展开 |
 | ------------------------------------------------------------------------ | ------------ | ------------- | -------------- |
 | [All Quiet](https://docs.allquiet.app/integrations/inbound/sentry)               | X            |               |                |
 | [Blar](/organization/integrations/notification-incidents/blar/)               | X            |               |                |
@@ -35,9 +35,9 @@ For more details, see the [full Integration Platform documentation](/organizatio
 | Twilio (Legacy)                                                                  | X            |               |                |
 | VictorOps (Legacy)                                                                | X            |               |                |
 
-## Source Code Management
+## 源代码管理
 
-| Integration                                                          | Commit Tracking | Resolve via Commit/PR | Suspect Commits |
+| 集成                                                          | 提交跟踪 | 通过提交/PR 解决 | 可疑提交 |
 | -------------------------------------------------------------------- | --------------- | --------------------- | --------------- |
 | [Azure DevOps](/organization/integrations/source-code-mgmt/azure-devops/) | X               | X                     |                 |
 | [Bitbucket](/organization/integrations/source-code-mgmt/bitbucket/)       | X               | X                     |                 |
@@ -45,21 +45,21 @@ For more details, see the [full Integration Platform documentation](/organizatio
 | [GitHub Enterprise](/organization/integrations/source-code-mgmt/github/)  | X               | X                     | X               |
 | [GitLab](/organization/integrations/source-code-mgmt/gitlab/)             | X               | X                     | X               |
 
-## Issue Tracking
+## 问题跟踪
 
-| Integration                                                                       | Issue Creation/Linking | Automatic Issue Creation | Issue Sync |
+| 集成                                                                       | 问题创建/链接 | 自动问题创建 | 问题同步 |
 | --------------------------------------------------------------------------------- | ---------------------- | ------------------------ | ---------- |
 | [Asana (Legacy)](/organization/integrations/issue-tracking/asana/)                              | X                      |                          |
-| [Azure DevOps (Work Items)](/organization/integrations/source-code-mgmt/azure-devops/) | X                      | X                        | X          |
-| [Bitbucket (Issues)](/organization/integrations/source-code-mgmt/bitbucket/)           | X                      |                          |
+| [Azure DevOps (工作项)](/organization/integrations/source-code-mgmt/azure-devops/) | X                      | X                        | X          |
+| [Bitbucket (问题)](/organization/integrations/source-code-mgmt/bitbucket/)           | X                      |                          |
 | [ClickUp](/organization/integrations/issue-tracking/clickup/)                          | X                      |                          |
 | [Factory](/organization/integrations/issue-tracking/factory/)                 | X                      |                          |
-| [GitHub (Issues)](/organization/integrations/source-code-mgmt/github/)                 | X                      |                          |
-| [GitLab (Issues)](/organization/integrations/source-code-mgmt/gitlab/)                 | X                      |                          |
+| [GitHub (问题)](/organization/integrations/source-code-mgmt/github/)                 | X                      |                          |
+| [GitLab (问题)](/organization/integrations/source-code-mgmt/gitlab/)                 | X                      |                          |
 | [Goast.ai](/organization/integrations/issue-tracking/goast/)                           | X                      |                          |
 | [Height](/organization/integrations/issue-tracking/height/)                            | X                      | X                        | X          |
 | [Incident.io](/organization/integrations/issue-tracking/incidentio/)                   | X                      |                          | X          |
-| [Jira/Jira Server](/organization/integrations/issue-tracking/jira/)                    | X                      | X\*                      | X          |
+| [Jira/Jira Server](/organization/integrations/issue-tracking/jira/)                    | X                      | X*                       | X          |
 | [Kitemaker](/organization/integrations/issue-tracking/kitemaker/)                      | X                      |                          | X          |
 | [Linear](/organization/integrations/issue-tracking/linear/)                            | X                      | X                        |
 | Pivotal Tracker (Legacy)                                                                  | X                      |                          |
@@ -71,11 +71,11 @@ For more details, see the [full Integration Platform documentation](/organizatio
 | [Teamwork](/organization/integrations/issue-tracking/teamwork/)                        | X                      |                          |
 | Trello (Legacy)                                                                           | X                      |                          |
 
-\* Jira Server not supported
+* Jira Server 不支持
 
-## Deployment
+## 部署
 
-| Integration                                                                            | Release Management | Associate Commits | Deploy Notifications | Upload JavaScript Source Maps |
+| 集成                                                                            | 发布管理 | 关联提交 | 部署通知 | 上传 JavaScript 源映射 |
 | -------------------------------------------------------------------------------------- | ------------------ | ----------------- | -------------------- | ----------------------------- |
 | [Bitbucket Pipelines](/product/releases/setup/release-automation/bitbucket-pipelines/) | X                  | X                 | X                    | X                             |
 | [GitHub Actions](/product/releases/setup/release-automation/github-actions/)           | X                  | X                 | X                    | X                             |
@@ -83,18 +83,18 @@ For more details, see the [full Integration Platform documentation](/organizatio
 | [Netlify](/product/releases/setup/release-automation/netlify/)                         | X                  | X                 | X                    | X                             |
 | [Vercel](/organization/integrations/deployment/vercel/)                                     | X                  | X                 | X                    | X                             |
 
-## Data & Visualization
+## 数据和可视化
 
-| Integration                                                        | Data Forwarding |
+| 集成                                                        | 数据转发 |
 | ------------------------------------------------------------------ | --------------- |
 | [Amazon SQS (Legacy)](/organization/integrations/data-visualization/amazon-sqs/) | X               |
 | [Grafana](/organization/integrations/data-visualization/grafana/)       | X               |
 | [Segment (Legacy)](/organization/integrations/data-visualization/segment/)       | X               |
 | [Splunk (Legacy)](/organization/integrations/data-visualization/splunk/)         | X               |
 
-## Session Replay
+## 会话重播
 
-| Integration                                                    | Link Issue to user sessions |
+| 集成                                                    | 将问题链接到用户会话 |
 | -------------------------------------------------------------- | --------------------------- |
 | [Atlas](/organization/integrations/session-replay/atlas/)           | X                           |
 | [BetterBugs](/organization/integrations/session-replay/betterbugs)  | X                           |
@@ -102,9 +102,9 @@ For more details, see the [full Integration Platform documentation](/organizatio
 | [Jam](/organization/integrations/session-replay/jam/)               | X                           |
 | [OpenReplay](/organization/integrations/session-replay/openreplay/) | X                           |
 
-## Debugging
+## 调试
 
-| Integration                                         | Stacktrace Link |
+| 集成                                         | 堆栈跟踪链接 |
 | --------------------------------------------------- | --------------- |
 | [Apigene](/organization/integrations/debugging/apigene/) |                |
 | [CodeComet](/organization/integrations/debugging/codecomet/) |                |
@@ -117,39 +117,40 @@ For more details, see the [full Integration Platform documentation](/organizatio
 
 
 
-## Feature Flag
+## 功能标志
 
-| Integration                                                      | Tie errors to feature flags |
+| 集成                                                      | 将错误关联到功能标志 |
 | ---------------------------------------------------------------- | --------------------------- |
 | [Split](/organization/integrations/feature-flag/split/)               | X                           |
 | [LaunchDarkly](/organization/integrations/feature-flag/launchdarkly/) | X                           |
 
-## Compliance
+## 合规性
 
-| Integration                                      | API |
+| 集成                                      | API |
 | ------------------------------------------------ | --- |
 | [Elba](/organization/integrations/compliance/elba/) | X   |
 | [Truto](/organization/integrations/compliance/truto/) | X   |
 | [Vanta](/organization/integrations/compliance/vanta/) | X   |
 | [Vanta EU](/organization/integrations/compliance/vanta-eu/) | X  |
 
-## Cloud Monitoring
+## 云监控
 
-| Integration                                                                           | Error Reporting | Performance (Transactions) |
+| 集成                                                                           | 错误报告 | 性能（事务） |
 | ------------------------------------------------------------------------------------- | --------------- | -------------------------- |
 | [Cloudflare Workers](/organization/integrations/cloud-monitoring/cloudflare-workers)       | X               |                            |
 | [Google Cloud Run](/organization/integrations/cloud-monitoring/gcp-cloud-run/)             | X               | X                          |
 | [Google Cloud Functions - Python](/platforms/python/integrations/gcp-functions/)      | X               | X                          |
 | [Google Cloud Functions - Node](/platforms/javascript/guides/gcp-functions/)                | X               | X                          |
-| [AWS Lambda - Python (Automatic)](/organization/integrations/cloud-monitoring/aws-lambda/) | X               | X                          |
-| [AWS Lambda - Python (Manual)](/platforms/python/integrations/aws-lambda/)            | X               | X                          |
-| [AWS Lambda - Node (Automatic)](/organization/integrations/cloud-monitoring/aws-lambda/)   | X               | X                          |
-| [AWS Lambda - Node (Manual)](/platforms/javascript/guides/aws-lambda/)                      | X               | X                          |
+| [AWS Lambda - Python (自动)](/organization/integrations/cloud-monitoring/aws-lambda/) | X               | X                          |
+| [AWS Lambda - Python (手动)](/platforms/python/integrations/aws-lambda/)            | X               | X                          |
+| [AWS Lambda - Node (自动)](/organization/integrations/cloud-monitoring/aws-lambda/)   | X               | X                          |
+| [AWS Lambda - Node (手动)](/platforms/javascript/guides/aws-lambda/)                      | X               | X                          |
 
 
-## Toggleable Features
-Some integrations have features that can be enabled or disabled through a toggle at the integration level. Toggling features on/off takes effect instantly across the integration. Defaults are dependent on the feature, per integration.
+## 可切换功能
 
-Not every integration has toggleable features, but if they do, you can find them in the `Features` tab for the specific integration's settings.
+某些集成具有可以通过集成级别的切换开关启用或禁用的功能。切换功能开/关会在整个集成中立即生效。默认值取决于集成的功能。
 
-![Integration features tab](./img/integration-features-tab.png)
+并非每个集成都有可切换功能，但如果它们有，您可以在特定集成的设置的 `功能` 选项卡中找到它们。
+
+![集成功能选项卡](./img/integration-features-tab.png)

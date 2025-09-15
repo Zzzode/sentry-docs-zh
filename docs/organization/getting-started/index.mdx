@@ -1,134 +1,134 @@
 ---
-title: Set Up Your Organization
+title: 设置您的组织
 sidebar_order: 0
-description: "Learn how to set up a Sentry organization account, so you can start fixing errors right away."
+description: "了解如何设置 Sentry 组织账户，以便立即开始修复错误。"
 ---
 
-In this guide, we'll provide the recommended checklist for setting up your [Sentry organization account](https://sentry.io) so you can get started with Sentry error monitoring.
+在本指南中，我们将提供设置 [Sentry 组织账户](https://sentry.io) 的推荐清单，以便您开始使用 Sentry 错误监控。
 
-If you'd prefer a TL;DR, download our ["Admin Quick Reference Guide"](/pdfs/Admin-quick-reference-guide.pdf)
+如果您更喜欢 TL;DR，请下载我们的 ["管理员快速参考指南"](/pdfs/Admin-quick-reference-guide.pdf)
 
-We understand that some of you are running enterprise organizations, while others of you are hobbyists just coding for fun. Below, we've linked where you should get started, depending on your situation.
+我们理解你们中有些人正在运营企业组织，而有些人只是出于爱好编码。下面，我们根据您的情况链接了您应该从哪里开始。
 
-- You're configuring Sentry for a large organization? [Start at step 1](#1-enable-single-sign-on-access)
-- You're working on an application with a small team? [Start step 2](#2-set-up-teams)
-- You're a hobbyist or working on an app alone? [Start at step 3](#3-configure-integrations)
+- 您正在为大型组织配置 Sentry？从 [第 1 步](#1-启用单点登录访问) 开始
+- 您正在与一个小团队一起开发应用程序？从 [第 2 步](#2-设置团队) 开始
+- 您是爱好者或独自开发应用程序？从 [第 3 步](#3-配置集成) 开始
 
-Of course, you're welcome to go through all the steps, even if you're a team of one.
+当然，即使您是一个人团队，也欢迎您完成所有步骤。
 
-## 1. Enable Single Sign-On Access
+## 1. 启用单点登录访问
 
-[Single sign-on (SSO)](/organization/authentication/sso/) allows your team to log in quickly, streamlines the on/off-boarding process for member accounts, and strengthens your login with secure credentials. Sentry provides out-of-the-box configuration for integrating SSO providers like [Okta](/organization/authentication/sso/#okta) and [Azure Active Directory](/organization/authentication/sso/#azure-active-directory) (SAML) or [Google](/organization/authentication/sso/#google-business-app) and [GitHub](/organization/authentication/sso/#github-organizations) (Oauth). In addition, we provide a generic configuration option for any other [SAML2 Identity Provider](/organization/authentication/sso/saml2/).
+[单点登录 (SSO)](/organization/authentication/sso/) 允许您的团队快速登录，简化成员账户的入职/离职流程，并通过安全凭据加强登录安全性。Sentry 提供开箱即用的集成配置，用于集成 SSO 提供商，如 [Okta](/organization/authentication/sso/#okta) 和 [Azure Active Directory](/organization/authentication/sso/#azure-active-directory) (SAML) 或 [Google](/organization/authentication/sso/#google-business-app) 和 [GitHub](/organization/authentication/sso/#github-organizations) (Oauth)。此外，我们还为任何其他 [SAML2 身份提供商](/organization/authentication/sso/saml2/) 提供通用配置选项。
 
-Sentry also supports a subset of the specification for System for Cross-Domain Identity Management (SCIM) for [Okta](/organization/authentication/sso/okta-sso/okta-scim/) and [Azure AD](/organization/authentication/sso/azure-sso/#scim-integration).
+Sentry 还支持跨域身份管理系统 (SCIM) 规范的子集，用于 [Okta](/organization/authentication/sso/okta-sso/okta-scim/) 和 [Azure AD](/organization/authentication/sso/azure-sso/#scim-integration)。
 
-## 2. Set Up Teams
+## 2. 设置团队
 
-Now that SSO is configured and members have created their accounts, add them to their Sentry Teams. Teams are associated with your [Sentry projects](#4-create-projects), and their members receive issue notifications in addition to becoming issue assignees. We recommend creating Sentry teams that align with your internal team structure (for example, _#Frontend_, _#Ops_, _#SDK_, and so on). To add a new team, go to **Settings > Teams** and click "Create Team".
+现在 SSO 已配置且成员已创建他们的账户，将他们添加到他们的 Sentry 团队中。团队与您的 [Sentry 项目](#4-创建项目) 相关联，其成员除了成为问题受让人外，还会收到问题通知。我们建议创建与您内部团队结构一致的 Sentry 团队（例如，_#前端_、_#运维_、_#SDK_ 等）。要添加新团队，请转到 **设置 > 团队** 并点击"创建团队"。
 
-![Create New Team](./img/team-settings.png)
+![创建新团队](./img/team-settings.png)
 
-Click on a team name to open the team settings and manage its associated members and projects.
-Under the "Members" tab, add existing members to your team by clicking on "Add Member > [Member Name]".
+点击团队名称打开团队设置并管理其关联成员和项目。
+在"成员"选项卡下，通过点击"添加成员 > [成员名称]"将现有成员添加到您的团队。
 
-You can also invite multiple new (external) members to join your organization and team by clicking on "Add Member > Invite Member".
+您还可以通过点击"添加成员 > 邀请成员"邀请多个新的（外部）成员加入您的组织和团队。
 
-![Invite Members](./img/invite-members.png)
+![邀请成员](./img/invite-members.png)
 
-Learn more about different user roles in [Organization Management](/organization/membership/).
+了解更多关于不同用户角色的信息，请访问 [组织管理](/organization/membership/)。
 
-## 3. Configure Integrations
+## 3. 配置集成
 
-Sentry integrates into your existing workflows by providing out-of-the-box integrations with widely-used apps and services. To enable and configure integrations, go to **Settings > Integrations**. There are several types of integrations available, but we recommend that you immediately set up integrations for:
+Sentry 通过提供与广泛使用的应用程序和服务的开箱即用集成来集成到您现有的工作流程中。要启用和配置集成，请转到 **设置 > 集成**。有几种可用的集成类型，但我们建议您立即设置以下集成：
 
-- [Alerting](#31-alert-notifications)
-- [Source code management](#32-source-code-management)
-- [Issue tracking](#33-issue-tracking)
+- [警报](#31-警报通知)
+- [源代码管理](#32-源代码管理)
+- [问题跟踪](#33-问题跟踪)
 
-### Alert Notifications
+### 警报通知
 
-By default, Sentry will notify you about errors in your apps by email and [Slack](/organization/integrations/notification-incidents/slack/) (once you enable the integration). You can also enable team notifications in Slack so the right people in your organization always receive the alerts they need. In addition to Slack, Sentry offers several other [notification and incident integrations](/organization/integrations/notification-incidents/) to help you triage issues, including [Discord](/organization/integrations/notification-incidents/discord/), [Microsoft Teams](/organization/integrations/notification-incidents/msteams/), and [PagerDuty](/organization/integrations/notification-incidents/pagerduty/).
+默认情况下，Sentry 将通过电子邮件和 [Slack](/organization/integrations/notification-incidents/slack/)（一旦您启用集成）通知您应用程序中的错误。您还可以在 Slack 中启用团队通知，以便您组织中的合适人员始终收到他们需要的警报。除了 Slack，Sentry 还提供其他几种 [通知和事件集成](/organization/integrations/notification-incidents/) 来帮助您分类问题，包括 [Discord](/organization/integrations/notification-incidents/discord/)、[Microsoft Teams](/organization/integrations/notification-incidents/msteams/) 和 [PagerDuty](/organization/integrations/notification-incidents/pagerduty/)。
 
-Learn more about setting up alerts with integrations in [Alert Routing With Integrations](/product/alerts/create-alerts/routing-alerts/).
+了解更多关于使用集成设置警报的信息，请访问 [使用集成进行警报路由](/product/alerts/create-alerts/routing-alerts/)。
 
-### Source Code Management
+### 源代码管理
 
-When you enable an integration with your source code management (SCM) provider, Sentry will analyze your commit data to:
+当您启用与源代码管理 (SCM) 提供商的集成时，Sentry 将分析您的提交数据以：
 
-1. Identify **suspect commits** that likely introduced an error.
-1. **Suggest assignees** who can best resolve the error, based on the suspect commits and your [codeowners file](/product/issues/issue-owners/#code-owners).
-1. Mark an issue as **Resolved via Commit or PR** to stop notifications about similar errors in past releases and notify you of a regression.
-1. Link a Sentry issue to a new or existing issue in your integrated [issue tracking](#33-issue-tracking) solution.
+1. 识别 **可疑提交**，这些提交可能引入了错误。
+1. **建议受让人** 谁可以最好地解决错误，基于可疑提交和您的 [代码所有者文件](/product/issues/issue-owners/#code-owners)。
+1. 将问题标记为 **通过提交或 PR 解决**，以停止关于过去版本中类似错误的通知，并通知您回归。
+1. 将 Sentry 问题链接到您集成的 [问题跟踪](#33-问题跟踪) 解决方案中的新问题或现有问题。
 
-   ![Identify suspect commits and see suggested assignees for issues.](./img/issue-integrations-01.png)
+   ![识别可疑提交并查看问题的建议受让人。](./img/issue-integrations-01.png)
 
-   ![Link a Sentry issue to a new or existing issue in your issue tracking solution.](./img/issue-integrations-02.png)
+   ![将 Sentry 问题链接到问题跟踪解决方案中的新问题或现有问题。](./img/issue-integrations-02.png)
 
-Sentry has built-in SCM integrations with:
+Sentry 内置的 SCM 集成包括：
 
 - [Azure DevOps](/organization/integrations/source-code-mgmt/azure-devops/)
 - [GitHub](/organization/integrations/source-code-mgmt/github/)
 - [GitLab](/organization/integrations/source-code-mgmt/gitlab/)
 - [Bitbucket](/organization/integrations/source-code-mgmt/bitbucket/)
 
-If you're using a different SCM provider or don't want Sentry to connect to your repository, check out our [Releases documentation](/product/releases/associate-commits/) to learn how you can still associate commits with your release.
+如果您使用不同的 SCM 提供商或不想让 Sentry 连接到您的存储库，请查看我们的 [发布文档](/product/releases/associate-commits/) 了解如何仍然将提交与您的发布关联。
 
-### Issue Tracking
+### 问题跟踪
 
-Enabling an integration with your issue tracking solution allows you to create a new issue from within the **Issue Details** page in [sentry.io](https://sentry.io), or link to an existing one. GitHub, GitLab, and Bitbucket issues are associated with their respective SCM integrations. Sentry also integrates with [Azure DevOps](/organization/integrations/source-code-mgmt/azure-devops/), [Shortcut](/organization/integrations/issue-tracking/shortcut/), [Jira](/organization/integrations/issue-tracking/jira/), and others.
+启用与问题跟踪解决方案的集成允许您从 [sentry.io](https://sentry.io) 中的 **问题详情** 页面创建新问题，或链接到现有问题。GitHub、GitLab 和 Bitbucket 问题与其各自的 SCM 集成相关联。Sentry 还与 [Azure DevOps](/organization/integrations/source-code-mgmt/azure-devops/)、[Shortcut](/organization/integrations/issue-tracking/shortcut/)、[Jira](/organization/integrations/issue-tracking/jira/) 等集成。
 
-For a list of all supported integrations, check out out our [full Integrations documentation](/organization/integrations/).
+有关所有受支持集成的列表，请查看我们的 [完整集成文档](/organization/integrations/)。
 
-You can set up automated issue management when you create alerts that route to [Azure DevOps](/organization/integrations/source-code-mgmt/azure-devops/#automatically) and [Jira](/organization/integrations/issue-tracking/jira/#automatically). External issues will be created for new Sentry issues on your behalf, and these issues will use the configured fields in your Azure DevOps or Jira workspace. For other issue tracking solutions, you can manually link Sentry issues.
+您可以在创建路由到 [Azure DevOps](/organization/integrations/source-code-mgmt/azure-devops/#automatically) 和 [Jira](/organization/integrations/issue-tracking/jira/#automatically) 的警报时设置自动化问题管理。将代表您为新 Sentry 问题创建外部问题，这些问题将使用 Azure DevOps 或 Jira 工作区中配置的字段。对于其他问题跟踪解决方案，您可以手动链接 Sentry 问题。
 
 <Alert>
 
-Automatic issue management is available only if your organization is on a Business or Trial plan.
+自动问题管理仅适用于您的组织在业务或试用计划上。
 
 </Alert>
 
-## 4. Create Projects
+## 4. 创建项目
 
-To start monitoring errors in your app with Sentry, you'll need to initialize the SDK with a DSN key. To obtain a key, add a new Sentry project by going to **Projects** and clicking "Create Project". Give the project a name and assign the responsible [team (or teams)](#2-set-up-teams). Then, retrieve the key in **[Project] > Settings > SDK Setup > Client Keys (DSN)**.
+要开始用 Sentry 监控应用程序中的错误，您需要使用 DSN 密钥初始化 SDK。要获取密钥，请通过转到 **项目** 并点击"创建项目"来添加新的 Sentry 项目。为项目命名并分配负责的 [团队（或团队）](#2-设置团队)。然后，在 **[项目] > 设置 > SDK 设置 > 客户端密钥 (DSN)** 中检索密钥。
 
-![Retrieve your project DSN key.](./img/project-dsn.png)
+![检索您的项目 DSN 密钥。](./img/project-dsn.png)
 
-Once the SDK is initialized, any error that occurs in your code, wherever it may be deployed and running, will be associated with that specific project.
+一旦 SDK 初始化，无论代码部署和运行在哪里，其中发生的任何错误都将与该特定项目关联。
 
-If you haven't set up any teams to associate with your project because you skipped to step three, don't worry. Even on our free Developer plan, Sentry automatically sets up a team for you based on the name of your organization, and adds you to it.
+如果您没有设置任何团队与您的项目关联，因为您跳到了第三步，请不要担心。即使在我们的免费开发者计划中，Sentry 也会根据您组织的名称自动为您设置一个团队，并将您添加到其中。
 
-### What's in a Project?
+### 项目中有什么？
 
-A _project_ is a logical entity that connects the errors in your application (or a part of it) to the team members assigned to that project. The project settings determine:
+_项目_ 是一个逻辑实体，将应用程序（或其一部分）中的错误连接到分配给该项目的团队成员。项目设置确定：
 
-- Which errors should be ingested into your Sentry account and which should be dropped, through [Inbound Filters](/pricing/quotas/#inbound-data-filters)
-- Who to notify, about what error, and how, using [Alert Rules](/product/alerts/alert-types/)
-- Which errors should be automatically assigned to which member or team using [Ownership Rules](/product/issues/ownership-rules/)
-- Custom rules to fine-tune [Event Grouping](/concepts/data-management/event-grouping/) into issues
+- 哪些错误应摄取到您的 Sentry 账户中，哪些应通过 [入站过滤器](/pricing/quotas/#inbound-data-filters) 删除
+- 通知谁、关于什么错误以及如何通知，使用 [警报规则](/product/alerts/alert-types/)
+- 哪些错误应使用 [所有权规则](/product/issues/ownership-rules/) 自动分配给哪个成员或团队
+- 用于微调 [事件分组](/concepts/data-management/event-grouping/) 为问题的自定义规则
 
-Also, when you go to the **Issues** and **Discover** pages in [sentry.io](https://sentry.io), the filter at the top of the screen prioritizes the projects you're a member of by default. This way, developers are looking at information that is relevant to their work, and they see the errors that they might need to work on.
+此外，当您转到 [sentry.io](https://sentry.io) 中的 **问题** 和 **发现** 页面时，屏幕顶部的过滤器默认优先考虑您是成员的项目。这样，开发人员正在查看与其工作相关的信息，并且他们看到可能需要处理的问题。
 
-![Issues page with Project dropdown open.](./img/issues-project-dropdown.png)
+![带有项目下拉菜单打开的问题页面。](./img/issues-project-dropdown.png)
 
-### How Many Projects Should I Create?
+### 我应该创建多少个项目？
 
-You could theoretically put all your errors into a single project, as this isn't limited in [sentry.io](https://sentry.io). However, setting up multiple projects to reflect your application with finer granularity helps makes errors more visible and actionable, which can have a big impact on your team's productivity.
+理论上，您可以将所有错误放入一个项目中，因为这在 [sentry.io](https://sentry.io) 中不受限制。但是，设置多个项目以更精细的粒度反映您的应用程序有助于使错误更明显和可操作，这对您团队的生产力有很大影响。
 
-Here are some points to consider:
+以下是一些需要考虑的事项：
 
-- If your application's source code is managed in **multiple repositories**, create a **separate project for each repo**.
-- If your app is made up of **several micro-services**, **split them into projects** accordingly.
-- If you have a **monolithic codebase**, set up **separate projects for the backend and frontend**.
-- Give **each language its own project**. For example, if your backend code contains NodeJS and Java components, separate those into two different projects.
+- 如果您的应用程序的源代码在 **多个存储库** 中管理，请为 **每个存储库创建一个单独的项目**。
+- 如果您的应用程序由 **几个微服务** 组成，请相应地 **将它们拆分为项目**。
+- 如果您有 **单体代码库**，请为 **后端和前端设置单独的项目**。
+- 为 **每种语言提供自己的项目**。例如，如果您的后端代码包含 NodeJS 和 Java 组件，请将它们分成两个不同的项目。
 
-## 5. Define Environments
+## 5. 定义环境
 
-Depending on your development life cycle, your applications are probably deployed and running in multiple environments — _QA_, _Staging_, _Production_, and so on. Configuring the environment in your Sentry SDK will add the tag to every error event and will help you associate events with the environment in which they occurred. You can do that by creating a `SENTRY_ENVIRONMENT` environment variable or by explicitly defining it in the SDK configuration. Learn more in [Environments](/platform-redirect/?next=/configuration/environments/).
+根据您的开发生命周期，您的应用程序可能部署并运行在多个环境中 — _QA_、_暂存_、_生产_ 等。在 Sentry SDK 中配置环境将为每个错误事件添加标签，并帮助您将事件与它们发生的环境关联起来。您可以通过创建 `SENTRY_ENVIRONMENT` 环境变量或通过显式在 SDK 配置中定义它来实现。了解更多信息，请访问 [环境](/platform-redirect/?next=/configuration/environments/)。
 
-![The Issues page with the Environment dropdown opened.](./img/environment-dropdown.png)
+![带有环境下拉菜单打开的问题页面。](./img/environment-dropdown.png)
 
-Having the environment defined in your SDK will allow you to:
+在 SDK 中定义环境将允许您：
 
-- Create environment-specific alert rules.
-- Filter the **Issues** page based on the environment.
-- Gain comparative insights, based on the environment, through queries in **Discover**.
+- 创建特定于环境的警报规则。
+- 根据环境过滤 **问题** 页面。
+- 通过 **发现** 中的查询，基于环境获得比较洞察。

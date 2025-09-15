@@ -1,31 +1,30 @@
 ---
-title: Set Up
+title: 设置
 sidebar_order: 0
-description: "Learn how to set up Sentry MCP Monitoring"
+description: "了解如何设置Sentry MCP监控"
 ---
 
-Sentry MCP Observability helps you track and debug Model Context Protocol (MCP) implementations using our supported SDKs and integrations. Monitor your complete MCP workflows from client connections to server responses, including tool executions, resource access, and protocol communications.
+Sentry MCP可观察性帮助您使用我们支持的SDK和集成来跟踪和调试模型上下文协议（MCP）实现。从客户端连接到服务器响应，监控您的完整MCP工作流，包括工具执行、资源访问和协议通信。
 
-To start sending MCP data to Sentry, make sure you've created a Sentry project for your MCP-enabled repository and follow the guide below:
+要开始将MCP数据发送到Sentry，请确保您已为启用MCP的存储库创建了Sentry项目，并遵循以下指南：
 
-## Requirements
+## 要求
 
-<VersionRequirement product="MCP Observability" sdk="Node SDK" minVersion="9.46.0" />
+<VersionRequirement product="MCP可观察性" sdk="Node SDK" minVersion="9.46.0" />
 
+## 支持的SDK
 
-## Supported SDKs
+### JavaScript - MCP服务器
 
-### JavaScript - MCP Server
+Sentry JavaScript SDK通过包装[@modelcontextprotocol/sdk](https://www.npmjs.com/package/@modelcontextprotocol/sdk)包中的MCP服务器来支持MCP可观察性。此包装器自动捕获您的MCP服务器工作流的span，包括工具执行、资源访问和客户端连接。
 
-The Sentry JavaScript SDK supports MCP observability by wrapping the MCP Server from the [@modelcontextprotocol/sdk](https://www.npmjs.com/package/@modelcontextprotocol/sdk) package. This wrapper automatically captures spans for your MCP server workflows including tool executions, resource access, and client connections.
-
-#### Quick Start with MCP Server
+#### 使用MCP服务器快速开始
 
 ```javascript
 import * as Sentry from "@sentry/node";
 import { McpServer } from "@modelcontextprotocol/sdk";
 
-// Sentry init needs to be above everything else
+// Sentry初始化需要在所有其他内容之上
 Sentry.init({
   dsn: "___PUBLIC_DSN___",
   tracesSampleRate: 1.0,
@@ -33,7 +32,7 @@ Sentry.init({
   sendDefaultPii: true,
 });
 
-// Your MCP server
+// 您的MCP服务器
 const server = Sentry.wrapMcpServerWithSentry(new McpServer({
     name: "my-mcp-server",
     version: "1.0.0",

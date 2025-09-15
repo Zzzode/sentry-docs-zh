@@ -1,104 +1,104 @@
 ---
-title: "Grouping Issues"
+title: "问题分组"
 sidebar_order: 60
 noindex: true
-description: "Learn more about how Sentry groups issues together as well as different ways to change how events are grouped."
+description: "了解Sentry如何将问题分组在一起，以及更改事件分组方式的不同方法。"
 ---
 
-Have you ever had a set of similar-looking issues like this?
+您是否曾经有过一组看起来相似的问题，像这样？
 
-![Issues Dashboard](./img/issues-dashboard.png)
+![问题仪表板](./img/issues-dashboard.png)
 
-Ever wonder why some events group into a single issue but others group into separate issues?
+有没有想过为什么某些事件会分组为单个问题，而其他事件则分组为单独的问题？
 
-Let's first understand how errors and transactions group into an issue. In the example above, the issue `testTypeIssue14` has 718 events that Sentry grouped into an issue because they share the same _fingerprint_.
+让我们首先了解错误和事务如何分组为一个问题。在上面的示例中，问题`testTypeIssue14`有718个事件，Sentry将它们分组为一个问题，因为它们共享相同的_指纹_。
 
-**What is a fingerprint?**
-A fingerprint is a way to uniquely identify an event. Sentry sets a fingerprint for you by default, using built-in grouping algorithms based on information such as a stack trace, exception type, and message. Events with the same fingerprint are grouped together.
+**什么是指纹？**
+指纹是一种唯一标识事件的方式。Sentry默认使用内置分组算法为您设置指纹，该算法基于堆栈跟踪、异常类型和消息等信息。具有相同指纹的事件被分组在一起。
 
-**Do I need to do anything?** No. Sentry automatically generates a fingerprint based on the event type and other data in the event. If events have the same root cause, they will group into one issue. If you want to change the way events are grouped, see Changing How Events are Grouped below.
+**我需要做任何事情吗？** 不需要。Sentry根据事件类型和事件中的其他数据自动生成指纹。如果事件具有相同的根本原因，它们将分组为一个问题。如果您想更改事件的分组方式，请参见下面的更改事件分组方式。
 
-**How do I see the fingerprint?** Open an issue, click the JSON link, and find the _fingerprint_ property. If the default grouping was used, you'll see `"{{ default }}"` written there. If a different grouping was used, you'll see the fingerprint value itself.
+**如何查看指纹？** 打开一个问题，点击JSON链接，然后找到_fingerprint_属性。如果使用了默认分组，您会看到`"{{ default }}"`写在那里。如果使用了不同的分组，您会看到指纹值本身。
 
-## Why are similar-looking issues not grouping together?
+## 为什么看起来相似的问题没有分组在一起？
 
-Even if a set of issues in the Issues Stream looks similar, if they are separate then there is something that still differs. In this example, it's the function name at the top of the stack trace:
-![Issues Dashboard](./img/issue-stacktraces-comparison.png)
+即使问题流中的一组问题看起来相似，如果它们是分开的，那么仍然有一些不同之处。在此示例中，是堆栈跟踪顶部的函数名称：
+![问题仪表板](./img/issue-stacktraces-comparison.png)
 
-## Changing How Events are Grouped
+## 更改事件的分组方式
 
 <Alert>
 
-The solutions described in this section are only applicable to [error issues](/product/issues/issue-details/error-issues/). Other categories of issues (such as [performance issues](/product/issues/issue-details/performance-issues/)) do not support this feature.
+本节中描述的解决方案仅适用于[错误问题](/product/issues/issue-details/error-issues/)。其他类别的问题（如[性能问题](/product/issues/issue-details/performance-issues/)）不支持此功能。
 
 </Alert>
 
-There are four different ways to change how events are grouped into issues.
+有四种不同的方法可以更改事件如何分组为问题。
 
-**Merging Similar Issues**: This allows already-existing issues to be merged together. No settings or configuration are required to do this.
+**合并相似问题**：这允许将已存在的问题合并在一起。无需任何设置或配置即可执行此操作。
 
-**Fingerprint Rules**: This allows you to configure rules for directly setting the fingerprint of future events.
+**指纹规则**：这允许您配置规则，直接设置未来事件的指纹。
 
-**Stack Trace Rules**: This allows you to configure rules for which stack trace frames are used when applying grouping rules to future events.
+**堆栈跟踪规则**：这允许您配置规则，在将分组规则应用于未来事件时使用哪些堆栈跟踪帧。
 
-**SDK-side Fingerprinting**: This allows you to set a fingerprint directly on an event before it's sent to Sentry.
+**SDK端指纹**：这允许您在事件发送到Sentry之前在事件上直接设置指纹。
 
-Note that neither configuring fingerprint and stack trace rules nor using SDK-side fingerprinting will affect existing events or issues, only change how future events are grouped.
+请注意，配置指纹和堆栈跟踪规则或使用SDK端指纹都不会影响现有事件或问题，只会更改未来事件的分组方式。
 
-See below for more details on each approach.
+请参见下文，了解每种方法的更多详细信息。
 
-### Merging Similar Issues
+### 合并相似问题
 
-This allows two or more existing issues to be combined, such that any future event which would have fallen into one of the issues will then be added to the merged issue.
+这允许将两个或更多已存在的问题合并，这样任何本来会落入其中一个问题的未来事件都将被添加到合并的问题中。
 
-Before merge
-![Before Merge](./img/before-merge-1.png)
+合并前
+![合并前](./img/before-merge-1.png)
 
-After merge, we see that `testTypeIssue7` and `testTypeIssue8` were merged together.
-![After Merge](./img/after-merge-1.png)
+合并后，我们看到`testTypeIssue7`和`testTypeIssue8`被合并在一起。
+![合并后](./img/after-merge-1.png)
 
-You can also do this from inside a single issue. Click the Similar Issues tab
-![Similar Issues](./img/similar-issues-1.png)
+您也可以从单个问题内部执行此操作。点击相似问题选项卡
+![相似问题](./img/similar-issues-1.png)
 
-**Warning:** This will not affect the creation of future issues. In other words, any future event which would have created a new issue will still do so, regardless of similarity. Only events from the merged issues will be included in the new combined issue.
+**警告：** 这不会影响未来问题的创建。换句话说，任何本来会创建新问题的未来事件仍将这样做，无论相似性如何。只有来自合并问题的事件才会包含在新的组合问题中。
 
-If you'd like to unmerge issues, you can go to the **Issue Details** page and click the "Merged Issues" tab. You will see the fingerprints that have been merged into that issue. Select the appropriate checkbox(es) and click "Unmerge".
+如果您想取消合并问题，您可以转到**问题详情**页面并点击"合并问题"选项卡。您将看到已合并到该问题的指纹。选择适当的复选框并点击"取消合并"。
 
-### Fingerprint Rules
+### 指纹规则
 
-In order to use fingerprint rules, there are two steps.
+为了使用指纹规则，有两个步骤。
 
-1. Identify the match logic for grouping issues together. In the examples below, we'll use either the error's **type** or its **message**.
-2. Set the match logic and the corresponding fingerprint in project settings.
+1. 确定将问题分组在一起的匹配逻辑。在下面的示例中，我们将使用错误的**类型**或其**消息**。
+2. 在项目设置中设置匹配逻辑和相应的指纹。
 
-#### 1. Identify Match Logic
+#### 1. 确定匹配逻辑
 
-Let's say you want the following two issues to group together:
-![ConnectionTimeouts](./img/connection-timeouts-2.png)
+假设您希望将以下两个问题分组在一起：
+![连接超时](./img/connection-timeouts-2.png)
 
-You can do it based on the error **type**:
-![ConnectionTimeoutType](./img/connection-timeout-type.png)
+您可以基于错误**类型**执行此操作：
+![连接超时类型](./img/connection-timeout-type.png)
 
-Or you can do it based on the **message**:
-![ConnectionTimeoutMessage](./img/connection-timeout-message.png)
+或者您可以基于**消息**执行此操作：
+![连接超时消息](./img/connection-timeout-message.png)
 
-#### 2. Add Rules to Project Settings
+#### 2. 添加到项目设置的规则
 
-Here's how to set the match based on the error **type** in **[Project] > Settings > Issue Grouping > Fingerprint Rules**:
-![ConnectionTimeoutTypeExample](./img/connection-timeout-type-example.png)
+以下是如何在**[项目] > 设置 > 问题分组 > 指纹规则**中基于错误**类型**设置匹配：
+![连接超时类型示例](./img/connection-timeout-type-example.png)
 
-Now all `ConnectTimeout` events will get a fingerprint of `connect-timeout-type` and will get grouped into a single issue, regardless of stack trace. Note that this only applies to future events.
+现在所有`ConnectTimeout`事件都将获得`connect-timeout-type`的指纹，并将分组为单个问题，无论堆栈跟踪如何。请注意，这仅适用于未来事件。
 
-Here's how to set the match based on the error **message**. Note the use of `*` to allow the message to match on any `host` value.
+以下是如何基于错误**消息**设置匹配。请注意使用`*`以允许消息匹配任何`host`值。
 
-![ConnectionTimeoutMessageExample](./img/connection-timeout-message-example.png)
+![连接超时消息示例](./img/connection-timeout-message-example.png)
 
-You can also do this based on the file path of the erroring function, or on the function name itself. See [Fingerprint Rules](/concepts/data-management/event-grouping/fingerprint-rules/).
+您也可以基于错误函数的file path或函数名称本身执行此操作。请参见[指纹规则](/concepts/data-management/event-grouping/fingerprint-rules/)。
 
-### Stack Trace Rules
+### 堆栈跟踪规则
 
-Sometimes two stack traces are the same function execution path but differ by one or more frames corresponding to code in middleware, third-party libraries, or the framework itself. Sentry will automatically try to detect and ignore such frames, but this is also configurable. See [Stack Trace Rules](/concepts/data-management/event-grouping/stack-trace-rules/).
+有时两个堆栈跟踪是相同的函数执行路径，但一个或多个帧对应于中间件、第三方库或框架本身的代码不同。Sentry将自动尝试检测并忽略此类帧，但这也是可配置的。请参见[堆栈跟踪规则](/concepts/data-management/event-grouping/stack-trace-rules/)。
 
-### SDK-side Fingerprinting
+### SDK端指纹
 
-For information on setting fingerprints directly on events themselves, see the relevant [SDK docs](/platform-redirect/?next=/usage/sdk-fingerprinting/).
+有关直接在事件本身上设置指纹的信息，请参见相关的[SDK文档](/platform-redirect/?next=/usage/sdk-fingerprinting/)。

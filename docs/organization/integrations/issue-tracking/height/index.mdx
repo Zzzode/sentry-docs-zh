@@ -1,49 +1,49 @@
 ---
 title: Height
 sidebar_order: 1
-description: "Learn more about Sentry's Height integration and how you can effortlessly create new Height tasks from Sentry and link Sentry issues to existing Height tasks."
+description: "了解 Sentry 的 Height 集成的更多信息，以及您如何轻松地从 Sentry 创建新的 Height 任务并将 Sentry 问题链接到现有的 Height 任务。"
 ---
 
-The Height Sentry integration allows your team to record and quickly resolve critical errors by linking new or existing Height tasks to Sentry issues. Linking tasks gives your teammates visibility into updates from Sentry, and they can automatically mark Sentry issues as _Resolved_ as the task status changes in Height. Additionally, set up custom alerts to create new Height tasks when key triggers you care about, like reported errors or session crashes, spike above a certain threshold.
+Height Sentry 集成允许您的团队通过将新的或现有的 Height 任务链接到 Sentry 问题来记录并快速解决关键错误。链接任务为您的队友提供了 Sentry 更新的可见性，并且他们可以在 Height 中的任务状态更改时自动将 Sentry 问题标记为_已解决_。此外，设置自定义警报以在您关心的关键触发器（如报告的错误或会话崩溃）超过特定阈值时创建新的 Height 任务。
 
-This integration is maintained and supported by the company that created it. For more details, check out our [Integration Platform documentation](/organization/integrations/integration-platform/).
+此集成由创建它的公司维护和支持。更多详细信息，请查看我们的[集成平台文档](/organization/integrations/integration-platform/)。
 
-## Install and Configure
+## 安装和配置
 
 <Alert>
 
-Sentry owner, manager, or admin permissions are required to install this integration.
+需要 Sentry 所有者、管理员或管理员权限才能安装此集成。
 
-Height **won't** work with self-hosted Sentry.
+Height **不**适用于自托管 Sentry。
 
 </Alert>
 
-To add the Height integration, navigate to **Settings > Integrations > Height** and click "Install".
+要添加 Height 集成，请导航到**设置 > 集成 > Height** 并点击"安装"。
 
-![Installed Height integration](./img/height-install.png)
+![已安装的 Height 集成](./img/height-install.png)
 
-## Issue Management
+## 问题管理
 
-Issue tracking allows you to create Height tasks from within [sentry.io](https://sentry.io), and link Sentry issues to existing Height tasks. Issue management can be configured in two ways: automatically or manually.
+问题跟踪允许您从 [sentry.io](https://sentry.io) 内创建 Height 任务，并将 Sentry 问题链接到现有的 Height 任务。问题管理可以通过两种方式配置：自动或手动。
 
-### Automatically
+### 自动
 
-To configure issue management automatically, create an [issue alert](/product/alerts/alert-types/#issue-alerts) or a [metric alert](/product/alerts/alert-types/#metric-alerts). When selecting the [action](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions), choose "Notify Integration" and then "Height" for issue alerts, or select "Height" from the action dropdown for metric alerts:
+要自动配置问题管理，请创建[问题警报](/product/alerts/alert-types/#issue-alerts)或[指标警报](/product/alerts/alert-types/#metric-alerts)。在选择[操作](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions)时，对于问题警报选择"通知集成"然后选择"Height"，或者对于指标警报从操作下拉菜单中选择"Height"：
 
-![Height metric alert rule action settings](./img/height-rule.png)
+![Height 指标警报规则操作设置](./img/height-rule.png)
 
-A Height task will be created automatically when the alert is triggered.
+当警报触发时将自动创建 Height 任务。
 
-### Manually
+### 手动
 
-To configure issue management manually, navigate to a specific Sentry issue and find the "Linked Issues" section on the right panel:
+要手动配置问题管理，请导航到特定的 Sentry 问题，并在右侧面板中找到"链接问题"部分：
 
-![Link Height issue in Sentry](./img/height-link-issue.png)
+![在 Sentry 中链接 Height 问题](./img/height-link-issue.png)
 
-Here, you’ll be able to create or link Height tasks:
+在这里，您将能够创建或链接 Height 任务：
 
-![Create Height issue form](./img/height-create-issue.png)
+![创建 Height 问题表单](./img/height-create-issue.png)
 
-## Issue Sync
+## 问题同步
 
-Height will keep your issue statuses in sync. There is a default mapping from the Height task status to the Sentry issue status. If you resolve a Height task, the manually linked Sentry issue will also be resolved.
+Height 将保持您的问题状态同步。从 Height 任务状态到 Sentry 问题状态有默认映射。如果您解决了一个 Height 任务，手动链接的 Sentry 问题也将被解决。

@@ -1,18 +1,18 @@
 ---
-title: "Mobile Vitals"
+title: "移动性能指标"
 sidebar_order: 0
-description: "Track the performance of your app."
+description: "跟踪应用程序的性能。"
 ---
 
-The Mobile Vitals insights module provides a high-level overview of the performance of your screens, and allows you to drill down into the performance metrics of individual screens.
+移动性能指标洞察模块提供了屏幕性能的高级概览，并允许您深入了解各个屏幕的性能指标。
 
-![The Mobile Vitals insights module.](./img/mobile-vitals.png)
+![移动性能指标洞察模块。](./img/mobile-vitals.png)
 
-## App Start
+## 应用程序启动
 
-App start metrics track how long your mobile application takes to launch. For this, Sentry measures [_cold starts_]( /concepts/search/searchable-properties/events/#measurementsapp_start_cold) and [_warm starts_](/concepts/search/searchable-properties/events/#measurementsapp_start_warm).
+应用程序启动指标跟踪移动应用程序启动所需的时间。为此，Sentry测量[冷启动](/concepts/search/searchable-properties/events/#measurementsapp_start_cold)和[热启动](/concepts/search/searchable-properties/events/#measurementsapp_start_warm)。
 
-The definitions of cold start and warm start change slightly depending on the operating system. On iOS, Apple recommends your app take at most 400ms to render the first frame. On Android, the [Google Play console](https://developer.android.com/topic/performance/vitals/launch-time#av) warns you when a cold start takes longer than five seconds or a warm start longer than two seconds. For definitions by operating system, check out the corresponding SDK docs:
+冷启动和热启动的定义根据操作系统略有不同。在iOS上，Apple建议您的应用程序最多需要400毫秒来渲染第一帧。在Android上，[Google Play控制台](https://developer.android.com/topic/performance/vitals/launch-time#av)会在冷启动超过五秒或热启动超过两秒时发出警告。有关按操作系统的定义，请查看相应的SDK文档：
 
 - [Android](/platforms/android/tracing/instrumentation/automatic-instrumentation/#app-start-instrumentation)
 - [Apple](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#app-start-tracking)
@@ -21,74 +21,73 @@ The definitions of cold start and warm start change slightly depending on the op
 
 <Alert>
 
-Sentry's App Start instrumentation aims to be as comprehensive and representative of the user experience as possible, and adheres to guidelines by the platform vendors. For this reason, App Starts reported by Sentry might be longer than what you see in other tools. Read more on the [Apple App Start docs](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#app-start-tracing) and [Android App Start docs](/platforms/android/tracing/instrumentation/automatic-instrumentation/#app-start-instrumentation).
-
+Sentry的应用程序启动检测旨在尽可能全面和代表用户体验，并遵守平台供应商的指导方针。出于这个原因，Sentry报告的应用程序启动可能比其他工具中看到的要长。在[Apple应用程序启动文档](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#app-start-tracing)和[Android应用程序启动文档](/platforms/android/tracing/instrumentation/automatic-instrumentation/#app-start-instrumentation)上阅读更多。
 
 </Alert>
 
-In the example below, the detail view of a transaction displays the warm start measurement in the right sidebar.
+在下面的示例中，事务的详细视图在右侧边栏中显示热启动测量。
 
-![The event detail of a transaction with a warm start measurement.](./img/app-start-transaction.png)
+![具有热启动测量的事务的事件详细信息。](./img/app-start-transaction.png)
 
-While the SDKs differentiate between cold and warm starts, they don't track hot starts or resumes. To get more insight into your cold and warm start metrics, you can use the [App Starts](/product/insights/mobile/mobile-vitals/app-starts/) feature.
+虽然SDK区分冷启动和热启动，但它们不跟踪热启动或恢复。要更深入地了解冷启动和热启动指标，您可以使用[应用程序启动](/product/insights/mobile/mobile-vitals/app-starts/)功能。
 
-## Slow and Frozen Frames
+## 缓慢和冻结帧
 
-To track the responsiveness of the user interface, Sentry measures _slow frames_ and _frozen frames_. Both indicate if the rendering of a frame is taking too long, causing the UI to appear laggy or frozen.
+为了跟踪用户界面的响应性，Sentry测量缓慢帧和冻结帧。两者都表示帧的渲染时间过长，导致UI显得滞后或冻结。
 
-Typically, a phone or tablet renders at 60 or 120 frames per second (fps). Based on this a single frame has a time budget of 16.67 / 8.33 ms to render.
+通常，手机或平板电脑以60或120帧每秒（fps）渲染。基于此，单个帧有16.67/8.33毫秒的时间预算来渲染。
 
-- **Slow Frames**: Using 60 fps, slow frames are frames that take more than 16 ms (Android) or 16.67 ms (iOS) to render.
-- **Frozen Frames**: Frozen frames are frames that take longer than 700 ms to render.
+- **缓慢帧**：使用60 fps时，缓慢帧是渲染时间超过16毫秒（Android）或16.67毫秒（iOS）的帧。
+- **冻结帧**：冻结帧是渲染时间超过700毫秒的帧。
 
-Sentry also supports higher frame rates, especially as 120 fps displays are becoming more popular. For these apps, Sentry detects the frame rate and adjusts the slow frame calculation accordingly.
+Sentry还支持更高的帧率，特别是随着120 fps显示器变得越来越流行。对于这些应用程序，Sentry检测帧率并相应调整缓慢帧计算。
 
-On the Mobile Vitals insights page, you can see a slow and frozen frame rate, indicating the percentage of frames that are slow or frozen during the lifetime of the transaction.
+在移动性能指标洞察页面上，您可以看到缓慢和冻结帧率，指示在事务生命周期内缓慢或冻结的帧的百分比。
 
-In the example below, the detail view of the transaction displays the slow, frozen, and total frames in an iOS application:
+在下面的示例中，事务的详细视图显示iOS应用程序中的缓慢、冻结和总帧：
 
-![The event detail of a transaction with slow and frozen frames measurements.](./img/slow-frozen-frames.png)
+![具有缓慢和冻结帧测量的事务的事件详细信息。](./img/slow-frozen-frames.png)
 
-You can track slow and frozen frames for:
+您可以跟踪以下平台的缓慢和冻结帧：
 
 - [Android](/platforms/android/tracing/instrumentation/automatic-instrumentation/#slow-and-frozen-frames)
 - [Apple](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#slow-and-frozen-frames)
 - [Flutter](/platforms/dart/guides/flutter/tracing/instrumentation/automatic-instrumentation/#slow-and-frozen-frames)
 - [React Native](/platforms/react-native/tracing/instrumentation/automatic-instrumentation/#slow-and-frozen-frames)
 
-## Frames Delay
+## 帧延迟
 
-Frames Delay is the user-perceived total delayed duration of rendered frames. For example, at a refresh rate of 60fps, if a two frame renders takes 20ms each, the frame delay is 8ms (2 * (20ms - 16ms) = 8ms).
+帧延迟是用户感知的渲染帧的总延迟持续时间。例如，在60fps的刷新率下，如果两个帧渲染各需要20毫秒，则帧延迟为8毫秒（2 * (20ms - 16ms) = 8ms）。
 
-You can track frames delay on the following platforms:
+您可以在以下平台上跟踪帧延迟：
 - [Android](/platforms/android/tracing/instrumentation/perf-v2/#frames-delay)
-- [Apple, as part of slow and frozen frames](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#slow-and-frozen-frames)
+- [Apple，作为缓慢和冻结帧的一部分](/platforms/apple/guides/ios/tracing/instrumentation/automatic-instrumentation/#slow-and-frozen-frames)
 - [Flutter](/platforms/dart/guides/flutter/integrations/slow-and-frozen-frames-instrumentation/)
 
-## Time to Initial Display and Time to Full Display
+## 初始显示时间和完全显示时间
 
-To track how long it takes a screen to render its first frame and then how long it takes to render its first frame with all content, Sentry measures time to initial display and time to full display, respectively.
+为了跟踪屏幕渲染其第一帧需要多长时间，以及渲染其第一帧和所有内容需要多长时间，Sentry分别测量初始显示时间和完全显示时间。
 
-- **Time to initial display**: tracks how long it takes your app to render its first frame. This includes app start time on the first screen loaded. It doesn't include any content loaded lazily after the first frame is drawn. Time to initial display is measured automatically and enabled by default.
+- **初始显示时间**：跟踪应用程序渲染其第一帧需要多长时间。这包括首次加载屏幕上的应用程序启动时间。它不包括第一帧绘制后延迟加载的任何内容。初始显示时间会自动测量并默认启用。
 
-- **Time to full display**: tracks how long it takes for your mobile application to render its first frame with full content. This includes content loaded asynchronously after the first frame, for example, after loading content from the network. Time to full display is opt-in and requires you to manually call the API to report that the screen has loaded all of its content and is fully displayed.
+- **完全显示时间**：跟踪移动应用程序渲染其第一帧和所有内容需要多长时间。这包括第一帧后异步加载的内容，例如从网络加载内容后。完全显示时间是选择加入的，需要您手动调用API来报告屏幕已加载所有内容并完全显示。
 
-In the example below, the detail view of the transaction displays the time-to-initial-display span in an Android application:
+在下面的示例中，事务的详细视图显示Android应用程序中的初始显示时间span：
 
-![The event detail of a transaction with time to initial display and time to full display spans.](./img/time-to-initial-full-display.png)
+![具有初始显示时间和完全显示时间span的事务的事件详细信息。](./img/time-to-initial-full-display.png)
 
-You can track time to initial display for:
+您可以跟踪以下平台的初始显示时间：
 
 - [Android](/platforms/android/tracing/instrumentation/automatic-instrumentation/#time-to-initial-display)
 - [Apple](/platforms/apple/tracing/instrumentation/automatic-instrumentation/#time-to-initial-display)
 - [Flutter](/platforms/dart/guides/flutter/integrations/routing-instrumentation/#time-to-initial-display)
 - [React Native](/platforms/react-native/performance/instrumentation/time-to-display/#automatic-time-to-initial-display-for-react-navigation)
 
-You can track time to full display for:
+您可以跟踪以下平台的完全显示时间：
 
 - [Android](/platforms/android/tracing/instrumentation/automatic-instrumentation/#time-to-full-display)
 - [Apple](/platforms/apple/tracing/instrumentation/automatic-instrumentation/#time-to-full-display)
 - [Flutter](/platforms/dart/guides/flutter/integrations/routing-instrumentation/#time-to-full-display)
 - [React Native](/platforms/react-native/performance/instrumentation/time-to-display/#time-to-full-display)
 
-To get more insight into the performance of your time to initial display and time to full display metrics, use the [Screen Loads](/product/insights/mobile/mobile-vitals/screen-loads/) feature.
+要更深入地了解初始显示时间和完全显示时间指标的性能，请使用[屏幕加载](/product/insights/mobile/mobile-vitals/screen-loads/)功能。

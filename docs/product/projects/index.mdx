@@ -1,31 +1,31 @@
 ---
-title: Projects
+title: 项目
 sidebar_order: 30
-description: "View all the projects associated with teams that you're a member of, then dive into their details quickly."
+description: "查看与您所属团队关联的所有项目，然后快速深入了解其详细信息。"
 ---
 
-A _Project_ represents your service or application in Sentry. For example, you might have separate projects for your API server and frontend client.
+_项目_ 代表您在 Sentry 中的服务或应用程序。例如，您可能为 API 服务器和前端客户端分别设置单独的项目。
 
-When you first [create a project](/product/sentry-basics/integrate-frontend/create-new-project/), you also assign a team to it. All members of the assigned team have access to the project. Additional teams can be added in **[Project] > Settings > Project Teams**.
+当您首次 [创建项目](/product/sentry-basics/integrate-frontend/create-new-project/) 时，您还会为其分配一个团队。分配团队的所有成员都可以访问该项目。可以在 **[项目] > 设置 > 项目团队** 中添加其他团队。
 
-You can create more projects to reflect your application landscape with finer granularity (for example, a separate project for each repo, mapping components and micro-services to the teams that own them). For most pages in Sentry, including **Issues** and **Discover**, the top-level filter bar defaults to showing information for your projects, so that you only see what's relevant to you and your team(s). How you set up your projects can go a long way in reducing noise and improving productivity. Learn more about best practices for setting up projects in our [account setup documentation](/organization/getting-started/#4-create-projects).
+您可以创建更多项目以更精细的粒度反映您的应用程序环境（例如，为每个仓库设置单独的项目，将组件和微服务映射到拥有它们的团队）。对于 Sentry 中的大多数页面，包括 **问题** 和 **发现**，顶级过滤器栏默认显示您的项目信息，因此您只会看到与您和您的团队相关的内容。如何设置项目可以在减少噪音和提高生产力方面发挥很大作用。在我们的 [账户设置文档](/organization/getting-started/#4-create-projects) 中了解有关设置项目的最佳实践的更多信息。
 
-Projects differ from [environments](/product/sentry-basics/environments/), which are designed to help triage issues, especially in a multi-staged release process.
+项目与 [环境](/product/sentry-basics/environments/) 不同，后者旨在帮助分类问题，特别是在多阶段发布过程中。
 
-## Projects Page
+## 项目页面
 
-The **Projects** page lists all the projects assigned to teams you're a member of. Projects are displayed in alphabetical order and with a high-level overview of the following:
+**项目** 页面列出了分配给您的团队的所有项目。项目按字母顺序显示，并提供以下高级概述：
 
-- A snapshot of both errors and transactions in the last 24 hours
-- The percentage of crash free sessions, if you have configured [release health](/product/releases/health/)
-- Deploys, if you have configured your SDK to [provide a release identifier](/platform-redirect/?next=/configuration/releases/) and are tracking [deploys](/cli/releases/#creating-deploys)
+- 过去 24 小时内错误和事务的快照
+- 如果您已配置 [发布健康](/product/releases/health/)，则无崩溃会话的百分比
+- 如果您已将 SDK 配置为 [提供发布标识符](/platform-redirect/?next=/configuration/releases/) 并正在跟踪 [部署](/cli/releases/#creating-deploys)，则显示部署
 
-**Tip:** For faster access, star your favorite projects to move them to the top of the page.
+**提示：** 为了更快地访问，收藏您喜欢的项目以将其移至页面顶部。
 
 <Arcade src="https://demo.arcade.software/1M7NByRziNqbjuXpkrFB?embed" />
 
-## View Project Details
+## 查看项目详情
 
-Click on a project from the **Projects** page to open the **Project Details** page.
+从 **项目** 页面点击项目以打开 **项目详情** 页面。
 
-The [**Project Details**](/product/projects/project-details/) page provides an overview of errors, performance, and the health of your releases. Use this page to quickly correlate spikes in error rates with the issues causing them, react to critical alerts, and analyze long-term trends.
+[**项目详情**](/product/projects/project-details/) 页面提供了错误、性能和发布健康状况的概述。使用此页面可以快速将错误率的峰值与导致它们的问题相关联，对关键警报做出反应，并分析长期趋势。

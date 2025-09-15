@@ -1,33 +1,33 @@
 ---
-title: Installation
+title: 安装
 sidebar_order: 1
-description: "Learn more about Sentry's integration platform installation and uninstallation webhooks."
+description: "了解有关 Sentry 集成平台安装和卸载 webhooks 的更多信息。"
 ---
 
-A [public Sentry integration](/organization/integrations/integration-platform/public-integration) will receive installation and uninstallation webhooks.
+[公共 Sentry 集成](/organization/integrations/integration-platform/public-integration)将接收安装和卸载 webhooks。
 
-## Sentry-Hook-Resource Header
+## Sentry-Hook-Resource 标头
 
 - `'Sentry-Hook-Resource': 'installation'`
 
-## Attributes
+## 属性
 
 ### action
 
-- type: string
-- description: `created` or `deleted`
+- 类型：字符串
+- 描述：`created` 或 `deleted`
 
 ### actor
 
-- type: object
-- description: The user who either installed or uninstalled the integration
+- 类型：对象
+- 描述：安装或卸载集成的用户
 
 ### data['installation']
 
-- type: object
-- description: The installation
+- 类型：对象
+- 描述：安装
 
-## Payload
+## 有效负载
 
 ```json
 {

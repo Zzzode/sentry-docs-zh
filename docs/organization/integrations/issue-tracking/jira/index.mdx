@@ -1,46 +1,46 @@
 ---
 title: Jira
 sidebar_order: 1
-description: "Learn more about Sentry's Jira integration and how it can help track and resolve bugs faster by connecting errors from Sentry with Jira issues."
+description: "了解 Sentry 的 Jira 集成的更多信息，以及它如何通过将 Sentry 中的错误与 Jira 问题连接来帮助更快地跟踪和解决错误。"
 ---
 
-## Install
+## 安装
 
 <Alert>
 
-Sentry owner, manager, or admin permissions, and Jira admin permissions are required to install this integration. This includes the following permissions: `read`, `write`, `act_as_user`, and `access_email_addresses`.
+需要 Sentry 所有者、管理员或管理员权限以及 Jira 管理员权限才能安装此集成。这包括以下权限：`read`、`write`、`act_as_user` 和 `access_email_addresses`。
 
 </Alert>
 
-1. Navigate to **Settings > Integrations > Jira**.
+1. 导航到**设置 > 集成 > Jira**。
 
-![Install Jira integration](./img/jira-overview.png)
+![安装 Jira 集成](./img/jira-overview.png)
 
-2. Install the Sentry app through the [Jira marketplace](https://marketplace.atlassian.com/apps/1219432/sentry-for-jira?hosting=cloud&tab=overview).
+2. 通过 [Jira 市场](https://marketplace.atlassian.com/apps/1219432/sentry-for-jira?hosting=cloud&tab=overview) 安装 Sentry 应用。
 
-3. If you have an ad-blocker enabled, disable it now or you won't be able to complete step number 4.
+3. 如果您启用了广告拦截器，请现在禁用它，否则您将无法完成第 4 步。
 
-4. Select which Sentry organizations you’d like to use with Jira. Then click the presented link to return to Sentry.
+4. 选择您希望与 Jira 一起使用的 Sentry 组织。然后点击呈现的链接返回 Sentry。
 
-5. In Sentry, you’ll see a new Jira instance appear on the Integrations page.
+5. 在 Sentry 中，您将在集成页面上看到一个新的 Jira 实例出现。
 
-   ![Jira integration directory](./img/jira-install.png)
+   ![Jira 集成目录](./img/jira-install.png)
 
-Jira should now be authorized for all projects under your Sentry organization.
+Jira 现在应该已授权用于您 Sentry 组织下的所有项目。
 
 ### Jira Server/Data Center
 
 <Alert>
 
-As of February 2024, Jira has discontinued support for Jira Server. Accordingly, we have stopped maintaining the integration. You can still use it the same way with its successor, Jira Data Center.
+截至 2024 年 2 月，Jira 已停止对 Jira Server 的支持。因此，我们已停止维护集成。您仍然可以将其与后续产品 Jira Data Center 以相同方式使用。
 
 </Alert>
 
-Sentry's Jira Server Integration is built using [Application Links](https://confluence.atlassian.com/adminjiraserver/link-to-other-applications-938846918.html) and should be able to integrate with Jira Data Center as well.
+Sentry 的 Jira Server 集成是使用 [应用链接](https://confluence.atlassian.com/adminjiraserver/link-to-other-applications-938846918.html) 构建的，应该也能够与 Jira Data Center 集成。
 
-#### Generate an RSA public/private key pair
+#### 生成 RSA 公钥/私钥对
 
-To generate an RSA public/private key pair, run the following commands in your terminal window one by one.
+要生成 RSA 公钥/私钥对，请在您的终端窗口中逐个运行以下命令。
 
 ```bash
 openssl genrsa -out jira_privatekey.pem 1024
@@ -49,201 +49,201 @@ openssl pkcs8 -topk8 -nocrypt -in jira_privatekey.pem -out jira_privatekey.pcks8
 openssl x509 -pubkey -noout -in jira_publickey.cer  > jira_publickey.pem
 ```
 
-#### Create a new application link in Jira
+#### 在 Jira 中创建新的应用链接
 
-1. In Jira, click the gear icon, then **Applications > Application Links**.
-1. Enter the following as the application URL:
+1. 在 Jira 中，点击齿轮图标，然后**应用 > 应用链接**。
+1. 输入以下作为应用 URL：
    `https://sentry.io/extensions/jira-server/setup/`
-1. Click "Create New Link". If you see a warning that “No response was received from the URL you entered,” ignore and click "Continue".
-1. In the resulting dialog, fill out the form as follows:
+1. 点击"创建新链接"。如果您看到警告"您输入的 URL 未收到响应"，请忽略并点击"继续"。
+1. 在结果对话框中，按如下方式填写表单：
 
    <table>
     <tbody>
       <tr>
-        <th>Application Name </th>
+        <th>应用名称 </th>
         <td>Sentry </td>
       </tr>
       <tr>
-        <th>Application Type </th>
-        <td>Generic Application</td>
+        <th>应用类型 </th>
+        <td>通用应用</td>
       </tr>
       <tr>
-        <th>Service Provider Name</th>
+        <th>服务提供商名称</th>
         <td>Sentry</td>
       </tr>
       <tr>
-        <th>Consumer Key </th>
-        <td>(your choice, but keep this handy for the next step)</td>
+        <th>消费者密钥 </th>
+        <td>（您的选择，但请为下一步保留此信息）</td>
       </tr>
       <tr>
-        <th>Shared Secret </th>
+        <th>共享密钥 </th>
         <td>sentry</td>
       </tr>
       <tr>
-        <th>Request Token URL </th>
+        <th>请求令牌 URL </th>
         <td>https://sentry.io</td>
       </tr>
       <tr>
-        <th>Access Token URL</th>
+        <th>访问令牌 URL</th>
         <td>https://sentry.io </td>
       </tr>
       <tr>
-        <th>Authorize URL </th>
+        <th>授权 URL </th>
         <td>https://sentry.io </td>
       </tr>
       <tr>
-        <th>Create Incoming Link </th>
-        <td>No </td>
+        <th>创建传入链接 </th>
+        <td>否 </td>
       </tr>
      </tbody>
    </table>
 
-1. Click "Continue". This will return you to the **Configure Application Links** page, where you'll see an application called Sentry.
-1. Click the pencil icon next to the Sentry application.
-1. On the lefthand side of the resulting modal, click "Incoming Authentication". Fill out the form as follows, and press **Save**:
+1. 点击"继续"。这将返回到**配置应用链接**页面，您将看到一个名为 Sentry 的应用。
+1. 点击 Sentry 应用旁边的铅笔图标。
+1. 在结果模态框的左侧，点击"传入身份验证"。按如下方式填写表单，然后按**保存**：
 
    <table>
      <tbody>
       <tr>
-        <th>Consumer Key </th>
-        <td>(the consumer key from Step II.4) </td>
+        <th>消费者密钥 </th>
+        <td>（来自步骤 II.4 的消费者密钥） </td>
       </tr>
       <tr>
-        <th>Consumer Name </th>
+        <th>消费者名称 </th>
         <td>Sentry</td>
       </tr>
       <tr>
-        <th>Public Key</th>
-        <td>(the public key you created in Section I)</td>
+        <th>公钥</th>
+        <td>（您在第 I 部分中创建的公钥）</td>
       </tr>
       <tr>
-        <th>Consumer Callback URL </th>
+        <th>消费者回调 URL </th>
         <td>https://sentry.io/extensions/jira-server/setup/</td>
       </tr>
       <tr>
-        <th>Allow 2-Legged OAuth </th>
-        <td>no</td>
+        <th>允许 2-Legged OAuth </th>
+        <td>否</td>
       </tr>
      </tbody>
    </table>
 
-#### Connect your Jira Server application with Sentry
+#### 将您的 Jira Server 应用与 Sentry 连接
 
 <Alert>
 
-Confirm [Sentry's IP ranges](/security-legal-pii/security/ip-ranges/) are allowed.
+确认 [Sentry 的 IP 范围](/security-legal-pii/security/ip-ranges/) 已允许。
 
 </Alert>
 
-1. Navigate to **Organization Settings > Integrations**.
-2. Next to Jira Server, click "Install".
-3. In the resulting modal, click "Add Installation".
-4. In the resulting window, enter the base URL for your Jira Server instance, your consumer key, and your private key. Click "Submit". Then, complete the OAuth process as prompted.
-5. In Sentry, you’ll see a new Jira Server instance appear on the Integrations page.
+1. 导航到**组织设置 > 集成**。
+2. 在 Jira Server 旁边，点击"安装"。
+3. 在结果模态框中，点击"添加安装"。
+4. 在结果窗口中，输入您的 Jira Server 实例的基本 URL、您的消费者密钥和您的私钥。点击"提交"。然后，按提示完成 OAuth 流程。
+5. 在 Sentry 中，您将在集成页面上看到一个新的 Jira Server 实例出现。
 
-Jira should now be authorized for all projects under your Sentry organization.
+Jira 现在应该已授权用于您 Sentry 组织下的所有项目。
 
-### Self-Hosted Sentry + Jira integration
+### 自托管 Sentry + Jira 集成
 
-To install the Jira integration with a self-hosted Sentry instance, please follow our [develop-docs](https://develop.sentry.dev/integrations/jira/), skip to the "Installing Local Jira App" section.
+要使用自托管 Sentry 实例安装 Jira 集成，请遵循我们的 [develop-docs](https://develop.sentry.dev/integrations/jira/)，跳转到"安装本地 Jira 应用"部分。
 
-## Configure
+## 配置
 
-Use Jira to leverage [issue management](#issue-management), [issue syncing](#issue-sync), and receive [notifications](#issue-notifications) about changes to issue status. Additionally, add [ignored fields](#ignored-fields) to hide specified fields in the issue creation form.
+使用 Jira 利用[问题管理](#问题管理)、[问题同步](#问题同步)并接收有关问题状态更改的[通知](#问题通知)。此外，添加[忽略字段](#忽略字段)以在问题创建表单中隐藏指定字段。
 
-### Issue Management
+### 问题管理
 
-Issue tracking allows you to create Jira issues from within Sentry, and link Sentry issues to existing Jira Issues.
+问题跟踪允许您从 Sentry 内创建 Jira 问题，并将 Sentry 问题链接到现有的 Jira 问题。
 
-<Alert title="Note">
+<Alert title="注意">
   <p>
-    Manual issue management is available to organizations on Team, Business, and
-    Enterprise plans.
+    手动问题管理适用于团队、商业和
+    企业计划的组织。
   </p>
   <p>
-    Automatic issue management is available to organizations on Business and Enterprise plans.
+    自动问题管理适用于商业和企业计划的组织。
   </p>
 </Alert>
 
-Issue management can be configured in two ways - automatically or manually.
+问题管理可以通过两种方式配置 - 自动或手动。
 
-#### Automatically
+#### 自动
 
-To configure issue management automatically, create an [**Issue Alert**](/product/alerts-notifications/issue-alerts/). When selecting the [**action**](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions), choose **Create a new Jira issue**.
+要自动配置问题管理，请创建[**问题警报**](/product/alerts-notifications/issue-alerts/)。在选择[**操作**](/product/alerts/create-alerts/issue-alert-config/#then-conditions-actions)时，选择**创建新的 Jira 问题**。
 
-![Create Jira ticket alert rule action](./img/jira-ticket-rule.png)
+![创建 Jira 工单警报规则操作](./img/jira-ticket-rule.png)
 
-A Jira issue will be created automatically when the alert has been triggered.
+当警报被触发时将自动创建 Jira 问题。
 
-#### Manually
+#### 手动
 
-To configure issue management manually, once you've navigated to a specific Sentry issue, you'll find the **Linked Issues** section on the right hand panel.
+要手动配置问题管理，一旦您导航到特定的 Sentry 问题，您将在右侧面板中找到**链接问题**部分。
 
-![Link Jira issue from Sentry issue](./img/jira-link-issue.png)
+![从 Sentry 问题链接 Jira 问题](./img/jira-link-issue.png)
 
-Here, you’ll be able to create or link Jira issues.
+在这里，您将能够创建或链接 Jira 问题。
 
-![Create Jira issue form](./img/jira-create-issue.png)
+![创建 Jira 问题表单](./img/jira-create-issue.png)
 
-### Issue Sync
+### 问题同步
 
-To minimize duplication in issue tracking, you can sync comments, assignees, and status updates for Sentry issues to Jira tickets and vice versa. When you delegate an issue to an assignee or update a status on Jira, the updates will also populate in Sentry. When you resolve an issue in Sentry, the issue status will automatically update in Jira. When Jira tickets are marked Done, you can configure how the corresponding issue in Sentry should be resolved.
+为了最小化问题跟踪中的重复，您可以将 Sentry 问题的评论、分配人和状态更新同步到 Jira 工单，反之亦然。当您将问题委派给分配人或更新 Jira 上的状态时，更新也将填充到 Sentry 中。当您在 Sentry 中解决问题时，问题状态将自动在 Jira 中更新。当 Jira 工单被标记为完成时，您可以配置 Sentry 中相应问题的解决方法。
 
-<Alert title="Note">
-  Issue sync is available for organizations on the Team, Business, and
-  Enterprise plans.
+<Alert title="注意">
+  问题同步适用于团队、商业和
+  企业计划的组织。
 </Alert>
 
-To configure Issue sync, navigate to **Organization Settings** > **Integrations**, and click "Configure" next to your Jira Server instance. On the following page, you can configure how you want information to sync between Sentry and Jira.
+要配置问题同步，请导航到**组织设置** > **集成**，然后点击您的 Jira Server 实例旁边的"配置"。在以下页面上，您可以配置您希望如何在 Sentry 和 Jira 之间同步信息。
 
-![Sync Jira statuses to Sentry](./img/jira-sync.png)
+![将 Jira 状态同步到 Sentry](./img/jira-sync.png)
 
-<Alert title="Note">
+<Alert title="注意">
 
-If you hit a 4xx or 5xx error during or after setting up the Jira Server integration, see this [troubleshooting section](#receiving-a-4xx5xx-error-for-the-jira-server-integration).
+如果您在设置 Jira Server 集成期间或之后遇到 4xx 或 5xx 错误，请参见此[故障排除部分](#接收-jira-server-集成的-4xx5xx-错误)。
 
 </Alert>
 
-### Issue Notifications
+### 问题通知
 
-Alert notifications in Sentry can be routed to many supported integrations, but by default are aimed at email. You will need to configure a project’s [**Alert Rules**](/product/alerts-notifications/alerts/) to properly route notifications to a specific integration.
+Sentry 中的警报通知可以路由到许多支持的集成，但默认情况下是针对电子邮件的。您需要配置项目的[**警报规则**](/product/alerts-notifications/alerts/)以正确将通知路由到特定集成。
 
-### Ignored Fields
+### 忽略字段
 
-Ignored fields are Jira fields that are hidden in the issue creation form. To add ignored fields, navigate to **Settings > Integrations** and click "Configure" next to your Jira instance. Then scroll down to “Ignored Fields” and enter a comma separated list of the Jira field IDs.
+忽略字段是在问题创建表单中隐藏的 Jira 字段。要添加忽略字段，请导航到**设置 > 集成**并点击您的 Jira 实例旁边的"配置"。然后向下滚动到"忽略字段"并输入 Jira 字段 ID 的逗号分隔列表。
 
-Field IDs are different from the labels on the issue creation form. If you need help finding a field's ID, check out the Atlassian docs [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html).
+字段 ID 与问题创建表单上的标签不同。如果您需要帮助查找字段的 ID，请查看 Atlassian 文档[此处](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html)。
 
-## Troubleshooting
+## 故障排除
 
-### Trouble with Self-Hosted Sentry Installation
+### 自托管 Sentry 安装问题
 
-If you're having trouble setting up Self-Hosted Sentry, verify the following:
+如果您在设置自托管 Sentry 时遇到问题，请验证以下内容：
 
-- The provided installation URL is a fully qualified domain name (FQDN), which is resolvable on the internet.
-- The IP addresses Sentry uses to make outbound requests are [allowed](/security-legal-pii/security/ip-ranges/).
-- Sentry's access to your installation URL is not path restricted.
+- 提供的安装 URL 是完全限定域名 (FQDN)，可在互联网上解析。
+- Sentry 用于发出出站请求的 IP 地址是[允许的](/security-legal-pii/security/ip-ranges/)。
+- Sentry 对您的安装 URL 的访问不受路径限制。
 
-### "Something went wrong" Message with JIRA on SaaS sentry.io Install
+### SaaS sentry.io 安装上的"出现问题"消息与 JIRA
 
-![Something went wrong error message](./img/jira-something-went-wrong.png)
+![出现问题错误消息](./img/jira-something-went-wrong.png)
 
-This issue typically occurs if you have an ad blocker blocking the conversation between JIRA and Sentry during setup. To remediate the issue, disable your ad blocker and go through the installation flow again.
+此问题通常发生在您在设置期间有广告拦截器阻止 JIRA 和 Sentry 之间的对话时。要解决此问题，请禁用您的广告拦截器并再次完成安装流程。
 
-### Can't Create Issues Using a Custom Required Field
+### 无法使用自定义必填字段创建问题
 
-We don’t support custom required fields for the Jira integration. The only required fields we support are the ones that are pre-populated by us. If possible, you can edit your required fields in Jira, or as a workaround, you can create a ticket in Jira first and then link it in Sentry.
+我们不支持 Jira 集成的自定义必填字段。我们唯一支持的必填字段是我们预先填充的字段。如果可能，您可以在 Jira 中编辑您的必填字段，或者作为解决方法，您可以先在 Jira 中创建工单，然后在 Sentry 中链接它。
 
-### Issue Alert not Creating Jira Issues
+### 问题警报未创建 Jira 问题
 
-This problem occurs when you've selected a priority option for the alert that doesn't exist for the given project. If your project configuration contains the "Priority" field, the dropdown will show every priority from **all** projects. Ensure your alert's saved priority is available on your chosen project.
+当您的警报选择的优先级选项对于给定项目不存在时，会出现此问题。如果您的项目配置包含"优先级"字段，下拉菜单将显示**所有**项目中的每个优先级。确保您的警报保存的优先级在您选择的项目上可用。
 
-### Receiving a 4xx/5xx Error for the Jira Server Integration
+### 接收 Jira Server 集成的 4xx/5xx 错误
 
-A `400` error is often generated because the Jira instance is not publicly accessible. Make sure your instance is routable (that is, our server can reach it!). If not, you’ll need to put your Jira instance on the internet so that we can reach it.
+`400` 错误通常是因为 Jira 实例无法公开访问。确保您的实例是可路由的（也就是说，我们的服务器可以到达它！）。如果不是，您需要将您的 Jira 实例放在互联网上，以便我们可以访问它。
 
-For a `500` error, unfortunately the reason can vary. This error means we couldn’t connect to your server from our server. For example, perhaps your proxy is not configured correctly, or not set to allow our IP. If you need to allow our IPs, you can find a list of our IP ranges [here](/security-legal-pii/security/ip-ranges/).
+对于 `500` 错误，不幸的是原因可能各不相同。此错误意味着我们无法从我们的服务器连接到您的服务器。例如，也许您的代理配置不正确，或者未设置为允许我们的 IP。如果您需要允许我们的 IP，您可以在[此处](/security-legal-pii/security/ip-ranges/)找到我们的 IP 范围列表。
 
-### Unable to find specific user when using Reporter field
+### 使用报告人字段时无法找到特定用户
 
-Make sure the user has been added to the relevant project in Jira and has the [Assignable User permission](https://confluence.atlassian.com/jiracoreserver/permissions-overview-939937977.html).
+确保用户已添加到 Jira 中的相关项目，并具有[可分配用户权限](https://confluence.atlassian.com/jiracoreserver/permissions-overview-939937977.html)。

@@ -1,39 +1,39 @@
 ---
-title: Rate Limits
+title: 速率限制
 sidebar_order: 3
 ---
 
-Sentry rate limits every API request made to prevent abuse and resource overuse. The limit is applied to each unique combination of caller and endpoint.
+Sentry 对每个发送到 API 的请求进行速率限制，以防止滥用和资源过度使用。该限制应用于调用者和端点的每个唯一组合。
 
-We restrict both how frequently a request is made (requests per second rate limit) and how many concurrent requests a caller can make (concurrent rate limit).
+我们限制请求的频率（每秒请求速率限制）和调用者可以同时发出的并发请求数量（并发速率限制）。
 
-The requests per second rate limit follows a fixed window approach. Requests are counted into time buckets, determined by the window size. If the number of requests from a caller exceeds the number of allowed requests within a window, then that request will be rejected. Each endpoint has its own maximum number of requests and window size.
+每秒请求速率限制遵循固定窗口方法。请求被计数到由窗口大小确定的时间桶中。如果来自调用者的请求数量在窗口内超过允许的数量，则该请求将被拒绝。每个端点都有自己的最大请求数量和窗口大小。
 
-Meanwhile, the concurrent rate limiter will reject requests if the caller has too many requests in progress at the same time.
+同时，如果调用者同时进行的请求过多，并发速率限制器将拒绝请求。
 
-You can track your rate limit usage by looking at special headers in the response.
+您可以通过查看响应中的特殊头来跟踪您的速率限制使用情况。
 
-## Headers
+## 头信息
 
-Every API request response includes the following headers:
+每个 API 请求响应都包括以下头信息：
 
 - `X-Sentry-Rate-Limit-Limit`
-  - The maximum number of requests allowed within the window
+  - 窗口内允许的最大请求数
 - `X-Sentry-Rate-Limit-Remaining`
-  - The number of requests this caller has left on this endpoint within the current window
+  - 此调用者在当前窗口内在此端点上剩余的请求数
 - `X-Sentry-Rate-Limit-Reset`
-  - The time when the next rate limit window begins and the count resets, measured in UTC seconds from epoch
+  - 下一个速率限制窗口开始和计数重置的时间，以 UTC 秒为单位从纪元开始测量
 - `X-Sentry-Rate-Limit-ConcurrentLimit`
-  - The maximum number of concurrent requests allowed
+  - 允许的最大并发请求数
 - `X-Sentry-Rate-Limit-ConcurrentRemaining`
-  - The number of concurrent requests this caller has left
+  - 此调用者剩余的并发请求数
 
-## Additional Information
+## 附加信息
 
-The rate limiter looks at the caller's identity instead of the bearer token or cookie. As such, the rate limit cannot be bypassed by generating multiple tokens.
+速率限制器查看调用者的身份，而不是承载令牌或 cookie。因此，无法通过生成多个令牌来绕过速率限制。
 
 <Alert>
 
-Polling the API for updates is likely to quickly trigger rate limiting. We recommend using our [webhooks](/organization/integrations/integration-platform/webhooks/), if possible.
+轮询 API 进行更新可能会很快触发速率限制。我们建议尽可能使用我们的[webhooks](/organization/integrations/integration-platform/webhooks/)。
 
 </Alert>

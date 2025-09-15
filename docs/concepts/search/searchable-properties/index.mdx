@@ -1,62 +1,62 @@
 ---
-title: Searchable Properties
-description: "Learn more about searchable properties."
+title: 可搜索属性
+description: "了解更多关于可搜索属性的信息。"
 sidebar_order: 10
 ---
 
-Sentry's search provides you with reserved keywords, like `is`, `user`, `server`, and `browser`, that you can use to search on the properties of issues, events and replays (as well as the special case of releases). You can also create [custom tags](#custom-tags) on which to search. This page provides guidance for how to use these properties and links you to the respective seachable property lists.
+Sentry的搜索为您提供保留关键字，如`is`、`user`、`server`和`browser`，您可以使用这些关键字来搜索问题、事件和回放的属性（以及发布的特殊情况）。您还可以创建[自定义标签](#自定义标签)来进行搜索。本页面提供如何使用这些属性的指导，并链接到相应的可搜索属性列表。
 
-## Search Properties
+## 搜索属性
 
-Sentry's searchable properties fall into one of five categories:
+Sentry的可搜索属性分为以下五个类别：
 
-- [Issue properties](/concepts/search/searchable-properties/issues/)
-- [Event properties](/concepts/search/searchable-properties/events/)
-- [Span properties](/concepts/search/searchable-properties/spans/)
-- [Session Replay properties](/concepts/search/searchable-properties/session-replay/)
-- [User Feedback properties](/concepts/search/searchable-properties/user-feedback/)
-- [Release properties](/concepts/search/searchable-properties/releases/)
+- [问题属性](/concepts/search/searchable-properties/issues/)
+- [事件属性](/concepts/search/searchable-properties/events/)
+- [跨度属性](/concepts/search/searchable-properties/spans/)
+- [会话回放属性](/concepts/search/searchable-properties/session-replay/)
+- [用户反馈属性](/concepts/search/searchable-properties/user-feedback/)
+- [发布属性](/concepts/search/searchable-properties/releases/)
 
-## Search Tips
+## 搜索提示
 
-Search terms should auto-complete, and when they don't that means you have an invalid dataset. If you enter an invalid search term and tap Return or Enter, an error message is displayed. For example, in **Discover**, you cannot search using a grouping function (properties with a parentheses in the key, for example `epm()`) if you don't already have a grouping function included in the "Results" table columns.
+搜索词应该自动完成，当它们不自动完成时，意味着您有一个无效的数据集。如果您输入无效的搜索词并按Return或Enter键，会显示错误消息。例如，在**发现**中，如果您在"结果"表列中没有包含分组函数，则无法使用分组函数（键中包含括号的属性，例如`epm()`）进行搜索。
 
-When you search using a property that's a function, if the key includes a parameter, you still need to add a filter or value to have a complete search token. For example, the function `count_unique(field)` takes whichever field you choose as the parameter and then you add a number as your value to filter on. So a typical search might look like: `count_unique(user):>=20`.
+当您使用作为函数的属性进行搜索时，如果键包含参数，您仍然需要添加过滤器或值以拥有完整的搜索token。例如，函数`count_unique(field)`将您选择的任何字段作为参数，然后您添加一个数字作为要过滤的值。因此，典型的搜索可能如下所示：`count_unique(user):>=20`。
 
-Other things to note:
+其他需要注意的事项：
 
-- Search properties that are duration or number types are typically used with a [comparison operator](/concepts/search/#comparison-operators) rather than just a colon (`:`) to find exact matches, as an exact match is unlikely to exist.
-- Properties with the notation "Doesn't take a parameter" still require a filter or value, but don't take a parameter inside the parentheses. For example, `epm():>12`.
-- Default fields/parameters in search functions can be updated. For example, the default parameters `column`, `operator`, and `value` can be updated for `count_if(column,operator,value)`.
+- 持续时间或数字类型的搜索属性通常与[比较运算符](/concepts/search/#comparison-operators)一起使用，而不仅仅是冒号（`:`）来查找精确匹配，因为精确匹配不太可能存在。
+- 带有"不接受参数"标记的属性仍然需要过滤器或值，但不在括号内接受参数。例如，`epm():>12`。
+- 搜索函数中的默认字段/参数可以更新。例如，可以为`count_if(column,operator,value)`更新默认参数`column`、`operator`和`value`。
 
-## Custom Tags
+## 自定义标签
 
-Additionally, you can use any tag you’ve specified as a token. Tags are various key/value pairs that get assigned to an event, and you can use them later as a breakdown or quick access to finding related events.
+此外，您可以使用您指定的任何标签作为token。标签是分配给事件的各种键/值对，您可以在以后使用它们作为细分或快速访问来查找相关事件。
 
-Most SDKs generally support configuring tags by <PlatformLink to="/enriching-events/tags/">configuring the scope</PlatformLink>.
+大多数SDK通常通过<PlatformLink to="/enriching-events/tags/">配置作用域</PlatformLink>来支持配置标签。
 
-Several common uses for tags include:
+标签的几个常见用途包括：
 
-- The hostname of the server
-- The version of your platform (for example, iOS 5.0)
-- The user’s language
+- 服务器的主机名
+- 您平台的版本（例如，iOS 5.0）
+- 用户的语言
 
-## Device Classification
+## 设备分类
 
-`device.class` provides a simple way for developers to understand the performance level of an event's client device in a single searchable property. This is particularly useful for projects that serve a large range of mobile devices, in which case developers would typically have had to parse through a vast range of specs and models across iOS and Android.
+`device.class`为开发人员提供了一种简单的方法，通过单个可搜索属性了解事件客户端设备的性能级别。这对于服务于大量移动设备范围的项目特别有用，在这种情况下，开发人员通常不得不解析iOS和Android上大量的规格和型号。
 
-Possible values for `device.class` are `high`, `medium`, and `low`, indicating the estimated performance level of the device. This is a calculated property that is based on the following specs:
+`device.class`的可能值为`high`、`medium`和`low`，表示设备的估计性能级别。这是一个基于以下规格计算的属性：
 
-| `device.class` for iOS | `model`                             |
+| iOS的`device.class` | `model`                             |
 | ---------------------- | ----------------------------------- |
-| high                   | iPhone 12 series or higher          |
-| medium                 | iPhone 7 series to iPhone 11 series |
-| low                    | iPhone 6 series or lower            |
+| high                   | iPhone 12系列或更高          |
+| medium                 | iPhone 7系列到iPhone 11系列 |
+| low                    | iPhone 6系列或更低            |
 
-| `device.class` for Android | `processor_count` | `processor_frequency` | `memory_size` |
+| Android的`device.class` | `processor_count` | `processor_frequency` | `memory_size` |
 | -------------------------- | ----------------- | --------------------- | ------------- |
 | high                       | >= 8              | >= 2500 MHz           | >= 6 GiB      |
 | medium                     | >= 8              | >= 2000 MHz           | >= 4 GiB      |
 | low                        | < 8               | < 2000 MHz            | < 4 GiB       |
 
-These classifications are based on an analysis of the mobile devices available in the market today and are subject to change as the market evolves.
+这些分类基于对当今市场上可用移动设备的分析，并可能随着市场发展而变化。

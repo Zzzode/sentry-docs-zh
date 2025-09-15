@@ -1,18 +1,18 @@
 ---
 title: GitHub Actions
-description: "Learn how Sentry and GitHub Actions automate release management, upload source maps and help identify suspect commits."
+description: "了解Sentry和GitHub Actions如何自动化发布管理、上传源映射并帮助识别可疑提交。"
 ---
 
-The [Sentry Release GitHub Action](https://github.com/marketplace/actions/sentry-release) automates Sentry release management in GitHub with just one step. After sending Sentry release information, you’ll be able to associate commits with releases. Additionally, you can upload source maps to view original, un-minified source code.
+[Sentry发布GitHub Action](https://github.com/marketplace/actions/sentry-release)只需一步即可在GitHub中自动化Sentry发布管理。发送Sentry发布信息后，您将能够将提交与发布关联。此外，您可以上传源映射以查看原始的、未压缩的源代码。
 
-For more details about Sentry release management concepts, see the full documentation on [releases](/product/releases/).
+有关Sentry发布管理概念的更多详细信息，请参见[发布](/product/releases/)的完整文档。
 
-## Prerequisites
+## 先决条件
 
-For the Sentry Release GitHub action to communicate securely with Sentry, you'll need to configure an [Organization Token](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/).
+为了使Sentry发布GitHub Action与Sentry安全通信，您需要配置一个[组织令牌](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/)。
 
 
-You also need to set your Organization and Project slugs and if you're using a self-hosted Sentry instance, provide the URL used to connect to Sentry via `SENTRY_URL`.
+您还需要设置您的组织和项目slug，如果您使用的是自托管Sentry实例，请提供用于连接到Sentry的URL，通过`SENTRY_URL`。
 
 <OrgAuthTokenNote />
 
@@ -20,26 +20,26 @@ You also need to set your Organization and Project slugs and if you're using a s
 SENTRY_AUTH_TOKEN=___ORG_AUTH_TOKEN___
 SENTRY_ORG=___ORG_SLUG___
 SENTRY_PROJECT=___PROJECT_SLUG___
-# For self-hosted
+# 对于自托管
 # SENTRY_URL=https://my-sentry-url
 ```
 
-We recommend storing these as [encrypted secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) on your repository.
+我们建议将这些作为[加密密钥](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)存储在您的仓库中。
 
-To set repository secrets, click on your repository **Settings ①**, select **Secrets and variables ②** from the sidebar and click on **Actions ③**. Click on the **New repository secret ④** and add the secrets **`SENTRY_AUTH_TOKEN` ⑤**, **`SENTRY_ORG` ⑥** and **`SENTRY_PROJECT` ⑦**.
+要设置仓库密钥，点击您的仓库**设置①**，从侧边栏选择**密钥和变量②**并点击**Actions③**。点击**新建仓库密钥④**并添加密钥**`SENTRY_AUTH_TOKEN`⑤**、**`SENTRY_ORG`⑥**和**`SENTRY_PROJECT`⑦**。
 
-![Adding encrypted repository secrets on GitHub](../../../img/github_secrets.png)
+![在GitHub上添加加密仓库密钥](../../../img/github_secrets.png)
 
-## Releases
+## 发布
 
-You can create a new Sentry release by setting the `version` option. By default, the Sentry Release GitHub action will use the GitHub sha that triggered the GitHub workflow.
+您可以通过设置`version`选项来创建新的Sentry发布。默认情况下，Sentry发布GitHub Action将使用触发GitHub工作流的GitHub sha。
 
 ```yml
 - uses: actions/checkout@v4
   with:
     fetch-depth: 0
 
-- name: Create Sentry release
+- name: 创建Sentry发布
   uses: getsentry/action-release@v3
   env:
     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -50,20 +50,19 @@ You can create a new Sentry release by setting the `version` option. By default,
     version: 'v1.3.4'
 ```
 
-## Source Maps
+## 源映射
 
-If your application is written in JavaScript you probably deploy minified application code. To enable readable
-stack traces in your Sentry errors, you need to upload source maps to Sentry.
+如果您的应用程序是用JavaScript编写的，您可能会部署压缩的应用程序代码。为了使Sentry错误中的堆栈跟踪可读，您需要上传源映射到Sentry。
 
-Provide the path(s) to your source maps via the `sourcemaps` option to ensure proper un-minification of your stack traces.
-Visit [What are Debug IDs](/platforms/javascript/sourcemaps/troubleshooting_js/debug-ids/) if you want to learn more.
+通过`sourcemaps`选项提供源映射的路径，以确保您的堆栈跟踪正确解压缩。
+访问[什么是调试ID](/platforms/javascript/sourcemaps/troubleshooting_js/debug-ids/)如果您想了解更多。
 
 ```yml
 - uses: actions/checkout@v4
   with:
     fetch-depth: 0
 
-- name: Create Sentry release
+- name: 创建Sentry发布
   uses: getsentry/action-release@v3
   env:
     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -76,7 +75,7 @@ Visit [What are Debug IDs](/platforms/javascript/sourcemaps/troubleshooting_js/d
 
 <Alert>
 
-  It's important the Sentry Release GitHub Actions runs after any build steps in your pipeline but before deployment and
-  to deploy the files that have been built after the action runs so that Sentry can properly un-minify stack traces for you.
+  重要的是Sentry发布GitHub Actions在管道中的任何构建步骤之后但在部署之前运行，
+  并部署在操作运行后构建的文件，以便Sentry可以为您正确解压缩堆栈跟踪。
 
 </Alert>

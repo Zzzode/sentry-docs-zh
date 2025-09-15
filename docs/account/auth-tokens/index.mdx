@@ -1,88 +1,88 @@
 ---
-title: "Auth Tokens"
+title: "认证令牌"
 sidebar_order: 45
-description: "Learn about the different kinds of Auth Tokens Sentry provides, and when to use which."
+description: "了解 Sentry 提供的不同类型的认证令牌，以及何时使用哪种令牌。"
 ---
 
-Auth tokens (short for _authentication tokens_) are a way to authenticate with Sentry. They are similar to passwords but are designed for programmatic interaction with Sentry. Some examples of what you would use auth tokens for include:
+认证令牌（_authentication tokens_ 的缩写）是与 Sentry 进行身份验证的一种方式。它们类似于密码，但专为与 Sentry 的程序化交互而设计。以下是一些使用认证令牌的示例：
 
-- Uploading Source Maps during your CI build
-- Using [Sentry CLI](/cli/) to interact with Sentry
-- Using the [Sentry API](/api/auth/)
+- 在 CI 构建期间上传 Source Maps
+- 使用 [Sentry CLI](/cli/) 与 Sentry 交互
+- 使用 [Sentry API](/api/auth/)
 
-Each auth token is created with a certain set of permissions and scopes which are mapped to the Sentry API's [Permissions & Scopes](/api/permissions/). Some types of auth tokens have set permissions that can't be edited, while others can be customized upon token creation and edited later.
+每个认证令牌都创建时都会分配一组特定的权限和作用域，这些权限和作用域映射到 Sentry API 的[权限和作用域](/api/permissions/)。某些类型的认证令牌具有无法编辑的固定权限，而其他类型则可以在创建令牌时自定义权限，并在之后进行编辑。
 
-We recommend using a separate auth token for each use case. For example, you would use a different auth token to upload source maps than the one you use with Sentry CLI. This has the benefit that if an auth token is compromised, you can revoke that auth token without impacting the rest of your workflow.
+我们建议为每个用例使用单独的认证令牌。例如，您应该使用与 Sentry CLI 不同的认证令牌来上传 source maps。这样做的好处是，如果某个认证令牌被泄露，您可以撤销该令牌而不会影响其余的工作流程。
 
-## Types of Auth Tokens
+## 认证令牌的类型
 
-There are three key types of auth tokens in Sentry:
+Sentry 中有三种主要的认证令牌类型：
 
-- [Organization Tokens](#organization-tokens):
-  These tokens are bound to an organization, and have access to all projects within that organization. They have a limited set of permissions and are designed to be used in CI environments and with Sentry CLI.
+- [组织令牌](#organization-tokens)：
+  这些令牌绑定到组织，可以访问该组织内的所有项目。它们具有有限的权限集，专为在 CI 环境和 Sentry CLI 中使用而设计。
 
-- [Internal Integrations](#internal-integrations):
-  These tokens are bound to an organization, and have access to all projects within that organization. They can be created with a custom set of permissions, and are designed to be used in cases where organization tokens don't have sufficient access rights.
+- [内部集成](#internal-integrations)：
+  这些令牌绑定到组织，可以访问该组织内的所有项目。它们可以使用自定义权限集创建，专为在组织令牌权限不足的情况下使用而设计。
 
-- [Personal Tokens](#personal-tokens):
-  These tokens are bound to a user, and have access to all organizations and projects that user has access to.
+- [个人令牌](#personal-tokens)：
+  这些令牌绑定到用户，可以访问该用户有权访问的所有组织和项目。
 
-### When Should I Use Which?
+### 我应该使用哪种令牌？
 
-For most scenarios, we recommend using [Organization Tokens](#organization-tokens). They are designed to be used in CI environments and have a limited set of permissions. This means that if the place you stored the auth token is compromised, the attacker can only do limited damage.
+对于大多数场景，我们建议使用[组织令牌](#organization-tokens)。它们专为在 CI 环境中使用而设计，具有有限的权限集。这意味着如果您存储认证令牌的地方被泄露，攻击者只能造成有限的损害。
 
-Organization tokens permissions aren't customizable. They are set to allow most CI-related tasks, without any unnecessary permissions.
+组织令牌的权限不可自定义。它们被设置为允许大多数与 CI 相关的任务，而没有任何不必要的权限。
 
-[Internal Integrations](#internal-integrations) should be used when you need full API access (which the organization tokens cannot grant), and you want to interact with the Sentry API on behalf of an organization. For example, to programmatically create a new project, you would use an internal integration.
+当您需要完整的 API 访问权限（组织令牌无法授予）并且希望代表组织与 Sentry API 交互时，应使用[内部集成](#internal-integrations)。例如，要以编程方式创建新项目，您将使用内部集成。
 
-Permissions for auth tokens created as part of an internal integration are customizable and editable.
+作为内部集成一部分创建的认证令牌的权限是可自定义和可编辑的。
 
-[Personal Tokens](#personal-tokens) should be used to interact with the Sentry API on behalf of a user. For example, to fetch all issues for a user, you would use a personal token. We don't recommend using personal tokens for CI tasks because if the user who created the token is removed from the Organization, the token will stop working.
+[个人令牌](#personal-tokens)应用于代表用户与 Sentry API 交互。例如，要获取用户的所有问题，您将使用个人令牌。我们不建议将个人令牌用于 CI 任务，因为如果创建令牌的用户从组织中移除，该令牌将停止工作。
 
-Personal token permissions are customizable but cannot be edited later.
+个人令牌的权限是可自定义的，但之后无法编辑。
 
-### Organization Tokens
+### 组织令牌
 
-[Organization tokens](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/) can be created in [sentry.io](https://sentry.io) on the **Auth Tokens** page under **Settings > Developer Settings > Organization Tokens**.
+[组织令牌](https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/)可以在 [sentry.io](https://sentry.io) 的 **设置 > 开发者设置 > 组织令牌** 页面上的 **认证令牌** 页面创建。
 
 ![](./img/org-auth-tokens-overview.png)
 
 <Alert>
 
-They can also be generated on certain pages of Sentry's docs if you're signed in, and by using the Sentry Wizard to configure uploading source maps.
+如果您已登录，它们也可以在 Sentry 文档的某些页面上生成，并通过使用 Sentry Wizard 配置上传 source maps 来生成。
 
 </Alert>
 
-Organization token names are generated for you unless you create the token through the Sentry UI. This name is only used for display purposes - it helps to identify an auth token in case you want to revoke it later. You can change the name for an organization token at [sentry.io](https://sentry.io) on the **Edit Auth Token** page under **Settings > Developer Settings > Organization Tokens**.
+除非您通过 Sentry UI 创建令牌，否则组织令牌的名称是自动生成的。此名称仅用于显示目的 - 它有助于识别认证令牌，以防您稍后想要撤销它。您可以在 [sentry.io](https://sentry.io) 的 **设置 > 开发者设置 > 组织令牌** 页面上的 **编辑认证令牌** 页面更改组织令牌的名称。
 
-For security reasons, organization tokens are only visible _once_, right after you create them. If you lose the auth token, you will have to create a new one. This means you can't see the full token on the overview page or on the token detail page, you can only see the last characters of the token to help identify it.
+出于安全原因，组织令牌仅在创建后立即可见_一次_。如果您丢失了认证令牌，您将不得不创建一个新的。这意味着您无法在概览页面或令牌详情页面上看到完整的令牌，您只能看到令牌的最后几个字符以帮助识别它。
 
-Any user can create organization tokens for any of their organizations. This allows any user (not only organization owners) to configure a Sentry SDK and set up CI processes by creating and using organization tokens. Since organization tokens have limited access, there is limited potential for abuse.
+任何用户都可以为其任何组织创建组织令牌。这允许任何用户（不仅仅是组织所有者）通过创建和使用组织令牌来配置 Sentry SDK 和设置 CI 流程。由于组织令牌具有有限的访问权限，因此滥用的可能性有限。
 
 ![](./img/org-auth-token-create.png)
 
-All owners of the organization will receive a security email when a new organization token is created and can revoke these tokens at any point. _Only_ organization owners & managers can revoke organization tokens .
+组织的所有所有者将在创建新的组织令牌时收到安全电子邮件，并可以随时撤销这些令牌。_只有_组织所有者和管理员可以撤销组织令牌。
 
-### Internal Integrations
+### 内部集成
 
-We recommend only using an internal integration when you want to interact with the Sentry API on behalf of an organization. See Sentry's API [Authentication](/api/auth/) docs for more information on how to do this.
+我们仅建议在您希望代表组织与 Sentry API 交互时使用内部集成。有关如何执行此操作的更多信息，请参阅 Sentry 的 API [认证](/api/auth/) 文档。
 
-To get started, see our docs on [Internal Integrations](/organization/integrations/integration-platform/).
+要开始使用，请参阅我们关于[内部集成](/organization/integrations/integration-platform/)的文档。
 
-### Personal Tokens
+### 个人令牌
 
-[Personal tokens](https://sentry.io/settings/account/api/auth-tokens/) can be created in [sentry.io](https://sentry.io) on the **Personal Tokens** page under the Account dropdown in the top left.
+[个人令牌](https://sentry.io/settings/account/api/auth-tokens/)可以在 [sentry.io](https://sentry.io) 的左上角帐户下拉菜单中的 **个人令牌** 页面创建。
 
 ![](./img/user-auth-tokens-menu.png)
 
-Personal tokens can be created by any user, and are bound to that user. The tokens can be given permissions to all organizations and projects that user has access to. This means a personal token's _maximum_ scope is all the scopes that the user has access to for a given organization. A personal token cannot exceed the permissions of the user who created it. See [Organization and User Management](/organization/membership/) for more details on how permissions work in Sentry.
+个人令牌可以由任何用户创建，并绑定到该用户。令牌可以被授予该用户有权访问的所有组织和项目的权限。这意味着个人令牌的_最大_作用域是用户对于给定组织具有访问权限的所有作用域。个人令牌不能超过创建它的用户的权限。有关 Sentry 中权限如何工作的更多详细信息，请参阅[组织和用户管理](/organization/membership/)。
 
-When you create a new personal token, you can select which [scopes](/api/permissions/) the token should have in the UI:
+创建新的个人令牌时，您可以在 UI 中选择令牌应具有的[作用域](/api/permissions/)：
 
 ![](./img/user-auth-token-create.png)
 
-Currently, you can view personal tokens in the UI after creating them. This is a legacy behavior that may change in the future. We recommend only using each personal token once, and creating a new token for each use case. Any user can always revoke any of their personal tokens.
+目前，您可以在创建后在 UI 中查看个人令牌。这是一种可能在未来更改的遗留行为。我们建议每个个人令牌仅使用一次，并为每个用例创建一个新的令牌。任何用户始终可以撤销其任何个人令牌。
 
 ![](./img/user-auth-tokens-overview.png)
 
-We recommend only using a personal token to interact with the Sentry API on behalf of a user. See Sentry's API [Authentication](/api/auth/) docs for more information on how to do this.
+我们建议仅使用个人令牌来代表用户与 Sentry API 交互。有关如何执行此操作的更多信息，请参阅 Sentry 的 API [认证](/api/auth/) 文档。

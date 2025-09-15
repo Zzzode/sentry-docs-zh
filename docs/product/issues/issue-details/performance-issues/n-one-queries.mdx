@@ -1,43 +1,43 @@
 ---
-title: "N+1 Queries"
+title: "N+1查询"
 sidebar_order: 10
-description: "Learn more about N+1 Queries and how to diagnose and fix them."
+description: "了解更多关于N+1查询以及如何诊断和修复它们的信息。"
 ---
 
-_N+1 Queries_ are a performance problem in which the application makes database queries in a loop, instead of making a single query that returns or modifies all the information at once. Each database connection takes some amount of time, so querying the database in a loop can be many times slower than doing it just once. This problem often occurs when you use an object-relational mapping (ORM) tool in web frameworks like Django or Ruby on Rails.
+_N+1查询_是一种性能问题，应用程序在循环中进行数据库查询，而不是进行一次返回或修改所有信息的查询。每个数据库连接都需要一些时间，因此在循环中查询数据库可能比一次性完成慢很多倍。当您在网络框架如Django或Ruby on Rails中使用对象关系映射（ORM）工具时，通常会出现此问题。
 
-## Detection Criteria
+## 检测标准
 
-The detector for performance issues looks for a set of sequential, non-overlapping database spans with similar descriptions. It also uses the following criteria:
+性能问题的检测器会查找一组顺序的、不重叠的数据库跨度，这些跨度具有相似的描述。它还使用以下标准：
 
-- Total duration of involved spans must exceed `50ms`
-- Total count of involved spans must exceed a threshold (usually five spans)
-- Involved spans must have full queries as their descriptions (some SDKs truncate queries and add an ellipsis to the end)
-- There must be at least one database span that precedes the repeating spans (this is called the "source" span, and is used for fingerprinting)
+- 涉及跨度的总持续时间必须超过`50ms`
+- 涉及跨度的总数必须超过阈值（通常是五个跨度）
+- 涉及跨度必须具有完整查询作为其描述（某些SDK会截断查询并在末尾添加省略号）
+- 必须至少有一个数据库跨度在重复跨度之前（这称为"源"跨度，用于指纹识别）
 
-If Sentry is not detecting an N+1 issue where you expect one, it's probably because the transaction didn't meet one of the above criteria.
+如果Sentry没有在您期望的地方检测到N+1问题，可能是因为事务未满足上述任一标准。
 
-You can configure detector thresholds for N+1 Queries issues in **Project Settings > Performance**:
+您可以在**项目设置 > 性能**中配置N+1查询问题的检测器阈值：
 
-![N+1 Query detector threshold settings](./img/n-plus-one-queries-detector-settings.png)
+![N+1查询检测器阈值设置](./img/n-plus-one-queries-detector-settings.png)
 
-## Span Evidence
+## 跨度证据
 
-The evidence for an N+1 Queries problem has four main aspects:
+N+1查询问题的证据有四个主要方面：
 
-- Transaction name
-- Parent span - This can be a view, a serializer, or another span that logically groups the queries.
-- Repeating span - This is the "N" of N+1 queries. This is the looped query that should have been part of a bulk query.
+- 事务名称
+- 父跨度 - 这可以是视图、序列化程序或逻辑上分组查询的其他跨度。
+- 重复跨度 - 这是N+1查询中的"N"。这是应该成为批量查询一部分的循环查询。
 
-![N+1 Query span evidence](./img/n-plus-one-span-evidence.png)
+![N+1查询跨度证据](./img/n-plus-one-span-evidence.png)
 
-## Fingerprinting
+## 指纹识别
 
-Sentry computes the issue fingerprint based on the parent span, the source span, and the repeating spans. If you're finding that Sentry is failing to correctly group N+1 query issues, make sure that the database spans in your transactions have parameterized queries as the span description. For example, the span description `SELECT * FROM books WHERE books.id = 1` is not parameterized correctly because it includes the book ID. The book ID parameter should vary for each query. This would create different fingerprints and separate issues. A correct span description should look something like this: `SELECT * FROM books WHERE books.id = %s`. While Sentry attempts to parameterize queries while fingerprinting, it may miss some cases.
+Sentry根据父跨度、源跨度和重复跨度计算问题指纹。如果您发现Sentry未能正确分组N+1查询问题，请确保事务中的数据库跨度具有参数化查询作为跨度描述。例如，跨度描述`SELECT * FROM books WHERE books.id = 1`未正确参数化，因为它包含图书ID。图书ID参数应该对每个查询都不同。这将创建不同的指纹和单独的问题。正确的跨度描述应该类似于：`SELECT * FROM books WHERE books.id = %s`。虽然Sentry在指纹识别时尝试参数化查询，但可能会遗漏某些情况。
 
-## Example
+## 示例
 
-Consider a book review website. It has two ORM models, `Book` and `Author`, each with a corresponding database table. The website shows a list of the ten oldest books and their respective authors. The code might look like this:
+考虑一个图书评论网站。它有两个ORM模型，`Book`和`Author`，每个都有相应的数据库表。网站显示十本最古老图书的列表及其各自的作者。代码可能如下所示：
 
 ```python
 from django.http import HttpResponse
@@ -48,11 +48,11 @@ def books(request):
     return HttpResponse((", ").join(book_list))
 ```
 
-This code has a subtle performance problem. Each call to `book.author.name` makes a query to fetch the book's author. In total, this code makes 11 queries: one query to fetch the list of books, and 10 more queries to fetch the author of each book. This results in a characteristic query span waterfall:
+此代码有一个微妙的性能问题。每次调用`book.author.name`都会进行查询以获取图书的作者。总的来说，此代码进行了11个查询：一个查询获取图书列表，以及10个更多查询获取每本书的作者。这导致了一个特征查询跨度瀑布：
 
-![N+1 queries in an example application](./img/n-plus-one-queries-before.png)
+![示例应用程序中的N+1查询](./img/n-plus-one-queries-before.png)
 
-In order to fix this performance issue, you could use the `select_related` method in Django, like so:
+为了修复此性能问题，您可以在Django中使用`select_related`方法，如下所示：
 
 ```python
 from django.http import HttpResponse
@@ -63,18 +63,18 @@ def books(request):
     return HttpResponse((", ").join(book_list))
 ```
 
-Django will `JOIN` the tables ahead of time, and preload the author information. That way, calling `book.author.name` does not need to make an extra query. Instead of a long waterfall, there is a single `SELECT` query:
+Django将提前`JOIN`表并预加载作者信息。这样，调用`book.author.name`不需要进行额外查询。不是长瀑布，而是单个`SELECT`查询：
 
-![Solved N+1 queries in an example application](./img/n-plus-one-queries-after.png)
+![示例应用程序中已解决的N+1查询](./img/n-plus-one-queries-after.png)
 
-N+1s can also happen when modifying data. For example, instead of creating objects in a loop:
+在修改数据时也可能发生N+1。例如，而不是在循环中创建对象：
 
 ```python
 for i in range(1, 11):
     Book.objects.create(title: f"Book {i}")
 ```
 
-You can instead create the objects in a single query:
+您可以在单个查询中创建对象：
 
 ```python
 Book.objects.bulk_create(

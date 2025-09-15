@@ -1,45 +1,41 @@
 ---
-title: How to Write - Quick Start
+title: 如何编写 - 快速入门
 noindex: true
 sidebar_order: 25
 ---
 
-New SDKs should use the Quick Start guide format outlined on this page. You may still encounter Getting Started guides for existing SDKs.
+新的SDK应使用本页概述的快速入门指南格式。您可能仍会看到现有SDK的入门指南。
 
-<Alert type="info" title="Note">
-  If you want to update an existing Getting Started Guide without refactoring it
-  into a Quick Start guide, see [How to Write - Getting
-  Started](/contributing/approach/sdk-docs/write-getting-started/). If you're
-  unsure what kind of guide you're looking at, ask a question by [opening an
-  issue in GitHub](https://github.com/getsentry/sentry-docs/issues/new/choose).
+<Alert type="info" title="注意">
+  如果您想更新现有的入门指南而不将其重构为快速入门指南，请参阅 [如何编写 - 入门指南](/contributing/approach/sdk-docs/write-getting-started/)。如果您不确定正在查看哪种指南，请通过 [在GitHub上提出问题](https://github.com/getsentry/sentry-docs/issues/new/choose) 来提问。
 </Alert>
 
-<Expandable type="info" title="Why the change?">
-This change stems from our commitment to following best practices and making our docs as accessible as possible.
+<Expandable type="info" title="为什么改变？">
+这一改变源于我们对遵循最佳实践并使我们的文档尽可能易于访问的承诺。
 
-With the new Quick Start guides, we want to provide a more structured and focused approach, helping writers create valuable content with confidence, ultimately assisting users in reaching their goals with Sentry.
+通过新的快速入门指南，我们希望提供一个更有结构和更集中的方法，帮助作者自信地创建有价值的内容，最终帮助用户使用Sentry实现他们的目标。
 
-**Quick Start vs. Getting Started:**
-| | Quick Start | Getting Started |
+**快速入门与入门指南：**
+| | 快速入门 | 入门指南 |
 | -------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **Focus** | Goal-oriented, immediate action, minimal steps | Learning-oriented, broader concepts, background information |
-| **Content** | Highlights critical steps with less focus on the how and why | More explanatory and provides background information |
-| **Audience** | Developers who want to get started quickly | Developers seeking a deeper understanding |
-| **Format** | Single page; Concise | Often spans multiple pages; Comprehensive |
+| **重点** | 目标导向，立即行动，最少步骤 | 学习导向，更广泛的概念，背景信息 |
+| **内容** | 重点介绍关键步骤，较少关注如何和为什么 | 更具解释性并提供背景信息 |
+| **受众** | 想要快速开始的开发者 | 寻求更深入理解的开发者 |
+| **格式** | 单页；简洁 | 通常跨越多页；全面 |
 
 </Expandable>
 
-Our Quick Start guides aim to:
+我们的快速入门指南旨在：
 
-- Enable developers to quickly onboard Sentry with features such as Error Monitoring, Tracing, and Session Replay
-- Keep instructions concise by avoiding unnecessary explanations or background information
-- Focus on action by including code examples and commands
-- Achieve a functional Sentry setup with visible results in a user's Sentry project
-- Serve as the basis for further customization
+- 使开发者能够快速使用错误监控、跟踪和会话重放等功能上线Sentry
+- 通过避免不必要的解释或背景信息来保持说明简洁
+- 通过包含代码示例和命令来专注于行动
+- 在用户的Sentry项目中实现功能设置并获得可见结果
+- 作为进一步定制的基础
 
-## Structuring the config.yml File
+## 构建config.yml文件
 
-The config.yml file provides SDK-level details, such as its title, support level, and device categories. This file resides in the `/docs/platform/<SDK_name>/` directory. An example:
+config.yml文件提供SDK级别的详细信息，如其标题、支持级别和设备类别。此文件位于 `/docs/platform/<SDK_name>/` 目录中。示例：
 
 ```yaml
 title: JavaScript
@@ -50,109 +46,108 @@ categories:
   - browser
 ```
 
-## Structure Templates
+## 结构模板
 
-We've created two Quick Start guide templates: one for wizard setup and one for manual setup. Use them as a basis and add new sections (steps) as you see fit.
+我们创建了两个快速入门指南模板：一个用于向导设置，一个用于手动设置。将它们作为基础，并根据需要添加新的部分（步骤）。
 
-If an SDK has both Quick Start guides, make sure that both guides reach the same outcome, meaning the modifications in the developer's project should be consistent (within reason).
+如果SDK同时具有快速入门指南，请确保两个指南都达到相同的结果，这意味着开发者项目中的修改应该保持一致（在合理范围内）。
 
-### Wizard Setup
+### 向导设置
 
-The wizard is the fastest way to set up Sentry – your guide should reflect this by relying on the wizard for the core setup while providing additional information when it makes sense and helps the developer. You can wrap these additions into `Expandable` components to hide them by default and de-clutter your page visually.
+向导是设置Sentry的最快方式 - 您的指南应通过依赖向导进行核心设置来反映这一点，同时在有意义且帮助开发者时提供额外信息。您可以将这些附加内容包装在 `Expandable` 组件中，以默认隐藏它们并在视觉上整理您的页面。
 
-We recommend you base your guide on a similar existing SDK page, such as:
+我们建议您基于类似的现有SDK页面，例如：
 
-- [Next.js quick start guide wizard setup](/platforms/javascript/guides/nextjs/)
+- [Next.js快速入门指南向导设置](/platforms/javascript/guides/nextjs/)
 
-**Minimal structure:**
+**最小结构：**
 
-- **Title and summary**
-  - The title gets picked up automatically from the config.yml file
-  - Describe what the developer will achieve by following this guide
-- **Prerequisites**
-- **Step 1: Install**
-  - Make sure "Install" is always the first step to get developers into action quickly
-  - Provide the primary installation method(s) for this SDK (we document alternate methods on a separate page, as in this [example](/platforms/javascript/install/))
-  - Briefly introduce the features the wizard can enable; use an `Expandable` component to hide the content by default
-  - List the changes the wizard applies in the developer's application, such as updating configuration files and creating example code for testing the setup later; use an `Expandable` component to hide the content by default
-- **Step 2: Verify Your Setup**
-  - Explain how to test the setup. For example, direct the developer to use the examples created by the wizard
-  - **Subsection: View Captured Data in Sentry**
-    - Direct developers to look at the captured errors in their Sentry project
-    - Optional: Provide detailed instructions using an `<Expandable>`
-- **Next Steps**
-  - Wrap up and summarize what the developer achieved
-  - Provide a list of links to recommended next topics
+- **标题和摘要**
+  - 标题自动从config.yml文件中获取
+  - 描述开发者通过遵循此指南将实现什么
+- **先决条件**
+- **步骤1：安装**
+  - 确保"安装"始终是第一步，以快速让开发者采取行动
+  - 提供此SDK的主要安装方法（我们在单独的页面上记录替代方法，如 [此示例](/platforms/javascript/install/)）
+  - 简要介绍向导可以启用的功能；使用 `Expandable` 组件默认隐藏内容
+  - 列出向导在开发者应用程序中应用的更改，如更新配置文件和创建用于稍后测试设置的示例代码；使用 `Expandable` 组件默认隐藏内容
+- **步骤2：验证您的设置**
+  - 解释如何测试设置。例如，指导开发者使用向导创建的示例
+  - **小节：在Sentry中查看捕获的数据**
+    - 指导开发者查看其Sentry项目中捕获的错误
+    - 可选：使用 `<Expandable>` 提供详细说明
+- **后续步骤**
+  - 总结并总结开发者实现的内容
+  - 提供指向推荐后续主题的链接列表
 
-### Manual Setup
+### 手动设置
 
-Use this template for your manual setup guides. Keep your instructions concise and ask yourself, "Does the developer need to know this to successfully finish the guide, or is this a topic they can read about later in the documentation?"
+为您的手动设置指南使用此模板。保持说明简洁，并问自己："开发者需要知道这一点才能成功完成指南，还是这是他们可以在文档中稍后阅读的主题？"
 
-We recommend you base your guide on a similar existing SDK page, such as:
+我们建议您基于类似的现有SDK页面，例如：
 
-- [Next.js quick start guide manual setup](/platforms/javascript/guides/nextjs/manual-setup/)
+- [Next.js快速入门指南手动设置](/platforms/javascript/guides/nextjs/manual-setup/)
 
-**Minimal structure:**
+**最小结构：**
 
-- **Title and summary**
-  - The title gets picked up automatically from the config.yml file
-  - Describe what the developer will achieve by following this guide
-- **Prerequisites**
-- **Step 1: Install**
-  - Make sure "Install" is always the first step to get developers into action quickly
-  - Include onboarding options (feature setup) here before the installation instructions (use the [`OnboardingOption`](/contributing/pages/components/#onboarding-options) component)
-    - **Important**: Use the `OnboardingOption` component to toggle the visibility of feature-specific instructions in the guide. For example, if a developer wants to set up Tracing but not Session Replay, they should not get instructions on how to configure Session Replay.
-  - Briefly explain these features; use an `Expandable` component to hide the content by default
-  - Provide the primary installation method(s) for this SDK (we document alternate methods on a separate page, as in this [example](/platforms/javascript/install/))
-- **Step 2: Configure**
-  - Provide configuration examples and add comments in the code sample to limit the content you put into the surrounding prose
-  - Show how to configure Sentry and the selected features
-  - Use subsections for logical organization and splitting up long content
-- **Step 3 - Step X: SDK-specific instructions**
-  - Create steps for source maps, tunneling, or other necessary instrumentation
-  - Each major topic should be a separate step
-- **Step Y: Verify Your Setup**
-  - Provide verification code sample(s) for this SDK
-  - Adapt this section to the features of the selected onboarding option. For example, if Tracing is enabled, you need to describe how to verify it's set up correctly
-  - **Subsection: View Captured Data in Sentry**
-    - Direct developers to look at the captured errors in their Sentry project
-    - Optional: Provide detailed instructions using an `<Expandable>`
-- **Next Steps**
-  - Wrap up and summarize what the developer achieved
-  - Provide a list of links to recommended next topics
+- **标题和摘要**
+  - 标题自动从config.yml文件中获取
+  - 描述开发者通过遵循此指南将实现什么
+- **先决条件**
+- **步骤1：安装**
+  - 确保"安装"始终是第一步，以快速让开发者采取行动
+  - 在安装说明之前在此处包含入门选项（功能设置）（使用 [`OnboardingOption`](/contributing/pages/components/#onboarding-options) 组件）
+    - **重要**：使用 `OnboardingOption` 组件在指南中切换功能特定说明的可见性。例如，如果开发者想要设置跟踪但不是会话重放，他们不应该获得如何配置会话重放的说明。
+  - 简要解释这些功能；使用 `Expandable` 组件默认隐藏内容
+  - 提供此SDK的主要安装方法（我们在单独的页面上记录替代方法，如 [此示例](/platforms/javascript/install/)）
+- **步骤2：配置**
+  - 提供配置示例并在代码示例中添加注释，以限制您放入周围散文中的内容
+  - 展示如何配置Sentry和所选功能
+  - 使用小节进行逻辑组织和分割长内容
+- **步骤3 - 步骤X：SDK特定说明**
+  - 为源映射、隧道或其他必要的工具创建步骤
+  - 每个主要主题应该是一个单独的步骤
+- **步骤Y：验证您的设置**
+  - 为此SDK提供验证代码示例
+  - 使此部分适应所选入门选项的功能。例如，如果启用了跟踪，您需要描述如何验证其设置正确
+  - **小节：在Sentry中查看捕获的数据**
+    - 指导开发者查看其Sentry项目中捕获的错误
+    - 可选：使用 `<Expandable>` 提供详细说明
+- **后续步骤**
+  - 总结并总结开发者实现的内容
+  - 提供指向推荐后续主题的链接列表
 
-## Content Placement and Reusability
+## 内容放置和可重用性
 
-If the content you want to include doesn't already exist, create a new file for your SDK in the respective folder in [`/src/platform-includes/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes).
+如果您想要包含的内容尚不存在，请在 [`/src/platform-includes/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes) 中的相应文件夹中为您的SDK创建一个新文件。
 
-**Examples:**
+**示例：**
 
-- **Install** [`/platform-includes/getting-started-install/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes/getting-started-install)
-- **Configuration** [`/platform-includes/getting-started-config/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes/getting-started-config)
-- **Verify** [`/src/platform-includes/getting-started-verify/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes/getting-started-verify)
+- **安装** [`/platform-includes/getting-started-install/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes/getting-started-install)
+- **配置** [`/platform-includes/getting-started-config/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes/getting-started-config)
+- **验证** [`/src/platform-includes/getting-started-verify/`](https://github.com/getsentry/sentry-docs/tree/master/platform-includes/getting-started-verify)
 
-Integrate this content into your guide using the `PlatformSection` component.
+使用 `PlatformSection` 组件将此内容集成到您的指南中。
 
 <Alert type="info">
-  If the SDK supports performance monitoring, add it to the list that links back
-  into the SDK content from Product, stored in
-  [`/docs/product/insights/getting-started.mdx`](https://github.com/getsentry/sentry-docs/blob/master/docs/product/insights/getting-started.mdx).
+  如果SDK支持性能监控，请将其添加到从产品中链接回SDK内容的列表中，存储在
+  [`/docs/product/insights/getting-started.mdx`](https://github.com/getsentry/sentry-docs/blob/master/docs/product/insights/getting-started.mdx)。
 </Alert>
 
-## Additional Requirements for Our Wizard
+## 我们向导的额外要求
 
-The Quick Start content is also used by our in-app onboarding wizard to get users up and running with Sentry. Keeping all content up to date is critical.
+快速入门内容也被我们的应用内入门向导用来让用户使用Sentry上线。保持所有内容最新至关重要。
 
-Important:
+重要：
 
-- If you update the code samples for an SDK, also update the wizard
-- If you add something new, such as additional configuration, to the wizard also update the manual setup guide
+- 如果您更新SDK的代码示例，也请更新向导
+- 如果您添加新内容，如额外配置，到向导，也请更新手动设置指南
 
-### Update the Wizard
+### 更新向导
 
-The in-app wizard is where developers first integrate our SDKs. It's not a simple copy/paste from the Quick Start for two reasons:
+应用内向导是开发者首次集成我们SDK的地方。由于两个原因，它不是从快速入门简单复制/粘贴：
 
-1. New users lack the context that our Docs provide (think of it this way, there's no left-hand sidebar to review).
-2. Experienced users likely have alerts and so forth turned off, so don't expect one clear workflow. Also, don't review the workflow. Point users to the product for a tour.
+1. 新用户缺乏我们Docs提供的上下文（这样想，没有左侧边栏可供查看）。
+2. 有经验的用户可能已经关闭了警报等，所以不要期望一个清晰的工作流程。也不要回顾工作流程。将用户指向产品进行游览。
 
-As a result, a simple copy/paste of the Quick Start won't suffice. See the [Next.js wizard](https://github.com/getsentry/sentry-wizard/tree/master/src/nextjs) as an example.
+因此，简单复制/粘贴快速入门是不够的。以 [Next.js向导](https://github.com/getsentry/sentry-wizard/tree/master/src/nextjs) 为例。

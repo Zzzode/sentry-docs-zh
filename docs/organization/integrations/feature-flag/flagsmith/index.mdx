@@ -1,40 +1,40 @@
 ---
 title: Flagsmith
 sidebar_order: 1
-description: Learn about Sentry's Flagsmith integrations.
+description: 了解 Sentry 的 Flagsmith 集成。
 ---
 
-## Evaluation Tracking
+## 评估跟踪
 
-Sentry can track flag evaluations as they happen within your application. Flag evaluations will appear in the "Feature Flag" section of the Issue Details page as a table, with "suspect" flag predictions highlighted in yellow. Learn more about how to interact with feature flag insights within the Sentry UI by reading the [Issue Details page documentation](/product/issues/issue-details/#feature-flags).
+Sentry 可以跟踪应用程序中发生的标志评估。标志评估将显示在问题详情页面的"功能标志"部分中，以表格形式呈现，其中"可疑"标志预测会以黄色突出显示。通过阅读[问题详情页面文档](/product/issues/issue-details/#feature-flags)了解如何在 Sentry UI 中与功能标志洞察进行交互。
 
-### Set Up Evaluation Tracking
+### 设置评估跟踪
 
-Flagsmith recommends using an OpenFeature SDK combined with a [Flagsmith provider](https://openfeature.dev/ecosystem?instant_search%5Bquery%5D=flagsmith&instant_search%5BrefinementList%5D%5Btype%5D%5B0%5D=Provider) to evaluate feature flags. To track these evaluations, visit one of our supported languages pages for OpenFeature:
+Flagsmith 建议使用 OpenFeature SDK 结合 [Flagsmith 提供商](https://openfeature.dev/ecosystem?instant_search%5Bquery%5D=flagsmith&instant_search%5BrefinementList%5D%5Btype%5D%5B0%5D=Provider)来评估功能标志。要跟踪这些评估，请访问我们支持的某个语言页面以获取 OpenFeature：
 * [JavaScript](/platforms/javascript/configuration/integrations/openfeature/)
 * [Python](/platforms/python/integrations/openfeature/)
 
-Visit the [Flagsmith documentation](https://docs.flagsmith.com/integrations/apm/sentry#evaluation-tracking-setup) for specific instructions on how to set up the OpenFeature SDK with the Flagsmith provider.
+访问 [Flagsmith 文档](https://docs.flagsmith.com/integrations/apm/sentry#evaluation-tracking-setup)获取有关如何设置带有 Flagsmith 提供商的 OpenFeature SDK 的具体说明。
 
-## Change Tracking
+## 变更跟踪
 
-Sentry can track changes to feature flag definitions and report suspicious feature flag edits.
+Sentry 可以跟踪功能标志定义的更改并报告可疑的功能标志编辑。
 
-### Set Up Change Tracking
+### 设置变更跟踪
 
-Enabling Change Tracking is a three-step process. To get started, visit the [feature flags settings page](https://sentry.io/orgredirect/organizations/:orgslug/settings/feature-flags/change-tracking/) in a new tab. Then follow the steps listed below.
+启用变更跟踪是一个三步过程。要开始，请在新标签页中访问[功能标志设置页面](https://sentry.io/orgredirect/organizations/:orgslug/settings/feature-flags/change-tracking/)。然后按照下面列出的步骤操作。
 
-1. **Click the "Add New Provider" button.**
-    - One webhook secret can be registered per provider type.
-    - Select Generic in the dropdown that says "Select a provider".
-2. **Register the webhook URL**.
-    ![Flagsmith Sentry Webhook Modal](./img/flagsmith-sentry-webhook-modal.png)
-    - Go to your Flagsmith project dashboard and navigate to the `/project/:projectid/integrations` page, which can be found by clicking "Integrations" on the top navigation bar.
-    - Find the Sentry option, and click "Add Integration", which will open a modal.
-    - Select the Environment from which flag change events will trigger.
-    - Copy the webhook URL from Sentry settings and paste it into "Webhook URL" in the Flagsmith "Sentry Integration" modal.
-3. **Set the Signing Secret**.
-    - Still in the Flagsmith "Sentry Integration" modal, type in any string between 10 and 60 characters to use as your authorization token ("secret").
-    - Copy the authorization token from the previous step and paste it into the input box next to "Secret" in Sentry settings.
+1. **点击"添加新提供商"按钮。**
+    - 每种提供商类型可以注册一个 webhook 密钥。
+    - 在下拉菜单中选择 Generic，该下拉菜单显示"选择提供商"。
+2. **注册 webhook URL。**
+    ![Flagsmith Sentry Webhook 模态框](./img/flagsmith-sentry-webhook-modal.png)
+    - 转到您的 Flagsmith 项目仪表板并导航到 `/project/:projectid/integrations` 页面，可以通过点击顶部导航栏中的"集成"找到该页面。
+    - 找到 Sentry 选项，然后点击"添加集成"，这将打开一个模态框。
+    - 选择将触发标志更改事件的环境。
+    - 从 Sentry 设置中复制 webhook URL 并将其粘贴到 Flagsmith "Sentry 集成"模态框中的"Webhook URL"。
+3. **设置签名密钥。**
+    - 仍在 Flagsmith "Sentry 集成"模态框中，输入任意 10 到 60 个字符之间的字符串作为您的授权令牌（"密钥"）。
+    - 从上一步复制授权令牌并将其粘贴到 Sentry 设置中"密钥"旁边的输入框中。
 
-Once saved, Sentry will now accept and authenticate all inbound hooks to your organization's feature flag webhook endpoint.
+保存后，Sentry 现在将接受并验证发送到您组织的功能标志 webhook 端点的所有入站 hook。

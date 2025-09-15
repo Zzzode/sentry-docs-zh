@@ -1,332 +1,332 @@
 ---
-title: Session Replay Properties
-description: "Learn more about searchable session replay properties."
+title: 会话重放属性
+description: "了解可搜索的会话重放属性。"
 sidebar_order: 30
 ---
 
-[Session Replay](/product/explore/session-replay/) provides a video-like reproduction of user interactions on a site or web app. All user interactions, including page visits, mouse movements, clicks, and scrolls, are captured, helping developers connect the dots between a known issue and how a user experienced it in the UI.
+[会话重放](/product/explore/session-replay/) 提供了用户在网站或 Web 应用上交互的视频式重现。所有用户交互，包括页面访问、鼠标移动、点击和滚动，都会被捕获，帮助开发人员将已知问题与用户在 UI 中体验它的方式联系起来。
 
-You can search by session replay properties on the **Replay** page.
+您可以在**重放**页面中按会话重放属性进行搜索。
 
-## Searchable Properties
+## 可搜索属性
 
-Below is a list of keys and tokens that can be used in the session replay search.
+以下是可用于会话重放搜索的键和标记列表。
 
 <DefinitionList>
 
 ### `activity`
 
-Replay activity is calculated based on the number of errors, the number of ui events, and the duration of the replay. It's represented as a number from `1` to `10`.
+重放活动基于错误数量、UI 事件数量和重放持续时间来计算。它表示为从 `1` 到 `10` 的数字。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `browser.name`
 
-Name of the users' web browser. For example, `Chrome`, `Firefox`, or `Safari`.
+用户 Web 浏览器的名称。例如，`Chrome`、`Firefox` 或 `Safari`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `browser.version`
 
-The version string of the browser.
+浏览器的版本字符串。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.alt`
 
-The `alt` of an element that was clicked. For example, `"a good dog"` would match the element `<img src="/lassie.jpeg" alt="a good dog" />`.
+被点击元素的 `alt`。例如，`"a good dog"` 会匹配元素 `<img src="/lassie.jpeg" alt="a good dog" />`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.class`
 
-The `class` of an element that was clicked. No leading `.` is necessary. For example, `btn-primary` would match the element `<a class="btn btn-primary">Save</a>`.
+被点击元素的 `class`。不需要前导 `.`。例如，`btn-primary` 会匹配元素 `<a class="btn btn-primary">Save</a>`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.component_name`
 
-The name of the frontend component that was clicked. For example, `MyAwesomeComponent` would match the React component `<MyAwesomeComponent>`.
+被点击的前端组件的名称。例如，`MyAwesomeComponent` 会匹配 React 组件 `<MyAwesomeComponent>`。
 
-Note: This property requires that your project have [React component name capturing configured](/platforms/javascript/guides/react/features/component-names).
+注意：此属性要求您的项目已配置 [React 组件名称捕获](/platforms/javascript/guides/react/features/component-names)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.id`
 
-The `id` of an element that was clicked. No leading `#` is necessary. For example, `reset-password` would match the element `<a id="reset-password">Reset</a>`.
+被点击元素的 `id`。不需要前导 `#`。例如，`reset-password` 会匹配元素 `<a id="reset-password">Reset</a>`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.label`
 
-The `aria-label` of an element that was clicked. For example, `Expand` would match the element `<button aria-label="Expand"><img src="/icons/expand.png"/></button>`.
+被点击元素的 `aria-label`。例如，`Expand` 会匹配元素 `<button aria-label="Expand"><img src="/icons/expand.png"/></button>`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.role`
 
-The `role` of an element that was clicked. For example, `button` would match both `<button>Save</button>` and `<a role="button">Submit</a>`.
+被点击元素的 `role`。例如，`button` 会匹配 `<button>Save</button>` 和 `<a role="button">Submit</a>`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.selector`
 
-An element identified using a subset of CSS selector syntax. For example, `#section-1` or `span.active` or `span[role=button]` or `.active[role=button]` would all match the element `<span id="section-1" class="active" role="button"/>`. Note that, CSS combinators, pseudo selectors, and attr selectors other than `=` are not supported.
+使用 CSS 选择器语法的子集标识的元素。例如，`#section-1` 或 `span.active` 或 `span[role=button]` 或 `.active[role=button]` 都会匹配元素 `<span id="section-1" class="active" role="button"/>`。注意，不支持 CSS 组合器、伪选择器和除 `=` 外的属性选择器。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.tag`
 
-The tag name of an element that was clicked. For example, `input` would match `<input name="username" />`.
+被点击元素的标签名称。例如，`input` 会匹配 `<input name="username" />`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.testid`
 
-The `data-testid` or `data-test-id` of an element that was clicked. For example, `user-name` would match the element `<a data-testid="user-name">User Name</a>`.
+被点击元素的 `data-testid` 或 `data-test-id`。例如，`user-name` 会匹配元素 `<a data-testid="user-name">User Name</a>`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.textContent`
 
-The immediate `textContent` of an element that was clicked. For example, `Save` would match `<button>Save</button>` but wouldn't match `<button><h1>Save</h1></button>`.
+被点击元素的直接 `textContent`。例如，`Save` 会匹配 `<button>Save</button>` 但不会匹配 `<button><h1>Save</h1></button>`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `click.title`
 
-The `title` of an element that was clicked. For example, `Save this comment` would match the element `<a title="Save this comment" class="btn btn-primary">Save</a>`.
+被点击元素的 `title`。例如，`Save this comment` 会匹配元素 `<a title="Save this comment" class="btn btn-primary">Save</a>`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `count_dead_clicks`
 
-The number of [dead clicks](/product/explore/session-replay/replay-page-and-filters/#:~:text=Dead%20Clicks%3A%20User%20clicks%20on%20a%20and%20button%20tags%20that%20do%20not%20result%20in%20any%20page%20activity%20after%207%20seconds%20(i.e.%20no%20HTML%20was%20added%2C%20removed%2C%20or%20updated%3B%20no%20visual%20changes%20were%20observed%20in%20the%20page).) within a replay.
+重放中[无效点击](/product/explore/session-replay/replay-page-and-filters/#:~:text=Dead%20Clicks%3A%20User%20clicks%20on%20a%20and%20button%20tags%20that%20do%20not%20result%20in%20any%20page%20activity%20after%207%20seconds%20(i.e.%20no%20HTML%20was%20added%2C%20removed%2C%20or%20updated%3B%20no%20visual%20changes%20were%20observed%20in%20the%20page).)的数量。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_errors`
 
-The number of errors within a replay.
+重放中的错误数量。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_rage_clicks`
 
-The number of [rage clicks](/product/explore/session-replay/replay-page-and-filters/#:~:text=Rage%20Clicks%3A%20Five%20or%20more%20clicks%20on%20a%20dead%20element%20(it%20exhibits%20no%20page%20activity%20after%207%20seconds.)%20Rage%20clicks%20are%20a%20subset%20of%20dead%20clicks) within a replay.
+重放中[愤怒点击](/product/explore/session-replay/replay-page-and-filters/#:~:text=Rage%20Clicks%3A%20Five%20or%20more%20clicks%20on%20a%20dead%20element%20(it%20exhibits%20no%20page%20activity%20after%207%20seconds.)%20Rage%20clicks%20are%20a%20subset%20of%20dead%20clicks)的数量。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_segments`
 
-The number of segments within a replay. More segments represent more activity over time.
+重放中的段数。更多段表示随时间推移的更多活动。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_traces`
 
-The number of traces within a replay.
+重放中的跟踪数量。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `count_urls`
 
-The number of URLs that the user visited during a replay recording.
+用户在重放录制期间访问的 URL 数量。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `dead.selector`
 
-Similar to the `click.selector` search property, but only queries on [dead clicks](/product/explore/session-replay/replay-page-and-filters/#:~:text=Dead%20Clicks%3A%20User%20clicks%20on%20a%20and%20button%20tags%20that%20do%20not%20result%20in%20any%20page%20activity%20after%207%20seconds%20(i.e.%20no%20HTML%20was%20added%2C%20removed%2C%20or%20updated%3B%20no%20visual%20changes%20were%20observed%20in%20the%20page).). An element identified using a subset of CSS selector syntax. For example, `#section-1` or `span.active` or `span[role=button]` or `.active[role=button]` would all match the element `<span id="section-1" class="active" role="button"/>`. Note that, CSS combinators, pseudo selectors, and attr selectors other than `=` are not supported.
+类似于 `click.selector` 搜索属性，但仅查询[无效点击](/product/explore/session-replay/replay-page-and-filters/#:~:text=Dead%20Clicks%3A%20User%20clicks%20on%20a%20and%20button%20tags%20that%20do%20not%20result%20in%20any%20page%20activity%20after%207%20seconds%20(i.e.%20no%20HTML%20was%20added%2C%20removed%2C%20or%20updated%3B%20no%20visual%20changes%20were%20observed%20in%20the%20page).)。使用 CSS 选择器语法的子集标识的元素。例如，`#section-1` 或 `span.active` 或 `span[role=button]` 或 `.active[role=button]` 都会匹配元素 `<span id="section-1" class="active" role="button"/>`。注意，不支持 CSS 组合器、伪选择器和除 `=` 外的属性选择器。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.brand`
 
-Brand of the device.
+设备品牌。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.family`
 
-Family of the device. Typically, the common part of a model name across generations. For example, iPhone, Samsung Galaxy.
+设备系列。通常是跨代型号名称的共同部分。例如，iPhone、Samsung Galaxy。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `device.model_id`
 
-Internal hardware revision to identify the device exactly.
+内部硬件版本以精确识别设备。
 
-- **Type:** n/a
+- **类型：** 不适用
 
 ### `device.name`
 
-Details of the device.
+设备详细信息。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `dist`
 
-Distinguishes build or deployment variants of the same release of an application. For example, the dist can be the build number of an Xcode build or the version code of an Android build.
+区分同一版本应用程序的构建或部署变体。例如，dist 可以是 Xcode 构建的构建号或 Android 构建的版本代码。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `duration`
 
-Duration of a replay in seconds.
+重放的持续时间（以秒为单位）。
 
-- **Type:** number
+- **类型：** 数字
 
 ### `error_ids`
 
-Error event IDs that have occurred within a replay.
+重放中发生的错误事件 ID。
 
-- **Type:** array
+- **类型：** 数组
 
 ### `id`
 
-The event or replay id. In **Issues**, use only the ID value without the `id` key.
+事件或重放 id。在**问题**中，仅使用 ID 值而不使用 `id` 键。
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `is_archived`
 
-Whether the replay has been archived.
+重放是否已存档。
 
-- **Type:** boolean
+- **类型：** 布尔值
 
 ### `level`
 
-Severity of the event (such as: fatal, error, warning). Always set to info for transactions.
+事件的严重性（如：fatal、error、warning）。对于事务始终设置为 info。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `os.name`
 
-The name of the operating system. For example, `Windows`, `Mac OS X`, or `Linux`.
+操作系统的名称。例如，`Windows`、`Mac OS X` 或 `Linux`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `os.version`
 
-The version number of the operating system.
+操作系统的版本号。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `platform`
 
-Name of the platform. This is only a metrics property for [valid platforms](https://github.com/getsentry/relay/blob/9d0d2dc54233d46043a369e1dacf7db900953c14/relay-general/src/protocol/constants.rs#L1-L21), defaulting to `other`.
+平台名称。这仅是[有效平台](https://github.com/getsentry/relay/blob/9d0d2dc54233d46043a369e1dacf7db900953c14/relay-general/src/protocol/constants.rs#L1-L21)的指标属性，默认为 `other`。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `project_id`
 
-The id of the project.
+项目的 id。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `rage.selector`
 
-Similar to the `click.selector` search property, but only queries on [rage clicks](/product/explore/session-replay/replay-page-and-filters/#:~:text=Rage%20Clicks%3A%20Five%20or%20more%20clicks%20on%20a%20dead%20element%20(it%20exhibits%20no%20page%20activity%20after%207%20seconds.)%20Rage%20clicks%20are%20a%20subset%20of%20dead%20clicks). An element identified using a subset of CSS selector syntax. For example, `#section-1` or `span.active` or `span[role=button]` or `.active[role=button]` would all match the element `<span id="section-1" class="active" role="button"/>`. Note that, CSS combinators, pseudo selectors, and attr selectors other than `=` are not supported.
+类似于 `click.selector` 搜索属性，但仅查询[愤怒点击](/product/explore/session-replay/replay-page-and-filters/#:~:text=Rage%20Clicks%3A%20Five%20or%20more%20clicks%20on%20a%20dead%20element%20(it%20exhibits%20no%20page%20activity%20after%207%20seconds.)%20Rage%20clicks%20are%20a%20subset%20of%20dead%20clicks)。使用 CSS 选择器语法的子集标识的元素。例如，`#section-1` 或 `span.active` 或 `span[role=button]` 或 `.active[role=button]` 都会匹配元素 `<span id="section-1" class="active" role="button"/>`。注意，不支持 CSS 组合器、伪选择器和除 `=` 外的属性选择器。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `release`
 
-A release is a version of your code deployed to an environment. You can create a token with an exact match of the version of a release, or `release:latest` to pick the most recent release. [Learn more](/product/releases/usage/sorting-filtering/#latest-release).
+发布是部署到环境的代码版本。您可以使用发布版本的精确匹配创建标记，或 `release:latest` 选择最近的发布。[了解更多](/product/releases/usage/sorting-filtering/#latest-release)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `replay_type`
 
-The reason a replay was triggered. For example, `session` when `replaysSessionSampleRate` takes effect, or `buffer` when `replaysOnErrorSampleRate` is sampled instead of `session`. Learn more in the [Session Replay docs](/platforms/javascript/session-replay/understanding-sessions/).
+触发重放的原因。例如，当 `replaysSessionSampleRate` 生效时为 `session`，或当 `replaysOnErrorSampleRate` 被采样而不是 `session` 时为 `buffer`。在[会话重放文档](/platforms/javascript/session-replay/understanding-sessions/)中了解更多。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `screen`
 
-A specific Screen or View that the user visited during the replay. You can also search for multiple Screens at once using `screens` and passing in an array of strings.
-Alias: `url`
+用户在重放期间访问的特定屏幕或视图。您还可以使用 `screens` 并传入字符串数组一次搜索多个屏幕。
+别名：`url`
 
 ### `sdk.name`
 
-Name of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的名称。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `sdk.version`
 
-Version of the Sentry SDK that sent the event.
+发送事件的 Sentry SDK 的版本。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `seen_by_me`
 
-Whether you've seen this replay.
-Alias: `viewed_by_me`
+您是否已看过此重放。
+别名：`viewed_by_me`
 
-- **Type:** boolean
+- **类型：** 布尔值
 
 ### `trace`
 
-A trace represents the record of the entire operation you want to measure or track — like page load, searched using the UUID generated by Sentry’s SDK.
+跟踪表示您想要测量或跟踪的整个操作的记录——如页面加载，使用 Sentry SDK 生成的 UUID 进行搜索。
 
-- **Type:** UUID
+- **类型：** UUID
 
 ### `url`
 
-A specific URL that the user visited during the replay. You can also search for multiple URLs at once using `urls` and passing in an array of strings.
-Alias: `screen`
+用户在重放期间访问的特定 URL。您还可以使用 `urls` 并传入字符串数组一次搜索多个 URL。
+别名：`screen`
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.email`
 
-An alternative, or addition, to the username. Sentry is aware of email addresses and can therefore display things such as Gravatars and unlock messaging capabilities.
+用户名的替代或补充。Sentry 了解电子邮件地址，因此可以显示 Gravatars 等功能并解锁消息传递功能。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.geo.city`
 
-Full name of the city of the user's geolocation.
+用户地理位置的城市全名。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.geo.country_code`
 
-Country of the user's geolocation. Country code is based on [ISO 3166-1](https://www.iso.org/iso-3166-country-codes.html).
+用户地理位置的国家。国家代码基于 [ISO 3166-1](https://www.iso.org/iso-3166-country-codes.html)。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.geo.region`
 
-Full name of the country of the user's geolocation.
+用户地理位置的国家全名。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.geo.subdivision`
 
-Full name of the subdivision of the user's geolocation. (For example, state, province, etc.).
+用户地理位置的行政区划全名。（例如，州、省等）。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.id`
 
-Application-specific internal identifier for the user.
+用户的应用程序特定内部标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.ip`
 
-User's IP address. Sentry uses the IP address as a unique identifier for unauthenticated users.
+用户的 IP 地址。Sentry 使用 IP 地址作为未验证用户的唯一标识符。
 
-- **Type:** string
+- **类型：** 字符串
 
 ### `user.username`
 
-Username, which is typically a better label than the `user.id`.
+用户名，通常比 `user.id` 更好的标签。
 
-- **Type:** string
+- **类型：** 字符串
 
 </DefinitionList>

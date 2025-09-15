@@ -1,88 +1,87 @@
-# Legacy Endpoint Migration
+# 旧版端点迁移
 
-In the early beta of the Crons product, Check-In endpoints existed under the
-`sentry.io/api/0/` API namespace. This namespace is not designed for
-ingestion-level traffic, so we have since moved Check-In APIs to use
-[Relay](/product/relay/) for ingestion of Check-In events.
+在 Crons 产品的早期测试版中，签到端点存在于
+`sentry.io/api/0/` API 命名空间下。此命名空间不是为
+摄取级别流量设计的，因此我们已将签到 API 移至使用
+[Relay](/product/relay/) 来摄取签到事件。
 
-If you're using legacy endpoints for Crons, migrate to the new endpoints to avoid issues.
+如果您正在为 Crons 使用旧版端点，请迁移到新端点以避免问题。
 
 <Alert>
 
-The Legacy endpoints **are deprecated** and will be removed in the future,
-however a date has not yet been set for their removal. We will communicate a
-date when one is set.
+旧版端点**已弃用**，将来会被移除，
+但尚未设定移除日期。我们会在设定日期时进行沟通。
 
 </Alert>
 
-## Am I Using Legacy Endpoints?
+## 我是否在使用旧版端点？
 
-The SDKs do not utilize our legacy endpoints.
+SDK 不使用我们的旧版端点。
 
 <Alert level="warning" title="Sentry CLI">
 
-Versions of the `sentry-cli` **before v2.19.0** are using the legacy API endpoints. [Please upgrade](/cli/installation/#updating-and-uninstalling) to the latest version.
+**v2.19.0 之前**版本的 `sentry-cli` 正在使用旧版 API 端点。[请升级](/cli/installation/#updating-and-uninstalling)到最新版本。
 
-If your CLI is configured with an auth token, it will use the legacy API endpoints. Please update your CLI configuration to utilize your project's DSN instead. Refer to the [configuration guide](/cli/crons/#configuration) for more information.
+如果您的 CLI 配置了身份验证令牌，它将使用旧版 API 端点。请将您的 CLI 配置更新为使用项目的 DSN。有关更多信息，请参阅[配置指南](/cli/crons/#configuration)。
 
 </Alert>
 
-When using the HTTP endpoints, you can differentiate them like so:
+使用 HTTP 端点时，您可以这样区分它们：
 
 ```
-# ❌ Legacy endpoints
+# ❌ 旧版端点
 https://sentry.io/api/0/organizations/___ORG_SLUG___/monitors/<monitor_slug/
 
-# ❌ Legacy endpoint without organization context
+# ❌ 没有组织上下文的旧版端点
 https://sentry.io/api/0/monitors/<monitor_slug/
 
-# ❌ Legacy check-in details endpoint
+# ❌ 旧版签到详情端点
 https://sentry.io/api/0/monitors/<monitor_slug/checkins/<check_in_id>/
 
-# ✅ Relay Check-In ingestion endpoint
+# ✅ Relay 签到摄取端点
 https://___ORG_INGEST_DOMAIN___/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/
 ```
 
-### What Changed?
+### 有什么变化？
 
-There are a few backward incompatible changes to be aware of.
+需要注意一些向后不兼容的更改。
 
-- There is now only a single Check-In endpoint. The "Check-In details"
-  endpoint has been removed.
+- 现在只有一个签到端点。"签到详情"
+  端点已被移除。
 
-- The API endpoint supports both `POST` with a JSON body, as well as now
-  supporting `GET`. You can use query parameters to specify `status`,
-  `environment`, etc.
+- API 端点现在支持带有 JSON 正文的 `POST`，以及现在
+  支持 `GET`。您可以使用查询参数指定 `status`、
+  `environment` 等。
 
-  The API endpoint will always respond with a `202` with no body (unless there
-  is an error).
+  API 端点将始终响应 `202` 且没有正文（除非
+  有错误）。
 
-- Because there is no "details" endpoint, the `PUT` method for a Check-In has
-  also been removed. You will always use `POST` or `GET` for Check-Ins.
+- 由于没有"详情"端点，签到的 `PUT` 方法
+  也已被移除。您将始终使用 `POST` 或 `GET` 进行签到。
 
-- For [overlapping
-  jobs](/product/crons/getting-started/http/#overlapping-jobs-optional), it is
-  still possible to specify a `check_in_id` via the query parameters or JSON
-  body. However, the API no longer responds with an auto-generated Check-In ID.
-  If you need a stable Check-In ID, you must generate it
-  client-side yourself.
+- 对于[重叠
+  作业](/product/crons/getting-started/http/#overlapping-jobs-optional)，仍然
+  可以通过查询参数或 JSON 正文指定 `check_in_id`。
+  但是，API 不再响应自动生成的签到 ID。
+  如果您需要稳定的签到 ID，您必须自己在
+  客户端生成。
 
-- The `monitor_config` structure has changed slightly. `schedule` is now an
-  object of varying shape, depending on the schedule type.
+- `monitor_config` 结构略有变化。`schedule` 现在是
+  根据计划类型而变化形状的对象。
 
   ```json
   {"type": "crontab", "value": "0 * * * *"}
   {"type": "interval", "value": "2", "unit": "hour"}
   ```
 
-## Migration examples
+## 迁移示例
 
-See the code samples below to help you migrate from the legacy endpoints to the current ones.
+请参阅下面的代码示例，帮助您从旧版端点迁移到当前端点。
 
-### Simple HTTP Check-Ins
+### 简单 HTTP 签到
 
 ```sh
-# ❌ Legacy simple `in_progress` -> `ok` check-in
+# ❌ 旧版简单 `in_progress` -> `ok` 签到
 curl -X POST \
     'https://sentry.io/api/0/organizations/___ORG_SLUG___/monitors/<monitor_slug>/checkins/' \
     --header 'Authorization: DSN ___PUBLIC_DSN___' \
@@ -96,7 +95,7 @@ curl -X POST \
     --data-raw '{"status": "ok"}'
 
 
-# ✅ New style `in_progress` -> `ok` check-in
+# ✅ 新样式 `in_progress` -> `ok` 签到
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
@@ -105,44 +104,44 @@ curl "${SENTRY_CRONS}?status=in_progress"
 curl "${SENTRY_CRONS}?status=ok"
 ```
 
-### Monitor Upsert Check-In
+### 监控更新签到
 
 ```sh
-# ❌ Legacy upsert monitor with a check-in
+# ❌ 旧版使用签到更新监控
 curl -X POST \
     'https://sentry.io/api/0/organizations/___ORG_SLUG___/monitors/<monitor_slug>/checkins/' \
     --header 'Authorization: DSN ___PUBLIC_DSN___' \
     --header 'Content-Type: application/json' \
     --data-raw '{"monitor_config": {"schedule": "0 * * * *", "schedule_type": "crontab"}, "status": "in_progress"}'
 
-# ✅ New style upsert monitor with a check-in
+# ✅ 新样式使用签到更新监控
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
 curl -X POST "${SENTRY_CRONS}?status=in_progress" \
     --header 'Content-Type: application/json' \
     --data-raw '{"monitor_config": {"schedule": {"type": "crontab", "value": "0 * * * *"}}, "status": "in_progress"}'
-    # 👉 Note that schedule is now an object ---^
+    # 👉 注意 schedule 现在是对象 ---^
 ```
 
-### Overlapping Job Check-Ins (specifying `check_in_id`)
+### 重叠作业签到（指定 `check_in_id`）
 
 ```sh
-# ❌ Legacy Check-In with ID
+# ❌ 旧版带 ID 的签到
 curl -X POST \
     'https://sentry.io/api/0/organizations/___ORG_SLUG___/monitors/<monitor_slug>/checkins/' \
     --header 'Authorization: DSN ___PUBLIC_DSN___' \
     --header 'Content-Type: application/json' \
     --data-raw '{"status": "in_progress"}'
-# Response { "id": "2bc1a871-a1b7-4577-82fc-fa6d2468aabc" }
+# 响应 { "id": "2bc1a871-a1b7-4577-82fc-fa6d2468aabc" }
 
-# ✅ New style upsert monitor with a check-in
+# ✅ 新样式使用签到更新监控
 CHECK_IN_ID="$(uuidgen)"
-# 👉 Note that you now need to generate the Check-In UUID
+# 👉 注意您现在需要生成签到 UUID
 
 SENTRY_INGEST="https://___ORG_INGEST_DOMAIN___"
 SENTRY_CRONS="${SENTRY_INGEST}/api/___PROJECT_ID___/cron/<monitor_slug>/___PUBLIC_KEY___/"
 
 curl "${SENTRY_CRONS}?check_in_id=${CHECK_IN_ID}&status=in_progress"
-# 👉 Note that no Check-In ID is returned
+# 👉 注意不返回签到 ID
 ```

@@ -1,38 +1,38 @@
 ---
-title: "Potential Query Injection Vulnerability Issues"
+title: "潜在查询注入漏洞问题"
 sidebar_order: 50
-description: "Learn more about Potential Query Injection Vulnerability issues and how to diagnose and fix them."
+description: "了解更多关于潜在查询注入漏洞问题的信息以及如何诊断和修复它们。"
 ---
 
-Potential Query Injection Vulnerability issues are raised when Sentry detects values taken directly from an incoming request being incorporated into a database query. Unsanitized interpolation of user input can lead to [SQL injection](https://owasp.org/www-community/attacks/SQL_Injection) and related attacks.
+当Sentry检测到直接从传入请求中获取的值被合并到数据库查询中时，就会触发潜在查询注入漏洞问题。未经清理的用户输入插值可能导致[SQL注入](https://owasp.org/www-community/attacks/SQL_Injection)和相关攻击。
 
-## Detection Criteria
+## 检测标准
 
-The detector evaluates each request in **two stages**:
+检测器以**两个阶段**评估每个请求：
 
-1. **Filter request values** – Discards tokens that are:
+1. **过滤请求值** - 丢弃以下标记：
 
-   - too short,
-   - SQL keywords, or
-   - other frequently benign values
+   - 太短的值，
+   - SQL关键字，或
+   - 其他通常是良性的值
 
-2. **Match against queries** – Scans database queries and if **both** a payload key _and_ its value appear in the same query, Sentry creates a Potential Query Injection Vulnerability issue.
+2. **与查询匹配** - 扫描数据库查询，如果**同时**出现负载键_及其_值在同一个查询中，Sentry就会创建一个潜在查询注入漏洞问题。
 
-### Example
+### 示例
 
 ```
-Request →  GET /api?username=bob
-Query   →  SELECT * FROM users WHERE username = 'bob'
+请求 →  GET /api?username=bob
+查询   →  SELECT * FROM users WHERE username = 'bob'
 ```
 
-Because the value `'bob'` is inserted directly from the `username` parameter into the query, Sentry flags the operation as potentially vulnerable. **An issue indicates a security _risk_, not a confirmation that an exploit has already occurred.**
+因为值`'bob'`直接从`username`参数插入到查询中，Sentry将此操作标记为可能存在漏洞。**一个问题表示存在安全_风险_，而不是确认已经发生漏洞。**
 
-### False Positives
+### 误报
 
-Some ORMs or query‑builder libraries assemble SQL strings internally before parameterizing them. We automatically suppress many known libraries, but unrecognized ones may still trigger the detector. If you believe an issue is a false positive, leave feedback on the issue page.
+某些ORM或查询构建器库在参数化之前会在内部组装SQL字符串。我们会自动抑制许多已知库，但未识别的库仍可能触发检测器。如果您认为某个问题是误报，请在问题页面留下反馈。
 
-## Remediation
+## 修复方法
 
-- Use **parameterized queries / prepared statements** instead of string concatenation.
-- **Validate and sanitize** all external input.
-- Avoid **raw queries** when safe ORM APIs are available.
+- 使用**参数化查询/预处理语句**而不是字符串拼接。
+- **验证和清理**所有外部输入。
+- 当安全ORM API可用时，避免使用**原始查询**。

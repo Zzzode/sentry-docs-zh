@@ -1,26 +1,28 @@
 ---
-title: MCP Dashboard
+title: MCP仪表板
 sidebar_order: 10
-description: "Learn how to use Sentry's MCP Dashboard."
+description: "了解如何使用Sentry的MCP仪表板。"
 ---
 
-Once you've [configured the Sentry SDK](/product/insights/ai/mcp/getting-started/) for your MCP project, you'll start receiving data in the Sentry [MCP Insights](https://sentry.io/orgredirect/organizations/:orgslug/insights/ai/mcp/) dashboard.
+<Include name="feature-limited-on-team-retention.mdx" />
 
-The main dashboard provides a comprehensive view of all your MCP server activities, performance metrics, and recent tool executions.
+一旦您为MCP项目[配置了Sentry SDK](/product/insights/ai/mcp/getting-started/)，您将开始在Sentry [MCP洞察](https://sentry.io/orgredirect/organizations/:orgslug/insights/ai/mcp/)仪表板中接收数据。
 
-![MCP Monitoring Overview](./img/overview.png)
+主仪表板提供了所有MCP服务器活动、性能指标和最近工具执行的全面视图。
 
-The dashboard displays key widgets like:
+![MCP监控概览](./img/overview.png)
 
-- **Traffic**: Shows MCP requests over time, error rates, and releases to track overall server activity and health
-- **Traffic by Client**: Displays which MCP clients are connecting to your server (cursor-vscode, CustomMCPClient, etc.)
-- **Transport Distribution**: Shows the distribution of transport protocols used (http, sse, custom transports)
-- **Most Used Tools/Resources/Prompts**: Shows which MCP tools/resources/prompts are called most frequently by clients
-- **Slowest Tools/Resources/Prompts**: Identifies tools/resources/prompts with the highest response times for performance optimization
-- **Most Failing Tools/Resources/Prompts**: Highlights tools/resources/propmpts with the highest error rates that need attention
+仪表板显示关键小组件，如：
 
-Underneath these widgets are tables that allow you to view data in more detail:
+- **流量**：显示MCP请求时间、错误率和版本，以跟踪整体服务器活动和健康状况
+- **按客户端的流量**：显示哪些MCP客户端正在连接到您的服务器（cursor-vscode、CustomMCPClient等）
+- **传输分布**：显示使用的传输协议的分布（http、sse、自定义传输）
+- **最常用工具/资源/提示**：显示客户端调用最频繁的MCP工具/资源/提示
+- **最慢工具/资源/提示**：识别响应时间最高的工具/资源/提示以进行性能优化
+- **最失败工具/资源/提示**：突出显示错误率最高需要注意的工具/资源/提示
 
-- **Tools**: Performance metrics for each MCP tool including request count, error rate, average duration, and P95 latency
-- **Resources**: Access patterns and performance for MCP resources by URI, showing requests, error rate, average duration, and P95 latency
-- **Prompts**: Usage statistics for MCP prompt templates by name, including requests, error rate, average duration, and P95 latency
+在这些小组件下方是允许您更详细查看数据的表格：
+
+- **工具**：每个MCP工具的性能指标，包括请求计数、错误率、平均持续时间和P95延迟
+- **资源**：按URI的MCP资源的访问模式和性能，显示请求、错误率、平均持续时间和P95延迟
+- **提示**：按名称的MCP提示模板的使用统计，包括请求、错误率、平均持续时间和P95延迟

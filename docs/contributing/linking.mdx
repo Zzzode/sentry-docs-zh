@@ -1,58 +1,58 @@
 ---
-title: Linking Variables
+title: 链接变量
 noindex: true
 sidebar_order: 4
 ---
 
-We create a variety of links in our documentation, but the most commonly-used link type connects content either between product guides and the platform pages or between platform pages themselves. Each of these may take a different format, depending on whether a platform needs to be specified.
+我们在文档中创建各种链接，但最常用的链接类型是在产品指南和平台页面之间或平台页面本身之间连接内容。根据是否需要指定平台，每种链接可能采用不同的格式。
 
-## Product & Platform Links
+## 产品和平台链接
 
-### From Product to Platform
+### 从产品到平台
 
-We use this format when linking from the product guides to the platform content because it allows the user to specify their platform, if it is not already specified. For example:
+当从产品指南链接到平台内容时，我们使用此格式，因为它允许用户指定其平台（如果尚未指定）。例如：
 
 `Releases also offer significant additional features when you fully [configure your SDK](/platform-redirect/?next=/configuration/releases/).`
 
-In the above example, when the user clicks the link to the releases configuration content, but hasn't yet visited a platform page, they will be asked to specify their platform so the page can be populated with the correct code sample when viewed. If they have navigated into product from the platform content, and are now navigating back into their platform, the platform context is maintained.
+在上面的示例中，当用户点击链接到版本配置内容时，如果尚未访问平台页面，系统将要求他们指定平台，以便在查看时可以用正确的代码示例填充页面。如果他们已从平台内容导航到产品中，现在正导航回其平台，则平台上下文将保持不变。
 
-### Within Platforms
+### 平台内链接
 
-We use this format when linking among or within the platform content:
+当在平台内容中或之间链接时，我们使用此格式：
 
 `You can set your own <PlatformLink to="/enriching-events/breadcrumbs/">breadcrumbs</PlatformLink> to make them more useful for debugging.`
 
-In the above example, when the user clicks the link to the breadcrumbs content, they will be navigated to the breadcrumbs content **within their specific platform**. If this link is used in product guides, and no platform is specified, the user will be navigated to the first platform listed, which is currently the Apple family of SDKs.
+在上面的示例中，当用户点击链接到面包屑内容时，他们将被导航到**其特定平台内**的面包屑内容。如果此链接在产品指南中使用，且未指定平台，用户将被导航到第一个列出的平台，目前是Apple系列的SDK。
 
-### Hardcoding the Platform
+### 硬编码平台
 
-We use this format when there's only one option for the platform, the content is not common to multiple platforms, or we want to force the reader to use this source of truth:
+当平台只有一个选项、内容不适用于多个平台或我们希望强制读者使用此权威来源时，我们使用此格式：
 
 `[NDK integration](/platforms/android/configuration/using-ndk/) is packed with the SDK and requires API level 16, though other levels are supported.`
 
-In the above example, there is only one place for users to learn about using Android's NDK, which is nested within the Android directory, so we can hardcode the path.
+在上面的示例中，用户只有一个地方可以了解如何使用Android的NDK，该位置嵌套在Android目录中，因此我们可以硬编码路径。
 
-### To Product Pages
+### 到产品页面
 
-We use this format when linking with our product content. Product guides do not currently need a platform to be specified. As a result, linking can define the path to the correct content in the `product` folder. For example:
+当链接到我们的产品内容时，我们使用此格式。产品指南目前不需要指定平台。因此，链接可以定义`product`文件夹中正确内容的路径。例如：
 
 `You can also customize how events are grouped. Learn more about customized grouping in [Issue Grouping](/concepts/data-management/event-grouping/).`
 
-### To External Pages
+### 到外部页面
 
-We use this format when linking to external pages. Most typically, this is to the UI:
+当链接到外部页面时，我们使用此格式。通常，这是链接到UI：
 
 `The **Performance** page is the main view in [sentry.io](https://sentry.io) where you can search or browse for transaction data.`
 
-### To Sandbox
+### 到沙盒
 
-Sandbox allows the user to explore the feature in an actual Sentry application with mocked data.
+沙盒允许用户在实际的Sentry应用程序中使用模拟数据探索功能。
 
 `Learn more about this feature in our <SandboxLink scenario="releases">sandbox</SandboxLink>.`
 
-This will take the user to a project based on the current platform selection. However, you can also manually specify the target project using the `projectSlug` parameter.
+这将基于当前平台选择将用户带到项目。但是，您也可以使用`projectSlug`参数手动指定目标项目。
 
-The `scenario` parameter specifies the landing page within the Sandbox application that the user will see, and if it is not specified, we default to the `issues` page. Possible values are:
+`scenario`参数指定用户在Sandbox应用程序中将看到的着陆页，如果未指定，我们默认为`issues`页面。可能的值包括：
 
 - `performance`
 - `releases`
@@ -69,42 +69,42 @@ The `scenario` parameter specifies the landing page within the Sandbox applicati
 - `oneTransactionSummary`
 - `oneRelease`
 
-Additionally, you can use the `errorType` parameter to select a particular type of error.
+此外，您可以使用`errorType`参数选择特定类型的错误。
 
 `Learn more about breadcrumbs in our <SandboxLink scenario="oneBreadcrumb" errorType="EXC_BAD_ACCESS" projectSlug="ios">sandbox</SandboxLink>.`
 
-## Anchor Links
+## 锚点链接
 
-Anchor links (appended by the # symbol) further direct users to a specific section (rather than the general page).
+锚点链接（由#符号附加）进一步将用户引导到特定部分（而不是一般页面）。
 
-### Within the Same Page
+### 同一页面内
 
-We use this format to link users to content that's further down the page (typically beyond the initial fold):
+我们使用此格式将用户链接到页面下方的内容（通常超出初始折叠）：
 
 `On this page, you can control the frequency of your [email notifications](#notifications), [change your primary email](#emails), and update your security settings.`
 
-### On Another Page
+### 另一页面
 
-We use this format to direct users to a specific heading on another page:
+我们使用此格式将用户引导到另一页面上的特定标题：
 
 `To add to your quota or review what happens when you exceed it, see [Increasing Quotas](/pricing/quotas/#increasing-quotas).`
 
-This type of link can be used also for linking to anchors on external pages:
+此类链接也可用于链接到外部页面上的锚点：
 
 `Sessions last for [Django's default session length](https://docs.djangoproject.com/en/1.11/topics/http/sessions/#using-cookie-based-sessions), which is two weeks.`
 
-## Images
+## 图片
 
-All images live in the `/public/` folder. You can reference images in this folder by using its full path (minus `/public/`).
+所有图片都位于`/public/`文件夹中。您可以通过使用其完整路径（减去`/public/`）来引用此文件夹中的图片。
 
-For instance, to use the image, `/public/product/alerts/issue-alert.png`, in any file:
+例如，要使用图片`/public/product/alerts/issue-alert.png`，在任何文件中：
 
 `![Image alt text](product/alerts/issue-alert.png)`
 
-The folder structure of `docs` is duplicated in `public` so that you can still use relative paths to reference images in your content files. For more details, see [Images](/contributing/pages/images).
+`docs`的文件夹结构在`public`中复制，以便您仍然可以在内容文件中使用相对路径引用图片。更多详细信息，请查看[图片](/contributing/pages/images)。
 
-## Email address
+## 电子邮件地址
 
-We use this format when we want to link an email address (often used for Early Adopter or Beta features):
+当我们想要链接电子邮件地址时（通常用于早期采用者或Beta功能），我们使用此格式：
 
 `For more information about access to Metric Alerts, feel free to reach out at [alerting-feedback@sentry.io](mailto:alerting-feedback@sentry.io).`

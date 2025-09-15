@@ -1,37 +1,37 @@
 ---
-title: Add the Sentry SDK to Your Project
+title: 将 Sentry SDK 添加到您的项目
 sidebar_order: 2
-description: "Learn how to add the Sentry SDK to your frontend codebase."
+description: "学习如何将 Sentry SDK 添加到您的前端代码库中。"
 ---
 
-This section walks you through how to import the sample application into your local development environment, add the Sentry SDK, and initialize it.
+本节将指导您如何将示例应用程序导入到本地开发环境中，添加 Sentry SDK 并进行初始化。
 
-If you're using your own source code, you can skip this section. Instead:
+如果您使用的是自己的源代码，可以跳过本节。相反：
 
-- Select your [platform](/platforms/) and follow its **Getting Started** guide to add the Sentry SDK to your code.
-- Then, skip to the [next step](/guides/integrate-frontend/generate-first-error/).
+- 选择您的[平台](/platforms/)并按照其**入门指南**将 Sentry SDK 添加到您的代码中。
+- 然后，跳转到[下一步](/guides/integrate-frontend/generate-first-error/)。
 
-## 1. Clone the Sample Application
+## 1. 克隆示例应用程序
 
-The sample application is a basic frontend-only application using React and webpack.
+示例应用程序是一个使用 React 和 webpack 的基本前端应用程序。
 
-1. Fork the [sample application's repository](https://github.com/getsentry/frontend-tutorial) on GitHub.
+1. 在 GitHub 上 fork [示例应用程序仓库](https://github.com/getsentry/frontend-tutorial)。
 
-1. Clone the forked repository to your local environment:
+1. 将 fork 的仓库克隆到本地环境：
 
    ```bash
    git clone git@github.com:<your_username>/frontend-tutorial.git
    ```
 
-1. Open the `frontend-tutorial` project in your preferred code editor.
+1. 在您首选的代码编辑器中打开 `frontend-tutorial` 项目。
 
-## 2. Add the Sentry React SDK
+## 2. 添加 Sentry React SDK
 
-Sentry captures data by using a platform-specific SDK that you add to your application's runtime. To use the SDK, import and configure it in your source code. This demo project uses [Sentry's React SDK](https://github.com/getsentry/sentry-javascript/tree/develop/packages/react).
+Sentry 通过使用特定于平台的 SDK 来捕获数据，您需要将其添加到应用程序的运行时中。要使用 SDK，请在源代码中导入并配置它。此演示项目使用 [Sentry 的 React SDK](https://github.com/getsentry/sentry-javascript/tree/develop/packages/react)。
 
-1. Install the Sentry React SDK using NPM.
+1. 使用 NPM 安装 Sentry React SDK。
 
-   Make sure you're in the `frontend-tutorial` project folder.
+   确保您在 `frontend-tutorial` 项目文件夹中。
 
    ```bash {tabTitle:npm}
    npm install @sentry/react --save
@@ -45,9 +45,9 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    pnpm add @sentry/react
    ```
 
-1. Import and initialize the SDK.
+1. 导入并初始化 SDK。
 
-   Open `src/index.js` and add the following lines of code below the last import statement:
+   打开 `src/index.js` 并在最后一个 import 语句下方添加以下代码行：
 
    ```javascript {filename:src/index.js}
    import * as Sentry from "@sentry/react";
@@ -56,15 +56,15 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
      dsn: "<your_DSN_key>",
      integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
 
-     // Set tracesSampleRate to 1.0 to capture 100%
-     // of transactions for performance monitoring.
-     // Learn more at
+     // 将 tracesSampleRate 设置为 1.0 以捕获 100%
+     // 的事务用于性能监控。
+     // 了解更多信息
      // https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate
      tracesSampleRate: 1.0,
 
-     // Capture Replay for 10% of all sessions,
-     // plus for 100% of sessions with an error
-     // Learn more at
+     // 为所有会话的 10% 捕获重放，
+     // 加上为 100% 的出错会话捕获重放
+     // 了解更多信息
      // https://docs.sentry.io/platforms/javascript/session-replay/configuration/#general-integration-configuration
      replaysSessionSampleRate: 0.1,
      replaysOnErrorSampleRate: 1.0,
@@ -72,14 +72,13 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    });
    ```
 
-   It's important to import and initialize the SDK as early as possible in your application's lifecycle so Sentry can capture errors throughout the lifecycle. <Include name="platforms/configuration/options/js-config-options" />
+   重要的是要尽可能早地在应用程序生命周期中导入和初始化 SDK，这样 Sentry 就可以在整个生命周期中捕获错误。 <Include name="platforms/configuration/options/js-config-options" />
 
 
 
+1. 将您的 DSN 密钥添加到 Sentry SDK 配置中。
 
-1. Add your DSN key to the Sentry SDK configuration.
-
-   Paste in the DSN key value you copied from the project created in the [previous section](/product/sentry-basics/integrate-frontend/create-new-project/).
+   粘贴您在[上一节](/product/sentry-basics/integrate-frontend/create-new-project/)中创建的项目中复制的 DSN 密钥值。
 
    ```javascript {filename:src/index.js}
    Sentry.init({
@@ -88,45 +87,45 @@ Sentry captures data by using a platform-specific SDK that you add to your appli
    });
    ```
 
-1. Save the file.
+1. 保存文件。
 
-The options set in `Sentry.init()` are called the SDK's configuration. The only required configuration option is the DSN. However, the SDK supports many other configuration options. Learn more in our [Configuration](/platforms/javascript/guides/react/configuration/) docs.
+在 `Sentry.init()` 中设置的选项称为 SDK 的配置。唯一必需的配置选项是 DSN。但是，SDK 支持许多其他配置选项。在我们的[配置](/platforms/javascript/guides/react/configuration/)文档中了解更多信息。
 
-The configuration above enables Sentry's error monitoring feature, as well as its [Performance](/platforms/javascript/guides/react/performance) (tracing) and [Session Replay](/platforms/javascript/guides/react/session-replay) features.
+上述配置启用了 Sentry 的错误监控功能，以及其[性能](/platforms/javascript/guides/react/performance)（跟踪）和[会话重放](/platforms/javascript/guides/react/session-replay)功能。
 
-## 3. Build and Run the Sample Application
+## 3. 构建并运行示例应用程序
 
-In the `frontend-tutorial` project folder:
+在 `frontend-tutorial` 项目文件夹中：
 
-1. Install project dependencies.
+1. 安装项目依赖项。
 
    ```bash
    npm install
    ```
 
-1. Start the application in develop mode.
+1. 在开发模式下启动应用程序。
 
    ```bash
    npm start
    ```
 
-   Once the application starts, you'll see a confirmation message similar to this one in your terminal:
+   应用程序启动后，您将在终端中看到类似于此的确认消息：
 
    ```bash
-   <i> [webpack-dev-server] Project is running at:
-   <i> [webpack-dev-server] Loopback: http://localhost:3000/
+   <i> [webpack-dev-server] 项目正在运行：
+   <i> [webpack-dev-server] 回环地址：http://localhost:3000/
    ...
-   webpack 5.87.0 compiled successfully in 1306 ms
+   webpack 5.87.0 在 1306 毫秒内成功编译
    ```
 
-   > **Troubleshooting tip**: If the application fails to start due to syntax errors or errors for missing dependencies/modules, make sure you're using Node 18+ and install dependencies again. Run `nvm use 18` and then `npm install`.
+   > **故障排除提示**：如果应用程序由于语法错误或缺少依赖项/模块错误而无法启动，请确保您使用的是 Node 18+ 并重新安装依赖项。运行 `nvm use 18`，然后 `npm install`。
 
-1. Open the sample application in your browser.
+1. 在浏览器中打开示例应用程序。
 
-   The sample app should be running at [http://localhost:3000/](http://localhost:3000/) or the URL output in your terminal in the last step.
+   示例应用程序应该在 [http://localhost:3000/](http://localhost:3000/) 或上一步中终端输出的 URL 上运行。
 
-   ![Sample app UX showing an online hardware store](./img/FE-tutorial-demo-app.png)
+   ![显示在线硬件商店的示例应用程序 UX](./img/FE-tutorial-demo-app.png)
 
-## Next
+## 下一步
 
-At this point, you have a sample React app running with the Sentry SDK initialized. Next, [Capture Your First Error](/product/sentry-basics/integrate-frontend/generate-first-error/) to start using Sentry's error monitoring feature.
+此时，您有一个示例 React 应用程序正在运行，并已初始化 Sentry SDK。接下来，[捕获您的第一个错误](/product/sentry-basics/integrate-frontend/generate-first-error/)以开始使用 Sentry 的错误监控功能。

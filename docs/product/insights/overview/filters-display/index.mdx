@@ -1,104 +1,104 @@
 ---
-title: "Filters & Display"
+title: "筛选器和显示"
 sidebar_order: 20
-description: "Manage the information on the Insight Overview page using search or page-level display filters to quickly identify performance issues."
+description: "使用搜索或页面级显示筛选器管理洞察概览页面上的信息，以快速识别性能问题。"
 ---
 
-You can filter the information displayed on the **Performance** page by searching or using page-level display filters.
+您可以通过搜索或使用页面级显示筛选器来筛选**性能**页面上显示的信息。
 
-## Transaction Views
+## 事务视图
 
-The page displays a view of transactions. The different ways you can filter and set the display of transactions is described fully on this page.
+该页面显示事务的视图。您可以筛选和设置事务显示的不同方式在此页面上完整描述。
 
-### All Transactions
+### 所有事务
 
-When you select "All Transactions", the table includes all transactions across any projects and period you have selected.
+当您选择"所有事务"时，表格包括您选择的任何项目和时间段的所有事务。
 
 ### Web Vitals
 
-[Web Vitals](/product/insights/web-vitals/) includes frontend pageload transactions. The transactions are automatically filtered to only include `transaction.op:pageload`. This generally corresponds to all browser page transitions that are the first load of a page. It also includes performance information from the beginning of the load itself, as well as the performance of the SPA frameworks being loaded, such as React or Vue (if available).
+[Web Vitals](/product/insights/web-vitals/)包括前端页面加载事务。事务会自动筛选为仅包括`transaction.op:pageload`。这通常对应于所有浏览器页面转换，即页面的首次加载。它还包括从加载本身开始的性能信息，以及正在加载的SPA框架（如React或Vue）的性能（如果可用）。
 
-### Frontend
+### 前端
 
-"Frontend" includes all frontend transactions, without a specific focus on Web Vitals. This generally corresponds to page transitions handled internally in SPA frameworks, such as React or Vue. Note that if you've selected a backend project, this mode also displays backend transactions.
+"前端"包括所有前端事务，而不特别关注Web Vitals。这通常对应于SPA框架内部处理的页面转换，如React或Vue。请注意，如果您选择了后端项目，此模式也会显示后端事务。
 
-### Backend
+### 后端
 
-"Backend" puts an emphasis on duration, throughput, failure rate, and Apdex. Note that if you've selected a frontend project, this mode also displays all frontend transactions.
+"后端"强调持续时间、吞吐量、失败率和Apdex。请注意，如果您选择了前端项目，此模式也会显示所有前端事务。
 
-### Mobile
+### 移动
 
-"Mobile" puts an emphasis on performance Metrics related to [mobile app development](/product/insights/mobile/). Note that if you've selected a non-mobile project, this mode also displays all of those transactions.
+"移动"强调与[移动应用程序开发](/product/insights/mobile/)相关的性能指标。请注意，如果您选择了非移动项目，此模式也会显示所有这些事务。
 
-## Filtering Transactions
+## 筛选事务
 
-### Transaction Name Search
+### 事务名称搜索
 
-Rather than searching for transactions by matching event properties, the search bar on the **Performance** page filters by transaction name only. You can search for specific transaction names or use wildcards, which can take the place of one or more characters in a search term (e.g., `/api/*/organization`).
+**性能**页面上的搜索栏不是通过匹配事件属性来搜索事务，而是仅按事务名称筛选。您可以搜索特定的事务名称或使用通配符，通配符可以在搜索词中代替一个或多个字符（例如，`/api/*/organization`）。
 
-![Updated transaction search](./img/transaction-name-search.png)
+![更新的事务搜索](./img/transaction-name-search.png)
 
-When you begin typing, a list of transaction names that match your search appear. There are two ways to interact with the search results:
+当您开始输入时，会出现与您的搜索匹配的事务名称列表。有两种方式与搜索结果交互：
 
-1. Clicking on a transaction name will apply a filter on the **Performance** page to only display transaction data for the selected transaction.
-2. Clicking the upwards arrow icon on a search result will take you to that transaction's summary page.
+1. 点击事务名称将在**性能**页面上应用筛选器，仅显示所选事务的事务数据。
+2. 点击搜索结果上的向上箭头图标将带您到该事务的摘要页面。
 
-### Search Condition Filters
+### 搜索条件筛选器
 
-In the transaction summary, the search bar operates similarly to the one in the Discover [Query Builder](/product/explore/discover-queries/query-builder/#filter-by-search-conditions). For example, you can refine your transaction search to a specific release by using `release:` as a key field and assigning the version as a value.
+在事务摘要中，搜索栏的操作类似于Discover[查询构建器](/product/explore/discover-queries/query-builder/#filter-by-search-conditions)中的搜索栏。例如，您可以使用`release:`作为键字段并分配版本作为值来将事务搜索细化为特定版本。
 
-## Widgets
+## 小组件
 
-[Widgets](/product/insights/overview/filters-display/widgets/) offer visualizations that you can change to best match your workflow.
+[小组件](/product/insights/overview/filters-display/widgets/)提供您可以更改以最适合您工作流的可视化。
 
-![Performance homepage with Web Vitals widgets.](./img/01_half_widget_frontend.png)
+![带有Web Vitals小组件的性能主页。](./img/01_half_widget_frontend.png)
 
-In the first row, there are time series and distribution graphs of common metrics for the selected project type (frontend or backend), such as User Misery or Failure Rate. You can compare these side-by-side to find any correlations.
+在第一行，有所选项目类型（前端或后端）的常见指标的时间序列和分布图，如用户痛苦或失败率。您可以并排比较这些以找到任何相关性。
 
-In the second row, there are actionable widgets that can show you areas of concern in your application, such as Most Regressed Transactions or Most Recurring Issues. Below these widgets, there are lists of transactions, which you can click to see additional context. Transactions shown in these lists can be temporarily removed from the view by clicking the 'X' beside the transaction name.
+在第二行，有可操作的小组件，可以显示您应用程序中关注的区域，如最回归的事务或最重复的问题。在这些小组件下方，有事务列表，您可以点击查看其他上下文。这些列表中显示的事务可以通过点击事务名称旁边的'X'暂时从视图中删除。
 
-Each widget has a menu in the top right where can you change the widget shown. Your changes will be persisted locally either for the session or until application storage is cleared. After that, the default set of widgets is displayed.
+每个小组件在右上角都有一个菜单，您可以在其中更改显示的小组件。您的更改将本地保存会话或直到应用程序存储被清除。之后，显示默认的小组件集。
 
-### Basic Widgets
+### 基本小组件
 
 - [Apdex](/product/insights/overview/metrics/#apdex)
-- [Transactions Per Minute (TPM)](/product/insights/overview/metrics/#throughput-total-tpm-tps)
-- [Failure Rate](/product/insights/overview/metrics/#failure-rate)
-- [p50 Duration](/product/insights/overview/metrics/#p50-threshold)
-- [p75 Duration](/product/insights/overview/metrics/#p75-threshold)
-- [p95 Duration](/product/insights/overview/metrics/#p95-threshold)
-- [p99 Duration](/product/insights/overview/metrics/#p99-threshold)
-- [User Misery](/product/insights/overview/metrics/#user-misery)
+- [每分钟事务数(TPM)](/product/insights/overview/metrics/#throughput-total-tpm-tps)
+- [失败率](/product/insights/overview/metrics/#failure-rate)
+- [p50持续时间](/product/insights/overview/metrics/#p50-threshold)
+- [p75持续时间](/product/insights/overview/metrics/#p75-threshold)
+- [p95持续时间](/product/insights/overview/metrics/#p95-threshold)
+- [p99持续时间](/product/insights/overview/metrics/#p99-threshold)
+- [用户痛苦](/product/insights/overview/metrics/#user-misery)
 
-### Actionable Widgets
+### 可操作小组件
 
-- [Most Slow Frames](/product/insights/overview/filters-display/widgets/#most-slow-frames)
-- [Most Frozen Frames](/product/insights/overview/filters-display/widgets/#most-frozen-frames)
-- [Most Time-Consuming Queries](/product/insights/overview/filters-display/widgets/#most-time-consuming-queries)
-- [Most Time-Consuming Assets](/product/insights/overview/filters-display/widgets/#most-time-consuming-assets)
-- [Most Time-Consuming Domains](/product/insights/overview/filters-display/widgets/#most-time-consuming-domains)
-- [Best Page Opportunities](/product/insights/overview/filters-display/widgets/#best-page-opportunities)
-- [Slow HTTP Ops](/product/insights/overview/filters-display/widgets/#slow-http-ops)
-- [Slow DB Ops](/product/insights/overview/filters-display/widgets/#slow-db-ops)
-- [Slow Browser Ops](/product/insights/overview/filters-display/widgets/#slow-browser-ops)
-- [Slow Resource Ops](/product/insights/overview/filters-display/widgets/#slow-resource-ops)
+- [最慢帧](/product/insights/overview/filters-display/widgets/#most-slow-frames)
+- [最冻结帧](/product/insights/overview/filters-display/widgets/#most-frozen-frames)
+- [最耗时查询](/product/insights/overview/filters-display/widgets/#most-time-consuming-queries)
+- [最耗时资源](/product/insights/overview/filters-display/widgets/#most-time-consuming-assets)
+- [最耗时域](/product/insights/overview/filters-display/widgets/#most-time-consuming-domains)
+- [最佳页面机会](/product/insights/overview/filters-display/widgets/#best-page-opportunities)
+- [慢HTTP操作](/product/insights/overview/filters-display/widgets/#slow-http-ops)
+- [慢DB操作](/product/insights/overview/filters-display/widgets/#slow-db-ops)
+- [慢浏览器操作](/product/insights/overview/filters-display/widgets/#slow-browser-ops)
+- [慢资源操作](/product/insights/overview/filters-display/widgets/#slow-resource-ops)
 
-## Transaction Table
+## 事务表
 
-The table of transactions provides a list of the most frequent transactions based on the current page filters and display options. By default, the table is sorted by transactions per minute, with the most frequent transactions displayed first. The table may be filtered further based on the page and search condition filters.
-The [Display Filter](#display-filter) controls what displays in the table columns, such as:
+事务表提供了一个基于当前页面筛选器和显示选项的最频繁事务列表。默认情况下，表格按每分钟事务数排序，最频繁的事务首先显示。表格可能会根据页面和搜索条件筛选器进一步筛选。
+[显示筛选器](#display-filter)控制表格列中显示的内容，如：
 
-- Transaction Name
-- Project
-- Operation
+- 事务名称
+- 项目
+- 操作
 - [TPM](/product/insights/overview/metrics/#throughput-total-tpm-tps)
 - [P50](/product/insights/overview/metrics/#average-transaction-duration)
 - [P95](/product/insights/overview/metrics/#p95-threshold)
-- [Failure Rate](/product/insights/overview/metrics/#failure-rate)
+- [失败率](/product/insights/overview/metrics/#failure-rate)
 - [Apdex](/product/insights/overview/metrics/#apdex)
-- Unique Users
-- [User Misery](/product/insights/overview/metrics/#user-misery)
+- 唯一用户
+- [用户痛苦](/product/insights/overview/metrics/#user-misery)
 
-### Starring Key Transactions
+### 标记关键事务
 
-If you have transactions you frequently return to, you can mark them as a key transaction for any of your teams by clicking the star in the corresponding row. Each team can mark up to 100 transactions as a key transaction. These key transactions are shared with all members of the team ensuring the most important information is surfaced to the top of the list. You can also mark a transaction as a key transaction in its corresponding [summary view](/product/insights/overview/transaction-summary/#starring-key-transactions).
+如果您有经常返回的事务，您可以通过点击相应行中的星号将其标记为您任何团队的关键事务。每个团队最多可以将100个事务标记为关键事务。这些关键事务与团队的所有成员共享，确保最重要的信息被提升到列表顶部。您还可以在相应[摘要视图](/product/insights/overview/transaction-summary/#starring-key-transactions)中将事务标记为关键事务。

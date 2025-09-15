@@ -1,83 +1,83 @@
 ---
-title: Profile Details
+title: 性能分析详情
 sidebar_order: 50
-description: "Learn how to explore your profile data using the Profile Details page."
+description: "了解如何使用性能分析详情页面探索您的性能分析数据。"
 ---
 
-Profiling can be used to gain insight into the exact functions and lines of code that are impacting performance. Each profile has a detailed view that illustrates the code that was running in your application and service while the profile was collected, with different ways to filter and visualize the data. To learn how to set up profiling and access profiling data, see the [**Profiling**](/product/explore/profiling/) documentation.
+性能分析可用于深入了解影响性能的确切函数和代码行。每个性能分析都有一个详细视图，说明在收集性能分析时应用程序和服务中运行的代码，并提供不同的方式来过滤和可视化数据。要了解如何设置性能分析并访问性能分析数据，请参见[**性能分析**](/product/explore/profiling/)文档。
 
-The main visualization on the Profile Details page is a flame graph. Learn more about flame graphs in [**Flame Graphs and Aggregated Flame Graphs**](/product/explore/profiling/flame-charts-graphs).
+性能分析详情页面上的主要可视化是火焰图。在[**火焰图和聚合火焰图**](/product/explore/profiling/flame-charts-graphs)中了解更多关于火焰图的信息。
 
-## Thread Selector
+## 线程选择器
 
-A flame graph can only show data from one thread at a time. You can use the thread selector dropdown to choose which thread to look at.
+火焰图一次只能显示一个线程的数据。您可以使用线程选择器下拉菜单选择要查看的线程。
 
-![Profiling flame graph thread selector](./img/thread-selector.png)
+![性能分析火焰图线程选择器](./img/thread-selector.png)
 
-## Flame Graph Sorting Options
+## 火焰图排序选项
 
-Samples are displayed in chronological (call) order by default. You can change the way samples are sorted in the flame graph with these options:
+样本默认按时间（调用）顺序显示。您可以使用以下选项更改火焰图中样本的排序方式：
 
-- **Call Order:** The default sorting order which displays samples in chronological order.
-- **Alphabetical:** Sorts samples by frame name.
-- **Left Heavy:** Sorts samples from highest weight to lowest weight.
+- **调用顺序：** 默认排序顺序，按时间顺序显示样本。
+- **字母顺序：** 按框架名称排序样本。
+- **左重：** 按权重从高到低排序样本。
 
-When you use alphabetical or left heavy sorting, adjacent frames with the same name are merged and their durations are summed. This helps when your profile has a lot of tiny stacks (called “hair”) which are easier to see when summed together.
+当您使用字母顺序或左重排序时，具有相同名称的相邻框架被合并，它们的持续时间被求和。这有助于当您的性能分析有很多小堆栈（称为"毛发"）时，这些在合并时更容易看到。
 
-!["Hairy" flame graph](./img/flame-chart-hair.png)
+!["毛发"火焰图](./img/flame-chart-hair.png)
 
-![Flame graph after merge](./img/flame-chart-less-hair.png)
+![合并后的火焰图](./img/flame-chart-less-hair.png)
 
-_Example of a NodeJS flame graph with a lot of “hair” vs the merged visualization. Notice how the right side of the second graph is able to display the sum durations for loading our modules._
+*NodeJS 火焰图的示例，有很多"毛发"与合并后的可视化。注意第二个图的右侧如何能够显示加载我们模块的总持续时间。*
 
-**Bottom Up/Top Down**
+**自下而上/自上而下**
 
-Flame graphs represent profile data with leaves either at the top or the bottom. This toggle lets you choose which visualization style your flame graphs default to.
+火焰图用叶子在顶部或底部来表示性能分析数据。此切换让您选择火焰图默认使用的可视化样式。
 
-## Search
+## 搜索
 
-The search bar allows you to search for function names inside the profile. It supports fuzzy search and regular expressions.
+搜索栏允许您在性能分析中搜索函数名称。它支持模糊搜索和正则表达式。
 
-![Profile search bar](./img/search-bar.png)
+![性能分析搜索栏](./img/search-bar.png)
 
-## Flame Graph Colors
+## 火焰图颜色
 
-The **Color Coding** toggle offers different ways to color the flame graph:
+**颜色编码**切换提供了不同的方式来为火焰图着色：
 
-- **By System vs. Application Frame** (default)
-- **By Symbol Name:** Each unique function frame has its own color. When a unique function appears in different places in the graph it can be identified by its color.
-- **By Package:** Frames from different packages or modules share the same color.
-- **By System Frame:** System frames each have their own color so you can easily tell them apart. Application frames are grey.
-- **By Application Frame:** Application frames each have their own color. System frames are grey.
-- **By Recursion:** Only recursive functions are colored, the rest are grey. Supports both indirect as well as direct recursion.
-- **By Frequency:** All frames are the same color, but the more often a function appears, the darker it gets.
+- **按系统与应用程序框架**（默认）
+- **按符号名称：** 每个唯一函数框架都有自己的颜色。当唯一函数出现在图中不同位置时，可以通过其颜色识别它。
+- **按包：** 来自不同包或模块的框架共享相同的颜色。
+- **按系统框架：** 系统框架每个都有自己的颜色，因此您可以轻松区分它们。应用程序框架为灰色。
+- **按应用程序框架：** 应用程序框架每个都有自己的颜色。系统框架为灰色。
+- **按递归：** 只有递归函数被着色，其余为灰色。支持间接和直接递归。
+- **按频率：** 所有框架都是相同的颜色，但函数出现的频率越高，它变得越暗。
 
-## Minimap
+## 小地图
 
-The **Minimap** shows a zoomed-out view of the profile, with the currently displayed section in a box. You can click and drag the minimap to quickly navigate to a different part of the profile. Holding the Shift key while scrolling will trigger zoom. Releasing the shift key will scroll in both vertical and horizontal directions.
+**小地图**显示性能分析的缩小视图，当前显示的部分在框中。您可以点击并拖动小地图以快速导航到性能分析的不同部分。按住 Shift 键滚动将触发缩放。释放 Shift 键将在垂直和水平方向上滚动。
 
-![Minimap in the Profile Details page](./img/minimap.png)
+![性能分析详情页面中的小地图](./img/minimap.png)
 
-## Trace
+## 追踪
 
-The **Trace** section below the **Minimap** renders a tree of spans. It is a condensed representation of the same data shown in the [**Trace View**](/concepts/key-terms/tracing/trace-view/). This view is helpful for cross-referencing profiling data with span data.
+**小地图**下方的**追踪**部分呈现跨度的树。它是[**追踪视图**](/concepts/key-terms/tracing/trace-view/)中显示的相同数据的压缩表示。此视图有助于将性能分析数据与跨度数据交叉引用。
 
-![Spans in the Trace View](./img/trace-view.png)
+![追踪视图中的跨度](./img/trace-view.png)
 
-![Spans in the Profile Details page](./img/profile-details-trace.png)
+![性能分析详情页面中的跨度](./img/profile-details-trace.png)
 
-## Tree View
+## 树视图
 
-The bottom of the screen shows a tree representation of the flame graph. It provides an alternate view that enables you to see and sort functions by name, time spent in them, and their type (application or system).
+屏幕底部显示火焰图的树表示。它提供了一个替代视图，使您能够按名称、在其中花费的时间和它们的类型（应用程序或系统）查看和排序函数。
 
-By default, the tree displays “Bottom Up”, which shows the leafmost functions, or those with the most time at the top of a call stack. Long-running leaf functions are a good first indicator of performance bottlenecks.
+默认情况下，树显示"自下而上"，它显示最叶子的函数，或那些在调用堆栈顶部花费最多时间的函数。长时间运行的叶子函数是性能瓶颈的第一个良好指标。
 
-In “Bottom Up” view, expanding a row of the table shows the function's parent functions. In “Top Down” view, expanding a row shows all the children functions that function has called (also known as callees).
+在"自下而上"视图中，展开表的行显示函数的父函数。在"自上而下"视图中，展开行显示该函数调用的所有子函数（也称为被调用者）。
 
-![Tree view in the Profile Details page](./img/tree-view.gif)
+![性能分析详情页面中的树视图](./img/tree-view.gif)
 
-## Trace and Environment View
+## 追踪和环境视图
 
-This section of the **Profile Details** page shows metadata about the trace and environment (OS, device, etc.) associated with this profile.
+**性能分析详情**页面的此部分显示与此性能分析关联的追踪和环境的元数据（操作系统、设备等）。
 
-![Trace and Environment view](./img/trace-environment-view.png)
+![追踪和环境视图](./img/trace-environment-view.png)

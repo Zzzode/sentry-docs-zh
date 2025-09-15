@@ -1,44 +1,44 @@
 ---
-title: "Tutorial: Create a Sentry Authentication Token"
+title: "教程：创建 Sentry 认证令牌"
 sidebar_order: 8
 ---
 
-To use Sentry's APIs, you must have an authentication token. This tutorial walks you through creating an organizational auth token through an internal integration. Sentry recommends using organizational auth tokens whenever possible, as they aren't linked to specific user accounts.
+要使用 Sentry 的 API，您必须拥有一个认证令牌。本教程将指导您通过内部集成创建组织认证令牌。Sentry 建议尽可能使用组织认证令牌，因为它们不链接到特定的用户帐户。
 
-See our documentation on [authentication](/api/auth/) to learn more about the different types of authentication tokens available.
+请参阅我们的[认证](/api/auth/)文档，了解有关可用的不同类型的认证令牌的更多信息。
 
-## Prerequisites
+## 先决条件
 
-- A Sentry account with an organization-level role of Manager or Admin.
+- 具有管理员或管理员组织级别角色的 Sentry 帐户。
 
-## Create an Internal Integration
+## 创建内部集成
 
-[Internal integrations](/organization/integrations/integration-platform/internal-integration/) are used to create custom Sentry integrations for your organization. They can also be used to create and manage your organization tokens.
+[内部集成](/organization/integrations/integration-platform/internal-integration/) 用于为您的组织创建自定义 Sentry 集成。它们还可用于创建和管理您的组织令牌。
 
-1. Open [sentry.io](https://sentry.io/)
+1. 打开 [sentry.io](https://sentry.io/)
 
-1. Click "Settings" in the left menu to open the **Organization Settings** page.
+1. 点击左侧菜单中的"设置"以打开**组织设置**页面。
 
-1. Click "Custom Integrations" in the left side panel to create a new internal integration and org-level auth token.
+1. 点击左侧边栏中的"自定义集成"以创建新的内部集成和组织级认证令牌。
 
-1. Press the "Create New Integration" button.
+1. 按"创建新集成"按钮。
 
-1. Make sure "Internal Integration" is selected in the modal and press "Next".
+1. 确保在模态框中选择了"内部集成"，然后按"下一步"。
 
-1. Enter a name for your integration.
+1. 为您的集成输入一个名称。
 
-![Sentry.io UX walkthrough of creating an internal integration.](./img/create-internal-integration.gif)
+![创建内部集成的 Sentry.io UX 演练。](./img/create-internal-integration.gif)
 
-## Create a API Authentication Token
+## 创建 API 认证令牌
 
-1. Under "Permissions" select the permissions required for the APIs you wish to call.
+1. 在"权限"下选择您希望调用的 API 所需的权限。
 
-   Each API endpoint docs page lists the required permissions, in the "Scopes" section. For example, the [Create a New Project](/api/projects/create-a-new-project/) endpoint requires project:write permissions or higher.
+   每个 API 端点文档页面都在"作用域"部分列出了所需的权限。例如，[创建新项目](/api/projects/create-a-new-project/) 端点需要 project:write 权限或更高权限。
 
-1. Click "Save Changes".
+1. 点击"保存更改"。
 
-1. Scroll down to the bottom of the page and copy the generated token under "Tokens".
+1. 滚动到页面底部并复制"令牌"下生成的令牌。
 
-![Sentry.io UX walkthrough of creating a token and setting it's permissions.](./img/set-token-permissions.gif)
+![创建令牌并设置其权限的 Sentry.io UX 演练。](./img/set-token-permissions.gif)
 
-Keep your auth token around on your clipboard or in an environment variable to use in API calls.
+将您的认证令牌保留在剪贴板中或存储在环境变量中以在 API 调用中使用。

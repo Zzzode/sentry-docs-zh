@@ -1,113 +1,111 @@
 ---
-title: "Sending Events"
+title: "发送事件"
 sidebar_order: 4
-description: "Learn how Sentry's command line interface can be used for sending events."
+description: "了解 Sentry 的命令行界面如何用于发送事件。"
 ---
 
-The `sentry-cli` tool can also be used for sending events. If you want to use it, you need to export the `SENTRY_DSN` environment variable and point it to the DSN of a project of yours:
-
+`sentry-cli` 工具也可用于发送事件。如果您想使用它，您需要导出 `SENTRY_DSN` 环境变量并将其指向您项目的 DSN：
 
 ```bash
 export SENTRY_DSN='___PUBLIC_DSN___'
 ```
 
-Once that is done, you can start using the `sentry-cli send-event` command.
+完成后，您可以开始使用 `sentry-cli send-event` 命令。
 
-## Basic Events
+## 基本事件
 
-For basic message events, you just need to provide the `--message` or `-m` parameter to send a message:
+对于基本消息事件，您只需提供 `--message` 或 `-m` 参数来发送消息：
 
 ```bash
-sentry-cli send-event -m "Hello from Sentry"
+sentry-cli send-event -m "来自 Sentry 的问候"
 ```
 
-This will send a single message to Sentry and record it as an event. Along with that event, it sends basic information about the machine you are running `sentry-cli` on. You can provide `-m` multiple times to send multiple lines:
+这将向 Sentry 发送一条消息并将其记录为事件。与该事件一起，它发送有关您运行 `sentry-cli` 的机器的基本信息。您可以多次提供 `-m` 来发送多行：
 
 ```bash
-sentry-cli send-event -m "Hello from Sentry" -m "This is more text"
+sentry-cli send-event -m "来自 Sentry 的问候" -m "这是更多文本"
 ```
 
-## Events with Parameters
+## 带参数的事件
 
-In addition you can use `%s` as placeholder in a message and fill it in with the `-a` parameter. This helps reviewing them, as all messages will be grouped together automatically:
+此外，您可以在消息中使用 `%s` 作为占位符，并使用 `-a` 参数填充它。这有助于查看它们，因为所有消息将自动分组在一起：
 
 ```bash
-sentry-cli send-event -m "Hello %s!" -a "Joe"
-sentry-cli send-event -m "Hello %s!" -a "Peter"
+sentry-cli send-event -m "你好 %s!" -a "Joe"
+sentry-cli send-event -m "你好 %s!" -a "Peter"
 ```
 
-## Sending Breadcrumbs
+## 发送面包屑
 
-You can also pass a logfile to the `send-event` command which will be parsed and sent along as breadcrumbs. The last 100 items will be sent:
+您还可以将日志文件传递给 `send-event` 命令，该命令将被解析并作为面包屑发送。最后 100 个项目将被发送：
 
 ```bash
-sentry-cli send-event -m “task failed” –-logfile error.log
+sentry-cli send-event -m "任务失败" --logfile error.log
 ```
 
-The logfile can be in various formats. If you want to create one yourself you can do something along those lines:
+日志文件可以是各种格式。如果您想自己创建一个，您可以执行以下操作：
 
 ```bash
-echo "$(date +%c) This is a log record" >> output.log
-echo "$(date +%c) This is another record" >> output.log
-sentry-cli send-event -m "Demo Event" --logfile output.log
+echo "$(date +%c) 这是一个日志记录" >> output.log
+echo "$(date +%c) 这是另一条记录" >> output.log
+sentry-cli send-event -m "演示事件" --logfile output.log
 rm output.log
 ```
 
-## Extra Data
+## 额外数据
 
-Extra data can be attached with the `-e` parameter as `KEY:VALUE`. For instance, you can send some key value pairs like this:
-
-```bash
-sentry-cli send-event -m "a failure" -e task:create-user -e object:42
-```
-
-Likewise, tags can be sent with `-t` using the same format:
+可以使用 `-e` 参数将额外数据附加为 `KEY:VALUE`。例如，您可以像这样发送一些键值对：
 
 ```bash
-sentry-cli send-event -m "a failure" -t task:create-user
+sentry-cli send-event -m "失败" -e task:create-user -e object:42
 ```
 
-## Stored Events
+同样，标签可以使用 `-t` 以相同的格式发送：
 
-As of version `1.71`, the `send-event` command can accept an optional argument that specifies a path to the stored JSON representation of an [event payload](https://develop.sentry.dev/sdk/data-model/event-payloads/). When used, it will load the file, validate the event and send it to Sentry.
+```bash
+sentry-cli send-event -m "失败" -t task:create-user
+```
+
+## 存储的事件
+
+从版本 `1.71` 开始，`send-event` 命令可以接受一个可选参数，该参数指定存储的 [事件负载](https://develop.sentry.dev/sdk/data-model/event-payloads/) 的 JSON 表示的文件路径。使用时，它将加载文件，验证事件并将其发送到 Sentry。
 
 ```bash
 sentry-cli send-event ./events/20211029150006.json
 ```
 
-This argument can be also provided in the form of a glob, which will cause it to process all matched events.
+此参数也可以以 glob 的形式提供，这将导致它处理所有匹配的事件。
 
 ```bash
 sentry-cli send-event "./events/*.json"
 ```
 
-If `send-event` is called with the `--raw` flag, the event will not be validated before being sent.
+如果使用 `--raw` 标志调用 `send-event`，则事件在发送前不会被验证。
 
 ```bash
 sentry-cli send-event --raw ./events/20211029150006.json
 ```
 
-## Specifying Releases
+## 指定发布
 
-Releases can be sent with the `--release` parameter. A default release is picked up automatically if you are using sentry-cli from within a git repository.
+可以使用 `--release` 参数发送发布。如果您从 git 仓库中使用 sentry-cli，则会自动选择默认发布。
 
-## Bash Hook
+## Bash 钩子
 
-For bash scripts you can also enable automatic error sending by using the sentry-cli bash hook. That enables `set -e` and will send a Sentry event for unhandled errors.
+对于 bash 脚本，您还可以通过使用 sentry-cli bash 钩子启用自动错误发送。这启用 `set -e` 并将为未处理的错误发送 Sentry 事件。
 
-The limitations for this are:
+此限制为：
 
-- sentry-cli really only works if `set -e` is enabled (which it will by default enable for you).
-- sentry-cli registers an `EXIT` and `ERR` trap.
+- sentry-cli 仅在启用 `set -e` 时才真正工作（默认情况下它会为您启用）。
+- sentry-cli 注册 `EXIT` 和 `ERR` 陷阱。
 
-Usage:
-
+用法：
 
 ```bash
 #!/bin/bash
 export SENTRY_DSN='___PUBLIC_DSN___'
 eval "$(sentry-cli bash-hook)"
-# rest of the script goes here
+# 脚本的其余部分放在这里
 ```
 
-Alternatively you can use other mechanisms like [a `.sentryclirc` file](/cli/configuration/#configuration-file) to configure the DSN.
+或者，您可以使用其他机制，如 [`.sentryclirc` 文件](/cli/configuration/#configuration-file) 来配置 DSN。

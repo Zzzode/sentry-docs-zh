@@ -1,121 +1,121 @@
 ---
-title: "Query Builder"
+title: "查询构建器"
 sidebar_order: 10
-description: "Learn how to use Discover to build a query, filter your data, and group results."
+description: "了解如何使用 Discover 构建查询、过滤数据和分组结果。"
 ---
 
 <Include name="feature-available-for-plan-trial-business.mdx" />
 
-From the **Discover** page, you can build a query in three ways.
+从**Discover**页面，您可以通过三种方式构建查询。
 
-- Click on "Build a new query"
-- Click on the ellipsis of an existing saved query card to "Duplicate"
-- Go into any existing query
-  1. Click on "Save as..." in the top right
-  2. Enter a new display name
-  3. Click "Save"
+- 点击"构建新查询"
+- 点击现有已保存查询卡片上的省略号以"复制"
+- 进入任何现有查询
+  1. 点击右上角的"另存为..."
+  2. 输入新的显示名称
+  3. 点击"保存"
 
-There are five main building blocks that impact the results of your saved query, a combination of which can be used to narrow down your search:
+有五个主要构建块会影响已保存查询的结果，可以组合使用这些构建块来缩小搜索范围：
 
-1. Dataset selection
-2. Project, environment, and date range filters
-3. Search conditions
-4. Interactive graph
-5. Table columns
+1. 数据集选择
+2. 项目、环境和日期范围过滤器
+3. 搜索条件
+4. 交互式图表
+5. 表格列
 
-## Dataset Selection
+## 数据集选择
 
-The dataset selector allows you to query for either errors or transactions. You can only query one dataset at a time. The errors dataset returns events related to errors, while the transactions dataset returns transaction events that help you see application performance.
+数据集选择器允许您查询错误或事务。一次只能查询一个数据集。错误数据集返回与错误相关的事件，而事务数据集返回事务事件，帮助您查看应用程序性能。
 
-## Filter by Project, Environment, and Date Range
+## 按项目、环境和日期范围过滤
 
-These common filters allow you to filter on your projects and environments, as well as specify the date range you want to zoom in on.
+这些常用过滤器允许您过滤项目和环境，以及指定您想要缩放的日期范围。
 
-## Filter by Search Conditions
+## 按搜索条件过滤
 
-All events have built-in key fields or custom tags. Use the search bar to enter these keys and assign them values. This will filter down your list of events. For a list of the built-in key fields, check out our [Searchable Properties documentation](/concepts/search/searchable-properties/).
+所有事件都有内置的关键字段或自定义标签。使用搜索栏输入这些键并为其赋值。这将过滤您的事件列表。有关内置关键字段的列表，请查看我们的[可搜索属性文档](/concepts/search/searchable-properties/)。
 
 {/*<!--import standardFields from "./standard-fields.json";
 
 <ParamTable fields={standardFields} /> -->*/}
 
-### Syntax
+### 语法
 
-The Query Builder syntax is identical to [Sentry's Search syntax](/concepts/search/). After you enter a key field from above or a custom tag, you can use any of the referenced syntax. For example, `count()` gives you the number of times an event occurs. This can be written in the following ways:
+查询构建器语法与[Sentry 的搜索语法](/concepts/search/)相同。在您输入上述关键字段或自定义标签后，您可以使用任何引用的语法。例如，`count()` 给出事件发生的次数。这可以用以下方式编写：
 
-- Exact match (is equal to): `count():99`
-- Upper bounds (is less than or equal to): `count():<99` or `count():<=99`
-- Lower bounds (is more than or equal to): `count():>99` or `count():>=99`
-- Multiple bounds (is more and less than): `count():>10 count():<20`
+- 精确匹配（等于）：`count():99`
+- 上限（小于或等于）：`count():<99` 或 `count():<=99`
+- 下限（大于或等于）：`count():>99` 或 `count():>=99`
+- 多个界限（大于且小于）：`count():>10 count():<20`
 
-Use `OR` and `AND` search conditions between filters. However `OR` cannot be used between aggregate and non-aggregate filters. For more details about these conditions, see [Using `OR` and `AND`](/concepts/search/#using-or-and-and).
+在过滤器之间使用 `OR` 和 `AND` 搜索条件。但是 `OR` 不能在聚合和非聚合过滤器之间使用。有关这些条件的更多详细信息，请参阅[使用 `OR` 和 `AND`](/concepts/search/#using-or-and-and)。
 
-You can also search multiple values for the same key by putting the values in a list. For example, "x:[value1, value2]" will find the same results as "x:value1 `OR` x:value2". You can learn more in our content covering [Multiple Values on the Same Key](/concepts/search/#multiple-values-on-the-same-key).
+您还可以通过将值放入列表中来搜索同一键的多个值。例如，"x:[value1, value2]" 将找到与 "x:value1 `OR` x:value2" 相同的结果。您可以在我们涵盖[同一键的多个值](/concepts/search/#multiple-values-on-the-same-key)的内容中了解更多信息。
 
-### Tag Summary Filters
+### 标签摘要过滤器
 
-Every event has a list of tag values. The tag summary (or facet map) is a visualization of the top 10 keys sorted by frequency. The most common tag value is listed directly above the bar in the description and percentage. Hover over each section in a bar to see the exact distribution for that tag.
+每个事件都有一个标签值列表。标签摘要（或方面图）是按频率排序的前 10 个键的可视化。最常见的标签值直接列在条形图上方描述和百分比中。将鼠标悬停在条形图中的每个部分上，可以看到该标签的确切分布。
 
-Click on any of these sections to further refine your search. For example, clicking on a section that represents Chrome in a browser bar will automatically update the tag summary and then add Chrome to the search conditions.
+点击这些部分中的任何一个以进一步细化您的搜索。例如，点击代表浏览器条形图中 Chrome 的部分将自动更新标签摘要，然后将 Chrome 添加到搜索条件中。
 
-![Facet map for transaction and handled tags. Map looks like a bar with gradient colors.](./img/discover-facet-map.png)
+![事务和已处理标签的方面图。图看起来像一个带有渐变颜色的条形图。](./img/discover-facet-map.png)
 
 <Alert>
 
-When performing searches on transaction events, based on your search criteria
-and sample rate, the events available may be limited because Discover uses
-sampled data only. Learn more by reading about [our sampling priorities](/organization/dynamic-sampling/).
+在事务事件上执行搜索时，根据您的搜索条件
+和采样率，可用的事件可能会受到限制，因为 Discover 仅使用
+采样数据。通过阅读[我们的采样优先级](/organization/dynamic-sampling/)了解更多信息。
 
 </Alert>
 
-## Filter by Interactive Graph
+## 按交互式图表过滤
 
-Each query has a interactive graph that reflects the data presented in the table below. To zoom in, simply click and drag over the area you want to investigate. You can also customize the display and the Y-Axis. This will be saved with your query.
+每个查询都有一个交互式图表，反映下面表格中呈现的数据。要放大，只需在您想要调查的区域上单击并拖动。您还可以自定义显示和 Y 轴。这将与您的查询一起保存。
 
-### Interval Options
+### 间隔选项
 
-The "Interval" selector allows you to change the date groupings in the graph. The selector has limits that are based on the currently selected time range. This means, for example, if you're querying over 90 days, the largest interval you can select is 45 days and the smallest is one hour.
+"间隔"选择器允许您更改图表中的日期分组。选择器有限制，这些限制基于当前选择的时间范围。这意味着，例如，如果您查询超过 90 天，您可以选择的最大间隔是 45 天，最小间隔是一小时。
 
-### Display Options
+### 显示选项
 
-- Total Period
-- Previous Period
-- Release Markers
-- Top Period
-- Total Daily
-- Top Daily
-- Bar Chart
+- 总期间
+- 上一期间
+- 发布标记
+- 顶级期间
+- 总每日
+- 顶级每日
+- 条形图
 
-### Limit Options
+### 限制选项
 
-When the "Display" selection is either "Top Period" or "Top Daily", an optional limit can be set. The setting defaults to five, showing the top five results in the graph.
+当"显示"选择为"顶级期间"或"顶级每日"时，可以设置可选限制。该设置默认为五，显示图表中的前五个结果。
 
-### Y-Axis Options
+### Y 轴选项
 
-- Count
-- Average Transaction Duration
+- 计数
+- 平均事务持续时间
 - p75
 - p95
-- Unique User Count
+- 唯一用户计数
 
-When your "Display" selection is either "Total Period", "Previous Period", "Total Daily" or "Bar Chart", you can set up to three y-axes by selecting multiple checkboxes in the "Y-Axis" dropdown.
+当您的"显示"选择为"总期间"、"上一期间"、"总每日"或"条形图"时，您可以通过在"Y 轴"下拉列表中选择多个复选框来设置最多三个 y 轴。
 
-## Group & Stack With Table Columns
+## 使用表格列分组和堆叠
 
-Above the table, click "Columns" to open the modal that shows you a list of all the columns in the results table. You can add, delete, and move basic key field columns or custom tag columns by which results are grouped.
+在表格上方，点击"列"打开显示结果表格中所有列列表的模态框。您可以添加、删除和移动结果分组所依据的基本关键字段列或自定义标签列。
 
-### Stacking Functions
+### 堆叠函数
 
-You can also add the following functions as columns to stack events, depending on the selected dataset:
+您还可以将以下函数作为列添加来堆叠事件，具体取决于所选数据集：
 
-#### Errors
+#### 错误
 - `count()`
 - `count_if(...)`
 - `count_unique(...)`
 - `eps()`
 - `epm()`
 
-#### Transactions
+#### 事务
 - `any(...)`
 - `apdex(...)`
 - `avg(...)`
@@ -140,53 +140,53 @@ You can also add the following functions as columns to stack events, depending o
 - `sum(...)`
 - `user_misery(...)`
 
-Each function will ask you to assign a parameter. Some are required while others are optional. Functions will stack events based on the same values. If no functions are applied, the events in your "Query Results" table will remain individually listed. Once you are done editing the columns, click "Apply" and results will be reflected in the query results. Keep in mind, the table may horizontally scroll if many columns are added.
+每个函数都会要求您分配一个参数。有些是必需的，有些是可选的。函数将根据相同的值堆叠事件。如果没有应用函数，则"查询结果"表格中的事件将保持单独列出。完成编辑列后，点击"应用"，结果将反映在查询结果中。请记住，如果添加了许多列，表格可能会水平滚动。
 
-### Cell Filters
+### 单元格过滤器
 
-Each cell in the table will have an ellipsis appear on hover. This will open a context menu with additional filtering capabilities depending on the value type. For example, you can selectively target a transaction to the search conditions bar by clicking on "Add to filter".
+表格中的每个单元格在悬停时都会有一个省略号出现。这将打开一个上下文菜单，根据值类型提供额外的过滤功能。例如，您可以通过点击"添加到过滤器"选择性地将事务定位到搜索条件栏。
 
-![Menu showing additional options to add to filter or exclude from filter](./img/discover-table-cell.png)
+![显示添加到过滤器或从过滤器中排除的额外选项的菜单](./img/discover-table-cell.png)
 
-### Adding Equations
+### 添加方程
 
-You can also add equations to your query using the table columns as equation variables, and the results will be displayed in the query results table. Learn more in [Adding Query Equations](query-equations/).
+您还可以使用表格列作为方程变量将方程添加到查询中，结果将显示在查询结果表格中。在[添加查询方程](query-equations/)中了解更多信息。
 
-### Sorting Columns
+### 排序列
 
-Click on the column header you would like to sort. A down arrow sorts the column in descending order and an up arrow sorts the column in ascending order. This may refresh the table.
+点击您想要排序的列标题。向下箭头按降序对列进行排序，向上箭头按升序对列进行排序。这可能会刷新表格。
 
-## Additional Query Actions
+## 其他查询操作
 
-### Edit Queries
+### 编辑查询
 
-If you need to edit any of these queries, go into the query, make the desired changes and a button will appear in the top right asking you to save/update the query. Keep in mind, edits to the query conditions **will not** be automatically saved.
+如果您需要编辑这些查询中的任何一个，请进入查询，进行所需的更改，右上角将出现一个按钮询问您是否保存/更新查询。请记住，对查询条件的编辑**不会**自动保存。
 
-To rename a saved query, click on the pencil icon by the header and enter the desired display name. Click "enter" or outside of the area to confirm.
+要重命名已保存的查询，请点击标题旁边的铅笔图标并输入所需的显示名称。点击"回车"或区域外部以确认。
 
-### Share Queries
+### 共享查询
 
-Share your queries as often as you want. You can share URLs with other users who also have access to the same organization. As each part of the query is built, the results update, and the URL is updated so that in-progress searches can be shared in email, chat, etc.
+根据需要共享您的查询。您可以与也具有访问同一组织权限的其他用户共享 URL。随着查询的每个部分被构建，结果会更新，URL 也会更新，以便可以通过电子邮件、聊天等方式共享进行中的搜索。
 
-### Export CSV
+### 导出 CSV
 
-If you want to take the data elsewhere, click on "Export" for a CSV file.
+如果您想将数据带到其他地方，请点击"导出"获取 CSV 文件。
 
-For a large export, you'll receive an email with the download link once it's ready. This will require further verification on the Sentry Download page. This contains a `SHA1` checksum of the file, which you can use to verify its integrity with the following command:
+对于大型导出，您将收到一封包含下载链接的电子邮件，一旦准备就绪。这将需要在 Sentry 下载页面上进行进一步验证。这包含文件的 `SHA1` 校验和，您可以使用以下命令验证其完整性：
 
 ```bash
-echo "<SHA1 checksum> <downloaded CSV name>" | sha1sum -c -
+echo "<SHA1 校验和> <下载的 CSV 名称>" | sha1sum -c -
 ```
 
 <Alert>
-  Depending on the amount of data, the wait times can vary. The results are
-  limited to 10 million rows or 1GB, whichever comes first.
+  根据数据量，等待时间可能会有所不同。结果
+  限制为 1000 万行或 1GB，以先到者为准。
 </Alert>
 
-### Deleting Queries
+### 删除查询
 
-<Alert>Deleting a saved query is irreversible.</Alert>
+<Alert>删除已保存的查询是不可逆的。</Alert>
 
-On the **Discover** page, each saved query card has an ellipsis that will open a context menu. Delete the query from here. You can also delete the query within Query Results view by clicking the trash can in the upper right.
+在**Discover**页面上，每个已保存的查询卡片都有一个省略号，将打开一个上下文菜单。从这里删除查询。您还可以通过点击右上角的垃圾桶在查询结果视图中删除查询。
 
-For more details on how to view saved queries, see the [full documentation on Discover](/product/explore/discover-queries/)
+有关如何查看已保存查询的更多详细信息，请参阅[Discover 的完整文档](/product/explore/discover-queries/)

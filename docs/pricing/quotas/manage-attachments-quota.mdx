@@ -1,99 +1,98 @@
 ---
-title: Manage Your Attachments Quota
-keywords: ["best practices"]
+title: 管理您的附件配额
+keywords: ["最佳实践"]
 sidebar_order: 60
-description: "Learn how to use the tools Sentry provides to control the type and amount of attachments that you pay for."
+description: "了解如何使用 Sentry 提供的工具来控制您需要付费的附件类型和数量。"
 ---
 
-Sending all your error attachments to Sentry may consume your quota too rapidly, so we provide tools to control the _type_ and _amount_ of attachments that are stored.
+将所有错误附件发送到 Sentry 可能会过快地消耗您的配额，因此我们提供了控制存储的附件 _类型_ 和 _数量_ 的工具。
 
-These tips will help you manage your attachment quota and are ordered from easiest (or least time-consuming) to most challenging (or potentially time-consuming). The first three can be done in [sentry.io](https://sentry.io). The last one is something you'll do in your SDK.
+这些技巧将帮助您管理附件配额，并按从最简单（或最省时）到最具挑战性（或可能最耗时）的顺序排列。前三个可以在 [sentry.io](https://sentry.io) 中完成。最后一个将在您的 SDK 中完成。
 
-## Before You Begin: Check Your Quota Usage
+## 开始之前：检查您的配额使用情况
 
-You can look at your attachments in aggregate in the "Usage Stats" tab of **Stats**. This information will help you answer key questions about the breakdown of your incoming attachments or which projects are consuming your quota. The answers to these questions can help you figure out where you need to do further fine-tuning of your SDK filters and configuration.
+您可以在 **统计** 的"使用情况统计"选项卡中查看您的聚合附件。这些信息将帮助您回答关于传入附件分解或哪些项目正在消耗您的配额的关键问题。这些问题的答案可以帮助您确定需要在何处对 SDK 过滤器和配置进行进一步微调。
 
-This page is accessible to all members of your organization, so Owners in your Sentry org can share this page with the developers directly responsible for a given project. Also, you can come back to this page to assess if the changes you've made are having the desired effect.
+此页面对您组织的所有成员都可访问，因此您 Sentry 组织中的所有者可以与直接负责给定项目的开发人员共享此页面。此外，您可以返回此页面评估您所做的更改是否产生了预期效果。
 
-### How can I see a breakdown of incoming attachments?
+### 如何查看传入附件的分解？
 
-The [Usage Stats](/product/stats/#usage-stats) tab displays details about the total amount of data Sentry has received across your entire organization for up to 90 days. The page breaks down the events (by project) into three categories: _accepted_, _dropped_, or _filtered_. Only accepted attachments affect your quota:
+[使用情况统计](/product/stats/#usage-stats)选项卡显示整个组织最多90天内 Sentry 接收的数据总量的详细信息。该页面将事件（按项目）分为三类：_已接受_、_已丢弃_ 或 _已过滤_。只有已接受的附件会影响您的配额：
 
-![Overview of Usage Stats page](./img/usage-stats-attachments.png)
+![使用情况统计页面概览](./img/usage-stats-attachments.png)
 
-### What are my busiest projects?
+### 我最忙的项目是什么？
 
-The "Project" table in the "Usage Stats" tab of **Stats** breaks down your data by project, so you can see which ones are consuming your quota. Clicking on the settings icon next to a project name in the table will open the project's settings page where you can manage its inbound filters and rate limits
+**统计** 的"使用情况统计"选项卡中的"项目"表按项目分解您的数据，以便您可以看到哪些项目正在消耗您的配额。点击表中项目名称旁边的设置图标将打开项目设置页面，您可以在其中管理其入站过滤器和速率限制
 
-## Adjusting Quotas
-
-<Alert>
-
-Quotas can only be updated by a Billing or Owner member of your Sentry organization.
-
-</Alert>
-
-Once your attachments volume is approaching or has exceeded the quota, teammates with the "Owner" organization permission level will receive [notification](/product/alerts/notifications/#quota-notifications) emails. You can then choose to [increase](#increasing-quotas) or [decrease](#decreasing-quotas) your quota.
-
-
-### Increasing Quotas
-
-If you're dropping attachments that you want to keep because you've exceeded your quota, add to your quota at any time during your billing period by either increasing your [reserved volume or pay-as-you-go](/pricing/#pricing-how-it-works) budget.
-
-When you exceed your quota threshold, the server will respond with a 429 HTTP status code, which communicates to SDKs and clients to stop sending events and thus their associated attachments. This status code comes with a `Retry-After` header that indicates the time for which this rate limit is active. However, clients are not supposed to retry events, but instead drop events until the rate limit has expired, to prevent queue backlogs. Note, that since event ingestion and rate limiting happen asynchronously, the 429 HTTP status code is always slightly delayed.
-
-To increase your quota, go to **Settings > Subscription** and click the "Manage Subscription" button to access your subscription options. When you increase your quota, the change goes into effect immediately.
-
-If you're on a Developer plan and want to increase your quota, you'll need to upgrade to a Team or Business plan. On these plans you can prepay for more attachments volume and purchase pay-as-you-go budget, as needed. Learn about Sentry's plans on our [pricing page](https://sentry.io/pricing/).
+## 调整配额
 
 <Alert>
 
-If you upgrade from Team to Business mid-billing period, your on-demand pricing changes retroactively.
+只有您 Sentry 组织的账单或所有者成员才能更新配额。
 
 </Alert>
 
-### Reserved Volume
+一旦您的附件量接近或已超过配额，具有"所有者"组织权限级别的队友将收到[通知](/product/alerts/notifications/#quota-notifications)电子邮件。然后您可以选择[增加](#increasing-quotas)或[减少](#decreasing-quotas)您的配额。
 
-If the amount of data you need for attachments is steadily increasing, you may want to increase your reserved capacity or volume. Reserved volume is less expensive than pay-as-you-go budget since you prepay for it. Learn more about [reserved volume](/pricing/#pricing-how-it-works) in our pricing documentation.
+### 增加配额
 
-You shouldn't increase your reserved volume if you think your need for more events is temporary, since [reducing your reserved volume is tied to your billing period](#decreasing-quotas).
+如果您因为超出配额而丢弃了您想要保留的附件，请通过在计费期间的任何时间增加您的[预留容量或按量付费](/pricing/#pricing-how-it-works)预算来添加到您的配额。
 
-### Pay-as-you-go Budget
+当您超出配额阈值时，服务器将响应429 HTTP状态码，该状态码向SDK和客户端传达停止发送事件及其关联附件的信号。此状态码附带一个`Retry-After`标头，指示此速率限制处于活动状态的时间。但是，客户端不应重试事件，而应丢弃事件直到速率限制到期，以防止队列积压。请注意，由于事件摄取和速率限制是异步发生的，429 HTTP状态码总是略有延迟。
 
-If you need to increase your attachments quota temporarily, we recommend that you add or increase your pay-as-you-go budget. This is ideal for situations like rolling out a new version of your application where you anticipate receiving more data for the month. Learn more about our pricing model [here](/pricing/#pricing-how-it-works).
+要增加您的配额，请转到 **设置 > 订阅** 并点击"管理订阅"按钮以访问您的订阅选项。当您增加配额时，更改会立即生效。
 
-### Decreasing Quotas
+如果您使用的是开发者计划并希望增加配额，则需要升级到团队或商业计划。在这些计划中，您可以预付更多附件量并按需购买按量付费预算。在我们的[定价页面](https://sentry.io/pricing/)上了解 Sentry 的计划。
 
-Plan downgrades and decreases in reserved volume are processed at the end of your billing period, and remaining volume cannot be refunded. For example, if you have a monthly billing period that starts on the 5th of the month, and you decrease your reserved volume on June 20th, then this change will be processed on July 4th. Your billing period beginning on July 5th will reflect your new reserved volume.
+<Alert>
+
+如果您在计费期间从团队升级到商业，您的按需定价会追溯更改。
+
+</Alert>
+
+### 预留容量
+
+如果您需要的附件数据量稳步增加，您可能需要增加预留容量或量。预留容量比按量付费预算便宜，因为您需要预付费用。在我们的定价文档中了解更多关于[预留容量](/pricing/#pricing-how-it-works)的信息。
+
+如果您认为您对更多事件的需求是暂时的，则不应增加预留容量，因为[减少预留容量与您的计费周期相关](#decreasing-quotas)。
+
+### 按量付费预算
+
+如果您需要临时增加附件配额，我们建议您添加或增加按量付费预算。这非常适合像推出新版本应用程序这样的情况，您预计当月会收到更多数据。在我们的定价模型中了解更多信息[此处](/pricing/#pricing-how-it-works)。
+
+### 减少配额
+
+计划降级和预留容量减少在您的计费期结束时处理，剩余容量不能退款。例如，如果您的月度计费期从每月5日开始，而您在6月20日减少了预留容量，则此更改将在7月4日处理。从7月5日开始的计费期将反映您的新预留容量。
 
 <Alert level="warning">
 
-If you have an annual billing period, plan downgrades and decreases in reserved volume go into effect at the beginning of your **next billing year.**
+如果您有年度计费期，计划降级和预留容量减少将在您的**下一个计费年度**开始时生效。
 
 </Alert>
 
-Changes to pay-as-you-go budget typically go into effect immediately and are guaranteed to go into effect within 24 hours. However, you can't decrease your pay-as-you-go budget to less than what you've consumed in the current period.
+对按量付费预算的更改通常会立即生效，并保证在24小时内生效。但是，您不能将按量付费预算减少到低于您在当前期间已消耗的金额。
 
-To decrease your quota, go to **Settings > Subscription** and click "Manage Subscriptions". When you reach the "Review & Confirm" step, the date that these changes go into effect will be displayed.
+要减少您的配额，请转到 **设置 > 订阅** 并点击"管理订阅"。当您到达"查看并确认"步骤时，将显示这些更改生效的日期。
 
 <Alert>
 
-We strongly recommend that you make subscription changes **before** the last day of your billing period. Depending on your time zone, in some cases, changes made on the last day of the billing period will not go into effect until the next billing period.
+我们强烈建议您在计费期的最后一天**之前**进行订阅更改。根据您的时区，在某些情况下，在计费期的最后一天所做的更改要到下一个计费期才会生效。
 
 </Alert>
 
-## Rate Limiting
+## 速率限制
 
-If you have enabled the storage of crash reports, you can set limits for the maximum number of crash reports that will be stored per issue. To set up these limits, go to **Settings > Security & Privacy** and make a selection in the "Store Native Crash Reports" dropdown. This setting applies to your entire organization.
+如果您已启用崩溃报告的存储，您可以为每个问题存储的最大崩溃报告数量设置限制。要设置这些限制，请转到 **设置 > 安全与隐私** 并在"存储原生崩溃报告"下拉菜单中进行选择。此设置适用于您的整个组织。
 
-## Inbound Data Filters
+## 入站数据过滤器
 
-SDK configuration requires changes to your source code and depends on your next deployment, but server-side filters can be easily configured per project in the "Data Filters" section of **[Project] > Settings > Inbound Filters**.
+SDK 配置需要更改源代码并取决于您的下一次部署，但服务器端过滤器可以在 **[项目] > 设置 > 入站过滤器** 的"数据过滤器"部分中为每个项目轻松配置。
 
-While you can't set filters for attachments directly, when you set inbound filters for error events, their associated attachments are indirectly filtered. Learn more about setting data filters for error events in [Manage Your Error Quota](/pricing/quotas/manage-event-stream-guide/).
+虽然您不能直接为附件设置过滤器，但当您为错误事件设置入站过滤器时，其关联的附件会被间接过滤。在[管理您的错误配额](/pricing/quotas/manage-event-stream-guide/)中了解有关为错误事件设置数据过滤器的更多信息。
 
-## Attachments Size
+## 附件大小
 
-To avoid using up your attachments quota (which is based on size rather than the number of attachments sent), or having the attachment dropped entirely, consider limiting the size of values passed into Sentry's APIs. For example, if your application attaches application state or request bodies to Sentry events, truncate them first.
+为了避免用完您的附件配额（这是基于大小而不是发送的附件数量），或完全避免附件被丢弃，请考虑限制传递到 Sentry API 的值的大小。例如，如果您的应用程序将应用程序状态或请求主体附加到 Sentry 事件，请先截断它们。
 
-For more information, refer to our [Size Limits](/concepts/data-management/size-limits) guide.
+有关更多信息，请参阅我们的[大小限制](/concepts/data-management/size-limits)指南。

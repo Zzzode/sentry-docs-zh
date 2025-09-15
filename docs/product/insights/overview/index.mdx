@@ -1,52 +1,52 @@
 ---
-title: "Overview"
+title: "概览"
 sidebar_order: 50
-description: "With insights, you can track, analyze, and debug your application's performance. Sentry helps you identify performance opportunities and trace issues back to poorly performing code."
+description: "通过洞察，您可以跟踪、分析和调试应用程序的性能。Sentry帮助您识别性能机会并将问题追溯到性能不佳的代码。"
 ---
 
-Sentry tracks application performance, measuring metrics like throughput and latency, and displaying the impact of errors across multiple services. Sentry captures [distributed traces](/product/sentry-basics/tracing/distributed-tracing/) consisting of multiple [spans](/product/explore/trace-explorer/#spans) to measure individual services and operations within those services.
+Sentry跟踪应用程序性能，测量吞吐量和延迟等指标，并显示跨多个服务的错误影响。Sentry捕获由多个[span](/product/explore/trace-explorer/#spans)组成的[分布式跟踪](/product/sentry-basics/tracing/distributed-tracing/)，以测量单个服务和服务内的操作。
 
 <Alert>
 
-Learn more about traces in the [full Tracing documentation](/product/sentry-basics/tracing/).
+在[完整跟踪文档](/product/sentry-basics/tracing/)中了解更多关于跟踪的信息。
 
 </Alert>
 
-The **Insights Overview** page is the main view in [sentry.io](https://sentry.io) where you can search or browse for transaction data. A transaction represents a single instance of an activity you want to measure or track, such as a page load, page navigation, or an asynchronous task. The page displays graphs that visualize transactions, as well as a table where you can view relevant transactions and drill down to get more information about them.
+**洞察概览**页面是[sentry.io](https://sentry.io)中的主要视图，您可以在其中搜索或浏览事务数据。事务表示您想要测量或跟踪的活动的单个实例，例如页面加载、页面导航或异步任务。页面显示可视化事务的图表，以及一个表格，您可以在其中查看相关事务并深入了解以获取有关它们的更多信息。
 
-![Performance homepage with All Transactions tab selected.](./img/01_full_widget_all.png)
+![选择了所有事务标签的性能主页。](./img/01_full_widget_all.png)
 
-Using the information on this page, you can trace issues back through services (for instance, frontend to backend) to identify poorly performing code. You'll be able to determine whether your application performance is getting better or worse, see if your last release is running more slowly than previous ones, and identify specific services that are slow. Once you've found the cause of the problem, you'll be able to address the specific code that’s degrading performance.
+使用此页面上的信息，您可以通过服务（例如，前端到后端）追溯问题，以识别性能不佳的代码。您将能够确定应用程序性能是在变好还是变坏，查看您的最新版本是否比以前的版本运行得更慢，并识别特定的缓慢服务。找到问题原因后，您将能够解决降低性能的特定代码。
 
-## Filter Performance Data
+## 筛选性能数据
 
-The **Insights Overview** page provides you with several filter and display options so that you can focus on the performance data that's most important to you. You can use the project, environment, and date filters to customize the information displayed on the page, including what's shown in the [widgets](/product/insights/overview/filters-display/#widgets) and [transactions table](/product/insights/overview/filters-display/#transaction-table). You can also search to find and filter for the specific transactions you want to investigate.
+**洞察概览**页面为您提供了几个筛选和显示选项，以便您可以专注于对您最重要的性能数据。您可以使用项目、环境和日期筛选器来自定义页面上显示的信息，包括[小组件](/product/insights/overview/filters-display/#widgets)和[事务表](/product/insights/overview/filters-display/#transaction-table)中显示的内容。您还可以搜索以查找和筛选您想要调查的特定事务。
 
-## Investigate Transactions
+## 调查事务
 
-When you find a transaction of interest, you can investigate further by going to its [Transaction Summary page](/product/insights/overview/transaction-summary). Every transaction has a summary view that gives you a better understanding of its overall health. With this view, you'll find graphs, instances of these events, stats, facet maps, related errors, and more.
+当您找到感兴趣的事务时，您可以通过转到其[事务摘要页面](/product/insights/overview/transaction-summary)来进一步调查。每个事务都有一个摘要视图，让您更好地了解其整体健康状况。在此视图中，您将找到图表、这些事件的实例、统计信息、方面图、相关错误等。
 
-The summary page for Frontend transactions links out to the web vitals page, where you can see a detailed view of the [Web Vitals](/product/insights/web-vitals/) associated with the transaction. You can also access a **Transaction Summary** page from the transactions table on the **Performance** page.
+前端事务的摘要页面链接到Web Vitals页面，您可以在其中看到与事务关联的[Web Vitals](/product/insights/web-vitals/)的详细视图。您还可以从**性能**页面上的事务表访问**事务摘要**页面。
 
-## Explore Performance Metrics
+## 探索性能指标
 
-There are several types of [metrics](/product/insights/overview/metrics/) that you can visualize in the graphs, such as Apdex, Transactions Per Minute, P50 Duration, and User Misery to get a full understanding of how your software is performing.
+您可以在图表中可视化几种类型的[指标](/product/insights/overview/metrics/)，例如Apdex、每分钟事务数、P50持续时间和用户痛苦，以全面了解您的软件性能如何。
 
-## Triage Performance Issues
+## 分类性能问题
 
 <Alert>
 
-**Issue and Event Quotas**
+**问题和事件配额**
 
-Your quota is consumed by events or traces, not issues. Performance issues are generated from your accepted transactions, which **doesn't** directly impact your quota. Insight transaction events use transactions, which **does** directly impact your quota. Sentry provides tools to control the type and number of error and transaction events that are accepted. Learn more in [Quota Management](/pricing/quotas/manage-transaction-quota).
+您的配额由事件或跟踪消耗，而不是问题。性能问题是从您接受的事务生成的，这**不会**直接影响您的配额。洞察事务事件使用事务，这**确实**直接影响您的配额。Sentry提供了控制接受的错误和事务事件类型和数量的工具。在[配额管理](/pricing/quotas/manage-transaction-quota)中了解更多。
 
 </Alert>
 
-If your application is configured for Insights and Tracing, Sentry will detect common performance problems, and group them into issues just like it does with errors. Performance issues help to surface performance problems in your application and provide a workflow for resolving them. Learn more about [performance issues](/product/issues/issue-details/performance-issues/).
+如果您的应用程序配置了洞察和跟踪，Sentry将检测常见的性能问题，并将它们分组为问题，就像它对错误所做的那样。性能问题有助于发现应用程序中的性能问题，并提供解决它们的工作流。了解更多关于[性能问题](/product/issues/issue-details/performance-issues/)的信息。
 
-## Dynamic Sampling
-Depending on your plan, the data ingested into Sentry may be affect by [Dynamic Sampling](/organization/dynamic-sampling/).
+## 动态采样
+根据您的计划，摄取到Sentry中的数据可能会受到[动态采样](/organization/dynamic-sampling/)的影响。
 
-## Learn More
+## 了解更多
 
 <PageGrid />

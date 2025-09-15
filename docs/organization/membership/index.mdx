@@ -1,146 +1,146 @@
 ---
-title: Organization and User Management
+title: 组织和用户管理
 sidebar_order: 10
-description: "Learn about the different organization-level and team-level roles and how they affect permissions in Sentry."
+description: "了解不同的组织级和团队级角色以及它们如何影响 Sentry 中的权限。"
 ---
 
-## Membership
+## 成员资格
 
-Permissions in Sentry are broadly handled using [organization-level roles](#organization-level-roles), which apply to all teams and projects in the organization. Users on a [Business or Enterprise plan](https://sentry.io/pricing/), have access to [team-level roles](#team-level-roles), which enable more granular permissions.
+Sentry 中的权限主要通过 [组织级角色](#组织级角色) 广泛处理，这些角色适用于组织中的所有团队和项目。在 [商业或企业计划](https://sentry.io/pricing/) 上的用户可以访问 [团队级角色](#团队级角色)，这些角色支持更细粒度的权限。
 
-## Organization-level Roles
+## 组织级角色
 
-All users and their organization-level roles are listed in **Settings > Members**. Users can hold any of the following org-level roles:
+所有用户及其组织级角色都列在 **设置 > 成员** 中。用户可以持有以下任何组织级角色：
 
-- **Billing** users can manage payment and compliance details.
-- **Org Members** can view most data in the organization and act on issues. They can join and leave teams, and access projects their teams own. For Business and Enterprise plans, members can also create personal projects.
-- **Org Admins** can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. **Note**: This role can no longer be assigned in Business and Enterprise plans.
-- **Org Managers** have full management access to all teams and projects. They can also manage the organization's membership. Org Managers can perform Team Admin actions without needing to join the team.
-- **Org Owners** have full access to the organization, its data, and settings. Org Owners can perform Team Admin actions without needing to join the team.
-
-<Alert>
-
-For Business and Enterprise plans, the Org Admin role has been replaced by Team Admins and can no longer be assigned to new users. Existing users with Org Admin roles will retain their admin privileges.
-
-</Alert>
-
-### Permissions
-
-Organization-level roles enable broad access to the entire organization, as described in the table below:
-
-| **Action**                                                                      | **Billing** | **Member** | **Admin** | **Manager** | **Owner** |
-| ------------------------------------------------------------------------------- | ----------- | ---------- | --------- | ----------- | --------- |
-| Can see and edit billing information and subscription details                   | ✓           |            |           |             | ✓         |
-| Can see and edit legal and compliance details                                   | ✓           |            |           |             | ✓         |
-| Can view and act on issues (such as assigning and resolving)                    |             | ✓          | ✓         | ✓           | ✓         |
-| Can join and leave existing teams                                               |             | ✓          | ✓         | ✓           | ✓         |
-| Can add repositories (through GitHub integrations)                              |             | ✓          | ✓         | ✓           | ✓         |
-| Can create and remove teams from the organization                               |             |            | ✓         | ✓           | ✓         |
-| Can change project settings                                                     |             | ✓\*        | ✓         | ✓           | ✓         |
-| Can create and remove projects for the organization                             |             | ✓\*\*      | ✓         | ✓           | ✓         |
-| Can edit Global Integrations                                                    |             |            | ✓         | ✓           | ✓         |
-| Can remove repositories                                                         |             |            | ✓         | ✓           | ✓         |
-| Can add, remove, and change Org Members                                         |             |            |           | ✓           | ✓         |
-| Can change organization settings, including [open membership](#open-membership) |             |            |           | ✓           | ✓         |
-| Can assign Team Admin role                                                      |             |            |           | ✓           | ✓         |
-| Can add, remove, and edit Team Contributors                                     |             |            |           | ✓           | ✓         |
-| Can add projects for teams                                                      |             |            |           | ✓           | ✓         |
-| Can remove projects from teams                                                  |             |            |           | ✓           | ✓         |
-| Can transfer projects to another organization                                   |             |            |           |             | ✓         |
-| Can remove an organization                                                      |             |            |           |             | ✓         |
-
-\*Org Members will only be able to edit [ownership rules](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/action-release/ownership/) for the project.
-
-\*\*If your organization is on a Business or Enterprise plan, anyone who's part of the org will be able to create a project without having to be a Team Admin. When org members create a project, they'll become the Team Admin for that project by default and have all the permissions of the [Team Admin](#permissions-1) for that project.
-
-## Team-level Roles
+- **计费** 用户可以管理付款和合规详细信息。
+- **组织成员** 可以查看组织中的大多数数据并对问题采取行动。他们可以加入和离开团队，并访问其团队拥有的项目。对于商业和企业计划，成员还可以创建个人项目。
+- **组织管理员** 可以编辑全局集成、管理项目以及添加/删除团队。他们加入团队时会自动承担团队管理员角色。 **注意**：此角色在商业和企业计划中不再可分配。
+- **组织经理** 对所有团队和项目具有完全管理访问权限。他们还可以管理组织的成员资格。组织经理可以在不加入团队的情况下执行团队管理员操作。
+- **组织所有者** 对组织、其数据和设置具有完全访问权限。组织所有者可以在不加入团队的情况下执行团队管理员操作。
 
 <Alert>
 
-Team-level roles are only available for Business and Enterprise accounts.
+对于商业和企业计划，组织管理员角色已被团队管理员取代，并且不再可分配给新用户。具有组织管理员角色的现有用户将保留其管理员权限。
 
 </Alert>
 
-All members of a specific team and their team-level roles are listed in **Settings > Teams > [Team] > Members**. Alternatively, go to **Settings > Members > [Member]** to see a specific member's teams and team-level roles.
+### 权限
 
-Only Org Admins, Managers, and Owners can add new teams to an organization. Users can join a team with one of the following team-level roles:
+组织级角色支持对整个组织的广泛访问，如下表所述：
 
-- **Team Contributors** can view and act on issues. Depending on the organization rules, they can also add members to the team.
-- **Team Admins** have additional permissions to manage their team's membership and projects. These permissions are granted at the team-level, and don't apply to teams where they're not a Team Admin.
+| **操作**                                                                      | **计费** | **成员** | **管理员** | **经理** | **所有者** |
+| ------------------------------------------------------------------------------- | -------- | -------- | ---------- | -------- | ---------- |
+| 可以查看和编辑账单信息和订阅详细信息                                          | ✓        |          |            |          | ✓          |
+| 可以查看和编辑法律和合规详细信息                                              | ✓        |          |            |          | ✓          |
+| 可以查看和处理问题（例如分配和解决）                                          |          | ✓        | ✓          | ✓        | ✓          |
+| 可以加入和离开现有团队                                                        |          | ✓        | ✓          | ✓        | ✓          |
+| 可以添加存储库（通过 GitHub 集成）                                            |          | ✓        | ✓          | ✓        | ✓          |
+| 可以为组织创建和删除团队                                                      |          |          | ✓          | ✓        | ✓          |
+| 可以更改项目设置                                                              |          | ✓*       | ✓          | ✓        | ✓          |
+| 可以为组织创建和删除项目                                                      |          | ✓**      | ✓          | ✓        | ✓          |
+| 可以编辑全局集成                                                              |          |          | ✓          | ✓        | ✓          |
+| 可以删除存储库                                                                |          |          | ✓          | ✓        | ✓          |
+| 可以添加、删除和更改组织成员                                                  |          |          |            | ✓        | ✓          |
+| 可以更改组织设置，包括 [开放成员资格](#开放成员资格)                            |          |          |            | ✓        | ✓          |
+| 可以分配团队管理员角色                                                        |          |          |            | ✓        | ✓          |
+| 可以添加、删除和编辑团队贡献者                                                |          |          |            | ✓        | ✓          |
+| 可以为团队添加项目                                                            |          |          |            | ✓        | ✓          |
+| 可以从团队中删除项目                                                          |          |          |            | ✓        | ✓          |
+| 可以将项目转移到另一个组织                                                    |          |          |            |          | ✓          |
+| 可以删除组织                                                                  |          |          |            |          | ✓          |
 
-Org Members can join teams as a Team Contributor and be assigned Team Admin for specific teams. Org Members who are not a Team Admin for any team can create a new personal project and personal team once, and become Team Admin for that team.
+\*组织成员只能编辑项目的 [所有权规则](https://sentry.io/orgredirect/organizations/:orgslug/settings/projects/action-release/ownership/)。
 
-Org Admins automatically become Team Admins when they join a team.
+\*\*如果您的组织在商业或企业计划上，任何属于组织的人都可以创建项目，而无需成为团队管理员。当组织成员创建项目时，他们将默认成为该项目的团队管理员，并拥有该项目的 [团队管理员](#权限-1) 的所有权限。
 
-Org Managers and Owners can perform Team Admin actions for all teams without needing to join.
+## 团队级角色
 
-### Permissions
+<Alert>
 
-Team-level roles enable more granular access to a specific team, as described in the table below:
+团队级角色仅适用于商业和企业账户。
 
-| **Action**                                                                                          | **Team Contributor** | **Team Admin** |
-| --------------------------------------------------------------------------------------------------- | -------------------- | -------------- |
-| Can invite new members to join (_Invite lands in pending state for Managers and Owners to approve_) | ✓                    | ✓              |
-| Can join and leave teams (depending on open membership settings)                                    | ✓                    | ✓              |
-| Can view and act on issues (such as assigning and resolving)                                        | ✓                    | ✓              |
-| Can add repositories                                                                                | ✓                    | ✓              |
-| Can create new teams for the organization                                                           |                      |                |
-| Can remove an existing team from the organization                                                   |                      | ✓\*            |
-| Can assign Team Admin Role                                                                          |                      | ✓\*            |
-| Can add, edit, or remove Team Contributors                                                          |                      | ✓\*            |
-| Can create new projects for the organization                                                        |                      | ✓\*            |
-| Can remove existing projects from the organization                                                  |                      | ✓\*            |
-| Can add projects for teams                                                                          |                      | ✓\*            |
-| Can remove projects from teams                                                                      |                      | ✓\*            |
-| Can change project settings                                                                         |                      | ✓\*            |
-| Can create alerts even if the org setting for "Let members create alerts" is disabled               |                      | ✓\*            |
+</Alert>
 
-\*Only for teams or projects owned by teams they're a Team Admin for.
+特定团队的所有成员及其团队级角色都列在 **设置 > 团队 > [团队] > 成员** 中。或者，转到 **设置 > 成员 > [成员]** 以查看特定成员的团队和团队级角色。
 
-### Edge Cases
+只有组织管理员、经理和所有者才能向组织添加新团队。用户可以以以下团队级角色之一加入团队：
 
-If a user holds multiple roles that grant different types of access to a single resource (like a project or repository), a union of those permissions is applied.
+- **团队贡献者** 可以查看和处理问题。根据组织规则，他们还可以将成员添加到团队。
+- **团队管理员** 具有管理其团队成员资格和项目的额外权限。这些权限是在团队级别授予的，不适用于他们不是团队管理员的团队。
 
-Let's say a user is a Team Admin for Team 1 and a Contributor for Team 2, and both teams own Project A. The user can:
+组织成员可以作为团队贡献者加入团队，并被分配为特定团队的团队管理员。不是任何团队的团队管理员的组织成员可以创建一个新的个人项目和个人团队一次，并成为该团队的团队管理员。
 
-- View and act on issues in Project A.
-- Change settings for Project A.
-- Add and remove Contributors for Team 1, but not for Team 2.
-- Remove Project A from Team 1, but not from Team 2.
-- Add Project A to Team 3 (which they are a Contributor in) and Team 4 (which they are not a member of).
-- Create a new project, Project B, for Team 1. (New projects can only be created and owned by teams the user is a Team Admin for.)
-- Add Project B to Teams 2, 3, and 4.
+组织管理员加入团队时会自动成为团队管理员。
 
-## Project Access and Team Membership
+组织经理和所有者可以在不加入团队的情况下对所有团队执行团队管理员操作。
 
-Projects can only be accessed by that project's team(s). Team Admins, Org Managers, and Org Owners can add or remove project teams in **Project Settings > Project Teams**. Alternatively, these roles can also add projects to a team in **Team Settings > Projects**.
+### 权限
 
-Any Org Member can get access to a project by joining the team that's associated with that project. Once you've joined a project you'll also be able to edit [ownership rules](/product/issues/ownership-rules/) for that project.
+团队级角色支持对特定团队的更细粒度访问，如下表所述：
 
-### Adding New Members
+| **操作**                                                                                          | **团队贡献者** | **团队管理员** |
+| --------------------------------------------------------------------------------------------------- | ---------------- | -------------- |
+| 可以邀请新成员加入（_邀请处于待处理状态，供经理和所有者批准_） | ✓                | ✓              |
+| 可以加入和离开团队（取决于开放成员资格设置）                                    | ✓                | ✓              |
+| 可以查看和处理问题（例如分配和解决）                                            | ✓                | ✓              |
+| 可以添加存储库                                                                                      | ✓                | ✓              |
+| 可以为组织创建新团队                                                                                |                  |                |
+| 可以从组织中删除现有团队                                                                            |                  | ✓*             |
+| 可以分配团队管理员角色                                                                              |                  | ✓*             |
+| 可以添加、编辑或删除团队贡献者                                                                      |                  | ✓*             |
+| 可以为组织创建新项目                                                                                |                  | ✓*             |
+| 可以从组织中删除现有项目                                                                            |                  | ✓*             |
+| 可以为团队添加项目                                                                                  |                  | ✓*             |
+| 可以从团队中删除项目                                                                                |                  | ✓*             |
+| 可以更改项目设置                                                                                    |                  | ✓*             |
+| 即使组织设置"允许成员创建警报"被禁用，也可以创建警报                                                |                  | ✓*             |
 
-Users with Manager and Owner-level permissions can add, remove, and change members for a project or organization. They can also toggle on the "Let Members Invite Others" setting to allow any org member to freely invite anyone they like without needing org owner or manager approval.
+\*仅适用于他们是团队管理员的团队或项目。
 
-### Open Membership
+### 边缘情况
 
-Team membership is open by default. All members can join, leave, and add other members to teams.
+如果用户持有多个授予对单个资源（如项目或存储库）的不同类型访问权限的角色，则应用这些权限的并集。
 
-To restrict access to teams and projects, turn off "Open Membership" for the organization in **Settings > General Settings**.
+假设用户是团队 1 的团队管理员和团队 2 的贡献者，两个团队都拥有项目 A。用户可以：
+
+- 查看和处理项目 A 中的问题。
+- 更改项目 A 的设置。
+- 为团队 1 添加和删除贡献者，但不能为团队 2。
+- 从团队 1 中删除项目 A，但不能从团队 2 中删除。
+- 将项目 A 添加到团队 3（他们是贡献者）和团队 4（他们不是成员）。
+- 为团队 1 创建新项目 B。（新项目和团队只能由用户是团队管理员的团队创建和拥有。）
+- 将项目 B 添加到团队 2、3 和 4。
+
+## 项目访问和团队成员资格
+
+项目只能由该项目的团队访问。团队管理员、组织经理和组织所有者可以在 **项目设置 > 项目团队** 中添加或删除项目团队。或者，这些角色还可以在 **团队设置 > 项目** 中将项目添加到团队。
+
+任何组织成员都可以通过加入与该项目的关联团队来访问项目。加入项目后，您还可以编辑该项目的 [所有权规则](/product/issues/ownership-rules/)。
+
+### 添加新成员
+
+具有经理和所有者级别权限的用户可以为项目或组织添加、删除和更改成员。他们还可以切换"允许成员邀请他人"设置，以允许任何组织成员自由邀请他们喜欢的任何人，而无需组织所有者或经理批准。
+
+### 开放成员资格
+
+团队成员资格默认开放。所有成员都可以加入、离开和将其他成员添加到团队。
+
+要限制对团队和项目的访问，请在 **设置 > 常规设置** 中关闭组织的"开放成员资格"。
 
 ![](./img/membership-toggle.png)
 
-If "Open Membership" is toggled off, team access is on an invite-only basis. Users can request to join a team and invite others to join their teams, but access requests and invitations must be approved by an Org Manager, Org Owner, or a Team Admin for that team. Org Admins who aren't part of the team also need to follow this process to join. Once they join, they automatically become a Team Admin.
+如果关闭"开放成员资格"，则团队访问权限基于邀请。用户可以请求加入团队并邀请他人加入他们的团队，但访问请求和邀请必须由组织经理、组织所有者或该团队的团队管理员批准。不是团队成员的组织管理员也需要遵循此流程才能加入。一旦他们加入，他们就会自动成为团队管理员。
 
-## Transfer a Project
+## 转移项目
 
-Only Org Owners can transfer a project to another organization. To do so, go to the target project's **Project Settings > General Settings** and click "Transfer Project". Enter the new Org Owner's email. The Owner for the receiving organization then receives an email to approve the transfer.
+只有组织所有者才能将项目转移到另一个组织。为此，请转到目标项目的 **项目设置 > 常规设置** 并点击"转移项目"。输入新组织所有者的电子邮件。接收组织的所有者然后会收到一封批准转移的电子邮件。
 
-When transferring a project to a new organization, we recommend also adding a new team to the project for better visibility.
+将项目转移到新组织时，我们还建议为项目添加新团队以获得更好的可见性。
 
-## Remove an Organization
+## 删除组织
 
-If you're an Org Owner, you can remove an entire organization and all its associated data completely.
+如果您是组织所有者，您可以完全删除整个组织及其所有关联数据。
 
-A user can be a Member of several organizations, so deleting an organization doesn't delete user accounts.
+用户可以是多个组织的成员，因此删除组织不会删除用户账户。
 
-To remove an organization, go to the **Organization Settings** page and click "Remove Organization", which then prompts you for confirmation. After confirmation, your organization is queued for deletion.
+要删除组织，请转到 **组织设置** 页面并点击"删除组织"，然后提示您确认。确认后，您的组织将被排队等待删除。

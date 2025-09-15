@@ -1,5 +1,5 @@
 ---
-title: Dynamic Sampling
+title: 动态采样
 sidebar_order: 30
 redirect_from:
   - /product/sentry-basics/metrics/
@@ -14,156 +14,155 @@ redirect_from:
   - /product/performance/performance-at-scale/
   - /product/performance/performance-at-scale/getting-started/
   - /product/performance/performance-at-scale/benefits-performance-at-scale/
-description: "Learn how to prioritize important events and increase visibility in lower-volume projects with Dynamic Sampling."
+description: "了解如何通过动态采样优先处理重要事件并提高低容量项目的可见性。"
 ---
 
-## Overview
+## 概述
 
-Projects that generate large event volume can quickly consume your billing quota. This may create an imbalance where high-volume projects get more visibility, leaving insufficient quota for monitoring your other projects. That's where dynamic sampling comes in.
+生成大量事件量的项目可能会快速消耗您的计费配额。这可能会造成不平衡，高容量项目获得更多可见性，为监控其他项目留下不足的配额。这就是动态采样的用武之地。
 
-Dynamic Sampling employs advanced sampling techniques to retain a representative sample of the data you send to Sentry. Its algorithms are designed to prioritize keeping samples that are valuable for debugging and analysis, while reducing the retention of common or redundant data.
+动态采样采用先进的采样技术来保留您发送到 Sentry 的数据的代表性样本。其算法旨在优先保留对调试和分析有价值的样本，同时减少常见或冗余数据的保留。
 <Alert>
-Dynamic sampling only applies to spans and transactions, not errors.
+动态采样仅适用于 span 和事务，不适用于错误。
 </Alert>
 
-There are two available flavors of dynamic sampling, depending on the plan type of your organization:
-- **Dynamic Sampling with Sampling Priorities** - available on selected Team, Business & Enterprise plans\
-  By analyzing incoming traffic patterns, Dynamic Sampling is able to automatically tailor its sample rate to both the actual traffic volume and the content of accepted transactions. For more details, check out the [Dynamic Sampling Priorities](#dynamic-sampling-priorities) section.
-- **Dynamic Sampling with Sampling Priorities & Custom Sample Rates** - available on selected Enterprise plans\
-  Configure and adjust sample rates for stored spans right from the UI without needing to modify your SDK. This makes it possible for you to make instant updates without waiting for code freezes, app store approvals, or redeployments. In addition, by analyzing incoming traffic patterns, Dynamic Sampling is able to prioritize data based on the content of accepted spans. For more details, check out the [Configuration of Custom Sample Rates](#configuration-of-custom-sample-rates) section.
+根据您组织的计划类型，有两种可用的动态采样风格：
+- **带有采样优先级的动态采样** - 适用于选定的团队、商业和企业计划\
+  通过分析传入流量模式，动态采样能够根据实际流量量和接受事务的内容自动调整其采样率。有关更多详细信息，请查看 [动态采样优先级](#动态采样优先级) 部分。
+- **带有采样优先级和自定义采样率的动态采样** - 适用于选定的企业计划\
+  直接从 UI 配置和调整存储 span 的采样率，无需修改您的 SDK。这使得您可以进行即时更新，而无需等待代码冻结、应用商店批准或重新部署。此外，通过分析传入流量模式，动态采样能够根据接受的 span 内容优先处理数据。有关更多详细信息，请查看 [自定义采样率配置](#自定义采样率配置) 部分。
 
+## 先决条件
 
-## Prerequisites
+- [管理员级别权限](/organization/membership/)。
+- 以下 SDK 之一的最新版本：
+  - Python: 1.7.2 或更高版本
+  - JavaScript: 7.6.0 或更高版本
+  - Apple: 7.23.0 或更高版本
+  - Android: 6.5.0 或更高版本
+  - React Native: 4.3.0 或更高版本
+  - Dart 和 Flutter: 6.11.0 或更高版本
+  - PHP: 3.9.0 或更高版本
+  - Laravel: 3.0.0 或更高版本
+  - Symfony: 4.4.0 或更高版本
+  - Ruby: 5.5.0 或更高版本
+  - Java: 6.5.0 或更高版本
+  - .NET: 3.22.0 或更高版本
+  - Go: 0.16.0 或更高版本
 
-- [Admin-level permissions](/organization/membership/).
-- Latest version of one of the below SDKs:
-  - Python: 1.7.2 or later
-  - JavaScript: 7.6.0 or later
-  - Apple: 7.23.0 or later
-  - Android: 6.5.0 or later
-  - React Native: 4.3.0 or later
-  - Dart and Flutter: 6.11.0 or later
-  - PHP: 3.9.0 or later
-  - Laravel: 3.0.0 or later
-  - Symfony: 4.4.0 or later
-  - Ruby: 5.5.0 or later
-  - Java: 6.5.0 or later
-  - .NET: 3.22.0 or later
-  - Go: 0.16.0 or later
-
-## Configuration of Custom Sample Rates
+## 自定义采样率配置
 <Alert>
-Configuration of custom sample rates has been available on selected Enterprise plans since June 2024.
+自定义采样率配置自 2024 年 6 月起在选定的企业计划中可用。
 </Alert>
-In this section, you'll learn how to use Dynamic Sampling in your organization. Dynamic Sampling offers two modes based on the desired sampling control:
+在本节中，您将了解如何在您的组织中使用动态采样。动态采样根据所需的采样控制提供两种模式：
 
-- **Default mode** allows you to set an organization level target sample rate and automatically adjusts project level sampling to match the organization level sample rate.
-- **Advanced mode** gives you more granular control by allowing you to manually set the sampling rate at the project level.
+- **默认模式** 允许您设置组织级目标采样率，并自动调整项目级采样以匹配组织级采样率。
+- **高级模式** 通过允许您手动在项目级别设置采样率，为您提供更精细的控制。
 
-![The dynamic sampling settings overview](./img/mode-and-target-sample-rate.png)
+![动态采样设置概述](./img/mode-and-target-sample-rate.png)
 
-### Default Mode
+### 默认模式
 
-To use Dynamic Sampling in default mode, you have to specify a target sample rate for your entire organization, which determines how much incoming traffic should be stored across all your projects. Dynamic Sampling then distributes this sample rate across your projects automatically. Sample rates are adjusted continuously to account for changes in event volume over time.
+要在默认模式下使用动态采样，您必须为整个组织指定一个目标采样率，该采样率决定应在所有项目中存储多少传入流量。然后，动态采样会自动将此采样率分配到您的项目中。采样率会持续调整，以考虑事件量随时间的变化。
 
-**The following adjustments are performed:**
+**执行以下调整：**
 
-- Low-Volume Projects get a higher sample rate, ensuring important data isn’t missed.
-- High-Volume Projects have reduced sample rates to balance overall storage.
-- Sample rates are continuously adjusted based on recent traffic patterns, using a short sliding window to adapt to seasonal changes like holidays, weekends, and nighttime traffic.
+- 低容量项目获得更高的采样率，确保不会错过重要数据。
+- 高容量项目具有降低的采样率，以平衡整体存储。
+- 根据最近的流量模式持续调整采样率，使用短滑动窗口来适应季节性变化，如假期、周末和夜间流量。
 
-Dynamic Sampling also prioritizes the most valuable data within each project's allocated sample rate. You can learn more about this in the [Dynamic Sampling Priorities](#dynamic-sampling-priorities) section. This dynamic system ensures your sampling adapts to changing traffic and maintains balance across projects.
+动态采样还优先处理每个项目分配的采样率中最有价值的数据。您可以在 [动态采样优先级](#动态采样优先级) 部分中了解更多信息。这个动态系统确保您的采样适应不断变化的流量，并在项目之间保持平衡。
 
-### Advanced Mode
+### 高级模式
 
-If you want more fine-grained control, you can customize data retention by setting individual sample rates for specific projects by enabling the advanced mode.
+如果您想要更精细的控制，您可以通过启用高级模式为特定项目设置单独的采样率来自定义数据保留。
 
-Here you can configure a fixed sample rate for each project in your organization. This value will specify the percentage of incoming traffic that should be stored for each respective project. The sample rate can be between 0% and 100%, defaulting to 100% if not adjusted.
+在这里，您可以为组织中的每个项目配置固定的采样率。此值将指定应为各自项目存储的传入流量的百分比。采样率可以在 0% 到 100% 之间，如果未调整，则默认为 100%。
 
-![Advanced dynamic sampling settings](./img/advanced.png)
+![高级动态采样设置](./img/advanced.png)
 
-When you edit the sample rates for individual projects, an estimated overall sample rate for your organization will also be calculated. This is a weighted average based on the volume of traffic for each project. Keep in mind that this value is an estimate and may change as the volume of traffic fluctuates.
+当您编辑各个项目的采样率时，还将计算您组织的估计整体采样率。这是基于每个项目流量量的加权平均值。请记住，此值是估计值，可能会随着流量量的波动而变化。
 
-To adjust the sample rates of all your projects at once, edit the overall sample rate for your organization by going to the [Dynamic Sampling settings page](https://sentry.io/orgredirect/organizations/:orgslug/settings/dynamic-sampling/). This will proportionally update each project's sample rate to meet your chosen target. The maximum rate is 100%, and adjustments will be made to balance the rates across projects. You'll be able to review and finalize the updated sample rates before saving. Make sure to click the "Apply changes" button to save the new sample rates.
+要一次性调整所有项目的采样率，请通过转到 [动态采样设置页面](https://sentry.io/orgredirect/organizations/:orgslug/settings/dynamic-sampling/) 来编辑您组织的整体采样率。这将按比例更新每个项目的采样率以满足您选择的目标。最大速率为 100%，调整将在项目之间平衡速率。您将能够在保存之前查看和完成更新的采样率。确保点击"应用更改"按钮以保存新的采样率。
 
-![Change all projects at once in Advanced Mode](./img/advanced-org-level.png)
+![在高级模式下一次性更改所有项目](./img/advanced-org-level.png)
 
-Whether advanced mode is activated or not, [Dynamic Sampling Priorities](#dynamic-sampling-priorities) will be applied within each project, boosting certain spans and deprioritizing others.
+无论是否激活高级模式，[动态采样优先级](#动态采样优先级) 都将在每个项目中应用，提升某些 span 并降低其他 span 的优先级。
 
-When you deactivate advanced mode, the recalibration process will start immediately and the per-project sample rates will be reset to the calculated values. There's no way to restore the manually configured project sample rates once you've deactivated advanced mode.
+当您停用高级模式时，重新校准过程将立即开始，每个项目的采样率将重置为计算值。一旦您停用了高级模式，就无法恢复手动配置的项目采样率。
 
-### Project Preview
+### 项目预览
 
-The [project preview](https://sentry.io/orgredirect/organizations/:orgslug/settings/dynamic-sampling/) table on the Dynamic Sampling settings page shows you how your projects might be affected by the sample rate you've chosen. The preview shows the dynamically allocated rates for your projects based on either the last 24 hours or the last 30 days of traffic.
+[项目预览](https://sentry.io/orgredirect/organizations/:orgslug/settings/dynamic-sampling/) 表在动态采样设置页面上显示您选择的项目可能如何受到您选择的采样率的影响。预览根据过去 24 小时或过去 30 天的流量显示您项目的动态分配率。
 
-![The Dynamic Sampling mode and target sample rate setting](./img/project-sample-rate-preview.png)
+![动态采样模式和目标采样率设置](./img/project-sample-rate-preview.png)
 
-Because project rates continuously change, we recommend that you choose the 24-hour preview to get a more accurate view of your current sample rates for real-time analysis. We recommend the 30-day preview for seeing average sample rates in your billing cycle for long-term planning.
+由于项目率持续变化，我们建议您选择 24 小时预览，以获得当前采样率的更准确视图，用于实时分析。我们建议 30 天预览用于查看计费周期中的平均采样率，用于长期规划。
 
-## Sample Rates for Distributed Traces
+## 分布式跟踪的采样率
 
-Because [distributed traces](/product/tracing/#whats-distributed-tracing) can originate in one project and have spans going across multiple other projects, it's important to note that Sentry **always applies the sample rate of the project where the trace originated** to every project that's part of that trace.
+由于 [分布式跟踪](/product/tracing/#whats-distributed-tracing) 可以在一个项目中发起，并具有跨多个其他项目的 span，因此重要的是要注意，Sentry **始终应用跟踪发起项目的采样率** 到该跟踪的每个项目。
 
-For example, if a trace starts in your frontend application, the sample rate you've set there will apply to a connected backend application that's part of the same trace. The same rule applies if the trace starts in a backend application.
+例如，如果跟踪在您的前端应用程序中开始，您在那里设置的采样率将应用于同一跟踪的一部分的已连接后端应用程序。如果跟踪在后端应用程序中开始，同样的规则也适用。
 
-If you navigate to the [project preview](https://sentry.io/orgredirect/organizations/:orgslug/settings/dynamic-sampling/) table, you'll see the number of sent spans next to the origin project where the trace started. This includes any spans from propogated traces in other projects that are connected to the origin project. This gives you a direct view of how many spans will be affected by the sample rates you configure. To see the span counts broken down by the project they belong to, click the expand icon to the left of each project in the preview.
+如果您导航到 [项目预览](https://sentry.io/orgredirect/organizations/:orgslug/settings/dynamic-sampling/) 表，您将看到发送的 span 数量，位于跟踪开始的原始项目旁边。这包括连接到原始项目的其他项目中传播跟踪的任何 span。这使您可以直接查看您配置的采样率将影响多少 span。要查看按项目所属的 span 计数细分，请点击预览中每个项目左侧的展开图标。
 
-![Diagram showing the effect of dynamic sampling on distriubuted traces](./img/client-to-backend-accumulated-sampling-effect.png)
+![显示动态采样对分布式跟踪影响的图表](./img/client-to-backend-accumulated-sampling-effect.png)
 
-## SDK versus Dynamic Sampling
+## SDK 与动态采样
 
-SDK sampling happens at the application level, before events are sent to Sentry. It filters events by sending only a set percentage, reducing data volume and instrumentation overhead. This helps with managing high event volumes directly at the source.
+SDK 采样发生在应用程序级别，在事件发送到 Sentry 之前。它通过仅发送设定的百分比来过滤事件，减少数据量和检测开销。这有助于直接在源头管理高事件量。
 
-Dynamic sampling, on the other hand, happens at the server level after events are sent to Sentry. Sample rates are adjusted dynamically based on the volume of events received by Sentry, without requiring any changes to the application.
+另一方面，动态采样发生在事件发送到 Sentry 后的服务器级别。采样率根据 Sentry 接收到的事件量动态调整，无需对应用程序进行任何更改。
 
-SDK sample rates can usually only be changed when a new version of the application is deployed, unless a custom mechanism has been implemented making it possible to change the sample rate dynamically. But with Dynamic Sampling, it's possible to configure the sampling rate for each project in your organization dynamically, without requiring any changes to the application.
+SDK 采样率通常只能在部署应用程序的新版本时更改，除非实现了自定义机制，使得可以动态更改采样率。但是使用动态采样，可以为组织中的每个项目动态配置采样率，而无需对应用程序进行任何更改。
 
-Additionally, advanced mode is not active, Dynamic Sampling continuously monitors the traffic for each project and adjusts the sample rate of each to prioritize the most relevant data.
+此外，当高级模式未激活时，动态采样持续监控每个项目的流量，并调整每个项目的采样率，以优先处理最相关的数据。
 
-### When to Use Dynamic Versus SDK Sampling
+### 何时使用动态采样与 SDK 采样
 
-The biggest benefit of Dynamic Sampling is its flexibility. It adjusts the sample rate based on the volume of events received by Sentry. This makes it a great choice for organizations with both high and low-volume projects, as it helps maximize your quota by tailoring the sample rate to each project's event volume.
+动态采样的最大优势是其灵活性。它根据 Sentry 接收到的事件量调整采样率。这使其成为具有高低容量项目的组织的绝佳选择，因为它通过根据每个项目的事件量定制采样率来帮助最大化您的配额。
 
-Dynamic Sampling can prioritize spans based on their content, offering more insight than SDKs. For example, it can focus on spans from the latest release or low-volume projects, giving you better visibility into the most important parts of your application.
+动态采样可以根据其内容优先处理 span，比 SDK 提供更多洞察。例如，它可以专注于来自最新版本或低容量项目的 span，让您更好地了解应用程序最重要的部分。
 
-SDK sampling uses a static rate set in the SDK configuration. It’s ideal for organizations with consistent event volumes that want to limit the percentage of events sent to Sentry. This helps reduce spans to lower overhead, save bandwidth (especially for mobile apps), or decrease the number of accepted spans.
+SDK 采样在 SDK 配置中使用静态速率。它非常适合具有一致事件量的组织，这些组织希望限制发送到 Sentry 的事件百分比。这有助于减少 span 以降低开销、节省带宽（特别是对于移动应用程序）或减少接受的 span 数量。
 
-### Deciding on Your SDK Sample Rate
+### 决定您的 SDK 采样率
 
-To give Sentry the fullest, most accurate picture of your application’s health, we recommend sending us 100% of your events. You can do this by setting your [tracesSampleRate](/platform-redirect/?next=/performance/) to 1.0. If this isn't feasible for your organization, set a lower value, or switch to sampling selectively by using the [tracesSampler](/platform-redirect/?next=/performance/) to filter your events based on contextual data. Note, that when calculating throughput, metering is based on received, not stored events.
+为了让 Sentry 获得最完整、最准确的应用程序健康状况，我们建议您向我们发送 100% 的事件。您可以通过将 [tracesSampleRate](/platform-redirect/?next=/performance/) 设置为 1.0 来实现这一点。如果您的组织不可行，请设置较低的值，或使用 [tracesSampler](/platform-redirect/?next=/performance/) 根据上下文数据选择性地过滤事件。请注意，在计算吞吐量时，计量基于接收的事件，而不是存储的事件。
 
 <Alert>
-  Changes to your SDK sampling configuration may affect your quota. If you
-  increase your SDK sampling rate, you'll also be increasing the volume of
-  events you send to Sentry. This may require that you adjust your quota.
+  对 SDK 采样配置的更改可能会影响您的配额。如果您
+  增加 SDK 采样率，您还将增加
+  发送到 Sentry 的事件量。这可能需要您调整配额。
 </Alert>
 
-You can use both Dynamic and SDK Sampling together to further optimize your event volume for your specific use case. For example, you can set a low SDK sample rate to ensure that only a certain percentage of events are sent to Sentry, and then use Dynamic Sampling to adjust the sample rate based on the event volume received by Sentry.
+您可以同时使用动态采样和 SDK 采样，以进一步优化特定用例的事件量。例如，您可以设置较低的 SDK 采样率，以确保仅将一定百分比的事件发送到 Sentry，然后使用动态采样根据 Sentry 接收到的事件量调整采样率。
 
-## Dynamic Sampling Priorities
+## 动态采样优先级
 <Alert>
-  Dynamic Sampling including Sampling Priorities has been available on selected paid plans since November 2022.
+  包括采样优先级的动态采样自 2022 年 11 月起在选定的付费计划中可用。
 </Alert>
-Below is a list of the strategies Dynamic Sampling employs to prioritize and deprioritize data. They are enabled by default, but can be updated on a per-project basis to better fit your organization's needs. To customize this behavior, go to Project Settings > Performance.
+以下是动态采样为优先处理和降低数据优先级而采用的策略列表。它们默认启用，但可以在每个项目的基础上更新，以更好地满足您组织的需求。要自定义此行为，请转到项目设置 > 性能。
 
-### How to Change Dynamic Sampling Priorities
+### 如何更改动态采样优先级
 
-To make changes to a project's dynamic sampling priorities in Sentry, go to **Settings > Projects**, select the project you're interested in, then scroll down to "Performance" in the "PROCESSING" section and make any updates under "DYNAMIC SAMPLING PRIORITIES" using the toggles. Each of your projects can have an individual set of dynamic sampling priorities.
+要在 Sentry 中更改项目的动态采样优先级，请转到 **设置 > 项目**，选择您感兴趣的项目，然后在"处理"部分中向下滚动到"性能"，并使用切换开关在"动态采样优先级"下进行任何更新。
 
 <Arcade src="https://demo.arcade.software/bEv0SO2UEmqbVJVok99o?embed" />
 
-### Automatic Priorities
+### 自动优先级
 
-Sentry automatically prioritizes or deprioritizes based on the following rules:
+Sentry 根据以下规则自动优先处理或降低优先级：
 
-#### Latest Release
+#### 最新发布
 
-Latest releases are a dynamic sampling priority because when you create a new release, we assume you'll want to have more visibility during the early adoption phase, which improves your ability to catch new issues as your release is gaining traction.
-Because you may want to deploy the same release in different environments, we'll also take your environment into account and prioritize those traces.
+最新版本是动态采样优先级，因为当您创建新版本时，我们假设您希望在早期采用阶段获得更多可见性，从而提高您在版本获得关注时捕获新问题的能力。
+由于您可能希望在不同环境中部署相同版本，我们还将考虑您的环境并优先处理这些跟踪。
 
-#### Dev Environments
+#### 开发环境
 
-Since dev environments usually generate a small number of events as compared to prod environments, we prioritize them during your testing phase so you can get meaningful insights. We consider an environment to be a dev environment if its name matches one of the following glob patterns:
+由于开发环境通常与生产环境相比生成少量事件，我们在测试阶段优先处理它们，以便您可以获得有意义的洞察。如果环境名称匹配以下 glob 模式之一，我们认为环境是开发环境：
 
 - `*debug*`
 - `*dev*`
@@ -171,23 +170,23 @@ Since dev environments usually generate a small number of events as compared to 
 - `*qa*`
 - `*test*`
 
-#### Low Volume Projects
+#### 低容量项目
 
 <Alert>
-  You won't be able to disable the Low Volume Projects dynamic sampling priority
-  because it's set on an organization-wide level, not on a per-project basis.
+  您将无法禁用低容量项目动态采样优先级
+  因为它是在组织范围内设置的，而不是在每个项目的基础上设置的。
 </Alert>
 
-Some projects within your organization are very high-volume compared to others. This means that low-volume projects might get drowned out if we treat all projects equally. To ensure that you have enough samples regardless of project scale, we prioritize low-volume projects.
+您组织中的一些项目与其他项目相比容量非常高。这意味着如果我们平等对待所有项目，低容量项目可能会被淹没。为了确保无论项目规模如何，您都有足够的样本，我们优先处理低容量项目。
 
-#### Low Volume Transactions
+#### 低容量事务
 
-Spans can be logically grouped by their transaction name within a project. This means that spans with the same transaction name most likely indicate the same operation or code path, while spans with different transaction names usually indicate different operations.
-We prioritize low-volume transactions for the same reason we prioritize low-volume projects: so they don't get drowned out by high-volume transactions. We want to make sure that low-volume code paths are sampled in enough quantities to generate a complete view of your application.
+span 可以按其在项目中的事务名称进行逻辑分组。这意味着具有相同事务名称的 span 很可能表示相同的操作或代码路径，而具有不同事务名称的 span 通常表示不同的操作。
+我们优先处理低容量事务的原因与我们优先处理低容量项目的原因相同：这样它们就不会被高容量事务淹没。我们希望确保低容量代码路径以足够的数量进行采样，以生成应用程序的完整视图。
 
-#### Health Checks
+#### 健康检查
 
-We deprioritize health check type transactions because while they're important for checking the stability of your application, they don't have any value beyond the task associated with them. We consider a transaction to be a health check if its name matches one of the following glob patterns:
+我们降低健康检查类型事务的优先级，因为虽然它们对于检查应用程序的稳定性很重要，但它们除了与它们关联的任务外没有任何价值。如果事务名称匹配以下 glob 模式之一，我们认为事务是健康检查：
 
 - `*healthcheck*`
 - `*heartbeat*`
@@ -200,32 +199,32 @@ We deprioritize health check type transactions because while they're important f
 - `*/readyz`
 - `*/ping`
 
-### Get Samples
+### 获取样本
 
-Our automated dynamic sampling priorities work well in a generic manner to collect a baseline of samples because they prioritize retaining data that's valuable for any customer at any given time. However, there are certain scenarios, such as investigating a particular issue, when very specific data becomes temporarily more important. In such cases, the automated sampling priorities may not provide enough samples, so you may want to create investigation rules.
+我们的自动动态采样优先级以通用方式很好地收集基线样本，因为它们优先保留在任何给定时间对任何客户有价值的数据。但是，在某些情况下，例如调查特定问题时，非常特定的数据会暂时变得更加重要。在这种情况下，自动采样优先级可能无法提供足够的样本，因此您可能需要创建调查规则。
 
-Investigation rules are sampling rules that can be created through the Sentry UI to temporarily boost the number of events collected for a particular scenario (for example, events with specific tag values). These rules can be created to retain more samples when too few (less than 5) are available. Once created, a rule will be active for up to 48 hours or until 100 samples are collected. You'll be notified via email when enough events have been collected.
+调查规则是可以通过 Sentry UI 创建的采样规则，用于临时增加特定场景（例如，具有特定标签值的事件）收集的事件数量。当可用样本太少（少于 5 个）时，可以创建这些规则以保留更多样本。创建后，规则将保持活动状态最多 48 小时或直到收集 100 个样本。当收集足够的事件时，您将通过电子邮件收到通知。
 
-Investigation sampling rules only apply to transactions and don't guarantee that full traces will be sampled. The maximum number of sampling rules that can exist at the same time is 50.
+调查采样规则仅适用于事务，不保证完整跟踪将被采样。可以同时存在的最大采样规则数量为 50。
 
-#### Creating a New Rule
+#### 创建新规则
 
-When you query transactions either in [Discover](/product/explore/discover-queries/) or in [Transaction Summary](/product/performance/transaction-summary/) and receive fewer than 5 samples, you can click "Get Samples" to create a new investigation rule and retain more samples of transactions for the respective query.
+当您在 [发现](/product/explore/discover-queries/) 或 [事务摘要](/product/performance/transaction-summary/) 中查询事务并收到少于 5 个样本时，您可以点击"获取样本"为相应查询的事务创建新的调查规则并保留更多样本。
 
-![Investigation Mode in Discover](./img/investigation-bias-discover.png)
+![发现中的调查模式](./img/investigation-bias-discover.png)
 
 <Alert>
 
-This feature only applies to transactions. Therefore, in Discover, you have to specify `event.type:transaction` in the query to access the feature, whereas in Performance the event type is implicit.
+此功能仅适用于事务。因此，在发现中，您必须在查询中指定 `event.type:transaction` 才能访问该功能，而在性能中，事件类型是隐式的。
 
 </Alert>
 
-Clicking this button creates an investigation rule for the query. Once the rule is successfully created, a notification appears, and the button is replaced with a message showing the investigation is in progress and the amount of time it's been active.
+点击此按钮将为查询创建调查规则。规则成功创建后，将出现通知，按钮将被替换为显示调查正在进行以及其活动时间的消息。
 
-![Rule successfully created](./img/investigation-bias-rule-created.png)
+![规则成功创建](./img/investigation-bias-rule-created.png)
 
-If a user performs the same search later and the investigation is still active, the notification will indicate that there's an active rule already collecting data for the query.
+如果用户稍后执行相同的搜索，并且调查仍处于活动状态，通知将指示已有活动规则正在为查询收集数据。
 
-It's also possible to create a rule from the Transaction Summary page in Performance.
+也可以从性能中的事务摘要页面创建规则。
 
-![Investigation Mode in Transaction Summary](./img/investigation-bias-tx-summary.png)
+![事务摘要中的调查模式](./img/investigation-bias-tx-summary.png)

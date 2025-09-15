@@ -1,51 +1,51 @@
 ---
 title: Travis CI
-description: "Learn how Sentry and Travis CI automate release management and help identify suspect commits."
+description: "了解 Sentry 和 Travis CI 如何自动化发布管理并帮助识别可疑提交。"
 ---
 
-This guide walks you through the process of automating Sentry release management and deploy notifications in Travis CI. After deploying in Travis CI, you’ll be able to identify suspect commits that are likely the culprit for new errors. You’ll also be able to apply source maps to see the original code in Sentry.
+本指南将引导您完成在 Travis CI 中自动化 Sentry 发布管理和部署通知的过程。在 Travis CI 中部署后，您将能够识别可能是新错误罪魁祸首的可疑提交。您还能够应用源映射以在 Sentry 中查看原始代码。
 
-Before starting, confirm that your Sentry project is properly set up to track commit metadata by [installing a repository integration](/product/releases/setup/release-automation/). Once that's installed, and you've added your repository, come back to this guide. If you've already installed a repository integration, you're ready to go.
+在开始之前，请确认您的 Sentry 项目已正确设置以跟踪提交元数据，方法是[安装仓库集成](/product/releases/setup/release-automation/)。安装完成后，添加您的仓库，然后返回本指南。如果您已经安装了仓库集成，就可以开始了。
 
-## Create a Sentry Internal Integration
+## 创建 Sentry 内部集成
 
-For Travis CI to communicate securely with Sentry, you'll need to create a new internal integration. In Sentry, navigate to **Settings > Developer Settings > New Internal Integration**.
+为了让 Travis CI 与 Sentry 安全通信，您需要创建一个新的内部集成。在 Sentry 中，导航到**设置 > 开发者设置 > 新建内部集成**。
 
-Give your new integration a name (for example, “Travis CI Deploy Integration”) and specify the necessary permissions. In this case, you need Admin access for “Release” and Read access for “Organization”.
+为您的新集成命名（例如，"Travis CI 部署集成"）并指定必要的权限。在这种情况下，您需要"发布"的管理员访问权限和"组织"的读取访问权限。
 
-For more details about scopes and API endpoints, see the full documentation on [API Permissions](/api/permissions/).
+有关范围和 API 端点的更多详细信息，请参阅[API 权限](/api/permissions/)的完整文档。
 
-![View of internal integration permissions.](./img/internal-integration-permissions.png)
+![内部集成权限视图。](./img/internal-integration-permissions.png)
 
-Click "Save", then record your token, which you'll need in the next section.
+点击"保存"，然后记录您的令牌，您将在下一节中需要它。
 
-## Setting Environment Variables in Travis CI
+## 在 Travis CI 中设置环境变量
 
-Next, you'll need a few environment variables to configure the Sentry CLI:
+接下来，您需要几个环境变量来配置 Sentry CLI：
 
-- `SENTRY_AUTH_TOKEN` - Your internal integration token
-- `SENTRY_ORG` - Your Sentry organization slug
-- `SENTRY_PROJECT` - Your Sentry project slug
+- `SENTRY_AUTH_TOKEN` - 您的内部集成令牌
+- `SENTRY_ORG` - 您的 Sentry 组织标识符
+- `SENTRY_PROJECT` - 您的 Sentry 项目标识符
 
-To access your internal integration token securely, store it as an [environment variable on your repository](https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings):
+要安全地访问您的内部集成令牌，请将其存储为[仓库上的环境变量](https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings)：
 
-1. In the Travis CI application, go to your repository's settings by clicking "Settings" from the "More options" menu.
-2. Find the "Environment Variables" section.
-3. Add a new variable with `SENTRY_AUTH_TOKEN` as the name and your internal integration token as the value.
+1. 在 Travis CI 应用程序中，通过点击"更多选项"菜单中的"设置"进入您的仓库设置。
+2. 找到"环境变量"部分。
+3. 添加一个新变量，名称为 `SENTRY_AUTH_TOKEN`，值为您的内部集成令牌。
 
-![View of Travis CI environment variables.](./img/travis-env-vars.png)
+![Travis CI 环境变量视图。](./img/travis-env-vars.png)
 
-The other variables do not contain sensitive information, so you'll use the `env` key to define them as environment variables in your .travis.yml file.
+其他变量不包含敏感信息，因此您将使用 `env` 键在您的 .travis.yml 文件中将它们定义为环境变量。
 
-## Create Release and Notify Sentry of Deployment
+## 创建发布并通知 Sentry 部署
 
-To automate your Sentry release management process, you'll need to add the `Create release and notify Sentry of deploy` job below after your deploy step:
+要自动化您的 Sentry 发布管理过程，您需要在部署步骤后添加下面的`创建发布并通知 Sentry 部署`作业：
 
 ```yaml
 jobs:
   include:
     # ...
-    - name: Create release and notify Sentry of deploy
+    - name: 创建发布并通知 Sentry 部署
       env: SENTRY_ORG=sample-organization-slug SENTRY_PROJECT=sample-project-slug SENTRY_ENVIRONMENT=production
       script: |
         curl -sL https://sentry.io/get-cli/ | bash
@@ -57,10 +57,10 @@ jobs:
         sentry-cli deploys new -e $SENTRY_ENVIRONMENT
 ```
 
-For more details about the release management concepts in the snippet above, see the full documentation on [release management](/cli/releases/).
+有关上述代码片段中发布管理概念的更多详细信息，请参阅[发布管理](/cli/releases/)的完整文档。
 
-**Notes**:
+**注意**：
 
-- If you’re not deploying a project that requires source maps or you've sent source maps to Sentry using another method, omit the `sourcemaps upload` line.
-- If you can’t install a repository integration, send commit metadata using the [create release endpoint](/product/releases/associate-commits/#using-the-api) or omit the `set-commits` line (`set-commits` is required for suspect commits).
-- `sentry-cli releases propose-version` defaults to the commit SHA of the commit being deployed (recommended). To set this to a different version, modify `SENTRY_RELEASE` to the preferred version.
+- 如果您部署的项目不需要源映射，或者您已经使用其他方法将源映射发送到 Sentry，请省略 `sourcemaps upload` 行。
+- 如果您无法安装仓库集成，请使用[创建发布端点](/product/releases/associate-commits/#using-the-api)发送提交元数据，或省略 `set-commits` 行（`set-commits` 是可疑提交所必需的）。
+- `sentry-cli releases propose-version` 默认为正在部署的提交的提交 SHA（推荐）。要将其设置为不同的版本，请将 `SENTRY_RELEASE` 修改为首选版本。

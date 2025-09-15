@@ -1,58 +1,58 @@
 ---
 title: LaunchDarkly
 sidebar_order: 2
-description: Learn about Sentry's LaunchDarkly integrations.
+description: 了解 Sentry 的 LaunchDarkly 集成。
 ---
 
-## Evaluation Tracking
+## 评估跟踪
 
-Sentry can track flag evaluations as they happen within your application.  Flag evaluations will appear in the "Feature Flag" section of the Issue Details page as a table, with "suspect" flag predictions highlighted in yellow. Learn more about how to interact with feature flag insights within the Sentry UI by reading the [Issue Details page documentation](/product/issues/issue-details/#feature-flags).
+Sentry 可以跟踪应用程序中发生的标志评估。标志评估将显示在问题详情页面的"功能标志"部分中，以表格形式呈现，其中"可疑"标志预测会以黄色突出显示。通过阅读[问题详情页面文档](/product/issues/issue-details/#feature-flags)了解如何在 Sentry UI 中与功能标志洞察进行交互。
 
-### Set Up Evaluation Tracking
+### 设置评估跟踪
 
-To set up evaluation tracking, visit one of our supported languages pages:
+要设置评估跟踪，请访问我们支持的某个语言页面：
 * [JavaScript](/platforms/javascript/configuration/integrations/launchdarkly/)
 * [Python](/platforms/python/integrations/feature-flags/launchdarkly/)
 
-## Change Tracking
+## 变更跟踪
 
-Sentry can track changes to feature flag definitions and report suspicious feature flag edits.
+Sentry 可以跟踪功能标志定义的更改并报告可疑的功能标志编辑。
 
-### Set Up Change Tracking
+### 设置变更跟踪
 
-Enabling Change Tracking is a three step process. To get started, visit the [feature flags settings page](https://sentry.io/orgredirect/organizations/:orgslug/settings/feature-flags/change-tracking/) in a new tab. Then follow the steps listed below.
+启用变更跟踪是一个三步过程。要开始，请在新标签页中访问[功能标志设置页面](https://sentry.io/orgredirect/organizations/:orgslug/settings/feature-flags/change-tracking/)。然后按照下面列出的步骤操作。
 
-1. **Click the "Add New Provider" button.**
-    - One webhook secret can be registered per provider type.
-    - Select LaunchDarkly in the dropdown that says "Select a provider".
-2. **Register the webhook URL**.
-    - Copy the webhook URL from Sentry settings and paste it into LaunchDarkly within their [webhook integration UI](https://app.launchdarkly.com/settings/integrations/webhooks/new).
-3. **Set the Signing Secret**.
-    - In the LaunchDarkly webhook UI, check the box that says "Sign this webhook".
-    - Copy the signing secret in the revealed input box and paste it into the input box next to "Secret" in Sentry settings.
-    - Save the secret by clicking "Add Provider" in Sentry settings.
-    - Save the webhook by clicking "Save settings" in LaunchDarkly.
+1. **点击"添加新提供商"按钮。**
+    - 每种提供商类型可以注册一个 webhook 密钥。
+    - 在下拉菜单中选择 LaunchDarkly，该下拉菜单显示"选择提供商"。
+2. **注册 webhook URL。**
+    - 从 Sentry 设置中复制 webhook URL 并将其粘贴到 LaunchDarkly 的[webhook 集成 UI](https://app.launchdarkly.com/settings/integrations/webhooks/new)中。
+3. **设置签名密钥。**
+    - 在 LaunchDarkly webhook UI 中，勾选显示"签署此 webhook"的复选框。
+    - 复制显示输入框中的签名密钥并将其粘贴到 Sentry 设置中"密钥"旁边的输入框中。
+    - 通过点击 Sentry 设置中的"添加提供商"来保存密钥。
+    - 通过点击 LaunchDarkly 中的"保存设置"来保存 webhook。
 
-Once saved, Sentry will now accept and authenticate all inbound hooks to your organization's feature flag webhook endpoint.
+保存后，Sentry 现在将接受并验证发送到您组织的功能标志 webhook 端点的所有入站 hook。
 
-## Metrics Integration
+## 指标集成
 
-This integration is maintained and supported by the company that created it. For more details or questions, feel free to contact rrosefigura@launchdarkly.com.
+此集成由创建它的公司维护和支持。更多详细信息或问题，请随时联系 rrosefigura@launchdarkly.com。
 
-### Install and Configure
+### 安装和配置
 
 <Alert>
 
-Sentry owner or manager permissions are required to install this integration.
+需要 Sentry 所有者或管理员权限才能安装此集成。
 
 </Alert>
 
 <Alert>
 
-The LaunchDarkly integration is only available to organizations with a Business or Enterprise plan.
+LaunchDarkly 集成仅适用于具有商业或企业计划的组织。
 
 </Alert>
 
-1. Navigate to **Settings > Integrations > LaunchDarkly**
+1. 导航到**设置 > 集成 > LaunchDarkly**
 
-2. Follow the full [LaunchDarkly installation instructions](https://docs.launchdarkly.com/integrations/sentry).
+2. 按照完整的 [LaunchDarkly 安装说明](https://docs.launchdarkly.com/integrations/sentry)进行操作。

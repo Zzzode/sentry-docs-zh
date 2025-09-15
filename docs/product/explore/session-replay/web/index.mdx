@@ -1,53 +1,53 @@
 ---
-title: "Session Replay for Web"
+title: "Web 会话重放"
 sidebar_order: 10
-description: "Learn about Session Replay and its video-like reproductions of user interactions, which can help you see when users are frustrated and build a better web experience."
+description: "了解会话重放及其用户交互的视频式重现，这可以帮助您了解用户何时感到沮丧并构建更好的 Web 体验。"
 ---
 
-Session Replay allows you to see video-like reproductions of user sessions which can help you understand what happened before, during, and after an error or performance issue occurred. You'll be able to gain deeper debugging context into issues so that you can reproduce and resolve problems faster without the guesswork. As you play back each session, you'll be able to see every user interaction in relation to network requests, DOM events, and console messages. It’s effectively like having [DevTools](https://developer.chrome.com/docs/devtools/overview/) active in your production user sessions.
+会话重放允许您查看用户会话的视频式重现，这可以帮助您了解错误发生之前、期间和之后发生了什么。您将能够获得更深入的调试上下文，以便在没有猜测的情况下更快地重现和解决问题。当您回放每个会话时，您将能够看到每个用户交互与网络请求、DOM 事件和控制台消息的关系。这实际上就像在您的生产用户会话中激活了 [DevTools](https://developer.chrome.com/docs/devtools/overview/)。
 
-Replays are integrated with other parts of the Sentry product so you can see how the user experience is impacted by errors and slow transactions. You'll see session replays associated with error events on the [Issue Details](/product/issues/issue-details/) page, and those associated with slow transactions on the [Transaction Summary](/product/insights/overview/transaction-summary/) page. For [backend error replays](/product/explore/session-replay/web/getting-started/#replays-for-backend-errors), any contributing backend errors will be included in the replay's timeline, [breadcrumbs](/product/issues/issue-details/breadcrumbs/), and errors.
+重放与 Sentry 产品的其他部分集成，因此您可以看到用户体验如何受到错误和慢事务的影响。您将在[问题详情](/product/issues/issue-details/)页面上看到与错误事件关联的会话重放，以及在[事务摘要](/product/insights/overview/transaction-summary/)页面上看到与慢事务关联的会话重放。对于[后端错误重放](/product/explore/session-replay/web/getting-started/#replays-for-backend-errors)，任何相关的后端错误都将包含在重放的时间线、[面包屑](/product/issues/issue-details/breadcrumbs/)和错误中。
 
-![Session Replay User Interface](./img/session-replay.png)
+![会话重放用户界面](./img/session-replay.png)
 
-## What is Session Replay?
+## 什么是会话重放？
 
-A session replay is **not** a video recording. It’s a video-like reproduction of a user session, built using the [rrweb recording library](https://www.rrweb.io/). Replays are created from snapshots of your web application’s DOM state (the browser’s in-memory representation of HTML). When each snapshot is played back, you will see a video-like recording of what the user did throughout their entire session. The user session includes any pageloads, refreshes, and navigations that happened while the user was on your site.
+会话重放**不是**视频录制。它是用户会话的视频式重现，使用 [rrweb 录制库](https://www.rrweb.io/) 构建。重放是从 Web 应用程序的 DOM 状态快照（浏览器的内存中 HTML 表示）创建的。当每个快照被回放时，您将看到用户在他们的整个会话中所做操作的视频式录制。用户会话包括用户访问您的网站时发生的任何页面加载、刷新和导航。
 
-![Session Replay User Interface](./img/session-replay-what-is-a-replay.png)
+![会话重放用户界面](./img/session-replay-what-is-a-replay.png)
 
-The start of a session replay recording can be triggered by:
+会话重放录制的开始可以通过以下方式触发：
 
-- A user session being part of a sampling rate, as controlled by [`replaysSessionSampleRate`](/platforms/javascript/session-replay/#sampling). (When a user loads a page, a decision is made whether to sample it or not.)
-- An error occurring during a session that’s not being recorded. The session is then recorded based on [`replaysOnErrorSampleRate`](/platforms/javascript/session-replay/#sampling).
-- Manually calling the [`replay.start()`](/platforms/javascript/session-replay/understanding-sessions/#manually-starting-replay) method.
+- 用户会话成为采样率的一部分，由 [`replaysSessionSampleRate`](/platforms/javascript/session-replay/#sampling) 控制。（当用户加载页面时，决定是否对其进行采样。）
+- 在未被记录的会话中发生错误。然后基于 [`replaysOnErrorSampleRate`](/platforms/javascript/session-replay/#sampling) 记录会话。
+- 手动调用 [`replay.start()`](/platforms/javascript/session-replay/understanding-sessions/#manually-starting-replay) 方法。
 
-The end of a session replay recording can be triggered by:
+会话重放录制的结束可以通过以下方式触发：
 
-- User inactivity within the tab or page that’s being recorded. (It's considered inactivity when a user doesn’t click or navigate around the site for more than 15 minutes. Mouse scrolls, mouse movements, and keyboard events don’t currently qualify as activity.)
-- User closing the tab or page that's being recorded.
-- A recording reaching the maximum replay duration limit. (Currently, this is 60 minutes.)
-- Manually calling the [`replay.stop()`](/platforms/javascript/session-replay/understanding-sessions/#manually-stopping-replay) method.
+- 在被记录的标签页或页面中的用户不活动。（当用户在 15 分钟内没有点击或在网站周围导航时，被视为不活动。鼠标滚动、鼠标移动和键盘事件目前不被视为活动。）
+- 用户关闭被记录的标签页或页面。
+- 录制达到最大重放持续时间限制。（目前，这是 60 分钟。）
+- 手动调用 [`replay.stop()`](/platforms/javascript/session-replay/understanding-sessions/#manually-stopping-replay) 方法。
 
 <Alert>
 
-Unlike [sessions](/product/releases/health/#session) on the **Releases** page, user sessions in Session Replay can span multiple page loads.
+与**发布**页面上的[会话](/product/releases/health/#session)不同，会话重放中的用户会话可以跨越多个页面加载。
 
 </Alert>
 
-## Supported SDKs
+## 支持的 SDK
 
-Session Replay supports all browser-based applications.
-This includes static websites, single-page aplications, and also server-side-rendered. This includes frameworks such as:
-[Django](/platforms/python/integrations/django/),
-[Spring](/platforms/java/guides/spring-boot/),
-[ASP.NET](/platforms/dotnet/guides/aspnetcore/),
-[Laravel](/platforms/php/guides/laravel/),
-[Express](/platforms/javascript/guides/express/) and
-[Rails](/platforms/ruby/guides/rails/).
-If you don't use `npm` or `yarn`, you can use [our Loader `script` tag](/platforms/javascript/install/loader/) on your main HTML template.
+会话重放支持所有基于浏览器的应用程序。
+这包括静态网站、单页应用程序，也包括服务器端渲染。这包括以下框架：
+[Django](/platforms/python/integrations/django/)、
+[Spring](/platforms/java/guides/spring-boot/)、
+[ASP.NET](/platforms/dotnet/guides/aspnetcore/)、
+[Laravel](/platforms/php/guides/laravel/)、
+[Express](/platforms/javascript/guides/express/) 和
+[Rails](/platforms/ruby/guides/rails/)。
+如果您不使用 `npm` 或 `yarn`，您可以在主 HTML 模板上使用[我们的加载器 `script` 标签](/platforms/javascript/install/loader/)。
 
-The Sentry SDK that records the replay runs on the client's browser, and it’s built-in to `@sentry/browser` and our browser framework SDKs:
+录制重放的 Sentry SDK 在客户端浏览器上运行，它内置于 `@sentry/browser` 和我们的浏览器框架 SDK 中：
 
 - [Vanilla JavaScript](/platforms/javascript/session-replay/)
 - [Angular](/platforms/javascript/guides/angular/session-replay/)
@@ -65,7 +65,7 @@ The Sentry SDK that records the replay runs on the client's browser, and it’s 
 
 <Include name="session-replay-for-backend-errors.mdx" />
 
-Make sure you've set up [trace propagation](/product/sentry-basics/concepts/tracing/#trace-propagation) in your backend projects. For example:
+确保您已在后端项目中设置[追踪传播](/product/sentry-basics/concepts/tracing/#trace-propagation)。例如：
 
 ```javascript
 Sentry.init({

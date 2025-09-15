@@ -1,55 +1,55 @@
 ---
-title: Data Source Name (DSN)
+title: 数据源名称 (DSN)
 sidebar_order: 10
-description: "A Data Source Name (DSN) tells Sentry where to send events so they’re associated with the correct project. Learn more about DSN structure and use here."
+description: "数据源名称 (DSN) 告诉 Sentry 将事件发送到哪里，以便它们与正确的项目关联。在此处了解有关 DSN 结构和用途的更多信息。"
 ---
 
-Sentry automatically assigns you a Data Source Name (DSN) when you create a project to start monitoring events in your app.
+创建项目以开始监控应用程序中的事件时，Sentry 会自动为您分配一个数据源名称 (DSN)。
 
-### What the Data Source Name (DSN) Does
+### 数据源名称 (DSN) 的作用
 
-A DSN tells a Sentry SDK where to send events so the events are associated with the correct project.
+DSN 告诉 Sentry SDK 将事件发送到哪里，以便事件与正确的项目关联。
 
-If this value is not provided, SDKs will try to read it from the `SENTRY_DSN` environment variable, where applicable. This fallback does not apply in cases like a web browser, where the concept of environment variables does not exist.
+如果未提供此值，SDK 将尝试从 `SENTRY_DSN` 环境变量中读取它（在适用的情况下）。此回退不适用于 Web 浏览器等情况，因为 Web 浏览器中没有环境变量的概念。
 
-If an SDK is not initialized or if it is initialized with an empty DSN, the SDK will not send any data over the network, such as captured exceptions.
+如果 SDK 未初始化，或者使用空 DSN 初始化，则 SDK 不会通过网络发送任何数据，例如捕获的异常。
 
-### DSN Utilization
+### DSN 的使用
 
-DSNs are safe to keep public because they only allow submission of new events and related event data; they do not allow read access to any information.
+DSN 可以安全地公开，因为它们只允许提交新事件和相关事件数据；它们不允许读取任何信息。
 
-While there is a risk of abusing a DSN, where any user can send events to your organization with any information they want, this is a rare occurrence. Sentry provides controls to [block IPs](/platform-redirect/?next=/configuration/options/) and similar concerns. You can also rotate (and revoke) DSNs by navigating to **[Project] > Settings > SDK Setup > Client Keys (DSN)**.
+虽然存在滥用 DSN 的风险，任何用户都可以使用他们想要的任何信息向您的组织发送事件，但这种情况很少发生。Sentry 提供了控制措施来[阻止 IP](/platform-redirect/?next=/configuration/options/) 和类似问题。您还可以通过导航到**[项目] > 设置 > SDK 设置 > 客户端密钥 (DSN)** 来轮换（和撤销）DSN。
 
-If your application is shipped to client devices, if possible, we recommend having a way to configure the DSN dynamically. In an ideal scenario, you can "ship" a new DSN to your application without the customer downloading the latest version. We recognize that this may not always be practical, but we cannot offer further advice as this scenario is implementation specific.
+如果您的应用程序被分发到客户端设备，如果可能，我们建议有一种动态配置 DSN 的方法。在理想情况下，您可以在客户不下载最新版本的情况下将"新"DSN"分发"到您的应用程序。我们认识到这可能并不总是可行的，但由于这种情况是特定于实现的，我们无法提供更多建议。
 
-### Where to Find Your Data Source Name (DSN)
+### 在哪里找到您的数据源名称 (DSN)
 
-If you're in the process of setting up a project, you can find your DSN in the installation or configuration code snippets provided in [sentry.io](https://sentry.io/) during setup:
+如果您正在设置项目的过程中，您可以在 [sentry.io](https://sentry.io/) 设置期间提供的安装或配置代码片段中找到您的 DSN：
 
-![DSN in code snippet](./img/create-new-project-04.png)
+![代码片段中的 DSN](./img/create-new-project-04.png)
 
-You can also find the DSN in your project settings by navigating to **[Project] > Settings > SDK Setup > Client Keys (DSN)** in [sentry.io](https://sentry.io/).
+您还可以在项目设置中找到 DSN，方法是导航到 [sentry.io](https://sentry.io/) 中的**[项目] > 设置 > SDK 设置 > 客户端密钥 (DSN)**。
 
-### The Parts of the Data Source Name (DSN)
+### 数据源名称 (DSN) 的组成部分
 
-The DSN configures the protocol, public key, server address, and project identifier. It is composed of the following parts:
+DSN 配置协议、公钥、服务器地址和项目标识符。它由以下部分组成：
 
-`{PROTOCOL}://{PUBLIC_KEY}:{SECRET_KEY}@{HOST}{PATH}/{PROJECT_ID}`
+`{协议}://{公钥}:{密钥}@{主机}{路径}/{项目ID}`
 
-For example:
+例如：
 
 ```javascript
 Sentry.init({ dsn: "https://public@sentry.example.com/1" });
 ```
 
-Has the following settings:
+具有以下设置：
 
 - URI = https://sentry.example.com
-- Public Key = public
-- Project ID = 1
+- 公钥 = public
+- 项目 ID = 1
 
 <Alert>
 
-The secret part of the DSN is optional and effectively deprecated. While clients will still honor it, if supplied, future versions of Sentry will entirely ignore it.
+DSN 的密钥部分是可选的，实际上已弃用。虽然客户端仍将接受它（如果提供），但未来版本的 Sentry 将完全忽略它。
 
 </Alert>

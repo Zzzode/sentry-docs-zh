@@ -1,83 +1,83 @@
 ---
-title: Notifications
+title: 通知
 sidebar_order: 40
-description: "Learn about the types of notifications that Sentry sends you, and how to manage them."
+description: "了解 Sentry 发送给您的通知类型，以及如何管理它们。"
 ---
 
-Sentry sends you notifications regarding workflow activities, [release deploys](/product/releases/), and [quota usage](/pricing/quotas/), as well as weekly reports. These notifications let you know about:
+Sentry 会向您发送有关工作流活动、[发布部署](/product/releases/)和[配额使用](/pricing/quotas/)的通知，以及每周报告。这些通知让您了解：
 
-- [Workflow](#workflow-notifications): Activity involving user actions and state changes on issues. This includes activities such as issue resolution, assignment, comments, and regressions.
-- [Deploy](#deploy-notifications): When a release you have commits on is deployed.
-- [Spend](#spend-notifications): When you're getting close to spending your reserved volume, your quotas are depleted, and/or your pay-as-you-go budget is being put to use.
-- [Weekly Reports](#weekly-reports): A summary of your organization's Sentry activity.
+- [工作流](#workflow-notifications)：涉及用户操作和问题状态更改的活动。这包括诸如问题解决、分配、评论和回归等活动。
+- [部署](#deploy-notifications)：当您有提交的版本被部署时。
+- [支出](#spend-notifications)：当您接近用完预留容量、配额已耗尽和/或您的按需付费预算正在使用时。
+- [每周报告](#weekly-reports)：您组织 Sentry 活动的摘要。
 
-You can manage these notifications in **User Settings > Notifications**.
+您可以在 **用户设置 > 通知** 中管理这些通知。
 
-## Workflow Notifications
+## 工作流通知
 
-Sentry sends workflow notifications to let you know about [issue state](/product/issues/states-triage/) changes. Workflow relates to actions that help you manage your issues, such as changing an issue’s state or commenting on it. By default, Sentry sends these notifications by email to members who are subscribed to the issue (see below for how subscription is determined). Workflow notifications are sent for:
+Sentry 发送工作流通知以让您了解[问题状态](/product/issues/states-triage/)更改。工作流涉及帮助您管理问题的操作，例如更改问题的状态或对其发表评论。默认情况下，Sentry 通过电子邮件向订阅该问题的成员发送这些通知（有关如何确定订阅，请参见下文）。工作流通知针对以下情况发送：
 
-- **Issue Resolved**: When a new issue is spotted in your code, it's in the Unresolved state. The issue state changes to Resolved when a project team member resolves it, either by manually changing its state in [sentry.io](https://sentry.io)) or by submitting a fix, or because of the project’s auto-resolve feature (if configured).
-- **Regressions**: A regression happens when the state of an issue changes from Resolved back to Unresolved. An email is sent to all project team members.
-- **Comments**: When a team member adds a new comment in the “Activity” tab of the detail page for the issue.
-- **Assignment**: When an issue is assigned or unassigned.
-- **Event Processing Problems**: When there's a problem with processing error events you've sent to Sentry.
+- **问题已解决**：当您的代码中发现新问题时，它处于未解决状态。当项目团队成员解决问题时，问题状态更改为已解决，可以是在 [sentry.io](https://sentry.io) 中手动更改其状态，通过提交修复，或由于项目的自动解决功能（如果已配置）。
+- **回归**：当问题的状态从已解决更改回未解决时，就会发生回归。电子邮件会发送给所有项目团队成员。
+- **评论**：当团队成员在问题详情页面的"活动"选项卡中添加新评论时。
+- **分配**：当问题被分配或取消分配时。
+- **事件处理问题**：当处理您发送到 Sentry 的错误事件出现问题时。
 
-You receive workflow notifications when you subscribe to an issue in one of the following ways by:
+当您通过以下方式之一订阅问题时，您会收到工作流通知：
 
-- You or your team being assigned to the issue
-- Clicking the bell icon to subscribe to an issue
-- Commenting on an issue
-- Bookmarking an issue
-- Resolving, unresolving, or archiving an issue
-- Resolving an unassigned issue with the ["Claim Unassigned Issues I've Resolved"](/product/alerts/notifications/notification-settings/#my-activity) option turned on
+- 您或您的团队被分配给问题
+- 点击铃铛图标订阅问题
+- 对问题发表评论
+- 收藏问题
+- 解决、取消解决或归档问题
+- 使用["声明我解决的未分配问题"](/product/alerts/notifications/notification-settings/#my-activity)选项解决未分配的问题
 
-You or your team will become participants once you're subscribed to an issue. Participants can be viewed from the right hand sidebar at the bottom of the issue details page. Note that participant notifications may have some overlap with alerts that are configured on a per-project basis.
+一旦您订阅了问题，您或您的团队将成为参与者。参与者可以从问题详情页面右侧边栏底部查看。请注意，参与者通知可能与按项目配置的警报有一些重叠。
 
-You'll be unsubscribed from an issue if you:
+如果您执行以下操作，您将取消订阅问题：
 
-- Are unassigned from the issue
-- Delete the only comment you left on an issue
-- Remove a bookmark from an issue
+- 从问题中取消分配
+- 删除您在问题上留下的唯一评论
+- 从问题中移除收藏
 
-## Deploy Notifications
+## 部署通知
 
-Sentry sends deploy notifications to users who have committed to the release that was deployed. Learn more in the [deploy documentation](/product/releases/setup/#notify-sentry).
+Sentry 向已部署版本中有提交的用户发送部署通知。在[部署文档](/product/releases/setup/#notify-sentry)中了解更多信息。
 
-![An example of an email describing deployed features](./img/deploy-emails.png)
+![描述已部署功能的电子邮件示例](./img/deploy-emails.png)
 
-## Spend Notifications
+## 支出通知
 
-By default, Sentry sends spend notifications to all owners and billing members of an organization when:
+默认情况下，当以下情况发生时，Sentry 会向组织的所有所有者和计费成员发送支出通知：
 
-- 80% of the organization's reserved volume (such as errors, spans, and/or attachments) has been depleted.
-- The entire reserved volume and any pay-as-you-go budget for a category (such as errors, spans, and/or attachments) has been depleted.
-- 80% of the organization's pay-as-you-go budget has been used.
+- 组织预留容量的 80%（如错误、跨度和/或附件）已耗尽。
+- 整个预留容量和某个类别（如错误、跨度和/或附件）的任何按需付费预算已耗尽。
+- 组织按需付费预算的 80% 已使用。
 
-Learn more in the [Pricing & Billing docs](/pricing/quotas/).
+在[定价和计费文档](/pricing/quotas/)中了解更多信息。
 
-### Spend Notifications for Your Organization
+### 您组织的支出通知
 
-Billing or owner members can set up their notification thresholds by going to: **Settings > Subscriptions > Notifications**.
+计费或所有者成员可以通过转到：**设置 > 订阅 > 通知** 来设置其通知阈值。
 
-![Notifications tab of Subscription settings page](./img/subscription_notifications_settings.png)
+![订阅设置页面的通知选项卡](./img/subscription_notifications_settings.png)
 
-From here, you can customize the notification thresholds for your organization for when you're close to reaching one or both of the below:
+从这里，您可以为组织自定义通知阈值，当您接近达到以下一个或两个阈值时：
 
-- **Subscription Consumption**: Set the percentage of the quota usage threshold(s) that will trigger a notification.
+- **订阅消耗**：设置将触发通知的配额使用阈值百分比。
 
-- **Pay-as-you-go Consumption**: Set the percentage of the Pay-as-you-go usage threshold(s) that will trigger a notification.
+- **按需付费消耗**：设置将触发通知的按需付费使用阈值百分比。
 
-### Personal Spend Notifications
+### 个人支出通知
 
-Owner and billing members of an organization can also customize how they personally receive spend notifications. This can be done from the user's notification settings page:
+组织的所有者和计费成员还可以自定义他们个人接收支出通知的方式。这可以从用户的通知设置页面完成：
 
-1. Go to the [**Notifications**](https://sentry.io/settings/account/notifications/) page (in your **User Settings**).
-2. Scroll to the **Spend** row and click on the cog wheel.
-3. From the [**Spend Notifications**](https://sentry.io/settings/account/notifications/quota/) page, you'll be able to select the types of notifications you get as well as how you'd like to get them (via Slack, email, and so on).
+1. 转到 [**通知**](https://sentry.io/settings/account/notifications/) 页面（在您的 **用户设置** 中）。
+2. 滚动到 **支出** 行并点击齿轮图标。
+3. 从 [**支出通知**](https://sentry.io/settings/account/notifications/quota/) 页面，您将能够选择您获得的通知类型以及您希望如何获得它们（通过 Slack、电子邮件等）。
 
-## Weekly Reports
+## 每周报告
 
-Sentry sends weekly reports every Saturday, by email. Reports contain a summary of your organization's Sentry activity over the last week.
+Sentry 每周六通过电子邮件发送每周报告。报告包含您组织过去一周 Sentry 活动的摘要。
 
-![Weekly Report email sample.](./img/us-ereport.png)
+![每周报告电子邮件示例。](./img/us-ereport.png)

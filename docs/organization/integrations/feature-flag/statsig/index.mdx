@@ -1,46 +1,46 @@
 ---
 title: Statsig
 sidebar_order: 3
-description: Learn about Sentry's Statsig integrations.
+description: 了解 Sentry 的 Statsig 集成。
 ---
 
-## Evaluation Tracking
+## 评估跟踪
 
-Sentry can track flag evaluations as they happen within your application.  Flag evaluations will appear in the "Feature Flag" section of the Issue Details page as a table, with "suspect" flag predictions highlighted in yellow. Learn more about how to interact with feature flag insights within the Sentry UI by reading the [Issue Details page documentation](/product/issues/issue-details/#feature-flags).
+Sentry 可以跟踪应用程序中发生的标志评估。标志评估将显示在问题详情页面的"功能标志"部分中，以表格形式呈现，其中"可疑"标志预测会以黄色突出显示。通过阅读[问题详情页面文档](/product/issues/issue-details/#feature-flags)了解如何在 Sentry UI 中与功能标志洞察进行交互。
 
-### Set Up Evaluation Tracking
+### 设置评估跟踪
 
-To set up evaluation tracking, visit one of our supported languages pages:
+要设置评估跟踪，请访问我们支持的某个语言页面：
 * [JavaScript](/platforms/javascript/configuration/integrations/statsig/)
 * [Python](/platforms/python/integrations/statsig/)
 
-## Change Tracking
+## 变更跟踪
 
-Sentry can track changes to feature flag definitions and report suspicious feature flag edits.
+Sentry 可以跟踪功能标志定义的更改并报告可疑的功能标志编辑。
 
-### Set Up Change Tracking
+### 设置变更跟踪
 
-Enabling Change Tracking is a three-step process. To get started, visit the [feature flags settings page](https://sentry.io/orgredirect/organizations/:orgslug/settings/feature-flags/change-tracking/) in a new tab. Then follow the steps listed below.
+启用变更跟踪是一个五步过程。要开始，请在新标签页中访问[功能标志设置页面](https://sentry.io/orgredirect/organizations/:orgslug/settings/feature-flags/change-tracking/)。然后按照下面列出的步骤操作。
 
-1. **Click the "Add New Provider" button.**
-    - One webhook secret can be registered per provider type.
-    - Select Statsig in the dropdown that says "Select a provider".
-2. **Register the webhook URL**.
-    ![Statsig Webhook Modal](./img/statsig-webhook-modal.png)
-    - Go to your Statsig console and navigate to the `/integrations/` page, which can be found by clicking settings on the left-hand sidebar navigation, then "Integrations" under the "Product Configuration" heading.
-    - Select the Webhook option, which will open a modal.
-    - Copy the webhook URL provided in Sentry settings and paste it into the modal's "Webhook URL" input box.
-3. **Set the Signing Secret**.
-    - Copy the Webhook Signing Secret from below the URL, and paste it into the input box next to "Secret" in Sentry settings.
-    - Keep this string safe and note it down somewhere in case you need it in the future. Statsig will still show you the secret when reopening the webhook modal. Keep in mind that if you click "Generate New Key", you will need to add the secret to Sentry settings again.
-4. **Optional: Event Filters**.
-   - We currently only support change tracking events from this webhook. To avoid sending unnecessary events, click "Event Filtering" on the top right of the Statsig modal and check off "Configuration Changes". Click save to confirm.
-   - If you would like to only track changes from your Statsig development, staging, and/or production environments, check off the corresponding environment(s) under "Configuration Changes" > "Environments" in Event Filtering. Click save to confirm.
-   - Similar to Environments, you may also filter by Configuration Changes by "Tags", "Target Apps", or "Teams".
-   ![Statsig Event Filters](./img/statsig-event-filters.png)
+1. **点击"添加新提供商"按钮。**
+    - 每种提供商类型可以注册一个 webhook 密钥。
+    - 在下拉菜单中选择 Statsig，该下拉菜单显示"选择提供商"。
+2. **注册 webhook URL。**
+    ![Statsig Webhook 模态框](./img/statsig-webhook-modal.png)
+    - 转到您的 Statsig 控制台并导航到 `/integrations/` 页面，可以通过点击左侧边栏导航中的设置，然后在"产品配置"标题下点击"集成"找到该页面。
+    - 选择 Webhook 选项，这将打开一个模态框。
+    - 复制 Sentry 设置中提供的 webhook URL 并将其粘贴到模态框的"Webhook URL"输入框中。
+3. **设置签名密钥。**
+    - 复制 URL 下方的 Webhook 签名密钥，并将其粘贴到 Sentry 设置中"密钥"旁边的输入框中。
+    - 请妥善保管此字符串，并将其记在某处以备将来需要时使用。当您重新打开 webhook 模态框时，Statsig 仍会向您显示密钥。请记住，如果您点击"生成新密钥"，您将需要再次将密钥添加到 Sentry 设置中。
+4. **可选：事件过滤器。**
+   - 我们目前仅支持来自此 webhook 的变更跟踪事件。为避免发送不必要的事件，请点击 Statsig 模态框右上角的"事件过滤"，然后勾选"配置更改"。点击保存以确认。
+   - 如果您只想跟踪来自 Statsig 开发、暂存和/或生产环境的更改，请在事件过滤中的"配置更改" > "环境"下勾选相应的环境。点击保存以确认。
+   - 与环境类似，您还可以按"标签"、"目标应用"或"团队"过滤配置更改。
+   ![Statsig 事件过滤器](./img/statsig-event-filters.png)
 
-5. **Save your webhook**.
-    - Save the secret by clicking "Add Provider" in Sentry settings.
-    - Save the webhook by clicking "Confirm" in Statsig.
+5. **保存您的 webhook。**
+    - 通过点击 Sentry 设置中的"添加提供商"来保存密钥。
+    - 通过点击 Statsig 中的"确认"来保存 webhook。
 
-Once saved, Sentry will now accept and authenticate all inbound hooks to your organization's feature flag webhook endpoint.
+保存后，Sentry 现在将接受并验证发送到您组织的功能标志 webhook 端点的所有入站 hook。

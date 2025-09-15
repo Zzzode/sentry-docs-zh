@@ -1,126 +1,126 @@
 ---
-title: "Ownership Rules"
+title: "所有权规则"
 sidebar_order: 40
-description: "Learn how to set up ownership rules to automatically assign issues to the right owners."
+description: "了解如何设置所有权规则以自动将问题分配给正确的所有者。"
 ---
 
 <Include name="only-error-issues-note.mdx" />
 
-Sentry offers multiple ways to define the "ownership" of an issue. With ownership defined, we can automatically assign issues and send alerts to the owner. Sentry defines ownership with _code owners_ and _ownership rules_. Code owners functionality lets you import your [GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) or [GitLab](https://docs.gitlab.com/ee/user/project/code_owners.html) CODEOWNERS file, and then we assign issues according to those file paths. Ownership rules allow you to override the assignments based on code owners and provide advanced matcher types (for example, urls and tags). These rules can also match on the file paths of files in the stack trace, URL of the request, or event tags.
+Sentry提供了多种方式来定义问题的"所有权"。通过定义所有权，我们可以自动分配问题并向所有者发送警报。Sentry使用_代码所有者_和_所有权规则_来定义所有权。代码所有者功能让您导入您的[GitHub](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)或[GitLab](https://docs.gitlab.com/ee/user/project/code_owners.html) CODEOWNERS文件，然后我们根据这些文件路径分配问题。所有权规则允许您基于代码所有者覆盖分配，并提供高级匹配器类型（例如，url和标签）。这些规则还可以匹配堆栈跟踪中文件的路径、请求的URL或事件标签。
 
-Once an issue has been assigned, whether manually by a user or automatically by Sentry, future auto-assignment will be turned off for that issue.
+如果用户在Sentry自动分配问题后手动分配问题，则该问题的未来自动分配将被关闭。
 
-## Methods
+## 方法
 
-Ownership rules and code owners are matched against individual events in an issue. This matching is relied upon in other areas of [sentry.io](https://sentry.io), as described in the following sections.
+所有权规则和代码所有者与问题中的单个事件匹配。此匹配依赖于[sentry.io](https://sentry.io)的其他区域，如以下部分所述。
 
-### Ownership Rules
+### 所有权规则
 
-You can set ownership by defining ownership rules per project. To configure ownership rules, navigate to **[Project] > Settings > Ownership Rules**, or click on the "Create Ownership Rule" button on an **Issue Details** page.
+您可以通过为每个项目定义所有权规则来设置所有权。要配置所有权规则，请导航到**[项目] > 设置 > 所有权规则**，或点击**问题详情**页面上的"创建所有权规则"按钮。
 
-Types of matches available:
+可用的匹配类型：
 
-1. Path: matches against all file paths in the event's stack trace
-2. Module: matches against the module in the event's stack trace
-3. URL: matches against the event's `url`
-4. Tag: matches against event tags
+1. 路径：匹配事件堆栈跟踪中的所有文件路径
+2. 模块：匹配事件堆栈跟踪中的模块
+3. URL：匹配事件的`url`
+4. 标签：匹配事件标签
 
-The general format of a rule is: `type:pattern owners`
+规则的一般格式为：`type:pattern owners`
 
- - **`type`** - Can be either `path`, `module`, `url`, or `tags.TAG_NAME`, which matches the specified tag.
- - **`pattern`** - The pattern you're matching on, which supports unix-style [glob syntax](<https://en.wikipedia.org/wiki/Glob_(programming)>). For example, add `*` to match anything and `?` to match a single character. _This is not a regex._ For example:
-   - `src/javascript/*.[tj]sx` for a `path` type
-   - `com.example.app` for a `module` type
-   - `https://www.example.io/v/[0-9]/checkout` for a `url` type
-   - `Chrome 81.0.?` for a `tags.browser` type
- - **`owners`** - The owner or a list of owners, separated by a space. Owners can be identified by either the Sentry user's email or the name of the team, prefixed with `#`. For example:
-   - `example@company.com`
-   - `example1@company.com example2@company.com`
-   - `#backend-team`
+- **`type`** - 可以是`path`、`module`、`url`或`tags.TAG_NAME`，匹配指定的标签。
+- **`pattern`** - 您要匹配的模式，支持unix风格的[glob语法](<https://en.wikipedia.org/wiki/Glob_(programming)>)。例如，添加`*`匹配任何内容，`?`匹配单个字符。_这不是正则表达式。_例如：
+  - `src/javascript/*.[tj]sx`用于`path`类型
+  - `com.example.app`用于`module`类型
+  - `https://www.example.io/v/[0-9]/checkout`用于`url`类型
+  - `Chrome 81.0.?`用于`tags.browser`类型
+- **`owners`** - 所有者或所有者列表，用空格分隔。所有者可以通过Sentry用户的电子邮件或团队名称（前缀为`#`）来识别。例如：
+  - `example@company.com`
+  - `example1@company.com example2@company.com`
+  - `#backend-team`
 
-Teams _must_ have access to the project to become owners. To grant a team access to a project, navigate to **[Project] > Settings > Project Teams**, and click "Add Team".
+团队_必须_具有对项目的访问权限才能成为所有者。要授予团队对项目的访问权限，请导航到**[项目] > 设置 > 项目团队**，然后点击"添加团队"。
 
-To grant a user access to a project, the user must be a member of a team with access to the project. To add a user to a team, navigate to **Settings > Teams**, select a team, and click "Add Member".
+要授予用户对项目的访问权限，用户必须是具有项目访问权限的团队的成员。要将用户添加到团队，请导航到**设置 > 团队**，选择一个团队，然后点击"添加成员"。
 
-You can add an ownership rule from **[Project] > Settings > Ownership Rules** and click "Edit Rules":
+您可以从**[项目] > 设置 > 所有权规则**添加所有权规则并点击"编辑规则"：
 
-![Configuration options for defining ownership rules in project settings.](./img/project_settings_edit_ownership_rules.png)
+![在项目设置中定义所有权规则的配置选项。](./img/project_settings_edit_ownership_rules.png)
 
-You can also add an ownership rule from the **Issue Details** page by clicking the cog icon in the "Assigned To" section of the sidebar:
+您还可以通过点击侧边栏"分配给"部分中的齿轮图标从**问题详情**页面添加所有权规则：
 
-![Assigned to with cog](./img/assigned_to_cog.png)
+![分配给带有齿轮](./img/assigned_to_cog.png)
 
-![Configuration options for defining ownership rules from an issue page.](./img/issue_details_edit_ownership_rules.png)
+![从问题页面定义所有权规则的配置选项。](./img/issue_details_edit_ownership_rules.png)
 
-When you create a rule from the **Issue Details** page, you'll see some suggested paths and URLs based on the events in the issue. Note that [sentry.io](https://sentry.io) doesn't suggest tags.
+当您从**问题详情**页面创建规则时，您将看到基于问题中事件的一些建议路径和URL。请注意[sentry.io](https://sentry.io)不会建议标签。
 
-### Code Owners
+### 代码所有者
 
 <Include name="feature-available-for-plan-business.mdx" />
 
-![Code Owners in UI](./img/codeowners.png)
+![UI中的代码所有者](./img/codeowners.png)
 
-Import your CODEOWNERS file and use it alongside your ownership rules to assign Sentry issues. A prerequisite for this feature is the **Code Mappings** from [stack trace linking](/organization/integrations/source-code-mgmt/github/#stack-trace-linking).
+导入您的CODEOWNERS文件并将其与您的所有权规则一起使用来分配Sentry问题。此功能的前提条件是[堆栈跟踪链接](/organization/integrations/source-code-mgmt/github/#stack-trace-linking)中的**代码映射**。
 
-To quickly setup a code mapping for a project:
+要快速为项目设置代码映射：
 
-1.  Go to an issue in your project. You should see the following option to link to your source code in the stack trace:
-    ![Link Stack Trace](./img/link_stack_trace.png)
-2.  When you click the link, a modal will open. Enter the source code URL from GitHub/GitLab corresponding to stack trace filename and we'll automatically create the code mapping and set up stack trace linking for the project.
+1. 转到您项目中的问题。您应该看到以下选项来链接到您的源代码中的堆栈跟踪：
+    ![链接堆栈跟踪](./img/link_stack_trace.png)
+2. 当您点击链接时，将打开一个模态框。输入与堆栈跟踪文件名对应的GitHub/GitLab源代码URL，我们将自动为项目创建代码映射并设置堆栈跟踪链接。
 
-Now that we have code mappings, we are able to transform the paths in your CODEOWNERS file to your expected build output. For example, you may build your program in a `dist/` folder, but that will not be in your CODEOWNERS. However the `dist/` prefix is captured in the stack trace's file paths. Code mappings allow Sentry to figure out how to normalize the file paths between your build output and the CODEOWNERS paths.
+现在我们有了代码映射，我们能够转换CODEOWNERS文件中的路径到您预期的构建输出。例如，您可能在`dist/`文件夹中构建您的程序，但这不会在您的CODEOWNERS中。然而`dist/`前缀在堆栈跟踪的文件路径中被捕获。代码映射允许Sentry找出如何在您的构建输出和CODEOWNERS路径之间规范化文件路径。
 
-You can import and incrementally add the mappings between your "source control teams/users" and "Sentry Teams/users", using [external team/user mappings](/product/issues/ownership-rules/#external-teamuser-mappings). Sentry uses the "external team/user mappings" to convert the owners in your CODEOWNERS file into their equivalents in Sentry. Sentry will automatically ignore rules that are missing team/user mappings.
+您可以使用[外部团队/用户映射](/product/issues/ownership-rules/#external-teamuser-mappings)导入并增量添加"源代码控制团队/用户"和"Sentry团队/用户"之间的映射。Sentry使用"外部团队/用户映射"将CODEOWNERS文件中的所有者转换为他们在Sentry中的等效项。Sentry将自动忽略缺少团队/用户映射的规则。
 
-This feature supports GitHub and GitLab CODEOWNERS file syntax with the following exceptions:
+此功能支持GitHub和GitLab CODEOWNERS文件语法，但有以下例外：
 
-- Escaping a pattern starting with `#` using `\` so it is treated as a pattern and not a comment
-- Using `!` to negate a pattern
-- Using `[ ]` to define a character range
-- [GitLab CODEOWNERS syntax](https://docs.gitlab.com/user/project/codeowners/reference/)
-- [GitHub CODEOWNERS syntax exceptions](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-code-owners#syntax-exceptions)
+- 使用`\`转义以`#`开头的模式，使其被视为模式而不是注释
+- 使用`!`来否定模式
+- 使用`[ ]`来定义字符范围
+- [GitLab CODEOWNERS语法](https://docs.gitlab.com/user/project/codeowners/reference/)
+- [GitHub CODEOWNERS语法例外](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-code-owners#syntax-exceptions)
 
 <Alert>
 
-Ownership rules take precedence over the information provided by your CODEOWNERS file when Sentry assigns issues.
+当Sentry分配问题时，所有权规则优先于CODEOWNERS文件提供的信息。
 
 </Alert>
 
-#### Limitations
+#### 限制
 
-We support CODEOWNERS files with a maximum size of 3MB. If your file exceeds this, we suggest using wildcard rules to consolidate multiple entries into one.
+我们支持最大大小为3MB的CODEOWNERS文件。如果您的文件超过此限制，我们建议使用通配符规则将多个条目合并为一个。
 
-#### External Team/User Mappings
+#### 外部团队/用户映射
 
-![External team mappings for GitHub/Gitlab](./img/external_team_mappings.png)
+![GitHub/Gitlab的外部团队映射](./img/external_team_mappings.png)
 
-![External user mappings for GitHub/Gitlab](./img/external_user_mappings.png)
+![GitHub/Gitlab的外部用户映射](./img/external_user_mappings.png)
 
-Create external team/user mappings for your GitHub/GitLab teams and users by navigating to **Settings > Integrations > GitHub/GitLab > [Configuration] > Team Mappings/User Mappings**. Suggestions will come from any CODEOWNERS files on projects for the organization.
+通过导航到**设置 > 集成 > GitHub/GitLab > [配置] > 团队映射/用户映射**为您的GitHub/GitLab团队和用户创建外部团队/用户映射。建议将来自组织的任何CODEOWNERS文件的项目。
 
-## Evaluation Flow
+## 评估流程
 
-If you have both ownership rules and code owners, Sentry evaluates an event’s in-app frames against the rules in the following order:
+如果您同时具有所有权规则和代码所有者，Sentry按以下顺序评估事件的in-app帧与规则：
 
-1. Code owners, top-to-bottom
+1. 代码所有者，从上到下
 
-   a. If there are multiple owners in the rule, left-to-right
+   a. 如果规则中有多个所有者，从左到右
 
-2. Ownership rules, top-to-bottom
+2. 所有权规则，从上到下
 
-   a. If there are multiple owners in the rule, left-to-right
+   a. 如果规则中有多个所有者，从左到右
 
-After evaluation, the last rule matching returns the assignment. The order of the event’s stack trace filepaths is irrelevant in determining the rule assignment.
+评估后，最后一个匹配规则返回分配。事件堆栈跟踪文件路径的顺序在确定规则分配时无关紧要。
 
-### Example
+### 示例
 
-**Code Owners:**
+**代码所有者：**
 
 ```
 codeowners:*.js                    #ecosystem
 ```
 
-**Ownership Rules:**
+**所有权规则：**
 
 ```
 path:*.js                          #ecosystem #frontend
@@ -129,15 +129,15 @@ url:*subscription*                 #billing
 path:dist/frontend/components/*    #frontend
 ```
 
-When Sentry receives an event with a stack trace filepath: `dist/frontend/components/sidebar.js`, we:
+当Sentry接收到具有堆栈跟踪文件路径的事件：`dist/frontend/components/sidebar.js`时，我们：
 
-1. Evaluate against the code owners top-to-bottom; we get one match with two owners in the rule.
+1. 从上到下评估代码所有者；我们得到一个匹配，规则中有两个所有者。
 
-   a. Evaluate the rule left-to-right; we choose the first owner.
+   a. 从左到右评估规则；我们选择第一个所有者。
 
-2. Evaluate against the ownership rules top-to-bottom; we get two matches.
+2. 从上到下评估所有权规则；我们得到两个匹配。
 
-The matches, in order, are:
+按顺序的匹配是：
 
 ```
 [
@@ -147,30 +147,28 @@ The matches, in order, are:
 ]
 ```
 
-Sentry will return the last matching rule, which in this case is `path:dist/frontend/components/* #frontend`
+Sentry将返回最后一个匹配规则，在这种情况下是`path:dist/frontend/components/* #frontend`
 
-## Where It's Applied
+## 应用位置
 
-Once ownership rules are configured, they're applied in the following ways:
+配置所有权规则后，它们以以下方式应用：
 
-### Suggested Assignees
+### 建议的受让人
 
-On the **Issue Details** page, you'll see suggested assignees based on ownership rules matching the event, and [suspect commits](/product/releases/suspect-commits/). You can manually assign the issue to a suggested assignee by selecting one from the dropdown. An event can have multiple suggested assignees if it matches multiple ownership rules.
+在**问题详情**页面上，您将看到基于与事件匹配的所有权规则的建议受让人，以及[可疑提交](/product/releases/suspect-commits/)。您可以通过从下拉菜单中选择一个来手动将问题分配给建议的受让人。如果事件匹配多个所有权规则，它可以有多个建议的受让人。
 
-![Avatar icons of suggested assignees and ability to click on them for assignment.](./img/suggested_assignees.png)
+![建议受让人的头像图标和点击它们进行分配的能力。](./img/suggested_assignees.png)
 
-### Auto-Assignment
+### 自动分配
 
-You can automatically assign issues to their owners by enabling the "Auto-assign to issue owner" setting in **[Project] > Settings > Ownership Rules**.
+您可以通过在**[项目] > 设置 > 所有权规则**中启用"自动分配给问题所有者"设置来自动将问题分配给其所有者。
 
-![Select from dropdown to automatically assign issues to their owners.](./img/auto-assign-issue-owner.png)
+![从下拉菜单中选择以自动将问题分配给其所有者。](./img/auto-assign-issue-owner.png)
 
-If an issue has been assigned in the past, manually or automatically, new events will not change the current assignee. If an issue has not been assigned and a new event has multiple owners, Sentry assigns it to the owner(s) from the last matching rule (regardless of the rule `type`).
+如果问题过去已被手动分配，新事件将不会更改当前受让人。如果问题尚未被分配且新事件有多个所有者，Sentry将其分配给最后一个匹配规则的所有者（无论规则`type`如何）。
 
-Please keep in mind that auto-assignment may be skipped if a project is creating too many new issues at a given time due to rate limits. We'll try to auto-assign it the next time an event comes in for those skipped issues. If you are encountering this limit with non-recurring issues, you may want to take a look at [issue grouping](/concepts/data-management/event-grouping/) strategies.
+请记住，由于速率限制，如果项目在给定时间创建太多新问题，可能会跳过自动分配。我们将尝试在下次为这些跳过的问题传入事件时自动分配它们。如果您遇到此限制且问题不重复，您可能需要查看[问题分组](/concepts/data-management/event-grouping/)策略。
 
+## 故障排除
 
-
-## Troubleshooting
-
-Ensure that all teams and users have the correct access to the project. If they don't, Ownership Rules will fail to save. To grant a team access to a project, navigate to **[Project] > Settings > Project Teams**, and click "Add Team". Users need to have at least member-level access to the team that's associated with the project. To grant a user access to the team that's associated with the project, navigate to **Settings > Teams**, select a team, and then click "Add Member".
+确保所有团队和用户都具有对项目的正确访问权限。如果没有，所有权规则将无法保存。要授予团队对项目的访问权限，请导航到**[项目] > 设置 > 项目团队**，然后点击"添加团队"。用户需要具有与项目关联的团队的至少成员级别访问权限。要授予用户对与项目关联的团队的访问权限，请导航到**设置 > 团队**，选择一个团队，然后点击"添加成员"。

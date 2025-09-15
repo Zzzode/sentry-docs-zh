@@ -1,27 +1,27 @@
 ---
-title: Troubleshooting
+title: 故障排除
 sidebar_order: 53
-description: "Learn how to troubleshoot potential Uptime Monitoring problems."
+description: "了解如何排除潜在的正常运行时间监控问题。"
 ---
 
-## Verify Firewall Configuration
+## 验证防火墙配置
 
-Some hosting platforms can block incoming requests from Sentry's Uptime Bot, falsely triggering uptime alerts. We recommend verifying your firewall configuration to ensure incoming requests from Sentry are allowed.
+某些托管平台可能会阻止来自 Sentry 正常运行时间机器人的传入请求，错误地触发正常运行时间警报。我们建议验证您的防火墙配置，确保允许来自 Sentry 的传入请求。
 
-If you need to configure your firewall allowlist to include Sentry's Uptime Bot, we recommend checking against our `User-Agent`, given that our IP addresses can change without notice.
+如果您需要配置防火墙允许列表以包括 Sentry 的正常运行时间机器人，我们建议根据我们的 `User-Agent` 进行检查，因为我们的 IP 地址可能会在不通知的情况下更改。
 
-### User Agent
+### 用户代理
 
-Our uptime check requests use the following `User-Agent`:
+我们的正常运行时间检查请求使用以下 `User-Agent`：
 
 ```
 SentryUptimeBot/1.0 (+http://docs.sentry.io/product/uptime-monitoring/)
 ```
 
-### IP Addresses
+### IP 地址
 
-See [IP Ranges](/security-legal-pii/security/ip-ranges/#uptime-monitoring) for a complete list of IP addresses used for uptime checks.
+有关正常运行时间检查使用的 IP 地址的完整列表，请参阅 [IP 范围](/security-legal-pii/security/ip-ranges/#uptime-monitoring)。
 
-## Verify That Issue Alerts Match Downtime Issues
+## 验证问题警报是否匹配停机问题
 
-Uptime alerts create downtime issues. If you're not receiving notifications when downtimes are detected, make sure you've properly [configured an issue alert](/product/alerts/create-alerts/issue-alert-config/) with the issue category "uptime".
+正常运行时间警报会创建停机问题。如果您在检测到停机时未收到通知，请确保您已正确[配置了问题警报](/product/alerts/create-alerts/issue-alert-config/)，问题类别为"正常运行时间"。

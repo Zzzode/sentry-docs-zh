@@ -1,45 +1,45 @@
 ---
-title: Internal Integrations
+title: 内部集成
 sidebar_order: 2
-description: "Learn more about internal integrations, which are custom-made for your organization."
+description: "了解有关内部集成的更多信息，这些集成是为您的组织定制的。"
 ---
 
 <Alert>
 
-We've built an [example application](https://github.com/getsentry/integration-platform-example) to help you get started with building on Sentry's integration platform. Check it out for useful code snippets for adding these features in Python and TypeScript. See the [docs](/organization/integrations/integration-platform/#example-app) for more information.
+我们构建了一个[示例应用](https://github.com/getsentry/integration-platform-example)来帮助您开始在 Sentry 的集成平台上构建。查看它以获取在 Python 和 TypeScript 中添加这些功能的有用代码片段。有关更多信息，请参见[文档](/organization/integrations/integration-platform/#example-app)。
 
 </Alert>
 
-Internal integrations are meant for custom integrations unique to your organization. They can also be as simple as an organization-wide token. Whether you are using just the API or all the integration platform features combined, internal integrations are for use within a single Sentry organization.
+内部集成适用于您组织的独特自定义集成。它们也可以简单到组织范围的令牌。无论您是仅使用 API 还是结合使用所有集成平台功能，内部集成都用于单个 Sentry 组织内。
 
-Internal integrations don't require an OAuth flow. You receive an org-wide auth token immediately after creation:
+内部集成不需要 OAuth 流程。创建后立即收到组织范围的认证令牌：
 
-![Diagram showing process difference between public and internal integrations.](./img/authentication-flow.png)
+![显示公共和内部集成之间流程差异的图表。](./img/authentication-flow.png)
 
-For an example of how to build an internal integration, see [our Round Robin Issue Assignment integration](https://blog.sentry.io/2019/11/21/customize-your-sentry-workflow-a-sample-internal-integration) (or jump straight to [the code on GitHub](https://github.com/getsentry/sentry-round-robin)).
+有关如何构建内部集成的示例，请参见[我们的轮询问题分配集成](https://blog.sentry.io/2019/11/21/customize-your-sentry-workflow-a-sample-internal-integration)（或直接跳到[GitHub 上的代码](https://github.com/getsentry/sentry-round-robin)）。
 
-## Installation
+## 安装
 
-Creating an internal integration will automatically install it on your organization.
+创建内部集成将自动在您的组织上安装它。
 
-## Auth Tokens
+## 认证令牌
 
-Internal integrations automatically generate an [authentication token](/organization/integrations/integration-platform/#auth-tokens) when configured. If you need multiple tokens, or need to get a new one, you can go to **Settings > Developer Settings > [Your Internal Integration]** and do so.
-You can have up to 20 tokens at a time for each internal integration.
-These tokens do not expire automatically, but you can manually revoke them as needed.
+内部集成在配置时自动生成[认证令牌](/organization/integrations/integration-platform/#auth-tokens)。如果您需要多个令牌，或需要获取新令牌，您可以转到 **设置 > 开发者设置 > [您的内部集成]** 并执行此操作。
+每个内部集成最多可以有 20 个令牌。
+这些令牌不会自动过期，但您可以根据需要手动撤销它们。
 
-![Image showing the ability to copy tokens, create new tokens, revoke tokens, and when they were created in UTC.](./img/tokens.png)
+![显示复制令牌、创建新令牌、撤销令牌以及它们在 UTC 中创建时间能力的图像。](./img/tokens.png)
 
-## Image Requirements
+## 图像要求
 
-Internal integrations don't require logos or icons to be uploaded, but you can upload them if you want to. The requirements for those are:
+内部集成不需要上传徽标或图标，但如果您愿意，可以上传它们。要求如下：
 
-- Logo size must be between 256 &times; 256px and 1024 &times; 1024px
-- File format must be PNG
-- Background must be transparent (unless the logo takes up the entire space)
+- 徽标大小必须在 256 × 256px 和 1024 × 1024px 之间
+- 文件格式必须为 PNG
+- 背景必须透明（除非徽标占据整个空间）
 
-If the integration has a [UI component](/organization/integrations/integration-platform/ui-components), you can also upload an icon that follows these requirements:
+如果集成具有 [UI 组件](/organization/integrations/integration-platform/ui-components)，您还可以上传遵循这些要求的图标：
 
-- Icon size must be between 256 &times; 256px and 1024 &times; 1024px
-- File must be a PNG in RGBA format
-- All pixels must be black or transparent
+- 图标大小必须在 256 × 256px 和 1024 × 1024px 之间
+- 文件必须是 RGBA 格式的 PNG
+- 所有像素必须是黑色或透明

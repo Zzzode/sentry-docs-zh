@@ -1,26 +1,28 @@
 ---
-title: "Caches"
+title: "缓存（Caches）"
 sidebar_order: 70
-description: "Learn more about cache monitoring with Sentry and how it can help improve your application's performance."
+description: "了解有关使用Sentry进行缓存监控的更多信息，以及它如何帮助提高应用程序性能。"
 ---
 
-A cache can be used to speed up data retrieval, thereby improving application performance. A cache stores data temporarily to speed up subsequent access to that data. This allows your application to get data from cached memory (if it is available) instead having to download that data again or retrieving it from a potentially slow data layer. Caching can speed up read-heavy workloads for applications like Q&A portals, gaming, media sharing, and social networking.
+<Include name="feature-limited-on-team-retention.mdx" />
 
-A successful cache results in a high hit rate which means the data was present when fetched. A cache miss occurs when the data fetched was not present in the cache. If you have performance monitoring enabled and your application uses caching, you can see how your caches are performing with Sentry.
+缓存可用于加速数据检索，从而提高应用程序性能。缓存临时存储数据以加快后续对该数据的访问。这允许您的应用程序从缓存内存中获取数据（如果可用），而不是必须再次下载该数据或从可能缓慢的数据层检索它。缓存可以加速像问答门户、游戏、媒体共享和社交网络等应用程序的读取密集型工作负载。
 
-Sentry's cache monitoring provides insights into cache utilization and latency so that you can improve the performance of the endpoints that interact with caches.
+成功的缓存会导致高命中率，这意味着获取时数据存在。当获取的数据在缓存中不存在时，会发生缓存未命中。如果您启用了性能监控并且您的应用程序使用缓存，您可以使用Sentry查看缓存的性能表现。
 
-Starting with the [Cache page](https://sentry.io/orgredirect/organizations/:orgslug/insights/caches/), you get an overview of the transactions within your application that are making at least one lookup against a cache. From there, you can dig into specific cache span operations by clicking a transaction and viewing its sample list.
+Sentry的缓存监控提供有关缓存利用率和延迟的洞察，以便您可以改进与缓存交互的端点的性能。
+
+从[缓存页面](https://sentry.io/orgredirect/organizations/:orgslug/insights/caches/)开始，您可以获得应用程序中对缓存进行至少一次查找的事务的概览。从那里，您可以通过点击事务并查看其样本列表来深入了解特定的缓存span操作。
 
 <Arcade src="https://demo.arcade.software/ZXXfmVEBIjlwk83pUSfs?embed&show_copy_link=true" />
 
-## Instrumentation
+## 检测
 
-Cache monitoring currently supports [auto instrumentation](/platform-redirect/?next=%2Ftracing%2Finstrumentation%2Fautomatic-instrumentation) for [Django's cache framework](https://docs.djangoproject.com/en/5.0/topics/cache/) when the [cache_spans option](/platforms/python/integrations/django/#options) is set to `True`. Other frameworks require custom instrumentation.
+缓存监控目前支持当[cache_spans选项](/platforms/python/integrations/django/#options)设置为`True`时，[Django缓存框架](https://docs.djangoproject.com/en/5.0/topics/cache/)的[自动检测](/platform-redirect/?next=%2Ftracing%2Finstrumentation%2Fautomatic-instrumentation)。其他框架需要自定义检测。
 
-### Custom instrumentation
+### 自定义检测
 
-If available, custom instrumentation is documented on an environment-by-environment basis as listed below:
+如果可用，自定义检测按环境逐一记录，如下所列：
 
 - [Python SDK](/platforms/python/tracing/instrumentation/custom-instrumentation/caches-module/)
 - [JavaScript SDKs](/platforms/javascript/guides/node/tracing/instrumentation/custom-instrumentation/caches-module/)
@@ -29,4 +31,4 @@ If available, custom instrumentation is documented on an environment-by-environm
 - [Ruby SDK](/platforms/ruby/tracing/instrumentation/custom-instrumentation/caches-module/)
 - [.NET SDK](/platforms/dotnet/tracing/instrumentation/custom-instrumentation/caches-module/)
 
-To see what cache data can be set on spans, see the [Cache Module Developer Specification](https://develop.sentry.dev/sdk/performance/modules/caches/).
+要查看可以在span上设置的缓存数据，请参阅[缓存模块开发规范](https://develop.sentry.dev/sdk/performance/modules/caches/)。

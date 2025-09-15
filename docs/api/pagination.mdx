@@ -1,9 +1,9 @@
 ---
-title: Paginating Results
+title: 分页结果
 sidebar_order: 1
 ---
 
-Pagination in the API is handled via the Link header standard:
+API 中的分页通过 Link 头标准处理：
 
 ```bash
 curl -i https://sentry.io/api/0/organizations/acme/projects/1/groups/
@@ -21,30 +21,30 @@ Link: <https://sentry.io/api/0/organizations/acme/projects/1/groups/?&cursor=142
   rel="next"; results="true"
 ```
 
-When supported, cursors will **always** be returned for both a previous and a next page, even if there are no results on these pages. This allows you to make a query against the API for yet-undiscovered results. An example where this would be used is when you're implementing polling behavior and you want to see if there is any new data. We return a `results="[true|false]"` indicator to determine if you actually need to paginate.
+如果支持，游标将**始终**为上一页和下一页返回，即使这些页面上没有结果。这允许您对 API 进行查询以发现尚未发现的结果。一个示例用例是当您实现轮询行为并想要查看是否有任何新数据时。我们返回一个 `results="[true|false]"` 指示器来确定您是否实际需要分页。
 
-## Pagination Example
+## 分页示例
 
-Here is a pagination example using this API endpoint:
+以下是使用此 API 端点的分页示例：
 
 https://docs.sentry.io/api/events/list-an-issues-events/
 
-The HTTP request in this example returns 100 events for the issue and has the following link header in the response:
+此示例中的 HTTP 请求返回问题的 100 个事件，并在响应中具有以下链接头：
 
 ```bash {tabTitle:Http}
 <https://sentry.io/api/0/organizations/acme/issues/123456/events/?&cursor=0:0:1>; rel="previous"; results="false"; cursor="0:0:1", <https://sentry.io/api/0/organizations/acme/issues/123456/events/?&cursor=0:100:0>; rel="next"; results="true"; cursor="0:100:0"
 ```
 
-One of the URLs in the link response has `rel=next`, which indicates the next results page. It also has `results=true`, which means that there are more results.
+链接响应中的一个 URL 具有 `rel=next`，这表示下一个结果页面。它还具有 `results=true`，这意味着有更多结果。
 
-Based on this, the next request is `GET <https://sentry.io/api/0/organizations/acme/issues/123456/events/?&cursor=0:100:0>`.
+基于此，下一个请求是 `GET <https://sentry.io/api/0/organizations/acme/issues/123456/events/?&cursor=0:100:0>`。
 
-This request will return the next 100 events for that issue, again, with the following link header:
+此请求将返回该问题的接下来的 100 个事件，同样，具有以下链接头：
 
 ```bash {tabTitle:Http}
 <https://sentry.io/api/0/organizations/acme/issues/123456/events/?&cursor=0:0:1>; rel="previous"; results="true"; cursor="0:0:1", <https://sentry.io/api/0/organizations/acme/issues/123456/events/?&cursor=0:200:0>; rel="next"; results="true"; cursor="0:200:0"
 ```
 
-The process is repeated until the URL with `rel=next` has the flag `results=false` to indicate the last page.
+重复此过程，直到具有 `rel=next` 的 URL 具有标志 `results=false` 以指示最后一页。
 
-The three values from cursor are: cursor identifier (integer, usually 0), row offset, and is_prev (1 or 0).
+游标的三个值是：游标标识符（整数，通常为 0）、行偏移量和 is_prev（1 或 0）。

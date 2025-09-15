@@ -1,46 +1,46 @@
 ---
 title: Relay
-description: "Learn more about Relay, Sentry's data security solution."
+description: "了解更多关于Relay的信息，Sentry的数据安全解决方案。"
 sidebar_order: 3000
 ---
 
-Sentry Relay offers enterprise-grade data security by providing a standalone service that acts as a middle layer between your application and sentry.io.
+Sentry Relay通过提供独立服务来提供企业级数据安全性，该服务充当您的应用程序和sentry.io之间的中间层。
 
-Relay is specifically designed to:
+Relay专门设计用于：
 
-- Scrub personally identifiable information (PII) in a central place prior to sending it to Sentry
-- Improve event response time in regions with low bandwidth or limited connectivity
-- Act as an opaque proxy for organizations that restrict all HTTP communication to a custom domain name
+- 在将个人身份信息（PII）发送到Sentry之前在中心位置进行清理
+- 在带宽低或连接有限的地区改善事件响应时间
+- 作为限制所有HTTP通信到自定义域名的组织的透明代理
 
-## Use Cases for Relay
+## Relay的用例
 
-Relay is designed to support organizations that have specific enterprise security requirements for data scrubbing of personally identifiable information (PII), response time, and enterprise domain management.
+Relay旨在支持对数据清理个人身份信息（PII）、响应时间和企业域名管理具有特定企业安全要求的组织。
 
-### PII Data Scrubbing
+### PII数据清理
 
-Sentry already scrubs PII in two places:
+Sentry已经在两个地方清理PII：
 
-1. In the SDK before sending the event
-2. Upon arrival on Sentry's infrastructure
+1. 在发送事件之前在SDK中
+2. 在到达Sentry基础设施时
 
-Relay adds a third option that scrubs data in a central place prior to sending it to Sentry.
+Relay添加了第三个选项，即在将数据发送到Sentry之前在中心位置清理数据。
 
-To choose the right place for data scrubbing, consider:
+要选择正确的数据清理位置，请考虑：
 
-- If you prefer to configure data scrubbing in a central place, you can let Sentry handle it. When an event arrives, Sentry will immediately apply [server-side scrubbing](/security-legal-pii/scrubbing/server-side-scrubbing/).
+- 如果您更喜欢在中心位置配置数据清理，您可以让Sentry处理它。当事件到达时，Sentry将立即应用[服务器端清理](/security-legal-pii/scrubbing/server-side-scrubbing/)。
 
-- If you can't send PII outside your infrastructure, but still prefer to configure data scrubbing in a centralized place, configure your SDK to send events to Relay, which uses the privacy settings configured in Sentry, and scrubs PII before forwarding any data.
+- 如果您无法将PII发送到基础设施之外，但仍希望在中心位置配置数据清理，请将您的SDK配置为将事件发送到Relay，它使用Sentry中配置的隐私设置，并在转发任何数据之前清理PII。
 
-- If you must enforce strict data privacy requirements, you can configure SDKs to scrub PII using the [`beforeSend` and `beforeSendTransaction` hooks](/platform-redirect/?next=/configuration/options/%23hooks), which will prevent data from being collected on the device. This may require you to replicate the same logic across your applications, and may impact performance.
+- 如果您必须执行严格的数据隐私要求，您可以使用[`beforeSend`和`beforeSendTransaction`钩子](/platform-redirect/?next=/configuration/options/%23hooks)配置SDK以清理PII，这将防止数据在设备上被收集。这可能要求您在应用程序中复制相同的逻辑，并可能影响性能。
 
-### Response Time
+### 响应时间
 
-Relay responds very quickly to requests. Installing Relay close to your infrastructure will further improve the response time when sending events. This installation approach can particularly reduce the roundtrip time in remote locations.
+Relay对请求的响应非常快。在您的基础设施附近安装Relay将进一步改善发送事件时的响应时间。这种安装方法特别可以减少远程位置的往返时间。
 
-### Enterprise Domain Management
+### 企业域名管理
 
-By default, SDKs need to be configured with a Data Source Name (DSN) that points to `sentry.io`. If you need to restrict all HTTP communication to a custom domain name, Relay can act as an opaque proxy that reliably forwards events to Sentry.
+默认情况下，SDK需要配置指向`sentry.io`的数据源名称（DSN）。如果您需要限制所有HTTP通信到自定义域名，Relay可以作为透明代理，可靠地将事件转发到Sentry。
 
-## Next Steps
+## 后续步骤
 
 <PageGrid />

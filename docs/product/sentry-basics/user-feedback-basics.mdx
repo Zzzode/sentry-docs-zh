@@ -1,29 +1,30 @@
 ---
-title: "User Feedback Basics"
+title: "用户反馈基础"
 sidebar_order: 2
-description: "Learn how to configure and deploy Sentry's User Feedback widget to capture qualitative insights from your users."
+description: "学习如何配置和部署 Sentry 的用户反馈小组件以捕获来自用户的定性洞察。"
 ---
 
-Sentry's [User Feedback Widget](/product/user-feedback/) is a powerful tool for capturing qualitative insights from real users, and is especially valuable during the rollout of new or beta features. Alternatively, it can be used to collect feedback from your fellow team members during an internal release. 
+Sentry 的[用户反馈小组件](/product/user-feedback/)是一个强大的工具，用于从真实用户那里捕获定性洞察，在推出新功能或测试版功能时尤其有价值。或者，它也可以用于在内部发布期间从您的团队成员那里收集反馈。
 
-Treat user feedback as a core signal in product development, especially for betas and early adopter programs. We recommend you integrate feedback review into planning, stand-ups, or retros; then you can use feedback trends to inform product direction and roadmap decisions.
+将用户反馈视为产品开发中的核心信号，特别是对于测试版和早期采用者计划。我们建议您将反馈审查集成到规划、站会或回顾中；然后您可以使用反馈趋势来指导产品方向和路线图决策。
 
-This 4-step guide will walk you through implementing and instrumenting User Feedback on your application.
+这个 4 步指南将引导您在应用程序上实施和检测用户反馈。
 
-## 1. Embed the Widget Contextually
-Bring the widget to the user; don't make them go find it.
+## 1. 在上下文中嵌入小组件
 
-Embed the feedback widget directly into experimental or high-impact feature areas. For example, on your checkout screen:
+将小组件带到用户面前；不要让他们去找它。
+
+将反馈小组件直接嵌入到实验性或高影响力的功能区域中。例如，在您的结账屏幕上：
 
 ![](feedback-img/img/feedback-on-checkout-page.png)
 
-One approach you can take is using thumbs up/down buttons placed contextually within the feature that will trigger the feedback form to open. You can track whether a user clicked on the 👍 or 👎 for each feedback with [custom tags](/platforms/javascript/enriching-events/tags/). The tag will appear on the User Feedback Details page, and optionally on the feedback alert itself after feedback is submitted.
+您可以采用的一种方法是在功能内放置情境化的点赞/点踩按钮，这些按钮将触发反馈表单打开。您可以使用[自定义标签](/platforms/javascript/enriching-events/tags/)跟踪用户是否为每个反馈点击了👍或👎。该标签将出现在用户反馈详情页面上，并可选择在提交反馈后出现在反馈警报本身上。
 
 ![](feedback-img/img/feedback-thumbs-up-down.png)
 
 
 <details>
-<summary>**See Example JavaScript Code Snippet**</summary>
+<summary>**查看示例 JavaScript 代码片段**</summary>
 
 ```javascript
 "use client";
@@ -36,12 +37,12 @@ export default function ThumbsUpDownButtons({source}: {source: string) {
   
   return (
     <Fragment>
-      <strong>Was this helpful?</strong>
+      <strong>这有帮助吗？</strong>
       <button
-        title="I like this"
+        title="我喜欢这个"
         onClick={async () =>{
           const form = await feedback?.createForm({
-            messagePlaceholder: 'What did you like most?',
+            messagePlaceholder: '您最喜欢什么？',
             tags: {
               component: 'ThumbsUpDownButtons',
               'feedback.source': source,
@@ -52,14 +53,14 @@ export default function ThumbsUpDownButtons({source}: {source: string) {
           form?.open();
         }}
       >
-        Yes 👍
+        是 👍
       </button>
 
       <button
-        title="I don't like this"
+        title="我不喜欢这个"
         onClick={async () =>{
           const form = await feedback?.createForm({
-            messagePlaceholder: 'How can we improve?',
+            messagePlaceholder: '我们如何改进？',
             tags: {
               component: 'ThumbsUpDownButtons',
               'feedback.source': source,
@@ -70,7 +71,7 @@ export default function ThumbsUpDownButtons({source}: {source: string) {
           form?.open();
         }}
       >
-        No 👎
+        否 👎
       </button>
     </Fragment>
   );
@@ -81,46 +82,48 @@ export default function ThumbsUpDownButtons({source}: {source: string) {
 
 
 
-## 2. Customize Placeholder Text
-Personalized prompts lead to better feedback. Tailor the placeholder text to the feature’s context.
+## 2. 自定义占位符文本
+
+个性化提示会导致更好的反馈。根据功能的上下文定制占位符文本。
 
 
-Here are examples of placeholder text to guide users:
+以下是指导用户的占位符文本示例：
 
-> How was your experience with [your feature's name]?
+> 您对[您的功能名称]的体验如何？
 
-> How can we make your experience better? 
+> 我们如何改善您的体验？
 
-> We're still building out [your feature's name] - how can we make it better?
-
-
-
-It's best to customize your prompts for clarity and relevance; this will guide the user to provide useful input. Use friendly language to encourage honest, casual feedback.
+> 我们仍在构建[您的功能名称] - 我们如何使其更好？
 
 
-## 3. Add Custom Tags to Feedback Submissions For Better Routing
 
-If you have multiple feedback buttons in your application that are embedded into different features, tags are critical in order to enable faster alert routing and triaging for the right teams.
-
-You can auto-apply tags based on the widget’s placement. For example, use a custom tag like `feedback.source:checkout`. This allows for routing in Slack and filtering in dashboards. We recommend you define and standardize tags using a single key, such as `feedback.source`.
+最好为清晰度和相关性定制您的提示；这将引导用户提供有用的输入。使用友好的语言鼓励诚实、随意的反馈。
 
 
-## 4. Set Up Alerts to Relevant Channels
-Feedback is only useful if seen by the right folks.
+## 3. 向反馈提交添加自定义标签以实现更好的路由
 
-You can send User Feedback directly into the appropriate team’s channel—whether you use Slack, Microsoft Teams, or Discord (see [complete list of integrations](/product/alerts/create-alerts/routing-alerts/#integrations)). For example, you can tag feedback `feedback.source:checkout` and always have it go to your `#proj-billing` channel in Slack. With this workflow, engineers see feedback in near-real time and take ownership.
+如果您在应用程序中有多个嵌入到不同功能的反馈按钮，标签对于实现更快的警报路由和为正确团队进行分类至关重要。
 
-Follow the steps below to set up feedback alerts to relevant channels:
+您可以根据小组件的放置自动应用标签。例如，使用像 `feedback.source:checkout` 这样的自定义标签。这允许在 Slack 中进行路由并在仪表板中进行过滤。我们建议您使用单个键定义和标准化标签，例如 `feedback.source`。
 
-1. Create a [New Alert Rule](https://sentry.io/alerts/new/issue/) in Sentry.
-2. Scroll to the "Set conditions" section and set the "IF" filter to `The issue's category is equal to… "Feedback"` and `The event's tags match... [your custom tag]`.
-3. In the “THEN” filter, select `Send a [your integration] notification` and then add details of the channel you'd like to send the feedback to. You can also add tags you’d like to see on the feedback alert. For example, `user.email`.
-4. Add an alert name and owner.
+
+## 4. 设置到相关频道的警报
+
+反馈只有在被合适的人看到时才有用。
+
+您可以将用户反馈直接发送到相应团队的频道——无论您使用 Slack、Microsoft Teams 还是 Discord（参见[集成完整列表](/product/alerts/create-alerts/routing-alerts/#integrations)）。例如，您可以标记反馈 `feedback.source:checkout` 并始终将其发送到您在 Slack 中的 `#proj-billing` 频道。通过此工作流程，工程师几乎实时地看到反馈并承担责任。
+
+按照以下步骤设置到相关频道的反馈警报：
+
+1. 在 Sentry 中创建[新警报规则](https://sentry.io/alerts/new/issue/)。
+2. 滚动到"设置条件"部分，并将"IF"过滤器设置为`问题的类别等于..."反馈"`和`事件的标签匹配...[您的自定义标签]`。
+3. 在"THEN"过滤器中，选择`发送[您的集成]通知`，然后添加您希望将反馈发送到的频道的详细信息。您还可以添加您希望在反馈警报上看到的标签。例如，`user.email`。
+4. 添加警报名称和负责人。
 
 
 ![](feedback-img/img/feedback-alert-conditions.png)
 
-Once set up, here's what an example alert looks like:
+设置完成后，以下是一个示例警报的样子：
 
 ![](feedback-img/img/feedback-example-alert.png)
 

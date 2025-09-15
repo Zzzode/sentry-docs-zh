@@ -1,64 +1,48 @@
 ---
-title: Uptime Monitoring
+title: 正常运行时间监控
 sidebar_order: 50
-description: "Learn how to help maintain uptime for your web services by monitoring relevant URLs with Sentry's Uptime Monitoring."
+description: "了解如何通过使用 Sentry 的正常运行时间监控监控相关 URL 来帮助维护您的 Web 服务的正常运行时间。"
 ---
 
-Sentry's Uptime Monitoring lets you monitor the availability and reliability of your web services effortlessly. Once enabled, it continuously tracks configured URLs, delivering instant alerts and insights to quickly identify downtime and troubleshoot issues.
+Sentry 的正常运行时间监控让您轻松监控 Web 服务的可用性和可靠性。启用后，它会持续跟踪配置的 URL，提供即时警报和洞察，以快速识别停机时间并解决问题。
 
-By leveraging [distributed tracing](/concepts/key-terms/tracing/distributed-tracing/), Sentry enables you to pinpoint any errors that occur during an uptime check, simplifying triage and accelerating root cause analysis. This helps you enhance both the reliability and uptime of your web services.
+通过利用[分布式跟踪](/concepts/key-terms/tracing/distributed-tracing/)，Sentry 使您能够精确定位正常运行时间检查期间发生的任何错误，简化分类并加速根本原因分析。这有助于您提高 Web 服务的可靠性和正常运行时间。
 
-## Set Up
+## 设置
 
-Uptime is [automatically configured](/product/uptime-monitoring/automatic-detection/) as a new alert for the most frequently encountered hostname in all URLs of your error data, ensuring continuous monitoring of your most critical hostname right out of the box.
+正常运行时间是[自动配置](/product/uptime-monitoring/automatic-detection/)的，作为错误数据中所有 URL 中最常遇到的主机名的新警报，确保从一开始就持续监控您最关键的主机名。
 
-You can also [create uptime monitoring alerts](/product/alerts/create-alerts/) for specific URLs. They're fully customizable with request details such as the HTTP method, headers, and body.
+您还可以[创建正常运行时间监控警报](/product/alerts/create-alerts/)用于特定 URL。它们完全可以自定义，包括 HTTP 方法、标头和正文等请求详细信息。
 
-## Uptime Check Criteria
+## 正常运行时间检查标准
 
-Our uptime monitoring system verifies the availability of your URLs by performing HTTP requests at regular, pre-configured intervals. For a URL to be considered up and running, the response must meet the following criteria:
+我们的正常运行时间监控系统通过以定期、预配置的间隔执行 HTTP 请求来验证您的 URL 的可用性。要使 URL 被视为正常运行，响应必须满足以下标准：
 
-1. **Successful Response (2xx Status Codes):**
-   The URL must return an HTTP status code in the 200–299 range, indicating a successful request.
-2. **Automatic Handling of Redirects (3xx Status Codes):** Sentry will follow redirects for URLs returning an HTTP status code in the 300–399 range and verify that the final destination URL returns a successful response. This ensures that redirects won't falsely trigger downtime alerts.
-3. **Timeout Setting:** Each request has a timeout threshold of 10 seconds.
-   If the server doesn't respond within this period, the check will be marked as a failure,
-   indicating a potential downtime or performance issues.
-4. **DNS Issue Detection:** Our monitoring also includes the detection of DNS resolution issues.
-   If a DNS issue is detected, the check will be marked as a failure,
-   allowing you to address the underlying connectivity problems.
+1. **成功响应（2xx 状态码）：**
+   URL 必须返回 200–299 范围内的 HTTP 状态码，表示请求成功。
+2. **自动处理重定向（3xx 状态码）：** Sentry 将跟踪返回 300–399 范围内 HTTP 状态码的 URL 的重定向，并验证最终目标 URL 返回成功响应。这确保重定向不会错误触发停机警报。
+3. **超时设置：** 每个请求都有 10 秒的超时阈值。
+   如果服务器在此期间内未响应，检查将被标记为失败，
+   表示潜在的停机时间或性能问题。
+4. **DNS 问题检测：** 我们的监控还包括 DNS 解析问题的检测。
+   如果检测到 DNS 问题，检查将被标记为失败，
+   允许您解决底层连接问题。
 
-### Uptime Check Failures
+### 正常运行时间检查失败
 
-An uptime alert continuously monitors the configured URL with the criteria defined above. If a failure occurs,
-a new [uptime issue](/product/issues/issue-details/uptime-issues/) is created, including details about the failed check and related errors.
+正常运行时间警报持续监控配置的 URL，并定义上述标准。如果发生故障，
+将创建一个新的[正常运行时间问题](/product/issues/issue-details/uptime-issues/)，包括有关失败检查和相关错误的详细信息。
 
-To prevent false alerts caused by temporary network issues, **an issue is only generated after three consecutive failures** following the initial detection of downtime. Additionally, uptime checks are performed from a variety of geographical locations in a round-robin fashion. This ensures that each failed check comes from a different region, reducing the likelihood of false positives due to localized network failures.
+为了防止由临时网络问题引起的错误警报，**只有在初始检测到停机后连续三次失败后才会生成问题**。此外，正常运行时间检查以轮询方式从各种地理位置执行。这确保每次失败的检查来自不同的区域，减少了由于本地化网络故障导致的误报可能性。
 
-_In rare cases where Sentry is unable to perform a scheduled uptime check—such as during outages—the check status will be marked as "Unknown"._
+_在极少数情况下，Sentry 无法执行预定的正常运行时间检查（例如在停机期间），检查状态将被标记为"未知"。_
 
-## Uptime Request Spans
+## 通知
 
-Uptime checks include spans called _uptime request spans_ that Sentry automatically creates for the request. The `uptime.request` span acts as a root span for traces related to uptime checks. 
+要开始获取新停机问题的通知，[配置问题警报](/product/alerts/create-alerts/issue-alert-config/)并选择问题类别"中断"。然后选择您希望如何被通知（通过电子邮件、Slack 等）。
 
-![Uptime request span](./img/uptime-request-span.png)
+![正常运行时间问题警报规则配置](./img/uptime-issue-alert-rule.png)
 
-**Key Benefits:**
-
-- Context: You instantly know a trace was generated by an uptime check vs user traffic
-- Request lifecycle: You can see the full journey from the initial uptime check through your application's response
-- Enhanced debugging: You can see more details about exactly where and why the failure occurred to distinguish between uptime-related issues and other application problems
-
-<Alert type="info">
-Uptime request spans are free and will not count against your [span quota](/pricing/quotas/manage-transaction-quota/). These spans are always created, even if you have sampling disabled. 
-</Alert>
-
-## Notifications
-
-To start getting notifications for a new downtime issue, [configure an issue alert](/product/alerts/create-alerts/issue-alert-config/) and choose the issue category "outage". Then choose how you'd like to be notified (via email, Slack, and so on).
-
-![Uptime issue alert rule configuration](./img/uptime-issue-alert-rule.png)
-
-## Learn More About Uptime Monitoring
+## 了解更多关于正常运行时间监控的信息
 
 <PageGrid />

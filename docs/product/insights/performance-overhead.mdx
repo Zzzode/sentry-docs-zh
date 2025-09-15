@@ -1,49 +1,49 @@
 ---
-title: Performance Overhead
+title: 性能开销
 sidebar_order: 3
-description: "Learn more about how enabling Insights and Tracing in Sentry impacts the performance of your application."
+description: "了解在Sentry中启用洞察和跟踪如何影响应用程序的性能。"
 ---
 
-Enabling insights and tracing in Sentry SDKs adds some overhead, but should have minimal impact on the performance of your application.
+在Sentry SDK中启用洞察和跟踪会增加一些开销，但对应用程序性能的影响应该是最小的。
 
-They work by instrumenting important parts of typical applications such as:
+它们通过检测典型应用程序的重要部分来工作，例如：
 
-- Database calls
-- Incoming and outgoing HTTP requests
-- Background worker tasks
-- Browser page loads and navigations
-- Component lifecycle in UI frameworks
+- 数据库调用
+- 传入和传出的HTTP请求
+- 后台工作程序任务
+- 浏览器页面加载和导航
+- UI框架中的组件生命周期
 - Web Vitals
 
-To perform this instrumentation, Sentry SDKs wrap or monkeypatch specific functions within popular libraries or frameworks and measure the execution time of these operations. These are then packaged and serialized into a payload containing a [Transaction](/product/insights/overview/transaction-summary/#what-is-a-transaction) (containing Spans) that is transmitted to event ingestion servers via the internet.
+为了执行此检测，Sentry SDK包装或猴子修补流行库或框架中的特定函数，并测量这些操作的执行时间。然后将这些打包并序列化为包含[事务](/product/insights/overview/transaction-summary/#什么是事务)（包含Span）的有效负载，通过互联网传输到事件接收服务器。
 
-The SDKs also make sure to propagate some headers on outgoing requests so that [Distributed Tracing](/product/sentry-basics/tracing/) can work effectively.
+SDK还确保在传出请求上传播一些标头，以便[分布式跟踪](/product/sentry-basics/tracing/)可以有效工作。
 
 <Alert>
 
-For most applications, the performance overhead of enabling insights and tracing in production is imperceptible to end users.
+对于大多数应用程序，在生产中启用洞察和跟踪的性能开销对最终用户来说是不可感知的。
 
 </Alert>
 
-## Will Performance break my application?
+## 性能会破坏我的应用程序吗？
 
-Each SDK has limits on the data structures used to record all the above data. If your application is doing too many things, we will simply hit those limits and thus avoid scenarios where the SDK itself takes up too much CPU time or grows memory usage unboundedly. We will also capture Outcomes (statistics) whenever these scenarios occur to be transparent about what events we are dropping for what reason.
+每个SDK都对用于记录上述所有数据的数据结构有限制。如果您的应用程序执行太多操作，我们将简单地达到这些限制，从而避免SDK本身占用过多CPU时间或内存使用无限制增长的情况。我们还将捕获结果（统计信息），每当这些情况发生时，以透明的方式说明我们因什么原因丢弃了哪些事件。
 
-### Backpressure Management
+### 背压管理
 
-Some of our backend SDKs manage backpressure internally by reducing the dynamic sampling rate when the system is in an unhealthy state. This ensures better system stability and lower SDK overhead under heavy load.
+我们的一些后端SDK通过在不健康状态下降低动态采样率来内部管理背压。这确保了在重负载下更好的系统稳定性和更低的SDK开销。
 
-The latest versions of the following SDKs support backpressure management:
+以下SDK的最新版本支持背压管理：
 
 - Python
 - Ruby
 - Java
 
-We will gradually roll this feature out to other backend languages in the future.
+我们将在未来逐步将此功能推广到其他后端语言。
 
-### Hosting Environment
+### 托管环境
 
-Some hosting environments have mechanisms in place that negatively influence SDK overhead:
+某些托管环境具有会对SDK开销产生负面影响的机制：
 
-- AWS Lambdas completely freeze any code execution when a response is sent. This means that the SDKs generally will block the response from being finished until it has flushed all of the recorded telemetry data to Sentry. This might cause non-trivial overhead in some situations. Here, it might be beneficial to run a Sentry Relay instance physically close to your lambdas to decrease latency.
-- SDKs that are designed to run on the Vercel Edge Runtime will stall responses to requests until the SDK has flushed all of the telemetry for that request to Sentry. This is a limitation imposed by the Edge Runtime, since it doesn't allow for I/O operations to be shared or persisted across request handler invocations, meaning the SDK cannot flush its data asynchronously.
+- AWS Lambda在发送响应时完全冻结任何代码执行。这意味着SDK通常会在将所有记录的遥测数据刷新到Sentry之前阻止响应完成。这在某些情况下可能会导致非平凡的开销。在这里，在物理上靠近您的lambda运行Sentry Relay实例可能有利于减少延迟。
+- 设计为在Vercel Edge Runtime上运行的SDK将暂停对请求的响应，直到SDK已将该请求的所有遥测数据刷新到Sentry。这是Edge Runtime施加的限制，因为它不允许在请求处理程序调用之间共享或持久化I/O操作，这意味着SDK无法异步刷新其数据。

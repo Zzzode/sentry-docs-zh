@@ -1,47 +1,47 @@
 ---
-title: "Replays Page and Filters"
+title: "重放页面和过滤器"
 sidebar_order: 71
-description: "Learn how to navigate the Replays page and filter user sessions that meet specific conditions."
+description: "了解如何导航重放页面并过滤满足特定条件的用户会话。"
 ---
 
 <Include name="session-replay-web-report-bug.mdx" />
 
-You can search for or browse replays of user sessions on the **Replay** page, where they’re organized chronologically by default. You’ll see the following information for each session:
+您可以在**重放**页面上搜索或浏览用户会话的重放，它们默认按时间顺序组织。您将看到每个会话的以下信息：
 
-- **Project**: The project in which the session was recorded.
-- **Start Time**: How long ago the replay was triggered. (Replays can appear here while the recording is still in progress.)
-- **Duration**: The length of the replay. (Recordings can range from 1 second to 60 minutes.)
-- **Errors:** The number of frontend errors identified by Sentry, as encountered in the replay. (Sometimes the error count reported is different from the actual errors captured. Read more in [Error Linking](/platform-redirect/?next=/session-replay/#error-linking).)
-- **Activity**: The activity level as determined by the number of errors encountered, their duration, and the number of UI events.
-- **Dead Clicks**: User clicks on `a` and `button` tags that do not result in any page activity after 7 seconds (i.e. no HTML was added, removed, or updated; no visual changes were observed in the page).
-- **Rage Clicks**: Five or more clicks on a dead element (it exhibits no page activity after 7 seconds.) Rage clicks are a subset of dead clicks.
+- **项目**：录制会话的项目。
+- **开始时间**：重放触发的时间。（录制仍在进行时，重放可以出现在这里。）
+- **持续时间**：重放的长度。（录制可以从 1 秒到 60 分钟不等。）
+- **错误：** Sentry 在重放中识别的前端错误数量。（有时报告的错误计数与实际捕获的错误不同。在[错误链接](/platform-redirect/?next=/session-replay/#error-linking)中阅读更多信息。）
+- **活动**：由遇到的错误数量、它们的持续时间和 UI 事件数量确定的活动级别。
+- **无效点击**：用户点击 `a` 和 `button` 标签，在 7 秒后不会导致任何页面活动（即没有添加、删除或更新 HTML；页面中没有观察到视觉变化）。
+- **愤怒点击**：在无效元素上的五次或更多点击（在 7 秒后不会显示页面活动）。愤怒点击是无效点击的子集。
 
-The **Replay** page also has two widgets titled "Most Dead Clicks" and "Most Rage Clicks" that show the selectors with the most rage or dead clicks. Expanding the selector will show example replays where that selector was clicked. You can also click the "See all selectors" button to view all selectors that have gotten rage or dead clicks. SDK version `7.60.1` or higher is required to see rage and dead click data on the **Replay** page.
+**重放**页面还有两个标题为"最多无效点击"和"最多愤怒点击"的小组件，显示具有最多愤怒或无效点击的选择器。展开选择器将显示该选择器被点击的示例重放。您还可以点击"查看所有选择器"按钮查看所有获得愤怒或无效点击的选择器。需要 SDK 版本 `7.60.1` 或更高版本才能在**重放**页面上看到愤怒和无效点击数据。
 
-By default, the IP address is used to identify each replay on this page. This can be changed in your organization and project settings. If you’d like to set an email or a username instead, call [Sentry.setUser()](/platform-redirect/?next=/enriching-events/identify-user) in your client-side configuration. If you’ve enabled the option to prevent storing of IP addresses in either your project-level or organization-wide settings, the IP address will appear redacted on the **Replay** page. For more information, read about [several data scrubbing options](/security-legal-pii/scrubbing/server-side-scrubbing/) in the Sentry app on either an organization or a project level.
+默认情况下，IP 地址用于在此页面上标识每个重放。这可以在您的组织和项目设置中更改。如果您想设置电子邮件或用户名，请在客户端配置中调用 [Sentry.setUser()](/platform-redirect/?next=/enriching-events/identify-user)。如果您在项目级别或组织范围内启用了防止存储 IP 地址的选项，IP 地址将在**重放**页面上显示为已编辑。有关更多信息，请阅读关于在组织或项目级别在 Sentry 应用程序中的[几种数据清理选项](/security-legal-pii/scrubbing/server-side-scrubbing/)。
 
-Replays can appear on this page while they’re still in progress. You can’t delete in-progress replays.
+重放可以在仍在进行时出现在此页面上。您无法删除进行中的重放。
 
-Each replay will bring users to the [**Replay Details**](/product/explore/session-replay/web/replay-details/) page.
+每个重放都会将用户带到[**重放详情**](/product/explore/session-replay/web/replay-details/)页面。
 
-## Filtering Replays
+## 过滤重放
 
-All replays have built-in key fields, and may have [custom tags](/platform-redirect/?next=/enriching-events/tags/) if you have them set up. The search bar operates similarly to the one in the Discover [Query Builder](/product/explore/discover-queries/query-builder/#filter-by-search-conditions). Use it to search for keys and specific values. This will filter down your list of replays so you can quickly find the ones with the criteria you care about. For example, you can refine your replays search to a specific browser by using `browser.version:` as a key field and assigning the version as a value. For a list of all the built-in key fields and replay properties, check out our [Searchable Properties](/concepts/search/searchable-properties/session-replay/) documentation.
+所有重放都有内置的关键字段，如果您设置了它们，可能还有[自定义标签](/platform-redirect/?next=/enriching-events/tags/)。搜索栏的操作类似于 Discover [查询构建器](/product/explore/discover-queries/query-builder/#filter-by-search-conditions)中的搜索栏。使用它来搜索键和特定值。这将过滤您的重放列表，以便您可以快速找到符合您关心条件的重放。例如，您可以通过使用 `browser.version:` 作为关键字段并分配版本作为值来将重放搜索细化为特定浏览器。有关所有内置关键字段和重放属性的列表，请查看我们的[可搜索属性](/concepts/search/searchable-properties/session-replay/)文档。
 
-![Highlight the Search Filters input on the Session Replay Index Page](./img/replay-index-filtering.png)
+![突出显示会话重放索引页面上的搜索过滤器输入](./img/replay-index-filtering.png)
 
-## Deleting Replays
+## 删除重放
 
-Replays can be deleted either individually or in bulk. Deleting replays in bulk requires project:write or project:admin access.
+可以单独或批量删除重放。批量删除重放需要 project:write 或 project:admin 访问权限。
 
-When a replay is deleted, it is permanently removed from Sentry's servers, with the exception of its metadata. The metadata rows are archived and remain inaccessible to users. They are retained only until they are removed according to your organization's [data retention policy](https://sentry.io/security/#data-retention). These metadata rows may also be eagerly deleted, but doing so requires manual intervention. To request this, please file a support ticket by emailing support@sentry.io.
+删除重放时，它会从 Sentry 的服务器中永久删除，其元数据除外。元数据行被存档并保持用户无法访问。它们仅保留到根据您组织的[数据保留政策](https://sentry.io/security/#data-retention)删除它们为止。这些元数据行也可能被急切删除，但这样做需要手动干预。要请求此操作，请通过发送电子邮件至 support@sentry.io 提交支持票证。
 
-To delete a [single replay](/product/explore/session-replay/web/replay-details/#delete-replays), go to the Replay Details page and click the "Delete" link, which is located under the "..." (more options) button.
+要删除[单个重放](/product/explore/session-replay/web/replay-details/#delete-replays)，请转到重放详情页面并点击"删除"链接，该链接位于"..."（更多选项）按钮下。
 
-To delete multiple replays at once, go to the **Replay** page and use the checkboxes next to each replay row to select the ones you want to delete. Then, click the "Delete" button to remove the selected replays. Deleting a large number of replays takes some time to complete. If a job is running you will see a banner at the top of the Replay list and a link to 'Track Progress'. You can also visit Settings > Project > MyProject > Replays to see the history of previous deletion jobs.
+要一次删除多个重放，请转到**重放**页面并使用每个重放行旁边的复选框选择要删除的重放。然后，点击"删除"按钮删除选定的重放。删除大量重放需要一些时间来完成。如果作业正在运行，您将在重放列表顶部看到一个横幅和指向'跟踪进度'的链接。您还可以访问设置 > 项目 > MyProject > 重放以查看以前删除作业的历史记录。
 
 ![](./img/replay-index-delete-visible.png)
 
-Alternatively, you can delete all replays that match a search query by clicking "Select all" at the top of the results list. This selects every replay matching the current filters, not just those visible on the page.
+或者，您可以通过点击结果列表顶部的"选择全部"来删除与搜索查询匹配的所有重放。这将选择当前过滤器匹配的每个重放，而不仅仅是页面上可见的重放。
 
 ![](./img/replay-index-delete-all.png)

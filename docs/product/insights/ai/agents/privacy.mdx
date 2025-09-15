@@ -1,25 +1,25 @@
 ---
-title: Data Privacy
+title: 数据隐私
 sidebar_order: 20
-description: "Learn how to control data collection and protect sensitive information in AI agent monitoring."
+description: "了解如何在AI代理监控中控制数据收集和保护敏感信息。"
 ---
 
-## SDK PII Settings
+## SDK PII设置
 
-By default, Sentry AI agent integrations respect your [SDK's PII settings](/platforms/javascript/guides/nextjs/data-management/data-collected/):
+默认情况下，Sentry AI代理集成尊重您的[SDK PII设置](/platforms/javascript/guides/nextjs/data-management/data-collected/)：
 
-- `sendDefaultPii: false` - Only metadata like model names, token counts, tool names, and execution times are collected
-- `sendDefaultPii: true` - Full inputs, outputs, prompts, and responses from AI models and tools are captured.
+- `sendDefaultPii: false` - 仅收集元数据，如模型名称、令牌计数、工具名称和执行时间
+- `sendDefaultPii: true` - 捕获来自AI模型和工具的完整输入、输出、提示和响应
 
-You can override this by configuring it on a function call level. For more details see [Configuration](/platforms/javascript/guides/nextjs/configuration/integrations/vercelai/#configuration).
+您可以通过在函数调用级别配置它来覆盖此设置。有关更多详细信息，请参阅[配置](/platforms/javascript/guides/nextjs/configuration/integrations/vercelai/#configuration)。
 
-## Server side PII Scrubbing
+## 服务器端PII清理
 
 <Alert level="info">
 
-Sentry has built-in [Server-Side Data Scrubbing](/security-legal-pii/scrubbing/server-side-scrubbing/) that automatically detects and removes common sensitive data like credit card numbers, social security numbers, and passwords from most event data.
+Sentry具有内置的[服务器端数据清理](/security-legal-pii/scrubbing/server-side-scrubbing/)，可自动检测和删除大多数事件数据中的常见敏感数据，如信用卡号、社会安全号码和密码。
 
-However, the following AI agent span attributes are not protected by default:
+但是，以下AI代理span属性默认不受保护：
 
 - `gen_ai.prompt`
 - `gen_ai.request.messages`
@@ -30,6 +30,6 @@ However, the following AI agent span attributes are not protected by default:
 - `gen_ai.response.object`
 
 </Alert>
-If you wish to enable Data Scrubbing for any of these fields you can add Organization or Project-level [Advanced Data Scrubbing](/product/data-management-settings/scrubbing/advanced-datascrubbing/) rule in **Security & Privacy** [settings](https://sentry.io/orgredirect/organizations/:orgslug/settings/organization/security-and-privacy) in the following format: `$span.data.'<span attribute>'`.
+如果您希望为这些字段中的任何一个启用数据清理，您可以在**安全与隐私**[设置](https://sentry.io/orgredirect/organizations/:orgslug/settings/organization/security-and-privacy)中添加组织或项目级别的[高级数据清理](/product/data-management-settings/scrubbing/advanced-datascrubbing/)规则，格式如下：`$span.data.'<span属性>'`。
 
-![Additional Sensitive Fields](./img/advanced-scrubbing-rule.png)
+![额外敏感字段](./img/advanced-scrubbing-rule.png)

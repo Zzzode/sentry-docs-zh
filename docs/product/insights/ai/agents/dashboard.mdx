@@ -1,58 +1,60 @@
 ---
-title: AI Agents Dashboard
+title: AI代理仪表板
 sidebar_order: 10
-description: "Learn how to use Sentry's AI Agents Dashboard."
+description: "了解如何使用Sentry的AI代理仪表板。"
 ---
 
-Once you've [configured the Sentry SDK](/product/insights/ai/agents/getting-started/) for your AI agent project, you'll start receiving data in the Sentry [AI Agents Insights](https://sentry.io/orgredirect/organizations/:orgslug/insights/agents/) dashboard.
+<Include name="feature-limited-on-team-retention.mdx" />
 
-The main dashboard provides a comprehensive view of all your AI agent activities, performance metrics, and recent executions.
+一旦您为AI代理项目[配置了Sentry SDK](/product/insights/ai/agents/getting-started/)，您将开始在Sentry [AI代理洞察](https://sentry.io/orgredirect/organizations/:orgslug/insights/agents/)仪表板中接收数据。
 
-![AI Agents Monitoring Overview](./img/overview.png)
+主仪表板提供了所有AI代理活动、性能指标和最近执行的全面视图。
 
-The dashboard displays key widgets like:
+![AI代理监控概览](./img/overview.png)
 
-- **Traffic**: Shows agent runs over time, error rates, and releases to track overall activity and health
-- **Duration**: Displays response times for your agent executions to monitor performance
-- **Issues**: Highlights recent errors and problems that need attention, including agent failures and exceptions
+仪表板显示关键小组件，如：
 
-Underneath these widgets are three segments that offer focused widgets and a detailed distribution table:
+- **流量**：显示代理运行时间、错误率和版本，以跟踪整体活动和健康状况
+- **持续时间**：显示代理执行的响应时间以监控性能
+- **问题**：突出显示需要注意的最近错误和问题，包括代理故障和异常
 
-- **Traces**: LLM Calls, Tokens Used, and Tool Calls widgets, as well as recent agent runs with duration, errors, number of LLM and tool calls, and token usage
-- **Models**: Model Cost, Tokens Used, and Token Types widgets, as well as all used models with durations and token usage
-- **Tools**: Tool Calls and Tool Errors widgets, as well as all used tools with durations and errors
+在这些小组件下方是三个提供专注小组件和详细分布表格的部分：
 
-![AI Agent Trace Table](./img/trace-table.png)
+- **跟踪**：LLM调用、使用的令牌和工具调用小组件，以及最近的代理运行，包括持续时间、错误、LLM和工具调用数量以及令牌使用情况
+- **模型**：模型成本、使用的令牌和令牌类型小组件，以及所有使用过的模型，包括持续时间和令牌使用情况
+- **工具**：工具调用和工具错误小组件，以及所有使用过的工具，包括持续时间和错误
 
-Click on any trace to open the abbreviated trace view in a drawer.
+![AI代理跟踪表](./img/trace-table.png)
 
-## Abbreviated Trace View
+点击任何跟踪以在抽屉中打开简化的跟踪视图。
 
-Opens as a drawer when clicking any trace, showing essential details:
+## 简化跟踪视图
 
-![AI Agent Abbreviated Trace View](./img/abbreviated-trace-view.png)
+点击任何跟踪时作为抽屉打开，显示基本详细信息：
 
-- **Agent Invocations**: Each agent execution and nested calls
-- **LLM Generations**: Language model interactions with token breakdown
-- **Tool Calls**: External API calls with inputs and outputs
-- **Handoffs**: Agent-to-agent transitions and human handoffs
-- **Critical Timing**: Duration metrics for each step
-- **Errors**: Any failures that occurred
+![AI代理简化跟踪视图](./img/abbreviated-trace-view.png)
 
-Click **"View in full trace"** for comprehensive debugging details.
+- **代理调用**：每个代理执行和嵌套调用
+- **LLM生成**：具有令牌分解的语言模型交互
+- **工具调用**：具有输入和输出的外部API调用
+- **交接**：代理到代理转换和人工交接
+- **关键时间**：每个步骤的持续时间指标
+- **错误**：发生的任何故障
 
-## Detailed Trace View
+点击**"在完整跟踪中查看"**以获取全面的调试详细信息。
 
-Shows complete agent workflow with full context:
+## 详细跟踪视图
 
-![AI Agent Detailed Trace View](./img/trace-view.png)
+显示具有完整上下文的完整代理工作流：
 
-This detailed view reveals:
+![AI代理详细跟踪视图](./img/trace-view.png)
 
-- **Complete Agent Flow**: Every step from initial request to final response
-- **Tool Calls**: When and how the agent used external tools or APIs
-- **Model Interactions**: All LLM calls with prompts and responses (if PII is enabled)
-- **Timing Breakdown**: Duration of each step in the agent workflow
-- **Error Context**: Detailed information about any failures or issues
+此详细视图显示：
 
-When your AI agents are part of larger applications (like web servers or APIs), the trace view will include context from other Sentry integrations, giving you a complete picture of how your agents fit into your overall application architecture.
+- **完整代理流程**：从初始请求到最终响应的每一步
+- **工具调用**：代理何时以及如何使用外部工具或API
+- **模型交互**：所有LLM调用，包括提示和响应（如果启用了PII）
+- **时间分解**：代理工作流中每个步骤的持续时间
+- **错误上下文**：有关任何故障或问题的详细信息
+
+当您的AI代理是更大应用程序（如Web服务器或API）的一部分时，跟踪视图将包括来自其他Sentry集成的上下文，为您提供代理如何融入整体应用程序架构的完整画面。

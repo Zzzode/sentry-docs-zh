@@ -1,50 +1,50 @@
 ---
-title: Markdown Variables
+title: Markdown变量
 noindex: true
 sidebar_order: 50
 ---
 
-A transformation is exposed to both Markdown and MDX files which supports processing variables in a Django/Jekyll-style way.
-The variables available are globally scoped and configured within `remark-variables.js`.
+对Markdown和MDX文件都公开了一个转换，支持以Django/Jekyll风格的方式处理变量。
+可用的变量是全局范围的，并在 `remark-variables.js` 中配置。
 
-For example:
+例如：
 
-```markdown {tabTitle:Replacment}
+```markdown {tabTitle:替换}
 JavaScript SDK: {{@inject packages.version("sentry.javascript.browser") }}
 ```
 
-```markdown {tabTitle:Source}
+```markdown {tabTitle:源码}
 JavaScript SDK: {{\@inject packages.version("sentry.javascript.browser") }}
 ```
 
-In this case, we expose `packages` as an accessor in the package registry, which is why there's a `packages.version` function available. Additionally, we expose a default context variable of `page`, which contains the frontmatter of the given markdown node. For example, `{{\@inject page.title }}`.
+在这种情况下，我们公开 `packages` 作为包注册表中的访问器，这就是为什么有 `packages.version` 函数可用。此外，我们公开了一个默认的上下文变量 `page`，它包含给定markdown节点的前端内容。例如，`{{\@inject page.title }}`。
 
-When a variable call is invalid (or errors), or doesn't match something in the known scope, it will produce an error message in the output in development mode. It will force the build to fail in production.
+当变量调用无效（或出错）或不匹配已知范围中的某些内容时，它将在开发模式的输出中产生错误消息。它将强制生产中的构建失败。
 
-To escape an expression add a leading `\` to the `@inject`.
+要转义表达式，请在 `@inject` 前添加前导 `\`。
 
 ## `packages`
 
-The `packages` helper is an instance of `PackageRegistry` and exposes several methods.
+`packages` 助手是 `PackageRegistry` 的一个实例，公开了几个方法。
 
 ### `packages.version`
 
-Returns the latest version of the given package.
+返回给定包的最新版本。
 
-```text {tabTitle:Source}
+```text {tabTitle:源码}
 {{\@inject packages.version("sentry.javascript.browser") }}
 ```
 
-You may also optionally specify a fallback for if the package isn't found (or there's an upstream error):
+您还可以选择指定一个后备，以防找不到包（或上游有错误）：
 
-```text {tabTitle:Source}
+```text {tabTitle:源码}
 {{\@inject packages.version("sentry.javascript.browser", "1.0.0") }}
 ```
 
 ### `packages.checksum`
 
-Returns the checksum of a given file in a package.
+返回包中给定文件的校验和。
 
-```text {tabTitle:Source}
+```text {tabTitle:源码}
 {{\@inject packages.checksum("sentry.javascript.browser", "bundle.min.js", "sha384") }}
 ```

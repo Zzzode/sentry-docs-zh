@@ -1,58 +1,58 @@
 ---
-title: Manage Your Logs Quota
+title: 管理您的日志配额
 sidebar_order: 45
-description: "Understand where and how to manage your Logs quota, see how much each project is consuming, and learn how to increase or decrease your spend."
+description: "了解在哪里以及如何管理您的日志配额，查看每个项目的消耗情况，并了解如何增加或减少支出。"
 ---
 
 <Alert>
-[Logs](/product/explore/logs/) is currently available on Team, Business, and Developer plans. These plans include a certain amount of Logs data to be processed and stored. Once you exceed your included quota, you'll be charged based on your pay-as-you-go (PAYG) budget.
+[日志](/product/explore/logs/)目前在团队、商业和开发者计划中可用。这些计划包括一定量的日志数据处理和存储。一旦超出包含的配额，您将根据按量付费（PAYG）预算被收费。
 </Alert>
 
-## Key Terms
+## 关键术语
 
-- **Logs Quota**: The initial quota your subscription has allocated for processing and storing log data from your applications.
+- **日志配额**：您的订阅为处理和存储来自应用程序的日志数据分配的初始配额。
 
-- **Pay-As-You-Go (PAYG) Budget**: A budget you set to pay for additional log processing beyond your included quota.
+- **按量付费（PAYG）预算**：您设置的用于支付超出包含配额的额外日志处理的预算。
 
-- **Log Entry**: A single log message sent from your application to Sentry, including metadata like timestamp, log level, and custom attributes.
+- **日志条目**：从您的应用程序发送到 Sentry 的单个日志消息，包括时间戳、日志级别和自定义属性等元数据。
 
-- **Log Processing**: The ingestion, parsing, indexing, and storage of log data in Sentry's infrastructure.
+- **日志处理**：在 Sentry 的基础设施中摄取、解析、索引和存储日志数据。
 
-## Before You Begin: Check Your Logs Usage
+## 开始之前：检查您的日志使用情况
 
-You can look at your Logs usage on the Stats & Usage page to understand the breakdown of your log entries by time window and project. This may help you figure out where you need to further fine-tune your usage.
+您可以在统计和使用情况页面上查看您的日志使用情况，以了解按时间窗口和项目划分的日志条目分解情况。这可能有助于您确定需要在何处进一步微调使用情况。
 
-This page is accessible to all members of your organization, so Owners in your Sentry org will be able to share it with the developers directly responsible for a given project. You'll also be able to use this page to assess whether your changes are working as intended.
+此页面对您组织的所有成员都可访问，因此您 Sentry 组织中的所有者将能够与直接负责给定项目的开发人员共享它。您还能够使用此页面来评估您的更改是否按预期工作。
 
-### How Can I See a Breakdown of Incoming Logs?
+### 如何查看传入日志的分解？
 
-The Stats & Usage page also displays details about the total amount of log data Sentry has received across your entire org for up to 90 days. The page breaks down the events by project into three categories: accepted, dropped, or filtered. Only accepted logs affect your quota:
+统计和使用情况页面还显示整个组织最多90天内 Sentry 接收的日志数据总量的详细信息。该页面按项目将事件分为三类：已接受、已丢弃或已过滤。只有已接受的日志会影响您的配额：
 
-![Stats and Usage page example](./img/usage-stats-errors.png)
+![统计和使用情况页面示例](./img/usage-stats-errors.png)
 
-### Which Projects Are Consuming My Logs Spend?
+### 哪些项目正在消耗我的日志支出？
 
-The "Projects" table on the Stats page breaks down your data by project, so you can identify the ones that are consuming the most quota. These can be sorted by total logs, accepted logs, filtered logs, and so on.
+统计页面上的"项目"表按项目分解您的数据，以便您可以识别消耗最多配额的项目。这些可以按总日志、已接受日志、已过滤日志等进行排序。
 
-## Adjusting PAYG Budget
+## 调整 PAYG 预算
 
-Budgets can only be updated by a Billing- or Owner-level member of your Sentry org.
+只有您 Sentry 组织的账单或所有者级别的成员才能更新预算。
 
-Once your Logs quota is approaching or has exceeded its included amount, teammates with "Owner" org permissions will start receiving [notification](/product/alerts/notifications/#quota-notifications) emails. They'll then be able to choose to increase or decrease the PAYG budget to unlock additional usage.
+一旦您的日志配额接近或已超过其包含量，具有"所有者"组织权限的队友将开始接收[通知](/product/alerts/notifications/#quota-notifications)电子邮件。然后他们将能够选择增加或减少 PAYG 预算以解锁额外使用。
 
-### Increasing Logs Budget
+### 增加日志预算
 
-If you're not able to send new logs because you've exceeded your Logs quota, you can add to your budget at any time during your billing period by increasing your PAYG budget. This is ideal in situations where you're rolling out a new version of your application or need to increase logging for debugging purposes. To add PAYG budget, set a monthly maximum shared budget in your [Subscriptions Page](https://sentry.io/orgredirect/organizations/:orgslug/settings/billing).
+如果您因为超出日志配额而无法发送新日志，您可以在计费期间的任何时间通过增加 PAYG 预算来添加到您的预算。这非常适合推出新版本应用程序或需要增加日志记录以进行调试的情况。要添加 PAYG 预算，请在您的[订阅页面](https://sentry.io/orgredirect/organizations/:orgslug/settings/billing)中设置月度最大共享预算。
 
-[Learn more about setting your PAYG budget](/pricing/#pricing-how-it-works).
+[了解更多关于设置您的 PAYG 预算的信息](/pricing/#pricing-how-it-works)。
 
-## Managing Spend
+## 管理支出
 
-### SDK Configuration
+### SDK 配置
 
-For various SDKs, there's the ability to filter out logs before sending to Sentry, so you can avoid sending logs you don't care about. This is the most effective way to reduce your Logs quota usage; below are a couple of examples:
+对于各种 SDK，有能力在发送到 Sentry 之前过滤掉日志，因此您可以避免发送您不关心的日志。这是减少日志配额使用的最有效方法；以下是几个示例：
 
-#### JavaScript SDKs
+#### JavaScript SDK
 
 ```js
 Sentry.init({
@@ -60,7 +60,7 @@ Sentry.init({
   enableLogs: true,
   beforeSendLog: (log) => {
     if (log.level === "info") {
-      // Filter out all info logs
+      // 过滤掉所有 info 日志
       return null;
     }
     return log;
@@ -76,7 +76,7 @@ from sentry_sdk.types import Log, Hint
 from typing import Optional
 
 def before_log(log: Log, _hint: Hint) -> Optional[Log]:
-    # Filter out all info level logs
+    # 过滤掉所有 info 级别日志
     if log["severity_text"] == "info":
         return None
     return log
@@ -88,36 +88,36 @@ sentry_sdk.init(
 )
 ```
 
-### Logs Filtering
+### 日志过滤
 
-You can also use [Inbound Filters](/concepts/data-management/filtering/#logs-filtering) to filter logs at the server level. While this doesn't prevent data from being sent to Sentry, it does prevent filtered logs from counting against your quota.
+您还可以使用[入站过滤器](/concepts/data-management/filtering/#logs-filtering)在服务器级别过滤日志。虽然这不会阻止数据发送到 Sentry，但它确实会阻止过滤的日志计入您的配额。
 
-The following inbound filters apply to Logs:
+以下入站过滤器适用于日志：
 
-- **Log Message** - Filters logs based on the log message match
-- **Releases** - Filters logs from specific release versions
+- **日志消息** - 基于日志消息匹配过滤日志
+- **发布版本** - 过滤来自特定发布版本的日志
 
-To set up log message filtering:
+要设置日志消息过滤：
 
-1. Navigate to **[Project] > Project Settings > Inbound Filters**
-2. Add patterns to filter out specific log messages
-3. Use wildcards for flexible matching, for example, `*Connection timeout*` , to filter all logs containing "Connection timeout")
+1. 导航到 **[项目] > 项目设置 > 入站过滤器**
+2. 添加模式以过滤掉特定日志消息
+3. 使用通配符进行灵活匹配，例如，`*连接超时*`，以过滤所有包含"连接超时"的日志
 
-### Best Practices for Reducing Logs Quota Usage
+### 减少日志配额使用的最佳实践
 
-1. **Set appropriate log levels**: Only log at the level you need for production, for example, WARNING and above.
-2. **Use structured logging**: Include relevant context in log attributes rather than verbose messages
-4. **Filter at the source**: Use `beforeSendLog` callbacks to filter logs before they're sent
-5. **Monitor usage patterns**: Regularly check your Usage Stats to identify projects with high log consumption
-6. **Set up alerts**: Configure notifications when you approach your quota limits
+1. **设置适当的日志级别**：仅记录生产所需的级别，例如，WARNING 及以上。
+2. **使用结构化日志记录**：在日志属性中包含相关上下文，而不是冗长的消息
+4. **在源头过滤**：使用 `beforeSendLog` 回调在发送前过滤日志
+5. **监控使用模式**：定期检查您的使用情况统计，以识别日志消耗高的项目
+6. **设置警报**：在接近配额限制时配置通知
 
-### Monitoring Your Logs Usage
+### 监控您的日志使用情况
 
-Keep track of your Logs quota usage by:
+通过以下方式跟踪您的日志配额使用情况：
 
-- Checking the [Usage Stats](/product/stats/#usage-stats) page regularly
-- Setting up [quota notifications](/product/alerts/notifications/#quota-notifications)
-- Reviewing project-specific usage in the Stats breakdown
-- Monitoring the impact of filtering changes over time
+- 定期检查[使用情况统计](/product/stats/#usage-stats)页面
+- 设置[配额通知](/product/alerts/notifications/#quota-notifications)
+- 在统计分解中查看项目特定使用情况
+- 监控过滤更改随时间的影响
 
-By implementing these strategies, you can effectively manage your Logs quota while maintaining the visibility you need into your application's behavior.
+通过实施这些策略，您可以有效地管理日志配额，同时保持对应用程序行为所需的可见性。

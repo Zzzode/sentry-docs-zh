@@ -1,66 +1,65 @@
 ---
-title: Release Details
+title: 发布详情
 sidebar_order: 40
-description: "Learn more about the details of individual releases."
+description: "了解有关单个发布的更多详细信息。"
 ---
 
-The **Release Details** page focuses on an individual release. Elements of the release are displayed, such as visualized trends for crashes and sessions, specifics regarding each issue, adoption graphs, and commit author breakdowns.
+**发布详情**页面专注于单个发布。显示发布的元素，例如崩溃和会话的可视化趋势、每个问题的详细信息、采用图表和提交作者分类。
 
-![View of the release details page showing a release comparison graph, issues, adoption, and other details.](./img/release_details.png)
+![发布详情页面视图，显示发布比较图表、问题、采用情况和其他详细信息。](./img/release_details.png)
 
-## Graphs
+## 图表
 
-The graph at the top of the page provides insights into the health of your release by allowing you to choose which metric it displays. Select the time range that you want to review (the default range is the entire release period) and choose from these metrics in the table below the graph:
+页面顶部的图表通过允许您选择它显示的指标来提供对发布健康状况的洞察。选择您要查看的时间范围（默认范围是整个发布期间），并从图表下方的表格中选择这些指标：
 
-- [Crash Free Session Rate](/product/releases/health/#crash-free-sessionsusers)
-- [Healthy](/product/releases/health/#healthy), [Abnormal](/product/releases/health/#abnormal), [Errored](/product/releases/health/#errored) session rate
-- [Crash Free User Rate](/product/releases/health/#crash-free-sessionsusers)
-- Crashed Session Rate
-- [Crashed User Rate](/product/releases/health/#crashed-users)
-- [Failure Rate](/product/insights/overview/metrics/#failure-rate)
-- [Session Count](/product/releases/health/#session)
-- Error Count
-- Transaction Count
+- [无崩溃会话率](/product/releases/health/#crash-free-sessionsusers)
+- [健康](/product/releases/health/#healthy)、[异常](/product/releases/health/#abnormal)、[错误](/product/releases/health/#errored)会话率
+- [无崩溃用户率](/product/releases/health/#crash-free-sessionsusers)
+- 崩溃会话率
+- [崩溃用户率](/product/releases/health/#crashed-users)
+- [失败率](/product/insights/overview/metrics/#failure-rate)
+- [会话计数](/product/releases/health/#session)
+- 错误计数
+- 事务计数
 
-In the table below the graph, percentage-based metrics of this release are compared to the average of all releases, so you can spot any differences in trend.
+在图表下方的表格中，此发布的基于百分比的指标与所有发布的平均值进行比较，因此您可以发现趋势中的任何差异。
 
-[Errored](/product/releases/health/#errored) sessions are likely to result in handled issues, and [crashed](/product/releases/health/#crash) sessions in unhandled issues. Click on the issues links to see them in the [Issues](/product/issues/) page.
+[错误](/product/releases/health/#errored)会话可能导致处理的问题，而[崩溃](/product/releases/health/#crash)会话导致未处理的问题。点击问题链接在[问题](/product/issues/)页面中查看它们。
 
-Click on any option in the graph legend to hide it. For example, in a "Session Count" graph, you might hide "Healthy" sessions to see "Crashed" ones in better scale. In the image below, the healthy sessions are displayed, but there are so many healthy sessions compared to all other session types that the crashed ones become invisible in the graph:
+点击图表图例中的任何选项以隐藏它。例如，在"会话计数"图表中，您可能会隐藏"健康"会话以更好地比例查看"崩溃"会话。在下图中，显示了健康会话，但与其他会话类型相比，健康会话数量如此之多，以至于崩溃会话在图表中变得不可见：
 
-![Session count graph with healthy sessions displayed](./img/healthy_sessions_displayed.png)
+![显示健康会话的会话计数图表](./img/healthy_sessions_displayed.png)
 
-By hiding the healthy (and errored) sessions, you can actually see the very small number of crashed sessions:
+通过隐藏健康（和错误）会话，您实际上可以看到非常少量的崩溃会话：
 
-![Session count graph with healthy and errored sessions hidden](./img/healthy_sessions_hidden.png)
+![隐藏健康和错误会话的会话计数图表](./img/healthy_sessions_hidden.png)
 
-Hover over specific dates and times in the overview graph for a quick perspective of events that crashed, behaved abnormally, errored, or are healthy, as defined for [release health](/product/releases/health/). The graph also displays markers showing adoption stage changes when you view a time period where that is applicable (and you've filtered by a single environment).
+将鼠标悬停在概览图表中的特定日期和时间上，可以快速了解[发布健康状况](/product/releases/health/)定义的崩溃、异常行为、错误或健康的事件。当您查看适用的时间段（并且您已按单个环境过滤）时，图表还会显示采用阶段变化的标记。
 
-## Issues
+## 问题
 
-Use the **Release Details** page to view issues associated with this release and to access them for triage. You can navigate to the [Issues](/product/issues/) page by clicking the "Open in Issues" button located at the top of the issues table. The issues in the table are sorted by the number of events in the selected time range. Click the tabs to see:
+使用**发布详情**页面查看与此发布关联的问题并访问它们进行分类。您可以通过点击问题表格顶部的"在问题中打开"按钮导航到[问题](/product/issues/)页面。表格中的问题按所选时间范围内的事件数量排序。点击选项卡查看：
 
-- All issues
-- New issues
-- Unhandled issues
-- Regressed issues
-- Resolved issues
+- 所有问题
+- 新问题
+- 未处理问题
+- 回归问题
+- 已解决问题
 
-## Sessions Adopted
+## 会话采用
 
-See the release adoption percentage over time. This graph compares sessions on this release with sessions on all releases. You can change the main date range to see adoption in a different timeframe.
+查看随时间变化的发布采用百分比。此图表将此发布上的会话与所有发布上的会话进行比较。您可以更改主要日期范围以查看不同时间段的采用情况。
 
-## Commit Author Breakdown
+## 提交作者分类
 
-See the list of people that authored commits in this release together with the absolute and relative counts of commits per person. [Learn how to associate commits with a release](/product/releases/associate-commits/).
+查看在此发布中创作提交的人员列表，以及每个人的提交的绝对和相对计数。[了解如何将提交与发布关联](/product/releases/associate-commits/)。
 
-## Deploys
+## 部署
 
-See when and to which environments this release has been deployed. Click on the deploy badge to see issues from that environment. [Learn how to set up deploys](/product/releases/setup/#notify-sentry).
+查看此发布已部署到哪些环境以及何时部署。点击部署徽章以查看该环境的问题。[了解如何设置部署](/product/releases/setup/#notify-sentry)。
 
-## Other Projects in This Release
+## 此发布中的其他项目
 
-Releases are global per organization, and this list shows you other projects with the same release version. Click on a project to go to [Project Details](/product/projects/project-details/), and click "View" to see details of that project's release.
+发布按组织全局，此列表显示具有相同发布版本的其他项目。点击项目进入[项目详情](/product/projects/project-details/)，点击"查看"查看该项目发布的详细信息。
 
-For more information about Sentry's mobile features, see the full documentation for [Android SDK](/platforms/android/), [iOS SDK](/platforms/apple/guides/ios/) and
-[React Native SDK](/platforms/react-native/).
+有关Sentry移动功能的更多信息，请参见[Android SDK](/platforms/android/)、[iOS SDK](/platforms/apple/guides/ios/)和[React Native SDK](/platforms/react-native/)的完整文档。

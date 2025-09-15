@@ -1,49 +1,49 @@
 ---
 title: Jenkins
-description: "Learn how Sentry and Jenkins automate release management and help identify suspect commits."
+description: "了解Sentry和Jenkins如何自动化发布管理并帮助识别可疑提交。"
 ---
 
-This guide walks you through the process of automating Sentry release management and deploy notifications in Jenkins. After deploying in Jenkins, you’ll be able to associate commits with releases. You'll also be able to apply source maps to see the original code in Sentry.
+本指南将引导您完成在Jenkins中自动化Sentry发布管理和部署通知的过程。在Jenkins中部署后，您将能够将提交与发布关联。您还能够应用源映射以在Sentry中查看原始代码。
 
-Before starting, confirm that your Sentry project is properly set up to track commit metadata by [installing a repository integration](/product/releases/setup/release-automation/). Once that's installed, and you've added your repository, come back to this guide. If you've already installed a repository integration, you're ready to go.
+在开始之前，请确认您的Sentry项目已正确设置以跟踪提交元数据，方法是[安装仓库集成](/product/releases/setup/release-automation/)。安装完成后，并且您已添加了仓库，请返回本指南。如果您已安装了仓库集成，您就可以开始了。
 
-## Create a Sentry Internal Integration
+## 创建Sentry内部集成
 
-For Jenkins to communicate securely with Sentry, you'll need to create a new internal integration. In Sentry, navigate to **Settings > Developer Settings > New Internal Integration**.
+为了使Jenkins与Sentry安全通信，您需要创建一个新的内部集成。在Sentry中，导航到**设置 > 开发者设置 > 新建内部集成**。
 
-Give your new integration a name (for example, “Jenkins Deploy Integration”) and specify the necessary permissions. In this case, you need Admin access for “Release” and Read access for “Organization”.
+为您的新集成命名（例如，"Jenkins部署集成"）并指定必要的权限。在这种情况下，您需要"发布"的管理员访问权限和"组织"的读取访问权限。
 
-For more details about scopes and API endpoints, see the full documentation on [API Permissions](/api/permissions/).
+有关作用域和API端点的更多详细信息，请参见[API权限](/api/permissions/)的完整文档。
 
-![View of internal integration permissions.](./img/internal-integration-permissions.png)
+![内部集成权限视图。](./img/internal-integration-permissions.png)
 
-Click "Save", then record your token, which you'll need in the next section.
+点击"保存"，然后记录您的令牌，您将在下一节中需要它。
 
-## Add Token to Jenkins Credentials
+## 将令牌添加到Jenkins凭据
 
-To access your internal integration token securely in Jenkins, store it as a [credential](https://www.jenkins.io/doc/book/using/using-credentials/):
+为了在Jenkins中安全地访问您的内部集成令牌，请将其存储为[凭据](https://www.jenkins.io/doc/book/using/using-credentials/)：
 
-1. From the Jenkins home page (the Dashboard of the classic Jenkins UI), click **Credentials > System**.
-2. Under **System**, click the **Global credentials (unrestricted)** link to access this default domain.
-3. Click **Add Credentials**.
-4. From the **Kind** field select Secret Text.
-5. Give your credential an **ID** (for example, "sentry-auth-token") and in the **Secret** field paste your internal integration token.
-6. Click **OK** to save the credentials.
+1. 从Jenkins主页（经典Jenkins UI的仪表板），点击**凭据 > 系统**。
+2. 在**系统**下，点击**全局凭据（无限制）**链接以访问此默认域。
+3. 点击**添加凭据**。
+4. 从**类型**字段中选择密钥文本。
+5. 给您的凭据一个**ID**（例如，"sentry-auth-token"）并在**密钥**字段中粘贴您的内部集成令牌。
+6. 点击**确定**保存凭据。
 
-![View of Jenkins add credentials.](./img/jenkins-add-credential.png)
+![Jenkins添加凭据视图。](./img/jenkins-add-credential.png)
 
-## Notify Sentry of Deployment
+## 通知Sentry部署
 
-Depending on what type of Jenkins project you're using to build and deploy, you want to follow different steps:
+根据您用于构建和部署的Jenkins项目类型，您需要遵循不同的步骤：
 
-- [Pipeline (Jenkinsfile)](/product/releases/setup/release-automation/jenkins/#pipeline)
-- [Freestyle project](/product/releases/setup/release-automation/jenkins/#freestyle-project)
+- [管道(Jenkinsfile)](/product/releases/setup/release-automation/jenkins/#pipeline)
+- [自由风格项目](/product/releases/setup/release-automation/jenkins/#freestyle-project)
 
-For more details about the release management concepts below, see the full documentation on [release management](/cli/releases/).
+有关下面发布管理概念的更多详细信息，请参见[发布管理](/cli/releases/)的完整文档。
 
-### Pipeline
+### 管道
 
-If you're using a Jenkins pipeline, you need to add a new stage with the following snippet after your deploy stage:
+如果您使用Jenkins管道，您需要在部署阶段之后添加一个包含以下代码段的新阶段：
 
 ```groovy
 pipeline {
@@ -52,7 +52,7 @@ pipeline {
 
         /// ...
 
-        stage('Notify Sentry of deployment') {
+        stage('通知Sentry部署') {
             environment {
                 SENTRY_AUTH_TOKEN = credentials('sentry-auth-token')
                 SENTRY_ORG = 'sample-organization-slug'
@@ -60,7 +60,7 @@ pipeline {
                 SENTRY_ENVIRONMENT = 'production'
             }
             steps {
-                // Install Sentry CLI
+                // 安装Sentry CLI
                 sh 'command -v sentry-cli || curl -sL https://sentry.io/get-cli/ | bash'
 
                 sh '''
@@ -77,24 +77,24 @@ pipeline {
 }
 ```
 
-**Notes**:
+**注意**：
 
-- If you’re not deploying a project that requires source maps or you've sent source maps to Sentry using another method, omit the `sourcemaps upload` line.
-- If you can’t install a repository integration, send commit metadata using the [create release endpoint](/product/releases/associate-commits/#using-the-api) or omit the `set-commits` line.
-- `credentials('sentry-auth-token')` refers to the ID of the credentials just added to Jenkins.
-- `sentry-cli releases propose-version` defaults to the commit SHA of the commit being deployed. To set this to a different version, modify `SENTRY_RELEASE` to the preferred version.
+- 如果您部署的项目不需要源映射，或者您已使用其他方法将源映射发送到Sentry，请省略`sourcemaps upload`行。
+- 如果您无法安装仓库集成，请使用[创建发布端点](/product/releases/associate-commits/#using-the-api)发送提交元数据，或省略`set-commits`行。
+- `credentials('sentry-auth-token')`指的是刚刚添加到Jenkins的凭据的ID。
+- `sentry-cli releases propose-version`默认为被部署的提交的提交SHA。要将其设置为不同的版本，请将`SENTRY_RELEASE`修改为首选版本。
 
-### Freestyle Project
+### 自由风格项目
 
-If you're using Freestyle projects, you need to add another build step after deployment.
+如果您使用自由风格项目，您需要在部署后添加另一个构建步骤。
 
-1. Make sure you add a binding to map the environment variable `SENTRY_AUTH_TOKEN` to the internal integration token credential you added in the previous step.
+1. 确保您添加了一个绑定，将环境变量`SENTRY_AUTH_TOKEN`映射到上一步中添加的内部集成令牌凭据。
 
-   ![View of environment variable bindings.](./img/jenkins-freestyle-bindings.png)
+   ![环境变量绑定视图。](./img/jenkins-freestyle-bindings.png)
 
-2. Add the following build step after your deployment step:
+2. 在部署步骤之后添加以下构建步骤：
 
-   ![View of jenkins freestyle shell.](./img/jenkins-freestyle-shell.png)
+   ![Jenkins自由风格shell视图。](./img/jenkins-freestyle-shell.png)
 
    ```bash
    curl -sL https://sentry.io/get-cli/ | bash || true
@@ -111,8 +111,8 @@ If you're using Freestyle projects, you need to add another build step after dep
    sentry-cli deploys new -e $SENTRY_ENVIRONMENT
    ```
 
-   **Notes**:
+   **注意**：
 
-   - If you’re not deploying a project that requires source maps or you've sent source maps to Sentry using another method, omit the `sourcemaps upload` line.
-   - If you can’t install a repository integration, send commit metadata using the [create release endpoint](/product/releases/associate-commits/#using-the-api) or omit the `set-commits` line.
-   - `sentry-cli releases propose-version` defaults to the commit SHA of the commit being deployed. To set this to a different version, modify `SENTRY_RELEASE` to the preferred version.
+   - 如果您部署的项目不需要源映射，或者您已使用其他方法将源映射发送到Sentry，请省略`sourcemaps upload`行。
+   - 如果您无法安装仓库集成，请使用[创建发布端点](/product/releases/associate-commits/#using-the-api)发送提交元数据，或省略`set-commits`行。
+   - `sentry-cli releases propose-version`默认为被部署的提交的提交SHA。要将其设置为不同的版本，请将`SENTRY_RELEASE`修改为首选版本。

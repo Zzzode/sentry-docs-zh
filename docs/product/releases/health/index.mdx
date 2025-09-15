@@ -1,181 +1,173 @@
 ---
-title: Release Health
+title: 发布健康状况
 sidebar_order: 50
-description: "Monitor the health of releases by observing user adoption, usage of the application, percentage of crashes, and session data."
+description: "通过观察用户采用情况、应用程序使用、崩溃百分比和会话数据来监控发布的健康状况。"
 ---
 
 <Alert>
 
-Note, that Sessions (as described below) are not the same as a [Session Replay](/product/explore/session-replay/), (a video-like reproduction of the user's session). We don't bill for release health sessions.
+请注意，会话（如下所述）与[会话重播](/product/explore/session-replay/)（用户会话的视频式重现）不同。我们不收取发布健康状况会话的费用。
 
 </Alert>
 
-You can monitor the health of releases by observing user adoption, usage of your application, percentage of [crashes](#crashes), and [session data](#sessions). Release health data provides insight into the impact of crashes and bugs related to user experience and reveals trends with each new issue through the release details, graphs, and filters. This data is primarily displayed on the [Releases](/product/releases/) and [Release Details](/product/releases/release-details) pages, but is also reflected in other parts of [sentry.io](https://sentry.io).
+您可以通过观察用户采用情况、应用程序使用、[崩溃](#crashes)百分比和[会话数据](#sessions)来监控发布的健康状况。发布健康状况数据提供了关于崩溃和错误对用户体验影响的洞察，并通过发布详情、图表和过滤器揭示每个新问题的趋势。这些数据主要显示在[发布](/product/releases/)和[发布详情](/product/releases/release-details)页面上，但也反映在[sentry.io](https://sentry.io)的其他部分。
 
-> Many SDKs automatically manage the start and end of [sessions](#sessions) when the SDK is initialized, but release health configuration is key to ensuring you're receiving useful data, so check out our information on [which SDKs support release health](/product/releases/setup/#release-health) for links to configuring the SDK, as needed.
+> 许多SDK在初始化SDK时自动管理[会话](#sessions)的开始和结束，但发布健康状况配置对于确保您接收到有用的数据至关重要，因此请查看我们关于[哪些SDK支持发布健康状况](/product/releases/setup/#release-health)的信息，以获取配置SDK的链接（如需要）。
 
-Once you configure your SDK, Sentry connects the data to the specific release of your application and the associated code. This page describes some key release health concepts and what you can learn from each type of release health data.
+一旦您配置了SDK，Sentry会将数据连接到您应用程序的特定发布和相关代码。本页面描述了一些关键的发布健康状况概念，以及您可以从每种发布健康状况数据中学到什么。
 
-## Sessions
+## 会话
 
-The primary component Sentry uses to monitor health is a _session_, which represents the interaction between the user and the application.
+Sentry用于监控健康状况的主要组件是会话，它代表用户和应用程序之间的交互。
 
-Sentry distinguishes between two kinds of sessions:
+Sentry区分两种会话：
 
-- User-mode/application-mode sessions
-- Server-mode/request-mode sessions
+- 用户模式/应用程序模式会话
+- 服务器模式/请求模式会话
 
-### User-Mode/Application-Mode Sessions
+### 用户模式/应用程序模式会话
 
 <ul>
 
 <li style={{listStyleType:'none'}}>
-  A user- or application-mode session begins with the start of the application.
-  Or, it begins with bringing the already started application back from
-  background to the foreground. In this context, a user is defined by one or
-  more of the following: a unique ID or UUID, username, or email.
+  用户或应用程序模式会话从应用程序启动开始。
+  或者，它从将已在后台运行的应用程序带回前台开始。在这种情况下，用户由一个或多个以下定义：唯一ID或UUID、用户名或电子邮件。
 </li>
 
 <br></br>
 
 <li style={{listStyleType:'none'}}>
-  This type of session ends with the closing of the application or with the
-  application being sent to the background. If the application is in the
-  background for less than 30 seconds, we do not start the session again.
-  Applications that are active even on the background (for example, a music
-  player) should track the sessions manually for the background process.
+  此类会话随着应用程序的关闭或应用程序被发送到后台而结束。如果应用程序在后台停留少于30秒，我们不会再次启动会话。
+  即使在后台也保持活动的应用程序（例如，音乐播放器）应该为后台进程手动跟踪会话。
 </li>
 
 </ul>
 
-### Server-Mode/Request-Mode Sessions
+### 服务器模式/请求模式会话
 
 <ul>
 
 <li style={{listStyleType:'none'}}>
-  Server- or request-mode sessions roughly correspond to HTTP requests or RPC
-  calls in a server setting. A session is started when the server receives a
-  request, and terminates when the server sends a response.
+  服务器或请求模式会话大致对应于服务器设置中的HTTP请求或RPC调用。当服务器收到请求时会话开始，当服务器发送响应时终止。
 </li>
 
 <br></br>
 
 <li style={{listStyleType:'none'}}>
-  These are typically high in volume since each session corresponds to a single
-  request.
+  这些通常数量很高，因为每个会话对应一个请求。
 </li>
 
 </ul>
 
-Sessions, whether application-mode or request-mode, are submitted to Sentry so you can track the usage and adoption of your application. When a user of your application experiences a crash, error, or abnormal exit, the session will be flagged accordingly, and Sentry calculates derived metrics. The metrics include data such as the number of users that didn't experience a crash in the specified time range.
+无论是应用程序模式还是会请求模式，会话都会提交到Sentry，以便您可以跟踪应用程序的使用和采用情况。当您的应用程序用户遇到崩溃、错误或异常退出时，会话将被相应标记，Sentry计算派生指标。这些指标包括指定时间范围内没有经历崩溃的用户数量等数据。
 
-In terms of which mode a project runs in, Sentry is able to automatically detect if it is in a server setting and so should run in server-mode/request-mode or if it is in an application setting and so should run in user-mode/application-mode.
+就项目运行的模式而言，Sentry能够自动检测它是否处于服务器设置中，因此应该以服务器模式/请求模式运行，或者它是否处于应用程序设置中，因此应该以用户模式/应用程序模式运行。
 
-While the descriptions of a session above cover many cases, the definition of a session can vary by platform. For example, with JavaScript applications, we create a session for every page load and on every navigation change for single-page applications. By contrast, backend applications don't have a well-defined user entity like web and mobile apps, so for those, each new API request represents a new session. Check out the docs for your [specific platform](/platform-redirect/?next=/configuration/releases/%23sessions) for more information.
+虽然上述会话描述涵盖了许多情况，但会话的定义可能因平台而异。例如，对于JavaScript应用程序，我们为每个页面加载和单页应用程序的每次导航更改创建会话。相比之下，后端应用程序没有像Web和移动应用程序那样明确定义的用户实体，因此对于这些应用程序，每个新的API请求代表一个新的会话。查看您的[特定平台](/platform-redirect/?next=/configuration/releases/%23sessions)文档以获取更多信息。
 
-### Active Sessions/Users
+### 活跃会话/用户
 
-_Active sessions_ are sessions that started in the application in the last 24 hours.
+_活跃会话_ 是在过去24小时内在应用程序中启动的会话。
 
-_Active users_ are users who started the application at least once in the last 24 hours.
+_活跃用户_ 是在过去24小时内至少启动过一次应用程序的用户。
 
-Depending on your "Display" selection, the sort options for the **Releases** page change. To sort releases by active sessions, select "Sessions" in the "Display" dropdown, and to sort by active users, select "Users".
+根据您的"显示"选择，**发布**页面的排序选项会改变。要按活跃会话排序发布，请在"显示"下拉菜单中选择"会话"，要按活跃用户排序，请选择"用户"。
 
-![Sort By: Active Sessions dropdown](./img/release_active_sessions.png)
+![排序依据：活跃会话下拉菜单](./img/release_active_sessions.png)
 
-![Sort By: Active Users dropdown](./img/release_active_users.png)
+![排序依据：活跃用户下拉菜单](./img/release_active_users.png)
 
-## Crashes
+## 崩溃
 
-A _crash_ is when the application had an explicit unhandled error or hard crash. You'll typically be able to view the corresponding issue that captures this event in [sentry.io](https://sentry.io), and errors that did not cause the end of the application should not be included. To search for crash events in **Discover** or on the **Issues** page, filter by `error.unhandled:true`.
+_崩溃_ 是应用程序出现显式未处理错误或硬崩溃的情况。您通常可以在[sentry.io](https://sentry.io)中查看捕获此事件的相应问题，并且不应包括未导致应用程序结束的错误。要在**发现**或**问题**页面中搜索崩溃事件，请按`error.unhandled:true`过滤。
 
-### Crash Free Sessions/Users
+### 无崩溃会话/用户
 
-The _crash free sessions_ number is the percentage of sessions in the specified time range not ended by a crash of the application.
+_无崩溃会话_ 数字是指定时间范围内未因应用程序崩溃而结束的会话的百分比。
 
-The _crash free users_ number is the percentage of distinct users who did not experience a crash during the specified time period. For example, if a user attempts to complete the checkout process on your application and there's a crash, that represents a [crashed user](#crashed-users). By contrast, if the user is able to successfully complete checkout, they are counted as a crash free user.
+_无崩溃用户_ 数字是指在指定时间段内未经历崩溃的不同用户的百分比。例如，如果用户尝试在您的应用程序上完成结账流程并且发生崩溃，这代表一个[崩溃用户](#crashed-users)。相比之下，如果用户能够成功完成结账，他们将被计为无崩溃用户。
 
-You can set [crash rate alerts](/product/alerts/alert-types/#sessions-crash-rate-alerts) to tell you when your crash free percentage for either sessions or users falls below a specific threshold.
+您可以设置[崩溃率警报](/product/alerts/alert-types/#sessions-crash-rate-alerts)，以在会话或用户的无崩溃百分比低于特定阈值时通知您。
 
-Depending on your "Display" selection, the sort options for the **Releases** page change. To sort releases by crash free sessions, select "Sessions" in the "Display" dropdown, and to sort by crash free users, select "Users".
+根据您的"显示"选择，**发布**页面的排序选项会改变。要按无崩溃会话排序发布，请在"显示"下拉菜单中选择"会话"，要按无崩溃用户排序，请选择"用户"。
 
-![Sort By: Crash Free Sessions dropdown](./img/release_crash_free_sessions.png)
+![排序依据：无崩溃会话下拉菜单](./img/release_crash_free_sessions.png)
 
-![Sort By: Crash Free Users dropdown](./img/release_crash_free_users.png)
-
-<Alert>
-
-Please note that the number of crashes is not expected to match the number of crashed sessions because sessions are not subject to [inbound filters](/concepts/data-management/filtering/) or [sampling](/platform-redirect/?next=/configuration/sampling/).
-
-</Alert>
-
-### Crashed Users
-
-The number of users that experienced a crash in the specified time range.
-
-## Release Adoption
-
-Depending on the selected display option, we show either:
-
-- Session adoption - The number of sessions of a specific release in the last 24 hours.
-- User-based adoption - The number of users who started the application at least once during the last 24 hours of a specific release.
-
-The adoption progress bar is calculated as a percentage of sessions/users in this release compared to all releases in the project, in the last 24 hours:
-
-![The adoption bar on the Releases page](./img/adoption_bar.png)
-
-### Adoption Chart
+![排序依据：无崩溃用户下拉菜单](./img/release_crash_free_users.png)
 
 <Alert>
 
-This feature is applicable only if the project selected is available for mobile or desktop devices.
+请注意，崩溃数量预计不会与崩溃会话数量匹配，因为会话不受[入站过滤器](/concepts/data-management/filtering/)或[采样](/platform-redirect/?next=/configuration/sampling/)的影响。
 
 </Alert>
 
-If you select a project that has release health configured, and there are releases and user/session data in the selected time period, an adoption chart is displayed. The chart provides you with adoption percentages for each release in the project, over time.
+### 崩溃用户
 
-Each release is represented by a line in the chart, and you can navigate to the [Release Details](/product/releases/health/release-details/) by clicking it.
+在指定时间范围内经历崩溃的用户数量。
 
-![Release Adoption Chart](./img/release_adoption_chart.png)
+## 发布采用
 
-The chart does not display if you don't select a project or if you select multiple projects.
+根据选择的显示选项，我们显示：
 
-### Adoption Stages
+- 会话采用 - 特定发布在过去24小时内的会话数量。
+- 基于用户的采用 - 特定发布在过去24小时内至少启动过一次应用程序的用户数量。
 
-_Adoption stage_ is a high-level overview of the usage your release is seeing relative to other releases. It is calculated every hour by processing your sessions over the last six hours:
+采用进度条计算为此发布中的会话/用户占项目中所有发布的百分比，在过去24小时内：
 
-![Adoption stage label on the Releases page.](./img/adoption-stage-label.png)
+![发布页面上的采用条](./img/adoption_bar.png)
+
+### 采用图表
 
 <Alert>
 
-Adoption stage labels are only displayed for mobile projects and only when you filter down to a single environment.
+此功能仅适用于移动或桌面设备可用的项目。
 
 </Alert>
 
-For each release, the release's percentage of sessions is calculated against all sessions in the same environment and project. It's then marked as being in one of three stages, based on a threshold of 10%. These stages are:
+如果您选择配置了发布健康状况的项目，并且在所选时间段内有发布和用户/会话数据，则会显示采用图表。该图表为您提供项目中每个发布的采用百分比，随时间变化。
 
-- Adopted - The release's percentage of sessions compared to all sessions is above the threshold. That is, the release was seen in 10% or more of sessions over all releases in the last six hours.
-- Low Adoption - The release's percentage of sessions compared to all sessions that are below the threshold. That is, the release was seen in less than 10% of sessions over all the releases in the last six hours.
-- Replaced - The release was previously tagged as "Adopted", but no longer meets the minimum threshold. "Replaced" releases that reach the threshold will once again be marked as "Adopted".
+每个发布在图表中用一条线表示，您可以通过点击它导航到[发布详情](/product/releases/health/release-details/)。
 
-## Session Status
+![发布采用图表](./img/release_adoption_chart.png)
 
-A session can have one of the following statuses:
+如果您没有选择项目或选择了多个项目，图表将不会显示。
 
-### Abnormal
+### 采用阶段
 
-The application timed out, froze, or was forced to quit by the operating system. There is usually no corresponding Sentry issue, as this is a passive action.
+_采用阶段_ 是您的发布相对于其他发布使用情况的高级概述。它每小时通过处理过去六小时的会话来计算：
 
-### Crashed
+![发布页面上的采用阶段标签。](./img/adoption-stage-label.png)
 
-The application had an explicit unhandled error or hard [crash](#crash).
+<Alert>
 
-### Errored
+采用阶段标签仅针对移动项目显示，并且仅当您过滤到单个环境时。
 
-The application shut down normally, but the session experienced handled errors. Typically, you'll be able to view any issues/errors in sentry.io.
+</Alert>
 
-### Healthy
+对于每个发布，发布的会话百分比是针对同一环境和项目中的所有会话计算的。然后根据10%的阈值将其标记为以下三个阶段之一：
 
-The session ends normally and no errors occurred during its lifetime.
+- 已采用 - 与所有会话相比，发布的会话百分比高于阈值。也就是说，该发布在过去六小时内被看到在所有发布中的10%或更多会话中。
+- 低采用 - 与所有会话相比，发布的会话百分比低于阈值。也就是说，该发布在过去六小时内被看到在所有发布中的少于10%会话中。
+- 已替换 - 发布之前被标记为"已采用"，但不再满足最低阈值。达到阈值的"已替换"发布将再次被标记为"已采用"。
 
-Session status can be defined slightly differently by platform, and not all platforms use all of the statuses above. Check out the docs for your [specific platform](/platform-redirect/?next=/configuration/releases/%23sessions) for more information.
+## 会话状态
+
+会话可以具有以下状态之一：
+
+### 异常
+
+应用程序超时、冻结或被操作系统强制退出。通常没有相应的Sentry问题，因为这是被动操作。
+
+### 崩溃
+
+应用程序出现显式未处理错误或硬[崩溃](#crash)。
+
+### 错误
+
+应用程序正常关闭，但会话经历了处理的错误。通常，您可以在sentry.io中查看任何问题/错误。
+
+### 健康
+
+会话正常结束，在其生命周期内没有发生错误。
+
+会话状态可能因平台而略有不同定义，并非所有平台都使用上述所有状态。查看您的[特定平台](/platform-redirect/?next=/configuration/releases/%23sessions)文档以获取更多信息。

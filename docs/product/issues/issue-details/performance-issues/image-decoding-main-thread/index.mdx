@@ -1,44 +1,44 @@
 ---
-title: "Image Decoding on Main Thread"
+title: "主线程图像解码"
 sidebar_order: 30
-description: "Learn more about Image Decoding on Main Thread issues and how to diagnose and fix them."
+description: "了解更多关于主线程图像解码问题以及如何诊断和修复它们的信息。"
 ---
 
-The main (or UI) thread in a mobile app is responsible for handling all user interaction and needs to be able to respond to gestures and taps in real time. If a long-running operation blocks the main thread, the app becomes unresponsive, impacting the quality of the user experience.
+移动应用程序中的主（或UI）线程负责处理所有用户交互，需要能够实时响应手势和点击。如果长时间运行的操作阻塞了主线程，应用程序会变得无响应，影响用户体验质量。
 
-The process of decoding a compressed JPEG or PNG image into a bitmap (especially for large images), is an example of a long-running operation that may impact app responsiveness. If a long-running image decoding operation is detected on the main thread, Sentry will flag it as an issue.
+将压缩的JPEG或PNG图像解码为位图的过程（特别是对于大图像），是可能影响应用程序响应性的长时间运行操作的一个示例。如果在主线程上检测到长时间运行的图像解码操作，Sentry会将其标记为问题。
 
-## Detection Criteria
+## 检测标准
 
-[Profiling](/product/explore/profiling/) must be enabled for Sentry to detect Decoding on Main Thread issues. Sentry looks for functions related to image-decoding that have been running on the main thread for at least 40ms. This threshold ensures the function appears in a sufficient number of samples collected by the profile (~10ms per sample x 4 = ~40ms total) before it gets detected as an issue.
+必须启用[性能分析](/product/explore/profiling/)，Sentry才能检测主线程解码问题。Sentry会查找在主线程上运行至少40ms的与图像解码相关的函数。此阈值确保函数在性能分析器收集的足够数量的样本（~10ms每个样本x 4 = ~40ms总计）中出现，然后才会被检测为问题。
 
-## Function Evidence
+## 函数证据
 
-To find additional information about your Image Decoding on Main Thread problem, go to its **Issue Details** page and scroll down to the "Function Evidence" section, which shows the following:
+要查找有关主线程图像解码问题的额外信息，请转到其**问题详情**页面并向下滚动到"函数证据"部分，该部分显示以下内容：
 
-- **Transaction Name:** The name of the transaction where the issue was detected.
-- **Suspect function:** The function that triggered the issue detection (in this case, an image decoding function).
-- **Duration:** How long the function took to execute and the number of consecutive samples collected by the profiler that contained the function.
+- **事务名称：** 检测到问题的事务名称
+- **可疑函数：** 触发问题检测的函数（在这种情况下，是图像解码函数）
+- **持续时间：** 函数执行所需的时间以及性能分析器收集的包含该函数的连续样本数量
 
-![Image Decoding on Main Thread Function Evidence](./img/image-decoding-function-evidence.png)
+![主线程图像解码函数证据](./img/image-decoding-function-evidence.png)
 
-To view the entire profile associated with the issue, click the “View Profile” button.
+要查看与问题关联的整个性能分析，请点击"查看性能分析"按钮。
 
-The profile will indicate where the suspect function was called from, along with other functions being called _by_ the suspect function:
+性能分析将指示可疑函数的调用位置，以及可疑函数调用的其他函数：
 
-![Image Decoding on Main Thread Profile](./img/image-decoding-profile.png)
+![主线程图像解码性能分析](./img/image-decoding-profile.png)
 
-## Stack Trace
+## 堆栈跟踪
 
-The “Stack Trace” section shows a full stack trace for where the detected image decoding function was called from:
+"堆栈跟踪"部分显示了检测到的图像解码函数被调用的位置的完整堆栈跟踪：
 
-![Image Decoding on Main Thread Stack Trace](./img/image-decoding-stack-trace.png)
+![主线程图像解码堆栈跟踪](./img/image-decoding-stack-trace.png)
 
-## Example
+## 示例
 
 ### iOS
 
-The following code renders an image by setting the `image` property of `UIImageView` . The image isn't decoded when `UIImage.init(data:)` is called, but when the image is rendered on screen, which happens on the main thread.
+以下代码通过设置`UIImageView`的`image`属性来渲染图像。当`UIImage.init(data:)`被调用时，图像不会被解码，但当图像在屏幕上渲染时，这发生在主线程上。
 
 ```swift
 func showImage(data: Data) {
@@ -46,7 +46,7 @@ func showImage(data: Data) {
 }
 ```
 
-Performance could be improved by using `[UIImage.preparingForDisplay()](https://developer.apple.com/documentation/uikit/uiimage/3750834-preparingfordisplay)` to prepare the image for display on a background queue, before assigning the image to the image view on the main queue:
+性能可以通过使用`[UIImage.preparingForDisplay()](https://developer.apple.com/documentation/uikit/uiimage/3750834-preparingfordisplay)`在后台队列上准备图像以供显示，然后在主队列上将图像分配给图像视图来改善：
 
 ```swift
 func showImage(data: Data) {
@@ -61,7 +61,7 @@ func showImage(data: Data) {
 
 ### Android
 
-The following code calls `BitmapFactory.decodeByteArray` on the UI thread to decode an image and render it in an `ImageView`:
+以下代码在UI线程上调用`BitmapFactory.decodeByteArray`来解码图像并在`ImageView`中渲染它：
 
 ```kotlin
 fun showImage(data: ByteArray) {
@@ -69,7 +69,7 @@ fun showImage(data: ByteArray) {
 }
 ```
 
-Performance could be improved by moving the image decoding to a coroutine:
+性能可以通过将图像解码移动到协程来改善：
 
 ```kotlin
 fun showImage(data: ByteArray) {

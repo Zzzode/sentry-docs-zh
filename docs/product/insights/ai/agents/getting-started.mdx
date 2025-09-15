@@ -1,20 +1,20 @@
 ---
-title: Set Up
+title: 设置
 sidebar_order: 0
-description: "Learn how to set up Sentry AI Agent Monitoring"
+description: "了解如何设置Sentry AI代理监控"
 ---
 
-Sentry AI Agent Monitoring helps you track and debug AI agent applications using our supported SDKs and integrations. Monitor your complete agent workflows from user interaction to final response, including tool calls, model interactions, and custom logic.
+Sentry AI代理监控帮助您使用我们支持的SDK和集成来跟踪和调试AI代理应用程序。从用户交互到最终响应，监控您的完整代理工作流，包括工具调用、模型交互和自定义逻辑。
 
-To start sending AI agent data to Sentry, make sure you've created a Sentry project for your AI-enabled repository and follow one of the guides below:
+要开始将AI代理数据发送到Sentry，请确保您已为启用AI的存储库创建了Sentry项目，并遵循以下指南之一：
 
-## Supported SDKs
+## 支持的SDK
 
 ### JavaScript - Vercel AI SDK
 
-The Sentry JavaScript SDK supports AI agent monitoring through the Vercel AI integration, which works with Node.js and Bun runtimes. This integration automatically captures spans for your AI agent workflows using the AI SDK's built-in telemetry.
+Sentry JavaScript SDK通过Vercel AI集成支持AI代理监控，该集成适用于Node.js和Bun运行时。此集成使用AI SDK的内置遥测自动捕获您的AI代理工作流的span。
 
-#### Supported Platforms
+#### 支持的平台
 
 - <LinkWithPlatformIcon
     platform="javascript.node"
@@ -117,12 +117,12 @@ The Sentry JavaScript SDK supports AI agent monitoring through the Vercel AI int
     url="/platforms/javascript/guides/electron/configuration/integrations/vercelai/"
   />
 
-#### Quick Start with Vercel AI SDK
+#### 使用Vercel AI SDK快速开始
 
 ```javascript
 import * as Sentry from "@sentry/node";
 
-// Sentry init needs to be above everything else
+// Sentry初始化需要在所有其他内容之上
 Sentry.init({
   tracesSampleRate: 1.0,
   integrations: [Sentry.vercelAIIntegration()],
@@ -131,7 +131,7 @@ Sentry.init({
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
 
-// Your AI agent function
+// 您的AI代理函数
 async function aiAgent(userQuery) {
   const result = await generateText({
     model: openai("gpt-4o"),
@@ -148,17 +148,17 @@ async function aiAgent(userQuery) {
 }
 ```
 
-<Alert title="Don't see your SDK?">
+<Alert title="没看到您的SDK？">
 
-We'll be adding AI agent integrations continuously. Please vote on [GitHub](https://github.com/getsentry/sentry-javascript/issues/16960) which one you'd like to see next. You can also instrument AI agents manually by following our [manual instrumentation guide](/platforms/javascript/guides/node/tracing/instrumentation/ai-agents-module).
+我们将持续添加AI代理集成。请在[GitHub](https://github.com/getsentry/sentry-javascript/issues/16960)上投票选择您希望接下来看到的集成。您也可以通过遵循我们的[手动检测指南](/platforms/javascript/guides/node/tracing/instrumentation/ai-agents-module)手动检测AI代理。
 
 </Alert>
 
-### Python - OpenAI Agents
+### Python - OpenAI代理
 
-The Sentry Python SDK supports OpenAI Agents SDK.
+Sentry Python SDK支持OpenAI代理SDK。
 
-#### Supported Platforms
+#### 支持的平台
 
 - <LinkWithPlatformIcon
     platform="python"
@@ -166,7 +166,7 @@ The Sentry Python SDK supports OpenAI Agents SDK.
     url="/platforms/python/integrations/openai-agents/"
   />
 
-#### Quick Start with OpenAI Agents
+#### 使用OpenAI代理快速开始
 
 ```python
 import sentry_sdk
@@ -176,17 +176,17 @@ from pydantic import BaseModel
 sentry_sdk.init(
     dsn="YOUR_DSN",
     traces_sample_rate=1.0,
-    send_default_pii=True,  # Include LLM inputs/outputs
+    send_default_pii=True,  # 包括LLM输入/输出
 )
 
-# Create your AI agent
+# 创建您的AI代理
 my_agent = agents.Agent(
     name="My Agent",
-    instructions="You are a helpful assistant.",
+    instructions="你是一个有用的助手。",
     model="gpt-4o-mini",
 )
 
-# Your AI agent function
+# 您的AI代理函数
 result = await agents.Runner.run(
     my_agent,
     input=user_query,
@@ -194,8 +194,8 @@ result = await agents.Runner.run(
 
 ```
 
-<Alert title="Don't see your SDK?">
+<Alert title="没看到您的SDK？">
 
-You can also instrument AI agents manually by following our [manual instrumentation guides](/platforms/python/tracing/instrumentation/custom-instrumentation/ai-agents-module).
+您也可以通过遵循我们的[手动检测指南](/platforms/python/tracing/instrumentation/custom-instrumentation/ai-agents-module)手动检测AI代理。
 
 </Alert>
